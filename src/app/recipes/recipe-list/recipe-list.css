@@ -1,0 +1,313 @@
+body {
+  width: 100%;
+}
+
+.mainContainer {
+  min-height: 80vh;
+  margin:0 auto;
+
+  /* Added temporary for material design */
+  width: 60%;
+  height: 90vh;
+  overflow: auto;
+  margin-top: 5vh;
+}
+
+.recipesList-TopSection {
+  padding:10px;
+}
+
+.searchBar-Input {
+  min-width: 100px !important;
+  width: 50% !important;
+  -webkit-transition: width 0.4s ease-in-out;
+  transition: width 0.4s ease-in-out;
+  float: right !important;
+}
+
+.searchBar-Input:focus {
+  width: 100% !important;
+}
+
+.recipeListContent {
+  height: 90vh;
+  overflow: auto;
+}
+
+.recipesListItem {
+  cursor: pointer;
+}
+
+.recipesList-TopSection .createRecipe {
+  display:inline-block;
+}
+
+.recipesList-TopSection .searchBar {
+  min-width: 100px;
+  width:50%;
+  float:right;
+}
+
+.recipesList-Pagination {
+  text-align: center;
+}
+
+.modal-title {
+  text-align: center;
+}
+
+#createRecipeForm {
+  padding-left: 5%;
+  padding-right: 5%;
+}
+
+.vcenter {
+    display: flex;
+    align-items: center;
+}
+
+.hcenter {
+  margin:0 auto;
+}
+
+.nomargin {
+  margin:0;
+}
+
+
+.form-group .ng-invalid.ng-dirty {
+  border-color: #FA787E;
+}
+
+.customListBox-Input.ng-invalid.ng-dirty {
+  background-color: rgba(250,120,126, 0.5);
+  color:black;
+}
+
+/*.customListBox-Input.ng-valid.ng-dirty {
+  background-color: rgba(120,250,137, 0.5);
+  color:black;
+}
+
+.form-group .ng-valid.ng-dirty {
+  border-color: #78FA89;
+}*/
+
+.CreateRecipe-RemoveSection {
+  margin-left: 2%;
+}
+
+.CreateRecipe-Title {
+  background: inherit;
+  width:95%;
+}
+
+.CreateRecipe-ingredientSection:focus {
+  background: #fff;
+}
+
+textarea#recipeComments {
+  resize: none;
+}
+
+/* For the CustomListBox control.  */
+.list-group {
+  margin-bottom: 0;
+}
+
+.list-group-item {
+  cursor: pointer;
+  padding: 0;
+}
+
+.list-group-item .customListBox-Input{
+  background: transparent;
+  border:none;
+}
+
+.customListBox-Input {
+  cursor: pointer;
+  box-sizing: border-box;
+  display: inline-block;
+}
+
+.customListBox-Input:focus {
+  cursor: text;
+}
+
+
+.customListBox-Input.ingredientName {
+  width: 60%;
+}
+
+.customListBox-Input.ingredientQuantity {
+  width: 20%;
+}
+
+.customListBox-Input.ingredientUnits {
+  width: 18.5%;
+}
+
+/*.search-ingredient {
+  position:relative;
+  display:inherit;
+}*/
+
+
+/*.search-ingredientName {
+  width: 60% !important;
+  border-bottom-right-radius: 0px;
+  border-top-right-radius: 0px;
+}*/
+
+.search-ingredientQuantity {
+  width: 20% !important;
+  border-radius: 0px;
+}
+
+.search-ingredientUnits {
+  width: 20% !important;
+  border-bottom-left-radius: 0px;
+  border-top-left-radius: 0px;
+}
+
+
+
+/* For the view recipe window.*/
+.viewRecipe-ModalHeader {
+  padding-left: 7%;
+  padding-right: 7%;
+  padding-bottom: 4%;
+}
+
+.viewRecipe-ModalBody {
+  padding-left: 7%;
+  padding-right: 7%;
+  padding-top: 4%;
+  min-height:55vh;
+  display: flex;
+  flex-direction: column;
+}
+
+
+.capitalized::first-letter {
+  text-transform: uppercase;
+}
+
+.stepAndIngredientSection {
+  flex-grow: 3;
+}
+
+
+/** Step numbers in the view Recipe window **/
+
+.viewRecipe-StepsSection {
+  counter-reset: stepNumber;
+}
+
+
+.viewRecipe-StepsSubSection .row:before {
+  float:left;
+  position: absolute;
+  content: counter(stepNumber);
+  counter-increment: stepNumber;
+}
+
+.viewRecipe-StepsSubSection h5 {
+  margin-top: 0px;
+}
+
+
+/** END OF Step numbers in the view Recipe window **/
+
+.viewRecipe-IngredientsSubSection:not(:last-child) {
+  margin-bottom: 25px;
+}
+
+.viewRecipe-IngredientsSubSection .row:not(:last-child) {
+  margin-bottom: 0.2em;
+  flex-grow: 0.05;
+}
+
+.viewRecipe-IngredientQuantity {
+  padding-right: 0px;
+}
+
+.small-marginbottom {
+  margin-bottom: 5px;
+}
+
+.viewRecipe-Step {
+  text-align:justify;
+  padding-right: 0px;
+}
+
+.viewRecipe-StepsSubSection:not(:last-child) {
+  margin-bottom: 25px;
+}
+
+.viewRecipe-StepsSubSection .row:not(:last-child) {
+  margin-bottom: 0.2em;
+}
+
+.viewRecipe-CommentsContainer {
+  flex-grow: 1;
+}
+
+.viewRecipe-Comments {
+  margin-top: 5%;
+  font-size: 0.95em;
+}
+
+.artisticFont {
+  font-family: Century Gothic,CenturyGothic,AppleGothic,sans-serif;
+  font-size: 0.9em;
+}
+
+.viewRecipe-PortionsAndtime {
+  font-size: 0.9em;
+  flex-grow: 1;
+}
+
+.viewRecipe-Genre {
+  text-align:center;
+}
+
+.invisible {
+  visibility: hidden;
+}
+
+
+/* For the advanced search window */
+
+.nopadding {
+  padding: 0px;
+}
+
+ul li .displayOnlyWhenHovered {
+  visibility: hidden;
+  position: absolute;
+  right: 4px;
+  top: 7px;
+  z-index: 3;
+}
+
+ul li:only-child .invisibleIfOnlyChild {
+  visibility: hidden !important;
+}
+
+ul li:hover .displayOnlyWhenHovered {
+  visibility: visible;
+}
+
+#search-RecipeRating {
+  padding-top: 3px;
+}
+
+#search-TotalTime {
+  float: none;
+}
+
+#search-TotalTime table {
+  width: 30%;
+}
