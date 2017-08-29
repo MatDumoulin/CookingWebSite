@@ -22,7 +22,7 @@ function routeFactory(dbColl) {
                 return;
             }
 
-            res.status(200).send(recipe);
+            res.status(200).send(recipe[0]);
         });
     }
 }

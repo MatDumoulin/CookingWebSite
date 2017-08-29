@@ -1,0 +1,22 @@
+<!--<div class="modal-header viewRecipe-ModalHeader">
+  <button type="button" class="close" data-dismiss="modal">&times;</button>-->
+  <!-- div class="modal hide" id="pleaseWaitDialog" data-backdrop="static" data-keyboard="false" >
+      <div class="modal-header">
+          <h1>Processing...</h1>
+      </div>
+      <div class="modal-body">
+          <div class="progress progress-striped active">
+              <div class="bar" style="width: 100%;"></div>
+          </div>
+      </div>
+  </div>                                                        Modal error handling                  -->
+<h2 md-dialog-title>{{recipe.name}}</h2>
+
+  <!-- First row (on top of the window) -->
+<md-dialog-content>
+ {{recipe | json}}
+</md-dialog-content>
+
+<md-dialog-actions>
+  <button class="button" md-raised-button md-dialog-close>Fermer</button>
+</md-dialog-actions>

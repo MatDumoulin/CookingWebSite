@@ -1,0 +1,103 @@
+/* For the view recipe window.*/
+.viewRecipe-ModalHeader {
+  padding-left: 7%;
+  padding-right: 7%;
+  padding-bottom: 4%;
+}
+
+.viewRecipe-ModalBody {
+  padding-left: 7%;
+  padding-right: 7%;
+  padding-top: 4%;
+  min-height:55vh;
+  display: flex;
+  flex-direction: column;
+}
+
+
+.capitalized::first-letter {
+  text-transform: uppercase;
+}
+
+.stepAndIngredientSection {
+  flex-grow: 3;
+}
+
+
+/** Step numbers in the view Recipe window **/
+
+.viewRecipe-StepsSection {
+  counter-reset: stepNumber;
+}
+
+
+.viewRecipe-StepsSubSection .row:before {
+  float:left;
+  position: absolute;
+  content: counter(stepNumber);
+  counter-increment: stepNumber;
+}
+
+.viewRecipe-StepsSubSection h5 {
+  margin-top: 0px;
+}
+
+
+/** END OF Step numbers in the view Recipe window **/
+
+.viewRecipe-IngredientsSubSection:not(:last-child) {
+  margin-bottom: 25px;
+}
+
+.viewRecipe-IngredientsSubSection .row:not(:last-child) {
+  margin-bottom: 0.2em;
+  flex-grow: 0.05;
+}
+
+.viewRecipe-IngredientQuantity {
+  padding-right: 0px;
+}
+
+.small-marginbottom {
+  margin-bottom: 5px;
+}
+
+.viewRecipe-Step {
+  text-align:justify;
+  padding-right: 0px;
+}
+
+.viewRecipe-StepsSubSection:not(:last-child) {
+  margin-bottom: 25px;
+}
+
+.viewRecipe-StepsSubSection .row:not(:last-child) {
+  margin-bottom: 0.2em;
+}
+
+.viewRecipe-CommentsContainer {
+  flex-grow: 1;
+}
+
+.viewRecipe-Comments {
+  margin-top: 5%;
+  font-size: 0.95em;
+}
+
+.artisticFont {
+  font-family: Century Gothic,CenturyGothic,AppleGothic,sans-serif;
+  font-size: 0.9em;
+}
+
+.viewRecipe-PortionsAndtime {
+  font-size: 0.9em;
+  flex-grow: 1;
+}
+
+.viewRecipe-Genre {
+  text-align:center;
+}
+
+.invisible {
+  visibility: hidden;
+}

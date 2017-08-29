@@ -23,6 +23,6 @@
     </ng-container>
 
     <md-header-row *cdkHeaderRowDef="displayedColumns"></md-header-row>
-    <md-row *cdkRowDef="let recipe; columns: displayedColumns;"></md-row>
+    <md-row *cdkRowDef="let recipe; columns: displayedColumns;" (click)="viewRecipe(recipe._id)"></md-row>
   </md-table>
 </div>

@@ -9,9 +9,13 @@ import { AngularMaterialModule } from './angular-material.module';
 import 'hammerjs'; // To support gestures.
 // Custom components/services made for this app.
 import { RecipeList } from './recipes/recipe-list/recipe-list.component';
-import { GetRecipesApiService } from './recipes/shared/get-recipes-api.service';
+import { ApiGetRecipesService } from './recipes/shared/api-get-recipes.service';
+import { ApiSpecificRecipeService } from './recipes/shared/api-specific-recipe.service';
 import { RecipesService } from './recipes/shared/recipes.service';
 import { StarRatingModule } from './star-rating/star-rating.module';
+import { RecipeViewerModule } from './recipes/recipe-viewer/recipe-viewer.module';
+import { RecipeViewer } from './recipes/recipe-viewer/recipe-viewer.component';
+
 
 @NgModule({
   declarations: [
@@ -23,9 +27,13 @@ import { StarRatingModule } from './star-rating/star-rating.module';
     FormsModule,             // ngModel
     HttpModule,
     AngularMaterialModule,
-    StarRatingModule
+    StarRatingModule,
+    RecipeViewerModule
   ],
-  providers: [ GetRecipesApiService, RecipesService ],
+  entryComponents: [
+    RecipeViewer
+  ],
+  providers: [ ApiGetRecipesService, ApiSpecificRecipeService, RecipesService ],
   bootstrap: [RecipeList]
 })
 export class AppModule { }

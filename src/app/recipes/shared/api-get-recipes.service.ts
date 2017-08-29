@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
 @Injectable()
-export class GetRecipesApiService {
+export class ApiGetRecipesService {
 
     constructor(private http:Http) {}
 
