@@ -7,6 +7,13 @@ import 'rxjs/add/operator/map';
 // Interacts with the API when it comes to single recipe request.
 @Injectable()
 export class ApiSpecificRecipeService {
+    // There is no function to retrieve the images since having images saved in
+    // javascript slows down the browser. Images are directly served in the <img> tag.
+    //
+    // To get an image, you must GET, then specify the image name after this url.
+    // To store an image, you must POST, then specify the name of the image and
+    //                    the data in the body of the request.
+    imagesUrl = "/api/recipes/image/";
 
     constructor(private http:Http) {}
 

@@ -1,0 +1,13 @@
+/* For the create recipe window.*/
+
+/* Top of the window */
+.top-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+}
+
+.tab-content {
+  padding: 10px;
+}
+

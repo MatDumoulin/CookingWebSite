@@ -3,6 +3,7 @@ import {MD_DIALOG_DATA} from '@angular/material';
 
 import { Recipe } from './../shared/recipe.model';
 import { ApiSpecificRecipeService } from './../shared/api-specific-recipe.service';
+import { MinutesToTimeConverter } from './../../utils/minutes-to-time-converter';
 
 @Component({
   selector: 'recipe-viewer',
@@ -10,15 +11,30 @@ import { ApiSpecificRecipeService } from './../shared/api-specific-recipe.servic
   styleUrls: ['recipe-viewer.css']
 })
 export class RecipeViewer{
-  recipe: Recipe = new Recipe();
+
+  recipe = new Recipe();
+  isLoading = true;
+  converter = new MinutesToTimeConverter();
 
   constructor(private apiSpecificRecipeService:ApiSpecificRecipeService,
               @Inject(MD_DIALOG_DATA) private data: any) {}
 
   ngOnInit() {
     this.apiSpecificRecipeService.getRecipe(this.data.recipeId)
-                       .subscribe( recipe => this.recipe = recipe );
+                                 .subscribe( recipe => {
+                                   this.recipe = recipe;
+                                   this.isLoading = false;
+                                 });
   }
+
+  convertToTime(minutes:number): string {
+    return this.converter.getTime(minutes);
+  }
+
+  getImageUrl(): string {
+    return this.apiSpecificRecipeService.imagesUrl;
+  }
+
 }
 
 /*

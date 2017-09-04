@@ -1,87 +1,138 @@
 /* For the view recipe window.*/
-.viewRecipe-ModalHeader {
-  padding-left: 7%;
-  padding-right: 7%;
-  padding-bottom: 4%;
-}
 
-.viewRecipe-ModalBody {
-  padding-left: 7%;
-  padding-right: 7%;
-  padding-top: 4%;
-  min-height:55vh;
+.window {
+  width: 700px;  /* ~8.5 inches */
+  min-height: 825px; /* 11 inches  */
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+/*  animation-name: expand;
+  animation-duration: .9s;*/
 }
 
-
-.capitalized::first-letter {
-  text-transform: uppercase;
+/* Top of the window */
+.top-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  flex-wrap: wrap;
 }
 
-.stepAndIngredientSection {
-  flex-grow: 3;
+/* Genre */
+.recipe-genre {
+  text-align:center;
+  margin: 0;
+  color: gray;
+  font: caption;
+  font-weight: normal;
+  width: 100%;
+  margin-top: -1em; /* To override the padding from the .mat-dialog-container */
+  margin-bottom: 1.5em;
 }
 
-
-/** Step numbers in the view Recipe window **/
-
-.viewRecipe-StepsSection {
-  counter-reset: stepNumber;
+/* General recipe info */
+.recipe-top-info {
+  flex-grow: 1;
+  margin-right: 5%;
 }
 
-
-.viewRecipe-StepsSubSection .row:before {
-  float:left;
-  position: absolute;
-  content: counter(stepNumber);
-  counter-increment: stepNumber;
+.recipe-name {
+  margin: 0;
 }
 
-.viewRecipe-StepsSubSection h5 {
-  margin-top: 0px;
+.recipe-image {
+  width: 200px;
+  height: 200px;
+  border:solid black 1px;
 }
 
+hr {
+  border-color: lightgrey;
+  border-top: 1px;
+}
 
-/** END OF Step numbers in the view Recipe window **/
+.recipe-portions-time {
+  font-size: 0.9em;
+  flex-grow: 1;
+}
 
-.viewRecipe-IngredientsSubSection:not(:last-child) {
+.recipe-portions-time p {
+  display: inline-flex;
+  align-items: center;
+}
+
+.size-20 {
+  font-size: 1.2em;
+}
+
+/* Middle of the window */
+.middle-section {
+  display: flex;
+  justify-content: space-between;
+  flex-grow: 1;
+  align-items: center;
+}
+
+.section:not(:last-child) {
   margin-bottom: 25px;
 }
 
-.viewRecipe-IngredientsSubSection .row:not(:last-child) {
-  margin-bottom: 0.2em;
-  flex-grow: 0.05;
+/* Ingredients */
+.recipe-ingredients {
+  flex-basis: 45%;
 }
 
-.viewRecipe-IngredientQuantity {
-  padding-right: 0px;
+.ingredient {
+  display: flex;
+  justify-content: space-between;
+}
+
+.ingredient:not(:last-child),
+.step:not(:last-child) {
+  margin-bottom: 0.2em;
+}
+
+.ingredient-quantity {
+  padding-right: 10px;
+  flex-shrink: 0;
+  min-width: 87px;
+}
+
+.ingredient-name {
+  flex-grow: 1;
 }
 
 .small-marginbottom {
   margin-bottom: 5px;
 }
 
-.viewRecipe-Step {
+/* Steps */
+.recipe-steps {
+  flex-basis: 45%;
+}
+
+.step {
   text-align:justify;
-  padding-right: 0px;
 }
 
-.viewRecipe-StepsSubSection:not(:last-child) {
-  margin-bottom: 25px;
+.reset-counter {
+  counter-reset: stepNumber;
 }
 
-.viewRecipe-StepsSubSection .row:not(:last-child) {
-  margin-bottom: 0.2em;
+.step:before {
+  float:left;
+  position: absolute;
+  content: counter(stepNumber);
+  counter-increment: stepNumber;
+  margin-left: -1.5em;
 }
 
-.viewRecipe-CommentsContainer {
-  flex-grow: 1;
-}
 
-.viewRecipe-Comments {
+/* Notes */
+.note {
   margin-top: 5%;
   font-size: 0.95em;
+
 }
 
 .artisticFont {
@@ -89,15 +140,23 @@
   font-size: 0.9em;
 }
 
-.viewRecipe-PortionsAndtime {
-  font-size: 0.9em;
-  flex-grow: 1;
+/* Loading state */
+.shader {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
 }
 
-.viewRecipe-Genre {
-  text-align:center;
-}
-
-.invisible {
-  visibility: hidden;
-}
+/*@keyframes expand {
+    0%   {
+      width: 0px;
+      min-height: 0px;
+    }
+    100% {
+      width: 700px;  /* ~8.5 inches */
+      /*min-height: 825px; /* 11 inches  */
+/*    }
+}*/

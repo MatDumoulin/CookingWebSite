@@ -5,3 +5,15 @@
 .button {
   font-weight: bold;
 }
+
+.capitalized::first-letter {
+  text-transform: uppercase;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.clickable:hover {
+  background-color: #EEEEEE;
+}

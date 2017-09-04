@@ -16,6 +16,7 @@ export class Recipe {
     results: string;
     notes: string;
     genre: string;
+    image: string;
 
 
     // I'm using parameter overload since TypeScript doesn't support having more
@@ -34,6 +35,7 @@ export class Recipe {
         this.results = "";
         this.notes = "";
         this.genre = "";
+        this.image = "";
       }
       // Copy constructor.
       else {
@@ -48,6 +50,7 @@ export class Recipe {
         this.results = recipe.results;
         this.notes = recipe.notes;
         this.genre = recipe.genre;
+        this.image = recipe.image;
       }
    }
 }

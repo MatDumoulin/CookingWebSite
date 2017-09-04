@@ -9,8 +9,8 @@ export class ApiGetRecipesService {
 
     constructor(private http:Http) {}
 
-    getRecipes(): Observable<Recipe[]> {
-      const url = '/api/recipes?filter=&from=0&to=20';
+    getRecipes(from:number, to:number): Observable<Recipe[]> {
+      const url = `/api/recipes?filter=&from=${from}&to=${to}`;
 
       return this.http.get(url)
                       .map(res => <Recipe[]>res.json());

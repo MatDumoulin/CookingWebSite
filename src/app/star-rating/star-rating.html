@@ -1,5 +1,5 @@
 <ul class="star-rating" [class.readonly]="readonly">
   <li *ngFor="let star of stars; let i=index" class="star" [class.filled]="star.filled" (click)="toggle(i)">
-    &#9733;
+    <i class="material-icons">star</i>
   </li>
 </ul>

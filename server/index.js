@@ -19,7 +19,6 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 
 // Directory routes to hide the structure of the project.
 app.use(express.static(__dirname));
-app.use(express.static(__dirname + '/src/'));
 /*app.use('/ng-infinite-scroll', express.static(__dirname + '/node_modules/ng-infinite-scroll/build/'));*/
 
 // views is directory for all template files

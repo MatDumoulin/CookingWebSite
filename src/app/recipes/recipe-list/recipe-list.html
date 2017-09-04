@@ -1,28 +1,32 @@
-<div class="mainContainer mat-elevation-z8">
-  <md-table #table [dataSource]="dataSource">
+<md-card class="mainContainer">
+  <md-card-header class="table-header">
+    <button class="button" color="accent" (click)="createRecipe()" md-button>Créer une recette</button>
+  </md-card-header>
 
-    <!--- Note that these columns can be defined in any order.
-          The actual rendered columns are set as a property on the row definition -->
+    <md-table class="recipe-list" #table [dataSource]="dataSource" (scroll)="onScrollDown($event)">
 
-    <!-- Name Column -->
-    <ng-container cdkColumnDef="name">
-      <md-header-cell *cdkHeaderCellDef> Nom </md-header-cell>
-      <md-cell *cdkCellDef="let recipe"> {{recipe.name}} </md-cell>
-    </ng-container>
+      <!--- Note that these columns can be defined in any order.
+            The actual rendered columns are set as a property on the row definition -->
 
-    <!-- Genre Column -->
-    <ng-container cdkColumnDef="genre">
-      <md-header-cell *cdkHeaderCellDef> Genre </md-header-cell>
-      <md-cell *cdkCellDef="let recipe"> {{recipe.genre}} </md-cell>
-    </ng-container>
+      <!-- Name Column -->
+      <ng-container cdkColumnDef="name">
+        <md-header-cell *cdkHeaderCellDef> Nom </md-header-cell>
+        <md-cell *cdkCellDef="let recipe"> {{recipe.name}} </md-cell>
+      </ng-container>
 
-    <!-- Rating Column -->
-    <ng-container cdkColumnDef="rating">
-      <md-header-cell *cdkHeaderCellDef> Note </md-header-cell>
-      <md-cell *cdkCellDef="let recipe"><star-rating [readonly]="true" [(ngModel)]="recipe.rating"></star-rating></md-cell>
-    </ng-container>
+      <!-- Genre Column -->
+      <ng-container cdkColumnDef="genre">
+        <md-header-cell *cdkHeaderCellDef> Genre </md-header-cell>
+        <md-cell *cdkCellDef="let recipe"> {{recipe.genre}} </md-cell>
+      </ng-container>
 
-    <md-header-row *cdkHeaderRowDef="displayedColumns"></md-header-row>
-    <md-row *cdkRowDef="let recipe; columns: displayedColumns;" (click)="viewRecipe(recipe._id)"></md-row>
-  </md-table>
-</div>
+      <!-- Rating Column -->
+      <ng-container cdkColumnDef="rating">
+        <md-header-cell *cdkHeaderCellDef> Note </md-header-cell>
+        <md-cell *cdkCellDef="let recipe"><star-rating [readonly]="true" [(ngModel)]="recipe.rating"></star-rating></md-cell>
+      </ng-container>
+
+      <md-header-row *cdkHeaderRowDef="displayedColumns"></md-header-row>
+      <md-row class="clickable" *cdkRowDef="let recipe; columns: displayedColumns;" (click)="viewRecipe(recipe._id)"></md-row>
+    </md-table>
+</md-card>
