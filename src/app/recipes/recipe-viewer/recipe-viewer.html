@@ -1,0 +1,65 @@
+<!--<div class="modal-header viewRecipe-ModalHeader">
+  <button type="button" class="close" data-dismiss="modal">&times;</button>-->
+  <!-- div class="modal hide" id="pleaseWaitDialog" data-backdrop="static" data-keyboard="false" >
+      <div class="modal-header">
+          <h1>Processing...</h1>
+      </div>
+      <div class="modal-body">
+          <div class="progress progress-striped active">
+              <div class="bar" style="width: 100%;"></div>
+          </div>
+      </div>
+  </div>                                                        Modal error handling                  -->
+<div class="shader" *ngIf="isLoading">
+  <md-progress-spinner mode="indeterminate"></md-progress-spinner>
+</div>
+<div class="window" *ngIf="!isLoading">
+  <div class="top-section">
+    <h4 class="recipe-genre"><small>{{ recipe.genre | uppercase }}</small></h4>
+    <div class="recipe-top-info">
+      <h2 class="recipe-name" md-dialog-title>{{recipe.name | uppercase}}</h2>
+      <star-rating [readonly]="true" [(ngModel)]="recipe.rating"></star-rating>
+      <strong>TAG</strong>
+      <hr> <!-- Line separator -->
+      <div class="artisticFont recipe-portions-time">
+        <p>Portions: {{ recipe.results }}    |
+           <img src="../../../assets/butcher-knife-20.png"> {{ convertToTime(recipe.prepTime) }}    |
+           <img src="../../../assets/barbecue-20.png"> {{ convertToTime(recipe.cookTime) }} |
+           <i class="material-icons size-20">hourglass_empty</i> {{ convertToTime(recipe.cooldownTime) }}
+        </p>
+      </div>
+    </div>
+    <img class="recipe-image mat-elevation-z3" [src]="recipe.image? getImageUrl() + recipe.image: ''">
+  </div>
+
+  <div class="middle-section artisticFont">
+    <!-- The ingredients section -->
+    <div class="recipe-ingredients">
+      <h4><strong>INGRÉDIENTS</strong></h4>
+      <div class="section" *ngFor="let section of recipe.ingredientSection">
+        <h4 class="small-marginbottom" *ngIf="section.name"><strong><em>{{section.name}}</em></strong></h4>
+        <div class="ingredient" *ngFor="let ingredient of section.ingredients">
+          <div class="ingredient-quantity">{{ ingredient.quantity }} {{ ingredient.units }}</div>
+          <div class="ingredient-name capitalized">{{ ingredient.name }}</div>
+        </div>
+      </div>
+    </div>
+    <!-- The steps section -->
+    <div class="recipe-steps">
+      <h4><strong>ÉTAPES</strong></h4>
+      <div class="section reset-counter" *ngFor="let section of recipe.stepSection">
+        <h4 class="small-marginbottom" *ngIf="section.name"><strong><em>{{section.name}}</em></strong></h4>
+          <div class="step capitalized" *ngFor="let step of section.steps">{{ step }}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="recipe-notes" *ngIf="recipe.notes.length > 0">
+    <p class="note"><i>{{ recipe.notes }}</i></p>
+  </div>
+
+  <md-dialog-actions align="end">
+    <button class="button" color="primary" md-button md-dialog-close>Fermer</button>
+  </md-dialog-actions>
+</div>
+

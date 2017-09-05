@@ -1,0 +1,68 @@
+<!--<div class="modal-header viewRecipe-ModalHeader">
+  <button type="button" class="close" data-dismiss="modal">&times;</button>-->
+  <!-- div class="modal hide" id="pleaseWaitDialog" data-backdrop="static" data-keyboard="false" >
+      <div class="modal-header">
+          <h1>Processing...</h1>
+      </div>
+      <div class="modal-body">
+          <div class="progress progress-striped active">
+              <div class="bar" style="width: 100%;"></div>
+          </div>
+      </div>
+  </div>                                                        Modal error handling                  -->
+<div class="top-section">
+  <h1 md-dialog-title>Création d'une recette</h1>
+  <md-icon class="clickable" color="primary" (click)="closeDialog()">clear</md-icon>
+</div>
+
+<md-tab-group dynamicHeight="true" md-dialog-content>
+  <md-tab label="Informations">
+    <div class="tab-content">
+      <md-input-container>
+        <input mdInput placeholder="Nom de la recette" [(ngModel)]="recipe.name">
+      </md-input-container>
+
+      <md-select placeholder="Genre" [(ngModel)]="recipe.genre">
+         <md-option *ngFor="let genre of GENRES" [value]="genre">{{ genre }}</md-option>
+      </md-select>
+
+      <md-input-container>
+        <input mdInput placeholder="Portion" [(ngModel)]="recipe.results">
+      </md-input-container>
+
+      <!--<ul>
+        <li>Nom</li>
+        <li>Image</li>
+        <li>Genre</li>
+        <li>Tags</li>
+        <li>Portions</li>
+        <li>Temps</li>
+      </ul>-->
+
+
+      <input type="file" name="pic" accept="image/*" (change)="updateImage($event)">
+      <p>{{image | json}}</p>
+    </div>
+  </md-tab>
+
+
+  <md-tab label="Étapes et Ingrédients">
+    <ul>
+      <li>Ingrédients</li>
+      <li>Étapes</li>
+    </ul>
+  </md-tab>
+
+  <md-tab label="Commentaires">
+    <ul>
+      <li>Liste de matériel</li>
+      <li>Note</li>
+      <li>Commentaire</li>
+    </ul>
+  </md-tab>
+
+
+</md-tab-group>
+<md-dialog-actions align="end">
+  <button class="button" color="primary" (click)="createRecipe()" md-raised-button>Créer</button>
+</md-dialog-actions>
