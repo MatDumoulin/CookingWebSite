@@ -17,7 +17,7 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 }));
 
 // Directory routes to hide the structure of the project.
-app.use(express.static(__dirname));
+app.use(express.static(__dirname + '/dist'));
 
 
 // Using the connection pool provided by the MongoClient driver to manage database connections.
