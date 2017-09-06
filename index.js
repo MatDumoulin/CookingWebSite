@@ -36,6 +36,7 @@ mongoClient.connect(url, function(err, database) {
 });
 
 if(process.env.ENV == 'prod') {
+  console.log('Server is running in prod mode.');
   app.get('/', function(request, response) {
     response.sendFile(__dirname + '/dist/index.html');
   });
