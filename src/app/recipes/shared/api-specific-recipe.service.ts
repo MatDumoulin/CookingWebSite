@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { Recipe } from './recipe.model';
 import { Observable } from 'rxjs/Observable';
+import { environment } from './../../../environments/environment';
 import 'rxjs/add/operator/map';
 
 // Interacts with the API when it comes to single recipe request.
@@ -13,7 +14,7 @@ export class ApiSpecificRecipeService {
     // To get an image, you must GET, then specify the image name after this url.
     // To store an image, you must POST, then specify the name of the image and
     //                    the data in the body of the request.
-    imagesUrl = "/api/recipes/image/";
+    imagesUrl = `${environment.apiUrl}/recipes/image/`;
 
     constructor(private http:Http) {}
 
@@ -25,7 +26,7 @@ export class ApiSpecificRecipeService {
         return;
       }
 
-      const url = `/api/recipes/${recipeId}`;
+      const url = `${environment.apiUrl}/recipes/${recipeId}`;
       // Calling the API.
       return this.http.get(url)
                       .map(res => <Recipe>res.json());

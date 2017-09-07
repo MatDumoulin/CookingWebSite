@@ -1,39 +1,40 @@
-// This is the manager for the routers of the main server.
-// It acts like an embedded api to keep a nice separation between the server and
-// the routes.
-// Basically, the server is there to render the pages and the api is there to
-// get data from the database.
-//
-// The API is not separated onto an other server because the scale of the
-// project is small. The time required to securize the API would not worth the benefits.
-function routerManager(express, db) {
-    const router = express.Router();
-    const recipesCollection = db.collection('recipes');
-    const imagesFolderLocation = __dirname + '/user-images/';
+const express = require('express');
+const mongoClient = require('mongodb').MongoClient;
+const bodyParser = require('body-parser');
+const ObjectID = require('mongodb').ObjectID;
+const routerManager = require('./route-manager');
 
-    // Getting all the handlers for the routes.
-    const getRecipes = require('./routes/recipes_get');
-    const getSpecificRecipe = require('./routes/recipes_get_specific');
-    const getRecipeNames = require('./routes/recipes_get_names');
-    const getRecipeGenres = require('./routes/recipes_get_genres');
-    const getRecipeAdvancedSearch = require('./routes/recipes_advanced_search');
-    const addRecipe = require('./routes/recipes_add');
-    const getIngredientsName = require('./routes/ingredients_get_names');
-    const getImage = require('./routes/image_get');
+const app = express();
 
-    // Creating the routes
-    router.get('/recipes', getRecipes(recipesCollection));
-    router.post('/recipe', addRecipe(recipesCollection));
-    router.get('/recipes/names', getRecipeNames(recipesCollection));
-    router.get('/recipes/genres', getRecipeGenres(recipesCollection));
-    router.get('/recipes/ingredients', getIngredientsName(recipesCollection));
-    router.post('/recipes/advanced', getRecipeAdvancedSearch(recipesCollection));
-    router.route('/recipes/:id').get(getSpecificRecipe(recipesCollection));
-    router.route('/recipes/image/:id').get(getImage(imagesFolderLocation));
+const url = 'mongodb://localhost:27017/easycooking';
 
-    // Got to return the router for it to be used later on.
-    return router;
-}
+app.set('port', (process.env.PORT || 5000));
+
+// Needed in order to read the body of the requests.
+app.use( bodyParser.json() );       // to support JSON-encoded bodies
+app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+    extended: true
+}));
+
+// Enabling CORS as we want to communicate with the server.
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 
-module.exports = routerManager;
+// Using the connection pool provided by the MongoClient driver to manage database connections.
+// To make sure that we have it set up before we render the website, we are setting it in the
+// promise of the connection pool.
+mongoClient.connect(url, function(err, database) {
+    if(err) throw err;
+
+    // Routing all of the database query to the api folder.
+    app.use('/api', routerManager(express, database));
+
+    //
+    app.listen(app.get('port'), function() {
+      console.log('API is running on port', app.get('port'));
+    });
+});

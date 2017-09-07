@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { Recipe } from './recipe.model';
 import { Observable } from 'rxjs/Observable';
+import { environment } from './../../../environments/environment';
 import 'rxjs/add/operator/map';
 
 @Injectable()
@@ -10,7 +11,7 @@ export class ApiGetRecipesService {
     constructor(private http:Http) {}
 
     getRecipes(from:number, to:number): Observable<Recipe[]> {
-      const url = `/api/recipes?filter=&from=${from}&to=${to}`;
+      const url = `${environment.apiUrl}/recipes?filter=&from=${from}&to=${to}`;
 
       return this.http.get(url)
                       .map(res => <Recipe[]>res.json());
