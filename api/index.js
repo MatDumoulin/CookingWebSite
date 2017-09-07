@@ -6,7 +6,7 @@ const routerManager = require('./route-manager');
 
 const app = express();
 
-const url = 'mongodb://localhost:27017/easycooking';
+const url = 'mongodb://mycookingbook:~c2[hW-F#^`GpPrU@localhost:27017/easycooking';
 
 app.set('port', (process.env.PORT || 5000));
 

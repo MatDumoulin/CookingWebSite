@@ -1,4 +1,35 @@
-.main-container {
+@media screen and (min-width: 1024px) {
+  .main-container {
+    margin: 0 auto;
+    width:30vw;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  .main-container {
+    margin: 0 auto;
+    width:70vw;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .main-container {
+    width:95vw;
+  }
+}
+
+.img-source-container {
+  margin-bottom: 10px;
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
+}
+
+.img-source {
+  font-size: 0.6em;
+  margin-top: 0;
+  display: flex;
+}
+
+.img-source a {
+  margin-left: 5px;
 }
