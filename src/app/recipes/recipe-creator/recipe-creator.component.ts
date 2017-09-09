@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject} from '@angular/core';
+import { Component, Inject} from '@angular/core';
 import { MdDialogRef } from '@angular/material';
 
 import { Recipe } from './../shared/recipe.model';
@@ -14,14 +14,26 @@ import { MinutesToTimeConverter } from './../../utils/minutes-to-time-converter'
 export class RecipeCreator{
   recipe = new Recipe();
   GENRES = Genres.get();
+  NUMBER_OF_TABS = 2;
+  selectedTab = 0;
   image = [];
   displayedImage: any = '../../../assets/food-plate.png';
   converter = new MinutesToTimeConverter();
 
   constructor(private dialogRef: MdDialogRef<RecipeCreator>, private ApiGetRecipesService:ApiGetRecipesService) {}
 
-  ngOnInit() {
 
+  nextCreateBtnClick() {
+    if(this.selectedTab === this.NUMBER_OF_TABS) {
+      this.createRecipe();
+    }
+    else {
+      this.goToNextTab();
+    }
+  }
+
+  goToNextTab() {
+    this.selectedTab++;
   }
 
   createRecipe() {
@@ -49,6 +61,17 @@ export class RecipeCreator{
       backendImageReader.readAsArrayBuffer(fileInput.target.files[0]);
       displayedImageReader.readAsDataURL(fileInput.target.files[0]);
     }
+  }
+
+  selectedTabChanged(newTab) {
+    /*let btnNextCreate = document.getElementById("btn_next_create");
+
+    if(newTab === this.NUMBER_OF_TABS) {
+      btnNextCreate.innerText = "Créer";
+    }
+    else {
+      btnNextCreate.innerText = "Suivant";
+    }*/
   }
 
   closeDialog() {
