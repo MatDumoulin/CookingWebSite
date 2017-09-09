@@ -21,7 +21,8 @@ export class RecipeList extends InfiniteScroll {
 
   constructor(private recipesService:RecipesService, private dialog: MdDialog,
               private snackbar: MdSnackBar) {
-    super();
+    super(5); // 5 is the scroll distance for which the loadMore function will
+              // be called, in pixels.
   }
 
   ngOnInit() {

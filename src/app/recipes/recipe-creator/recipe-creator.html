@@ -18,6 +18,14 @@
 <md-tab-group dynamicHeight="true" md-dialog-content>
   <md-tab label="Informations">
     <div class="tab-content">
+      <div class="image-container image-box">
+        <input type="file" class="hidden" accept="image/*" (change)="updateImage($event)" #fileInput>
+        <img class="image" [src]="displayedImage" alt="Photo of the recipe to create">
+        <div class="image-hover-shader image-box" (click)="fileInput.click()">
+          <img src="../../../assets/photo.svg" alt="Change photo">
+        </div>
+      </div>
+
       <md-input-container>
         <input mdInput placeholder="Nom de la recette" [(ngModel)]="recipe.name">
       </md-input-container>
@@ -40,7 +48,7 @@
       </ul>-->
 
 
-      <input type="file" name="pic" accept="image/*" (change)="updateImage($event)">
+
       <p>{{image | json}}</p>
     </div>
   </md-tab>

@@ -17,3 +17,7 @@
 .clickable:hover {
   background-color: #EEEEEE;
 }
+
+.hidden {
+  display: none;
+}

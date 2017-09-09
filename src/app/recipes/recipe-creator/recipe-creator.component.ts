@@ -15,6 +15,7 @@ export class RecipeCreator{
   recipe = new Recipe();
   GENRES = Genres.get();
   image = [];
+  displayedImage: any = '../../../assets/food-plate.png';
   converter = new MinutesToTimeConverter();
 
   constructor(private dialogRef: MdDialogRef<RecipeCreator>, private ApiGetRecipesService:ApiGetRecipesService) {}
@@ -32,13 +33,21 @@ export class RecipeCreator{
     console.log(fileInput.target.files);
 
     if (fileInput.target.files && fileInput.target.files[0]) {
-      const reader = new FileReader();
+      // I create two file reader. One for the backend image (an array buffer)
+      // and one for the image display (a data url).
+      const backendImageReader = new FileReader();
+      const displayedImageReader = new FileReader();
 
-      reader.onload = ((e) => {
+      backendImageReader.onload = ((e) => {
         this.image = e.target['result'];
       });
 
-      reader.readAsArrayBuffer(fileInput.target.files[0]);
+      displayedImageReader.onload = ((e) => {
+        this.displayedImage = e.target['result'];
+      });
+
+      backendImageReader.readAsArrayBuffer(fileInput.target.files[0]);
+      displayedImageReader.readAsDataURL(fileInput.target.files[0]);
     }
   }
 

@@ -8,6 +8,58 @@
 }
 
 .tab-content {
+  display: flex;
+  flex-direction: column;
   padding: 10px;
+  overflow: auto;
 }
+
+.image-container {
+  display: flex;
+  justify-content: space-around;
+}
+
+.image {
+  height: 100%;
+}
+
+.image-box {
+  height: 30vh;
+}
+
+@media screen and (min-width: 550px) {
+  .image-box {
+    width: 500px;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .image-box {
+    width: 100%;
+  }
+}
+
+
+.image-hover-shader {
+  position: absolute;
+  z-index: 2;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.image-hover-shader img {
+  visibility: hidden;
+  height: 50px;
+}
+
+.image-hover-shader:hover {
+  background-color: rgba(0,0,0,0.3);
+}
+
+.image-hover-shader:hover img {
+  visibility: visible;
+}
+
 
