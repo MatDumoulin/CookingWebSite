@@ -3,7 +3,7 @@
     <button class="button" color="accent" (click)="createRecipe()" md-button>Créer une recette</button>
   </md-card-header>
 
-    <md-table class="recipe-list" #table [dataSource]="dataSource" (scroll)="onScrollDown($event)">
+    <md-table class="recipe-list" [dataSource]="dataSource" (scroll)="onScrollDown($event)" #table>
 
       <!--- Note that these columns can be defined in any order.
             The actual rendered columns are set as a property on the row definition -->

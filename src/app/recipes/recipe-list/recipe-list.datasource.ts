@@ -1,5 +1,5 @@
-import {DataSource} from '@angular/cdk';
-import {Observable} from 'rxjs/Observable';
+import { DataSource } from '@angular/cdk/collections';
+import { Observable } from 'rxjs/Observable';
 import { Recipe } from './../shared/recipe.model';
 import { RecipesService } from './../shared/recipes.service';
 

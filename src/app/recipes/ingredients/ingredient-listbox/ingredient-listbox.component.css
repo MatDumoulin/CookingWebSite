@@ -1,0 +1,29 @@
+.size-2 {
+  width: 60%;
+}
+
+.size-1 {
+  width: 20%;
+}
+
+.add-ingredient {
+  cursor: pointer;
+  color: gray;
+}
+
+.add-ingredient:hover {
+  background-color: lightgray;
+  color: black;
+}
+
+ .display-when-hovered {
+  visibility: hidden;
+  position: absolute;
+  right: 4px;
+  top: 10px;
+  z-index: 3;
+}
+
+.ingredient:hover .display-when-hovered {
+  visibility: visible;
+}

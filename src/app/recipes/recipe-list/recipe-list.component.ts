@@ -21,13 +21,22 @@ export class RecipeList extends InfiniteScroll {
 
   constructor(private recipesService:RecipesService, private dialog: MdDialog,
               private snackbar: MdSnackBar) {
-    super(5); // 5 is the scroll distance for which the loadMore function will
-              // be called, in pixels.
+    super(10); // 5 is the scroll distance for which the loadMore function will
+               // be called, in pixels.
   }
 
   ngOnInit() {
     this.dataSource = new RecipeListDataSource(this.recipesService);
-    this.loadMore();
+
+    // When moving from one page to another using the Angular Router, the
+    // recipeService is not reinitialized since it was injected to this class.
+    // We don't want to load more recipe when we navigate from one page to another
+    // but we want our md-table to display the proper recipes.
+    if(this.recipesService.data.length === 0) {
+      this.loadMore();
+    }                                                               // TODO: As of angular material 2.0.0-beta.8, there is a bug with the
+                                                                                  //       md-table and the router-outlet that prevents .
+                                                                                  //       See: https://github.com/angular/material2/issues/5593
   }
 
   viewRecipe(recipeId:string): void {

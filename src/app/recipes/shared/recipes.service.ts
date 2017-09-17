@@ -19,8 +19,7 @@ export class RecipesService {
   dataChange: BehaviorSubject<Recipe[]> = new BehaviorSubject<Recipe[]>([]);
   get data(): Recipe[] { return this.dataChange.value; }
 
-  constructor(private apiGetRecipesService:ApiGetRecipesService) {
-  }
+  constructor(private apiGetRecipesService:ApiGetRecipesService) {}
 
    /* Adds a new recipe to the database. */                                      // TODO: Add the recipe to the database.
   addRecipe(newRecipe:Recipe) {

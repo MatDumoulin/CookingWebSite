@@ -10,15 +10,16 @@
           </div>
       </div>
   </div>                                                        Modal error handling                  -->
-<div class="top-section">
-  <h1 md-dialog-title>Création d'une recette</h1>
+<div class="header">
+  <h1 md-dialog-title>Création d'une recette<span *ngIf="recipe.name">: <i>{{recipe.name | uppercase}}</i></span></h1>
   <md-icon class="clickable" color="primary" (click)="closeDialog()">clear</md-icon>
 </div>
 
-<form #createRecipeForm="ngForm">
-  <md-tab-group dynamicHeight="true" (selectedIndexChange)="selectedTabChanged($event)" [(selectedIndex)]="selectedTab" md-dialog-content>
+<form #createRecipeForm="ngForm" autocomplete="off" md-dialog-content>
+  <md-tab-group dynamicHeight="true" (selectedIndexChange)="selectedTabChanged($event)" [(selectedIndex)]="selectedTab">
     <md-tab label="Informations">
       <div class="tab-content">
+
         <div class="image-container image-box small-margin-bottom" mdTooltip="Changez l'image de cette recette!">
           <input type="file" class="hidden" accept="image/*" (change)="updateImage($event)" #fileInput>
           <img class="image" [src]="displayedImage" alt="Photo of the recipe to create">
@@ -27,23 +28,21 @@
           </div>
         </div>
 
-        <md-input-container class="small-margin-bottom">
+        <md-form-field>
           <input mdInput placeholder="Nom de la recette" name="name" [(ngModel)]="recipe.name" required>
           <md-error> Le nom de la recette est <strong>requis</strong> </md-error>
-        </md-input-container>
+        </md-form-field>
 
-        <md-select class="small-margin-bottom" placeholder="Genre" name="genre" [(ngModel)]="recipe.genre" required>
-           <md-option *ngFor="let genre of GENRES" [value]="genre">{{ genre }}</md-option>
-        </md-select>
+        <div class="mat-input-wraper small-margin-bottom"> <!-- Gives the same spacing as a normal input -->
+          <md-select placeholder="Genre" name="genre" [(ngModel)]="recipe.genre" required>
+             <md-option *ngFor="let genre of GENRES" [value]="genre">{{ genre }}</md-option>
+          </md-select>
+        </div>
 
-        <md-input-container class="small-margin-bottom">
+        <md-form-field>
           <input mdInput placeholder="Portion" name="portion" [(ngModel)]="recipe.results"
                  mdTooltip="Vous de disposez pas de cette information? Remplissez-le plus tard!">
-        </md-input-container>
-
-        <md-input-container class="small-margin-bottom">
-          <input type="time" mdInput placeholder="Préparation" name="prepTime" [(ngModel)]="recipe.prepTime" max="99" required>
-        </md-input-container>
+        </md-form-field>
 
         <!--<ul>
           <li>Nom</li>
@@ -51,34 +50,70 @@
           <li>Genre</li>
           <li>Tags</li>
           <li>Portions</li>
-          <li>Temps</li>
         </ul>-->
-
-
-
-        <p>{{image | json}}</p>
       </div>
     </md-tab>
 
+    <md-tab label="Temps">
+      <div class="tab-content">
+          <md-form-field>
+            <input type="number" mdInput placeholder="Temps de préparation (minutes)" name="prepTime" [(ngModel)]="recipe.prepTime" required>
+            <md-error> Le temps de préparation est <strong>requis</strong> </md-error>
+          </md-form-field>
+
+          <md-form-field>
+            <input type="number" mdInput placeholder="Temps de cuisson (minutes)" name="cookTime" [(ngModel)]="recipe.cookTime" required>
+            <md-error> Le temps de cuisson est <strong>requis</strong> </md-error>
+          </md-form-field>
+
+          <md-form-field>
+            <input type="number" mdInput placeholder="Temps de repos (minutes)" name="cooldownTime" [(ngModel)]="recipe.cooldownTime" required>
+            <md-error> Le temps de repos est <strong>requis</strong> </md-error>
+          </md-form-field>
+      </div>
+      <!-- <li>Temps</li> -->
+    </md-tab>
 
     <md-tab label="Étapes et Ingrédients">
-      <ul>
-        <li>Ingrédients</li>
-        <li>Étapes</li>
-      </ul>
+      <div class="tab-content">
+
+        <md-card class="recipe-section">
+          <md-card-header>
+            <md-card-title><h2>Ingrédients</h2></md-card-title>
+          </md-card-header>
+          <md-card-content>
+
+            <md-list>
+              <ingredient-section name="ingredient-section"
+                                  [(ngModel)]="recipe.ingredientSection[0]"></ingredient-section>
+            </md-list>
+
+          </md-card-content>
+          <md-card-actions>
+            <button color="primary" md-button>Ajouter</button>
+          </md-card-actions>
+        </md-card>
+
+        <!--<ul>
+          <li>Ingrédients</li>
+          <li>Étapes</li>
+        </ul>-->
+      </div>
     </md-tab>
 
     <md-tab label="Commentaires">
-      <ul>
-        <li>Liste de matériel</li>
-        <li>Note</li>
-        <li>Commentaire</li>
-      </ul>
+      <div class="tab-content">
+        <ul>
+          <li>Liste de matériel</li>
+          <li>Note</li>
+          <li>Commentaire</li>
+        </ul>
+      </div>
     </md-tab>
   </md-tab-group>
 </form>
 <md-dialog-actions align="end">
   <button color="primary" (click)="goToNextTab()" *ngIf="selectedTab != NUMBER_OF_TABS" md-raised-button>Suivant</button>
-  <button color="primary" (click)="createRecipe()" *ngIf="selectedTab === NUMBER_OF_TABS"
+  <button color="accent" (click)="createRecipe()" *ngIf="selectedTab === NUMBER_OF_TABS"
           [disabled]="!createRecipeForm.form.valid" md-raised-button>Créer</button>
 </md-dialog-actions>
