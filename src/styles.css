@@ -21,3 +21,18 @@
 .hidden {
   display: none;
 }
+
+@-webkit-keyframes expand-height {
+   0% {height: 0px;}
+   100% {height: initial;}
+}
+
+@keyframes expand-height {
+   0% {height: 0px;}
+   100% {height: initial;}
+}
+
+.expand-height {
+   -webkit-animation: expand-height 0.5s ease-in;
+   animation: expand-height 0.5s ease-in;
+}

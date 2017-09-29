@@ -2,6 +2,7 @@ import { TestBed, async, ComponentFixture} from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement }    from '@angular/core';
 import { StarRating } from './star-rating.component';
+import { StarRatingModule } from './star-rating.module';
 
 describe('Star Rating', () => {
   let comp:    StarRating;
@@ -10,9 +11,7 @@ describe('Star Rating', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        StarRating
-      ],
+      imports: [StarRatingModule]
     }).compileComponents();
   }));
 
@@ -28,7 +27,7 @@ describe('Star Rating', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(StarRating);
     comp    = fixture.componentInstance;
-    starEl  = fixture.debugElement.query(By.css('.star-rating')); // find hero element
+    starEl  = fixture.debugElement.query(By.css('.star-rating'));
   });
 
   it(`should have proper rating value`, () => {

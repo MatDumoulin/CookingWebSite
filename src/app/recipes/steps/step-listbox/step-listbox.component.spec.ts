@@ -1,11 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RecipeCreatorModule } from './../../recipe-creator/recipe-creator.module';
-import { IngredientListbox } from './ingredient-listbox.component';
+import { StepListbox } from './step-listbox.component';
 
 describe('IngredientListboxComponent', () => {
-  let component: IngredientListbox;
-  let fixture: ComponentFixture<IngredientListbox>;
+  let component: StepListbox;
+  let fixture: ComponentFixture<StepListbox>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -15,7 +15,7 @@ describe('IngredientListboxComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(IngredientListbox);
+    fixture = TestBed.createComponent(StepListbox);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

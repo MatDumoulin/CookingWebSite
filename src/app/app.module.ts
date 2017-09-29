@@ -19,7 +19,7 @@ import { RecipeList } from './recipes/recipe-list/recipe-list.component';
 import { ApiGetRecipesService } from './recipes/shared/api-get-recipes.service';
 import { ApiSpecificRecipeService } from './recipes/shared/api-specific-recipe.service';
 import { RecipesService } from './recipes/shared/recipes.service';
-import { StarRatingModule } from './star-rating/star-rating.module';
+import { StarRatingModule } from './controls/star-rating/star-rating.module';
 import { RecipeViewerModule } from './recipes/recipe-viewer/recipe-viewer.module';
 import { RecipeViewer } from './recipes/recipe-viewer/recipe-viewer.component';
 import { RecipeCreatorModule } from './recipes/recipe-creator/recipe-creator.module';

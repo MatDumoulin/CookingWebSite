@@ -3,11 +3,11 @@ import { By } from '@angular/platform-browser';
 import { DebugElement }    from '@angular/core';
 
 import { RecipeCreatorModule } from './../../recipe-creator/recipe-creator.module';
-import { IngredientSectionComponent } from './ingredient-section.component';
+import { StepSectionComponent } from './step-section.component';
 
 describe('IngredientSectionComponent', () => {
-  let component: IngredientSectionComponent;
-  let fixture: ComponentFixture<IngredientSectionComponent>;
+  let component: StepSectionComponent;
+  let fixture: ComponentFixture<StepSectionComponent>;
   let sectionNameControl: DebugElement;
 
   beforeEach(async(() => {
@@ -18,7 +18,7 @@ describe('IngredientSectionComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(IngredientSectionComponent);
+    fixture = TestBed.createComponent(StepSectionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
 

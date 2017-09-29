@@ -1,0 +1,9 @@
+.section-title {
+  height: 1em;
+  border: none;
+  margin-bottom: 10px
+}
+
+.section-title:focus {
+  color: black;
+}

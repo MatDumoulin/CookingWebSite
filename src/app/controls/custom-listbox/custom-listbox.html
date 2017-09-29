@@ -1,0 +1,15 @@
+<md-card>
+  <md-card-header>
+    <md-card-title><h2>{{title}}</h2></md-card-title>
+  </md-card-header>
+  <md-card-content>
+
+    <md-list>
+      <ng-content></ng-content>
+    </md-list>
+
+  </md-card-content>
+  <md-card-actions align="end">
+    <button type="button" color="primary" (click)="addItem()" md-button>{{addItemText}}</button>
+  </md-card-actions>
+</md-card>

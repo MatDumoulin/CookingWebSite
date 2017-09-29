@@ -1,0 +1,12 @@
+<md-list-item class="step" *ngFor="let step of steps; index as i">
+    <md-icon md-list-icon>restaurant</md-icon>
+    <div md-line>
+      <md-form-field class="step-instruction">
+          <input mdInput placeholder="Quoi faire à cette étape de la recette?" [(ngModel)]="steps[i]">
+      </md-form-field>
+    </div>
+    <md-icon class="clickable display-when-hovered" color="accent" (click)="removeStep(i)" *ngIf="steps.length > 1">clear</md-icon>
+</md-list-item>
+<md-list-item>
+  <button type="button" class="add-step" color="accent" (click)="addStep()" md-button>Ajoutez une étape</button>
+</md-list-item>

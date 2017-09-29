@@ -1,25 +1,25 @@
 import { Component, OnInit, Input, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { IngredientSection } from '../shared/ingredient-section.model';
+import { StepSection } from '../shared/step-section.model';
 
 @Component({
-  selector: 'ingredient-section',
-  templateUrl: './ingredient-section.component.html',
-  styleUrls: ['./ingredient-section.component.css'],
+  selector: 'step-section',
+  templateUrl: './step-section.component.html',
+  styleUrls: ['./step-section.component.css'],
     providers: [{
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => IngredientSectionComponent),
+      useExisting: forwardRef(() => StepSectionComponent),
       multi: true
     }]
 })
-export class IngredientSectionComponent implements ControlValueAccessor {
-  _section: IngredientSection;
+export class StepSectionComponent implements ControlValueAccessor {
+  _section: StepSection;
   propagateChange = (_: any) => {};
 
   constructor() { }
 
   ngOnInit() {
-    this.section = new IngredientSection();
+    this.section = new StepSection();
   }
 
   set section(newSection) {
@@ -32,7 +32,7 @@ export class IngredientSectionComponent implements ControlValueAccessor {
   }
 
 // ----------For the ngModel two way binding -------------------------------//
-  writeValue(section: IngredientSection) {
+  writeValue(section: StepSection) {
     // When ngModel is called only to enable form validation, the value is set to undefined.
     if (section === undefined || section === null) {
       // If it is the case, do nothing as we don't want to register something.

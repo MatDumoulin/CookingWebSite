@@ -2,7 +2,7 @@
     <md-icon md-list-icon>restaurant</md-icon>
     <div md-line>
       <md-form-field class="ingredient-field size-2">
-          <input mdInput placeholder="Nom" name="name" [(ngModel)]="ingredient.name">
+          <input mdInput placeholder="Nom de l'ingrédient" name="name" [(ngModel)]="ingredient.name">
       </md-form-field>
       <md-form-field class="ingredient-field size-1">
           <input type="number" mdInput placeholder="Quantité" name="quantity" [(ngModel)]="ingredient.quantity">
@@ -14,5 +14,5 @@
     <md-icon class="clickable display-when-hovered" color="accent" (click)="removeIngredient(i)" *ngIf="ingredients.length > 1">clear</md-icon>
 </md-list-item>
 <md-list-item>
-  <button color="accent" (click)="addIngredient()" md-button>Ajoutez un ingrédient</button>
+  <button type="button" class="add-ingredient" color="accent" (click)="addIngredient()" md-button>Ajoutez un ingrédient</button>
 </md-list-item>

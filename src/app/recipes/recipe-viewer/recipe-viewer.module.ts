@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { MdButtonModule, MdDialogModule, MdProgressSpinnerModule, MdIconModule } from '@angular/material';
 
 import { RecipeViewer } from './recipe-viewer.component';
-import { StarRatingModule } from './../../star-rating/star-rating.module';
+import { StarRatingModule } from './../../controls/star-rating/star-rating.module';
 
 @NgModule({
   declarations: [

@@ -26,7 +26,6 @@
 
 
 /* Informations tab */
-
 .image-container {
   display: flex;
   justify-content: space-around;
@@ -37,10 +36,56 @@
 }
 
 .image-box {
-  height: 30vh;
+  height: 300px;
 }
 
-@media screen and (min-width: 550px) {
+.recipe-info-inputs {
+  width: 100%;
+}
+
+.time-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.time-input {
+  width: 30%;
+}
+
+@media screen and (min-width: 1100px){
+  .tab-content {
+    width: 1100px;
+  }
+
+  .recipe-info {
+    flex-direction: row-reverse;
+    justify-content: space-between;
+  }
+
+  .recipe-info-inputs {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 50%;
+  }
+
+  .image {
+    height: inherit;
+  }
+
+  .image-box {
+    width: 500px;
+  }
+
+  .tab-content.ingredients-steps {
+    justify-content: space-between;
+    flex-direction: row;
+  }
+
+}
+
+@media screen and (min-width: 550px) and (max-width: 1150px){
   .tab-content {
     width: 100%;
   }
@@ -48,6 +93,12 @@
   .image-box {
     width: 100%;
   }
+
+  .tab-content.ingredients-steps {
+    justify-content: center;
+    flex-direction: column;
+  }
+
 }
 
 @media screen and (max-width: 550px) {
@@ -57,6 +108,11 @@
 
   .image-box {
     width: 100%;
+  }
+
+  .tab-content.ingredients-steps {
+    justify-content: center;
+    flex-direction: column;
   }
 }
 
@@ -87,20 +143,19 @@
   margin-bottom: 1em;
 }
 
-/* Time container */
-.time-container {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
-
-.time-container md-form-field {
-  width: 45%;
+.medium-margin-bottom {
+  margin-bottom: 1.5em;
 }
 
 /* ---- END OF INFORMATIONS TAB -------- */
 
 /* ---- Ingredients & Steps tab -------- */
 .recipe-section {
-  width: 570px;
+  width: 540px;
+  margin-bottom: 1em;
+}
+
+.tab-content.ingredients-steps {
+  display: flex;
+  flex-wrap: wrap;
 }

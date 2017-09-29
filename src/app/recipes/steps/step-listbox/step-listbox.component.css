@@ -6,7 +6,6 @@
   width: 20%;
 }
 
-
  .display-when-hovered {
   visibility: hidden;
   position: absolute;
@@ -15,11 +14,15 @@
   z-index: 3;
 }
 
-.ingredient:hover .display-when-hovered {
+.step:hover .display-when-hovered {
   visibility: visible;
 }
 
-.add-ingredient {
+.step-instruction {
+  width: 95%;
+}
+
+.add-step {
   width: 100%;
   height: 100%;
 }
