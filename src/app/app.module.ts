@@ -11,6 +11,7 @@ import 'hammerjs'; // To support gestures.
 // Routes for the app
 import { routing } from './app.routes';
 // Custom components/services made for this app.
+import { CoreModule } from './core/core.module';
 import { App } from './app.component';
 import { HomePage } from './pages/home-page/home-page.component';
 import { RecipePage } from './pages/recipe-page/recipe-page.component';
@@ -39,9 +40,10 @@ import { RecipeCreator } from './recipes/recipe-creator/recipe-creator.component
     BrowserAnimationsModule, // To enable animations for angular-material.
     FormsModule,             // ngModel
     HttpModule,
-    RouterModule,
     AngularMaterialModule,
+    RouterModule,
     routing,
+    CoreModule,
     StarRatingModule,
     RecipeViewerModule,
     RecipeCreatorModule

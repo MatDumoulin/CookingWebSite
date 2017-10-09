@@ -4,6 +4,7 @@ import { of } from 'rxjs/Observable/of';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/operator/map';
 import { ApiGetRecipesService } from './api-get-recipes.service';
+import { ApiSpecificRecipeService } from './api-specific-recipe.service';
 import { Recipe } from './recipe.model';
 
 // This service contains the list of client side recipes that are being displayed
@@ -19,11 +20,12 @@ export class RecipesService {
   dataChange: BehaviorSubject<Recipe[]> = new BehaviorSubject<Recipe[]>([]);
   get data(): Recipe[] { return this.dataChange.value; }
 
-  constructor(private apiGetRecipesService:ApiGetRecipesService) {}
+  constructor(private apiGetRecipesService:ApiGetRecipesService,
+              private apiSpecificRecipeService:ApiSpecificRecipeService) {}
 
    /* Adds a new recipe to the database. */                                      // TODO: Add the recipe to the database.
   addRecipe(newRecipe:Recipe) {
-    // TODO: Add the recipe to the database.
+    this.apiSpecificRecipeService.addRecipe(newRecipe);
     this.addToClientSideList(newRecipe);
   }
 

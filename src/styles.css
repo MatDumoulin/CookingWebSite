@@ -22,17 +22,18 @@
   display: none;
 }
 
-@-webkit-keyframes expand-height {
+/*@-webkit-keyframes expand-height {
    0% {height: 0px;}
-   100% {height: initial;}
+   100% {height: 200px;}
 }
 
 @keyframes expand-height {
    0% {height: 0px;}
-   100% {height: initial;}
+   100% {height: 200px;}
 }
 
 .expand-height {
    -webkit-animation: expand-height 0.5s ease-in;
    animation: expand-height 0.5s ease-in;
-}
+   height: 200px;
+}*/

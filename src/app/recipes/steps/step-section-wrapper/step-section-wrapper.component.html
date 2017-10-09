@@ -1,5 +1,5 @@
 <custom-listbox [title]="'Étapes'" [addItemText]="'Ajouter une section'" (createNewItem)="createNewSection()">
-  <div *ngFor="let section of sections; index as i; last as isLast" class="expand-height">
+  <div *ngFor="let section of sections; index as i; last as isLast">
     <step-section  [(ngModel)]="sections[i]"></step-section>
     <md-divider *ngIf="!isLast"></md-divider>
   </div>

@@ -4,6 +4,7 @@ import { MdDialogRef } from '@angular/material';
 import { Recipe } from './../shared/recipe.model';
 import { Genres } from './../genre/shared/genre.service';
 import { ApiGetRecipesService } from './../shared/api-get-recipes.service';
+import { RecipesService } from './../shared/recipes.service';
 import { MinutesToTimeConverter } from './../../utils/minutes-to-time-converter';
 
 @Component({
@@ -20,7 +21,9 @@ export class RecipeCreator{
   displayedImage: any = '../../../assets/food-plate.png';
   converter = new MinutesToTimeConverter();
 
-  constructor(private dialogRef: MdDialogRef<RecipeCreator>, private ApiGetRecipesService:ApiGetRecipesService) {}
+  constructor(private dialogRef: MdDialogRef<RecipeCreator>,
+              private ApiGetRecipesService:ApiGetRecipesService,
+              private recipesService:RecipesService) {}
 
 
   nextCreateBtnClick() {
@@ -37,7 +40,7 @@ export class RecipeCreator{
   }
 
   createRecipe() {
-    alert("Creation...");
+    this.recipesService.addRecipe(this.recipe);
     this.closeDialog();
   }
 
@@ -61,17 +64,6 @@ export class RecipeCreator{
       backendImageReader.readAsArrayBuffer(fileInput.target.files[0]);
       displayedImageReader.readAsDataURL(fileInput.target.files[0]);
     }
-  }
-
-  selectedTabChanged(newTab) {
-    /*let btnNextCreate = document.getElementById("btn_next_create");
-
-    if(newTab === this.NUMBER_OF_TABS) {
-      btnNextCreate.innerText = "Créer";
-    }
-    else {
-      btnNextCreate.innerText = "Suivant";
-    }*/
   }
 
   closeDialog() {

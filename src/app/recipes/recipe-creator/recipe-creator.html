@@ -16,7 +16,7 @@
 </div>
 
 <form #createRecipeForm="ngForm" autocomplete="off" md-dialog-content>
-  <md-tab-group dynamicHeight="true" (selectedIndexChange)="selectedTabChanged($event)" [(selectedIndex)]="selectedTab" md-stretch-tabs>
+  <md-tab-group dynamicHeight="true" [(selectedIndex)]="selectedTab" md-stretch-tabs>
     <md-tab label="Informations">
       <div class="tab-content recipe-info">
 
@@ -54,12 +54,12 @@
             </md-form-field>
 
             <md-form-field class="time-input">
-              <input type="number" mdInput placeholder="Cuisson (minutes)" name="cookTime" [(ngModel)]="recipe.cookTime" required>
+              <input type="number" mdInput placeholder="Cuisson (minutes)" name="cookTime" [(ngModel)]="recipe.cookTime">
               <md-error> Le temps de cuisson est <strong>requis</strong> </md-error>
             </md-form-field>
 
             <md-form-field class="time-input">
-              <input type="number" mdInput placeholder="Repos (minutes)" name="cooldownTime" [(ngModel)]="recipe.cooldownTime" required>
+              <input type="number" mdInput placeholder="Repos (minutes)" name="cooldownTime" [(ngModel)]="recipe.cooldownTime">
               <md-error> Le temps de repos est <strong>requis</strong> </md-error>
             </md-form-field>
           </div>
@@ -90,12 +90,22 @@
     </md-tab>
 
     <md-tab label="Commentaires">
-      <div class="tab-content">
-        <ul>
-          <li>Liste de matériel</li>
-          <li>Note</li>
-          <li>Commentaire</li>
-        </ul>
+      <div class="tab-content comments-tab">
+        <equipment-listbox class="recipe-section" name="equipment-section"
+              [(ngModel)]="recipe.equipment"></equipment-listbox>
+
+        <div class="recipe-section comments-rating">
+          <md-form-field>
+                <textarea mdInput placeholder="Commentaires" name="notes" [(ngModel)]="recipe.notes"></textarea>
+          </md-form-field>
+
+          <div>
+            <Label>Note*</Label>
+            <div class="rating">
+              <star-rating class="rating-control" name="rating" [(ngModel)]="recipe.rating" required></star-rating>
+            </div>
+          </div>
+        </div>
       </div>
     </md-tab>
   </md-tab-group>
@@ -103,5 +113,5 @@
 <md-dialog-actions align="end">
   <button color="primary" (click)="goToNextTab()" *ngIf="selectedTab != NUMBER_OF_TABS" md-raised-button>Suivant</button>
   <button color="accent" (click)="createRecipe()" *ngIf="selectedTab === NUMBER_OF_TABS"
-          [disabled]="!createRecipeForm.form.valid" md-raised-button>Créer</button>
+          [disabled]="!createRecipeForm.form.valid" mdTooltip="Vous pouvez désormais créer votre recette!" md-raised-button>Créer</button>
 </md-dialog-actions>

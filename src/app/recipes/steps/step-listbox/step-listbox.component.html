@@ -1,5 +1,5 @@
-<md-list-item class="step" *ngFor="let step of steps; index as i">
-    <md-icon md-list-icon>restaurant</md-icon>
+<md-list-item class="step" *ngFor="let step of steps; index as i; trackBy:trackByFn">
+    <md-icon md-list-icon>assignment</md-icon>
     <div md-line>
       <md-form-field class="step-instruction">
           <input mdInput placeholder="Quoi faire à cette étape de la recette?" [(ngModel)]="steps[i]">

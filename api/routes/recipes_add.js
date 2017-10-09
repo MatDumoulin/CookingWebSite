@@ -9,6 +9,9 @@
 //
 function routeFactory(dbColl) {
     return function addRecipe(req, res) {
+        const ObjectID = require('mongodb').ObjectID;
+
+        req.body._id = new ObjectID(req.body._id);
 
         dbColl.insert(req.body, function(err, result) {
 

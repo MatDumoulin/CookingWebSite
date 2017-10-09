@@ -34,9 +34,7 @@ export class RecipeList extends InfiniteScroll {
     // but we want our md-table to display the proper recipes.
     if(this.recipesService.data.length === 0) {
       this.loadMore();
-    }                                                               // TODO: As of angular material 2.0.0-beta.8, there is a bug with the
-                                                                                  //       md-table and the router-outlet that prevents .
-                                                                                  //       See: https://github.com/angular/material2/issues/5593
+    }
   }
 
   viewRecipe(recipeId:string): void {

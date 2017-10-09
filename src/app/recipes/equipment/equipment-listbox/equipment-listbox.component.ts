@@ -2,51 +2,50 @@ import { Component, OnInit, Input, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
-  selector: 'step-listbox',
-  templateUrl: './step-listbox.component.html',
-  styleUrls: ['./step-listbox.component.css'],
-  providers: [{
+  selector: 'equipment-listbox',
+  templateUrl: './equipment-listbox.component.html',
+  styleUrls: ['./equipment-listbox.component.css'],
+    providers: [{
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => StepListbox),
+      useExisting: forwardRef(() => EquipmentListBox),
       multi: true
     }]
 })
-export class StepListbox implements ControlValueAccessor {
-  _steps: string[] = [];
+export class EquipmentListBox implements ControlValueAccessor {
+  _equipments = [""];
   propagateChange = (_: any) => {};
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {
 
   }
 
-  set steps(newSteps) {
-    this._steps = newSteps;
-    this.propagateChange(this.steps);
+  set equipments(equipments) {
+    this._equipments = equipments;
+    this.propagateChange(this.equipments);
   }
 
-  get steps() {
-    return this._steps;
+  get equipments() {
+    return this._equipments;
   }
 
-  addStep() {
-    this._steps.push("");
+  createItem() {
+    this.equipments.push("");
   }
 
-  removeStep(index: number) {
-    this._steps.splice(index, 1);
+  removeItem(index: number) {
+    this._equipments.splice(index, 1);
   }
 
-// ----------For the ngModel two way binding -------------------------------//
-  writeValue(steps: string[]) {
+  // ----------For the ngModel two way binding -------------------------------//
+  writeValue(equipments: string[]) {
     // When ngModel is called only to enable form validation, the value is set to undefined.
-    if (steps === undefined) {
+    if (equipments === undefined) {
       // If it is the case, do nothing as we don't want to register something.
       return;
     }
-
-    this.steps = steps;
+    this.equipments = equipments;
   }
 
   registerOnChange(fn) {
@@ -55,7 +54,7 @@ export class StepListbox implements ControlValueAccessor {
 
   registerOnTouched() {}
 
-  // Since the steps array is a primitive array, if this function is omitted,
+  // Since the equipment array is a primitive array, if this function is omitted,
   // Angular tracks the array item by its value. This means that whenever the value
   // is changed, the list item will loose focus. Instead of tracking by value,
   // we tell Angular to track the items by their index.

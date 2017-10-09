@@ -21,6 +21,8 @@ import { IngredientSectionWrapper } from '../ingredients/ingredient-section-wrap
 import { StepListbox } from '../steps/step-listbox/step-listbox.component';
 import { StepSectionComponent } from '../steps/step-section/step-section.component';
 import { StepSectionWrapper } from '../steps/step-section-wrapper/step-section-wrapper.component';
+import { EquipmentListBox } from '../equipment/equipment-listbox/equipment-listbox.component';
+import { EquipmentListItem } from '../equipment/equipment-listitem/equipment-listitem.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,9 @@ import { StepSectionWrapper } from '../steps/step-section-wrapper/step-section-w
     IngredientSectionWrapper,
     StepListbox,
     StepSectionComponent,
-    StepSectionWrapper
+    StepSectionWrapper,
+    EquipmentListBox,
+    EquipmentListItem
   ],
   imports: [
              CommonModule,

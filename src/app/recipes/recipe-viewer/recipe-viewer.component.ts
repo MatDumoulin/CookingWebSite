@@ -24,6 +24,7 @@ export class RecipeViewer{
                                  .subscribe( recipe => {
                                    this.recipe = recipe;
                                    this.isLoading = false;
+                                   console.log(this.recipe);
                                  });
   }
 

@@ -1,0 +1,5 @@
+<custom-listbox [title]="'Matériel'" [addItemText]="'Ajouter un équipement'" (createNewItem)="createItem()">
+  <div *ngFor="let equipment of equipments; index as i; trackBy:trackByFn">
+    <equipment-listitem [(ngModel)]="equipments[i]" (remove)="removeItem(i)"></equipment-listitem>
+  </div>
+</custom-listbox>

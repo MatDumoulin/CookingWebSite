@@ -159,3 +159,24 @@
   display: flex;
   flex-wrap: wrap;
 }
+
+/* ---- Comments tab ---- */
+.tab-content.comments-tab {
+  justify-content: space-between;
+  flex-direction: row;
+}
+
+.comments-rating {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.rating {
+  display: flex;
+  justify-content: space-around;
+}
+
+.rating-control {
+  font-size: 2em !important;
+}

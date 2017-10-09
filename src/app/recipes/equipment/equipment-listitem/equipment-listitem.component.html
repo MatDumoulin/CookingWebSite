@@ -1,0 +1,9 @@
+<md-list-item class="equipment">
+    <md-icon md-list-icon>local_dining</md-icon>
+    <div md-line>
+      <md-form-field class="equipment-textfield">
+          <input mdInput placeholder="Quel outils avez-vous utilisé?" [(ngModel)]="item">
+      </md-form-field>
+    </div>
+    <md-icon class="clickable display-when-hovered" color="accent" (click)="removeItem()">clear</md-icon>
+</md-list-item>
