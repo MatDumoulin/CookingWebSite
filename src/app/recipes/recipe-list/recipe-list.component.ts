@@ -15,7 +15,7 @@ import { InfiniteScroll } from './../shared/infinite-scroll.class';
   styleUrls: ['recipe-list.css']
 })
 export class RecipeList extends InfiniteScroll {
-  displayedColumns = ['name', 'genre', 'rating'];
+  displayedColumns = ['name', 'genre', 'rating', 'actions'];
   dataSource: RecipeListDataSource;
   private hasDisplayedCantLoadMore = false;
 
@@ -43,6 +43,10 @@ export class RecipeList extends InfiniteScroll {
 
   createRecipe(): void {
     this.dialog.open(RecipeCreator);
+  }
+
+  editRecipe(recipeId:string) : void {
+    this.dialog.open(RecipeCreator, { data: {recipeId}});
   }
 
   loadMore() {

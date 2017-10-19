@@ -7,7 +7,8 @@ import {
         MdSidenavModule,
         MdCardModule,
         MdToolbarModule,
-        MdSnackBarModule
+        MdSnackBarModule,
+        MdTooltipModule
        }                from '@angular/material';
 import {CdkTableModule} from '@angular/cdk/table';
 
@@ -21,7 +22,8 @@ import {CdkTableModule} from '@angular/cdk/table';
             MdSidenavModule,
             MdCardModule,
             MdToolbarModule,
-            MdSnackBarModule
+            MdSnackBarModule,
+            MdTooltipModule
            ],
   exports: [
             MdButtonModule,
@@ -32,7 +34,8 @@ import {CdkTableModule} from '@angular/cdk/table';
             MdSidenavModule,
             MdCardModule,
             MdToolbarModule,
-            MdSnackBarModule
+            MdSnackBarModule,
+            MdTooltipModule
            ]
 })
 export class AngularMaterialModule { }

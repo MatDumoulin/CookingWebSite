@@ -26,6 +26,16 @@
         <md-cell *cdkCellDef="let recipe"><star-rating [readonly]="true" [(ngModel)]="recipe.rating"></star-rating></md-cell>
       </ng-container>
 
+      <ng-container cdkColumnDef="actions">
+        <md-header-cell *cdkHeaderCellDef> Action </md-header-cell>
+        <md-cell *cdkCellDef="let recipe">
+          <button color="primary" (click)="editRecipe(recipe._id)" class="edit-button" md-button>
+            <i class="material-icons">create</i>
+          </button>
+        </md-cell>
+
+      </ng-container>
+
       <md-header-row *cdkHeaderRowDef="displayedColumns"></md-header-row>
       <md-row class="clickable" *cdkRowDef="let recipe; columns: displayedColumns;" (click)="viewRecipe(recipe._id)"></md-row>
     </md-table>

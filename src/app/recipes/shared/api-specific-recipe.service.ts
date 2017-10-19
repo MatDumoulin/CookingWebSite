@@ -23,7 +23,7 @@ export class ApiSpecificRecipeService {
     constructor(private http:Http, private logger:LoggerService) {}
 
     getRecipe(recipeId:string): Observable<Recipe> {
-
+      console.log(recipeId);
       // Parameter validation
       if(!recipeId) {
         console.error(`Invalid parameter 'recipeId' in app/recipes/shared/getRecipe: ${recipeId}`);

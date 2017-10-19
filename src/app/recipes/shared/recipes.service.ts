@@ -37,6 +37,14 @@ export class RecipesService {
     this.dataChange.next(copiedData);
   }
 
+  /* Updates the recipe with the given ID with the new recipe */
+  updateRecipe(idOfRecipeToUpdate: string, newRecipe: Recipe) {
+    const copiedData = this.data.slice();
+    const indexOfOldRecipe = copiedData.findIndex(recipe => recipe._id === idOfRecipeToUpdate);
+    copiedData[indexOfOldRecipe] = newRecipe;
+    this.dataChange.next(copiedData);
+  }
+
   // Fetches more recipes from the api.
   // Returns: A promise with true if there are more recipes to fetch.
   //                         false otherwise.

@@ -11,18 +11,19 @@
       </div>
   </div>                                                        Modal error handling                  -->
 <div class="header">
-  <h1 md-dialog-title>Création d'une recette<span *ngIf="recipe.name">: <i>{{recipe.name | uppercase}}</i></span></h1>
+  <h1 md-dialog-title>{{windowTitle}}<span *ngIf="recipe.name">: <i>{{recipe.name | uppercase}}</i></span></h1>
   <md-icon class="clickable" color="primary" (click)="closeDialog()">clear</md-icon>
 </div>
 
 <form #createRecipeForm="ngForm" autocomplete="off" md-dialog-content>
-  <md-tab-group dynamicHeight="true" [(selectedIndex)]="selectedTab" md-stretch-tabs>
+  <md-tab-group dynamicHeight="true" [(selectedIndex)]="selectedTab" #tabGroup md-stretch-tabs>
+
     <md-tab label="Informations">
       <div class="tab-content recipe-info">
 
         <div class="image-container image-box small-margin-bottom" mdTooltip="Changez l'image de cette recette!">
           <input type="file" class="hidden" accept="image/*" (change)="updateImage($event)" #fileInput>
-          <img class="image" [src]="displayedImage" alt="Photo of the recipe to create">
+          <img class="image" [src]="image.length == 0? displayedImage: image" alt="Photo of the recipe to create">
           <div class="image-hover-shader image-box" (click)="fileInput.click()">
             <img src="../../../assets/photo.svg" alt="Change photo">
           </div>
@@ -113,8 +114,11 @@
 <md-dialog-actions align="end">
   <button color="primary" (click)="goToNextTab()" *ngIf="selectedTab != NUMBER_OF_TABS" md-raised-button>Suivant</button>
 
+  <button color="accent" class="delete-recipe-button" (click)="deleteRecipe()" *ngIf=" isEdit && selectedTab === NUMBER_OF_TABS"
+          md-button>Supprimer</button>
+
   <div [mdTooltip]="!createRecipeForm.form.valid? 'Vous devez remplir tous les champs obligatoires*.' : null">
-    <button color="accent" (click)="createRecipe()" *ngIf="selectedTab === NUMBER_OF_TABS"
-            [disabled]="!createRecipeForm.form.valid" mdTooltip="Vous pouvez désormais créer votre recette!" md-raised-button>Créer</button>
+    <button color="accent" (click)="isEdit? updateRecipe() : createRecipe()" *ngIf="selectedTab === NUMBER_OF_TABS"
+            [disabled]="!createRecipeForm.form.valid" mdTooltip="Vous pouvez désormais créer votre recette!" md-raised-button>{{finishButtonText}}</button>
   </div>
 </md-dialog-actions>

@@ -20,6 +20,14 @@ body {
   padding-bottom: 10px;
 }
 
+.edit-button {
+  min-width: 2.5em;
+  width: 2.5em;
+  padding: 0px;
+}
+
+/*
+
 .searchBar-Input {
   min-width: 100px !important;
   width: 50% !important;
@@ -95,7 +103,7 @@ body {
 .form-group .ng-valid.ng-dirty {
   border-color: #78FA89;
 }*/
-
+/*
 .CreateRecipe-RemoveSection {
   margin-left: 2%;
 }
@@ -111,4 +119,4 @@ body {
 
 textarea#recipeComments {
   resize: none;
-}
+}*/

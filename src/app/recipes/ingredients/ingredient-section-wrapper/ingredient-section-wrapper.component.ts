@@ -43,6 +43,7 @@ export class IngredientSectionWrapper implements ControlValueAccessor {
       // If it is the case, do nothing as we don't want to register something.
       return;
     }
+
     this.sections = sections;
   }
 

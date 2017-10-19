@@ -1,9 +1,9 @@
-import { Component, Inject} from '@angular/core';
-import { MdDialogRef } from '@angular/material';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
 
 import { Recipe } from './../shared/recipe.model';
 import { Genres } from './../genre/shared/genre.service';
-import { ApiGetRecipesService } from './../shared/api-get-recipes.service';
+import { ApiSpecificRecipeService } from './../shared/api-specific-recipe.service';
 import { RecipesService } from './../shared/recipes.service';
 import { MinutesToTimeConverter } from './../../utils/minutes-to-time-converter';
 
@@ -20,19 +20,28 @@ export class RecipeCreator{
   image = [];
   displayedImage: any = '../../../assets/food-plate.png';
   converter = new MinutesToTimeConverter();
+  // Text to display wether we are on edit or create mode.
+  isEdit: boolean;
+  finishButtonText = "Créer";
+  windowTitle = "Création d'une recette";
 
   constructor(private dialogRef: MdDialogRef<RecipeCreator>,
-              private ApiGetRecipesService:ApiGetRecipesService,
-              private recipesService:RecipesService) {}
+              private recipeApi:ApiSpecificRecipeService,
+              private recipesService:RecipesService,
+              @Inject(MD_DIALOG_DATA) private data: any) {}
 
+  ngOnInit() {
+    this.isEdit = this.data;
+    // If the window has been open to edit a recipe.
+    if(this.isEdit) {
+      // Fetch the full recipe from the api.
+      this.finishButtonText = "Modifier";
+      this.windowTitle = "Modification d'une recette";
 
-  nextCreateBtnClick() {
-    if(this.selectedTab === this.NUMBER_OF_TABS) {
-      this.createRecipe();
+      this.recipeApi.getRecipe(this.data.recipeId)
+                    .subscribe(recipe => this.recipe = recipe);
     }
-    else {
-      this.goToNextTab();
-    }
+    // else, the window is already set up for recipe creation.
   }
 
   goToNextTab() {
@@ -42,6 +51,15 @@ export class RecipeCreator{
   createRecipe() {
     this.recipesService.addRecipe(this.recipe);
     this.closeDialog();
+  }
+
+  updateRecipe() {
+    this.recipesService.updateRecipe(this.recipe._id, this.recipe);
+    this.closeDialog();
+  }
+
+  deleteRecipe() {
+    alert("Delete functionality is not yet implemented.");
   }
 
   updateImage(fileInput: any): void {
