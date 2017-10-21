@@ -49,9 +49,7 @@ export class StepListbox implements ControlValueAccessor {
     this.steps = steps;
   }
 
-  registerOnChange(fn) {
-    this.propagateChange = fn;
-  }
+  registerOnChange() {}
 
   registerOnTouched() {}
 

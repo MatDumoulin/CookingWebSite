@@ -18,6 +18,7 @@ function routerManager(express, db) {
     const getRecipeGenres = require('./routes/recipes_get_genres');
     const getRecipeAdvancedSearch = require('./routes/recipes_advanced_search');
     const addRecipe = require('./routes/recipes_add');
+    const updateRecipe = require('./routes/recipes_update');
     const getIngredientsName = require('./routes/ingredients_get_names');
     const getImage = require('./routes/image_get');
 
@@ -28,7 +29,8 @@ function routerManager(express, db) {
     router.get('/recipes/genres', getRecipeGenres(recipesCollection));
     router.get('/recipes/ingredients', getIngredientsName(recipesCollection));
     router.post('/recipes/advanced', getRecipeAdvancedSearch(recipesCollection));
-    router.route('/recipes/:id').get(getSpecificRecipe(recipesCollection));
+    router.route('/recipes/:id').get(getSpecificRecipe(recipesCollection))
+                                .post(updateRecipe(recipesCollection));
     router.route('/recipes/image/:id').get(getImage(imagesFolderLocation));
 
     // Got to return the router for it to be used later on.

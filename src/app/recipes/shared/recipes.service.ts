@@ -23,7 +23,6 @@ export class RecipesService {
   constructor(private apiGetRecipesService:ApiGetRecipesService,
               private apiSpecificRecipeService:ApiSpecificRecipeService) {}
 
-   /* Adds a new recipe to the database. */                                      // TODO: Add the recipe to the database.
   addRecipe(newRecipe:Recipe) {
     this.apiSpecificRecipeService.addRecipe(newRecipe);
     this.addToClientSideList(newRecipe);
@@ -39,6 +38,7 @@ export class RecipesService {
 
   /* Updates the recipe with the given ID with the new recipe */
   updateRecipe(idOfRecipeToUpdate: string, newRecipe: Recipe) {
+    this.apiSpecificRecipeService.updateRecipe(idOfRecipeToUpdate, newRecipe);
     const copiedData = this.data.slice();
     const indexOfOldRecipe = copiedData.findIndex(recipe => recipe._id === idOfRecipeToUpdate);
     copiedData[indexOfOldRecipe] = newRecipe;

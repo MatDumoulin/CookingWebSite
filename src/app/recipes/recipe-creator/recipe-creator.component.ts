@@ -39,7 +39,10 @@ export class RecipeCreator{
       this.windowTitle = "Modification d'une recette";
 
       this.recipeApi.getRecipe(this.data.recipeId)
-                    .subscribe(recipe => this.recipe = recipe);
+                    .subscribe(recipe => {
+                      console.log(recipe);
+                      this.recipe = recipe;
+                    });
     }
     // else, the window is already set up for recipe creation.
   }

@@ -13,7 +13,7 @@ import { Ingredient } from '../shared/ingredient.model';
     }]
 })
 export class IngredientListbox implements ControlValueAccessor {
-  _ingredients: Ingredient[] = [];
+  _ingredients: Ingredient[];
   propagateChange = (_: any) => {};
 
   constructor() { }
@@ -24,7 +24,7 @@ export class IngredientListbox implements ControlValueAccessor {
 
   set ingredients(newIngredients) {
     this._ingredients = newIngredients;
-    this.propagateChange(this.ingredients);
+    this.propagateChange(this._ingredients);
   }
 
   get ingredients() {
@@ -50,9 +50,7 @@ export class IngredientListbox implements ControlValueAccessor {
     this.ingredients = ingredients;
   }
 
-  registerOnChange(fn) {
-    this.propagateChange = fn;
-  }
+  registerOnChange() {}
 
   registerOnTouched() {}
 }

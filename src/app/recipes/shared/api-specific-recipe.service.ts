@@ -23,7 +23,6 @@ export class ApiSpecificRecipeService {
     constructor(private http:Http, private logger:LoggerService) {}
 
     getRecipe(recipeId:string): Observable<Recipe> {
-      console.log(recipeId);
       // Parameter validation
       if(!recipeId) {
         console.error(`Invalid parameter 'recipeId' in app/recipes/shared/getRecipe: ${recipeId}`);
@@ -33,19 +32,21 @@ export class ApiSpecificRecipeService {
       const url = `${environment.apiUrl}/recipes/${recipeId}`;
       // Calling the API.
       return this.http.get(url)
-                      .map(res => <Recipe>res.json());
+                      .map(res => {
+                        console.log(res.json());
+                        return res.json()
+                      });//<Recipe>res.json());
     }
 
     addRecipe(newRecipe:Recipe) {
       // Parameter validation
-      if(!newRecipe) {
-        this.logger.error(`Il est impossible de créer une recette qui ne contient aucune information.`, `J'ai compris`);
+      if(newRecipe) {
+        this.logger.error(`Il est impossible de créer une recette qui ne contient aucune information.`, `Ok`);
         console.error(`Invalid parameter 'newRecipe' in app/recipes/shared/addRecipe: ${newRecipe}`);
         return;
       }
 
       newRecipe._id = (new ObjectID()).toString();
-      console.log(newRecipe);
 
       const url = `${environment.apiUrl}/recipe`;
       // Calling the API.
@@ -55,6 +56,25 @@ export class ApiSpecificRecipeService {
                             this.logger.error(`Une erreur de réseau empèche la création de votre recette. Nous sommes désolé de cet inconvénient.`, `Ok`);
                           }
                       });
+    }
+
+    updateRecipe(idOfRecipeToUpdate:string, newRecipe:Recipe) {
+            // Parameter validation
+      if(!newRecipe) {
+        this.logger.error(`Il est impossible de modifier une recette qui ne contient aucune information.`, `Ok`);
+        console.error(`Invalid parameter 'newRecipe' in app/recipes/shared/updateRecipe: ${newRecipe}`);
+        return;
+      }
+
+      const url = `${environment.apiUrl}/recipes/${idOfRecipeToUpdate}`;
+      // Calling the API.
+      return this.http.post(url, newRecipe)
+                      .subscribe(res => {
+                          if(!res.json().updateWasSuccessful) {
+                            this.logger.error(`Une erreur de réseau empèche la création de votre recette. Nous sommes désolé de cet inconvénient.`, `Ok`);
+                          }
+                      });
+
     }
 }
 
