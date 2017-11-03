@@ -19,6 +19,7 @@ function routerManager(express, db) {
     const getRecipeAdvancedSearch = require('./routes/recipes_advanced_search');
     const addRecipe = require('./routes/recipes_add');
     const updateRecipe = require('./routes/recipes_update');
+    const removeRecipe = require('./routes/recipes_remove');
     const getIngredientsName = require('./routes/ingredients_get_names');
     const getImage = require('./routes/image_get');
 
@@ -30,7 +31,8 @@ function routerManager(express, db) {
     router.get('/recipes/ingredients', getIngredientsName(recipesCollection));
     router.post('/recipes/advanced', getRecipeAdvancedSearch(recipesCollection));
     router.route('/recipes/:id').get(getSpecificRecipe(recipesCollection))
-                                .post(updateRecipe(recipesCollection));
+                                .post(updateRecipe(recipesCollection))
+                                .delete(removeRecipe(recipesCollection));
     router.route('/recipes/image/:id').get(getImage(imagesFolderLocation));
 
     // Got to return the router for it to be used later on.

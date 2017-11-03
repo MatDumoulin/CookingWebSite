@@ -102,10 +102,9 @@
   </md-tab-group>
 </form>
 <md-dialog-actions align="end">
-  <button color="primary" (click)="goToNextTab()" *ngIf="selectedTab != NUMBER_OF_TABS" md-raised-button>Suivant</button>
+  <button color="accent" class="delete-recipe-button" (click)="deleteRecipe()" *ngIf=" isEdit" md-button>Supprimer</button>
 
-  <button color="accent" class="delete-recipe-button" (click)="deleteRecipe()" *ngIf=" isEdit && selectedTab === NUMBER_OF_TABS"
-          md-button>Supprimer</button>
+  <button color="primary" (click)="goToNextTab()" *ngIf="selectedTab != NUMBER_OF_TABS" md-raised-button>Suivant</button>
 
   <div [mdTooltip]="!createRecipeForm.form.valid? 'Vous devez remplir tous les champs obligatoires*.' : null">
     <button color="accent" (click)="isEdit? updateRecipe() : createRecipe()" *ngIf="selectedTab === NUMBER_OF_TABS"

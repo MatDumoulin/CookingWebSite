@@ -40,7 +40,7 @@ export class ApiSpecificRecipeService {
 
     addRecipe(newRecipe:Recipe) {
       // Parameter validation
-      if(newRecipe) {
+      if(!newRecipe) {
         this.logger.error(`Il est impossible de créer une recette qui ne contient aucune information.`, `Ok`);
         console.error(`Invalid parameter 'newRecipe' in app/recipes/shared/addRecipe: ${newRecipe}`);
         return;
@@ -61,7 +61,7 @@ export class ApiSpecificRecipeService {
     updateRecipe(idOfRecipeToUpdate:string, newRecipe:Recipe) {
             // Parameter validation
       if(!newRecipe) {
-        this.logger.error(`Il est impossible de modifier une recette qui ne contient aucune information.`, `Ok`);
+        this.logger.error(`Il est impossible de modifier une recette avec une recette qui ne contient aucune information.`, `Ok`);
         console.error(`Invalid parameter 'newRecipe' in app/recipes/shared/updateRecipe: ${newRecipe}`);
         return;
       }
@@ -71,7 +71,26 @@ export class ApiSpecificRecipeService {
       return this.http.post(url, newRecipe)
                       .subscribe(res => {
                           if(!res.json().updateWasSuccessful) {
-                            this.logger.error(`Une erreur de réseau empèche la création de votre recette. Nous sommes désolé de cet inconvénient.`, `Ok`);
+                            this.logger.error(`Une erreur de réseau empèche la modification de votre recette. Nous sommes désolé de cet inconvénient.`, `Ok`);
+                          }
+                      });
+
+    }
+
+    deleteRecipe(id:string) {
+            // Parameter validation
+      if(!id) {
+        this.logger.error(`Identifiant de recette invalide. La suppression est annulée.`, `Ok`);
+        console.error(`Invalid parameter 'id' in app/recipes/shared/deleteRecipe: ${id}`);
+        return;
+      }
+
+      const url = `${environment.apiUrl}/recipes/${id}`;
+      // Calling the API.
+      return this.http.delete(url)
+                      .subscribe(res => {
+                          if(res.status < 200 || res.status >= 300) {
+                            this.logger.error(`Une erreur de réseau empèche la suppression de votre recette. Nous sommes désolé de cet inconvénient.`, `Ok`);
                           }
                       });
 

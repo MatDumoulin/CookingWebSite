@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
+import { MdDialogRef, MdSnackBar, MD_DIALOG_DATA } from '@angular/material';
 
 import { Recipe } from './../shared/recipe.model';
 import { Genres } from './../genre/shared/genre.service';
@@ -14,6 +14,7 @@ import { MinutesToTimeConverter } from './../../utils/minutes-to-time-converter'
 })
 export class RecipeCreator{
   recipe = new Recipe();
+  originalRecipe:Recipe; // Keeping a copy of the recipe before modification.
   GENRES = Genres.get();
   NUMBER_OF_TABS = 2;
   selectedTab = 0;
@@ -26,6 +27,7 @@ export class RecipeCreator{
   windowTitle = "Création d'une recette";
 
   constructor(private dialogRef: MdDialogRef<RecipeCreator>,
+              private snackBar: MdSnackBar,
               private recipeApi:ApiSpecificRecipeService,
               private recipesService:RecipesService,
               @Inject(MD_DIALOG_DATA) private data: any) {}
@@ -40,8 +42,8 @@ export class RecipeCreator{
 
       this.recipeApi.getRecipe(this.data.recipeId)
                     .subscribe(recipe => {
-                      console.log(recipe);
                       this.recipe = recipe;
+                      this.originalRecipe = recipe;
                     });
     }
     // else, the window is already set up for recipe creation.
@@ -62,7 +64,14 @@ export class RecipeCreator{
   }
 
   deleteRecipe() {
-    alert("Delete functionality is not yet implemented.");
+    this.recipesService.deleteRecipe(this.recipe._id);
+    this.closeDialog();
+
+    // Displaying a message to indicate that the recipe was removed.
+    let snackBarRef = this.snackBar.open('La recette a été supprimée', 'Annuler');
+    snackBarRef.onAction().subscribe(() => {
+      this.recipesService.addRecipe(this.originalRecipe);
+    });
   }
 
   updateImage(fileInput: any): void {

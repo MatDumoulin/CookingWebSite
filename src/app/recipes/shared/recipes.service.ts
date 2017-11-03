@@ -45,6 +45,16 @@ export class RecipesService {
     this.dataChange.next(copiedData);
   }
 
+  deleteRecipe(id:string): Recipe {
+    this.apiSpecificRecipeService.deleteRecipe(id);
+    const indexOfOldRecipe = this.data.findIndex(recipe => recipe._id === id);
+    const deletedRecipe = this.data.splice(indexOfOldRecipe, 1); // Removing the recipe from the list.
+    const copiedData = this.data.slice();
+    this.dataChange.next(copiedData);
+
+    return deletedRecipe[0];
+  }
+
   // Fetches more recipes from the api.
   // Returns: A promise with true if there are more recipes to fetch.
   //                         false otherwise.
