@@ -1,0 +1,27 @@
+<div class="header">
+  <h1 mat-dialog-title>Recherche avancée</h1>
+  <mat-icon class="clickable" color="primary" (click)="closeDialog()">clear</mat-icon>
+</div>
+
+<div mat-dialog-content>
+  <div>
+    <mat-form-field>
+      <input matInput placeholder="Nom de la recette" name="name" [(ngModel)]="searchCriteria.name"
+            (keypress)="searchCriteria.wantsName = true">
+    </mat-form-field>
+    <mat-checkbox [(ngModel)]="searchCriteria.wantsName"></mat-checkbox>
+  </div>
+
+  <div>
+    <mat-form-field>
+      <mat-select placeholder="Genre" name="genre" [(ngModel)]="searchCriteria.genre" (change)="searchCriteria.wantsGenre = true">
+         <mat-option *ngFor="let genre of GENRES" [value]="genre">{{ genre }}</mat-option>
+       </mat-select>
+    </mat-form-field>
+    <mat-checkbox [(ngModel)]="searchCriteria.wantsGenre"></mat-checkbox>
+  </div>
+</div>
+
+<mat-dialog-actions align="end">
+  <button class="button" color="primary" mat-button mat-dialog-close>Fermer</button>
+</mat-dialog-actions>

@@ -1,6 +1,6 @@
 <custom-listbox [title]="'Ingrédients'" [addItemText]="'Ajouter une section'" (createNewItem)="createNewSection()">
   <div *ngFor="let section of sections; index as i; last as isLast">
     <ingredient-section  [(ngModel)]="sections[i]"></ingredient-section>
-    <md-divider *ngIf="!isLast"></md-divider>
+    <mat-divider *ngIf="!isLast"></mat-divider>
   </div>
 </custom-listbox>

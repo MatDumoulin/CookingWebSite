@@ -1,0 +1,11 @@
+/* Top of the window */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+}
+
+.select {
+  width:90%;
+  display: flex;
+}

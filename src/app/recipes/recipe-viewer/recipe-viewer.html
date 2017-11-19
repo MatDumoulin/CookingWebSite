@@ -11,13 +11,13 @@
       </div>
   </div>                                                        Modal error handling                  -->
 <div class="shader" *ngIf="isLoading">
-  <md-progress-spinner mode="indeterminate"></md-progress-spinner>
+  <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
 </div>
 <div class="window" *ngIf="!isLoading">
   <div class="top-section">
     <h4 class="recipe-genre"><small>{{ recipe.genre | uppercase }}</small></h4>
     <div class="recipe-top-info">
-      <h2 class="recipe-name" md-dialog-title>{{recipe.name | uppercase}}</h2>
+      <h2 class="recipe-name" mat-dialog-title>{{recipe.name | uppercase}}</h2>
       <star-rating [readonly]="true" [(ngModel)]="recipe.rating"></star-rating>
       <strong>TAG</strong>
       <hr> <!-- Line separator -->
@@ -58,8 +58,8 @@
     <p class="note"><i>{{ recipe.notes }}</i></p>
   </div>
 
-  <md-dialog-actions align="end">
-    <button class="button" color="primary" md-button md-dialog-close>Fermer</button>
-  </md-dialog-actions>
+  <mat-dialog-actions align="end">
+    <button class="button" color="primary" mat-button mat-dialog-close>Fermer</button>
+  </mat-dialog-actions>
 </div>
 

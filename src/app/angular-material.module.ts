@@ -1,41 +1,31 @@
 import { NgModule } from '@angular/core';
 import {
-        MdButtonModule,
-        MdCheckboxModule,
-        MdTableModule,
-        MdDialogModule,
-        MdSidenavModule,
-        MdCardModule,
-        MdToolbarModule,
-        MdSnackBarModule,
-        MdTooltipModule
+        MatButtonModule,
+        MatCheckboxModule,
+        MatTableModule,
+        MatDialogModule,
+        MatSidenavModule,
+        MatCardModule,
+        MatToolbarModule,
+        MatSnackBarModule,
+        MatTooltipModule,
+        MatIconModule
        }                from '@angular/material';
 import {CdkTableModule} from '@angular/cdk/table';
 
 @NgModule({
-  imports: [
-            MdButtonModule,
-            MdCheckboxModule,
-            MdTableModule,
-            CdkTableModule,
-            MdDialogModule,
-            MdSidenavModule,
-            MdCardModule,
-            MdToolbarModule,
-            MdSnackBarModule,
-            MdTooltipModule
-           ],
   exports: [
-            MdButtonModule,
-            MdCheckboxModule,
-            MdTableModule,
+            MatButtonModule,
+            MatCheckboxModule,
+            MatTableModule,
             CdkTableModule,
-            MdDialogModule,
-            MdSidenavModule,
-            MdCardModule,
-            MdToolbarModule,
-            MdSnackBarModule,
-            MdTooltipModule
+            MatDialogModule,
+            MatSidenavModule,
+            MatCardModule,
+            MatToolbarModule,
+            MatSnackBarModule,
+            MatTooltipModule,
+            MatIconModule
            ]
 })
 export class AngularMaterialModule { }

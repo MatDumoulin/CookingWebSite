@@ -1,18 +1,20 @@
-<md-list-item class="ingredient" *ngFor="let ingredient of ingredients; index as i">
-    <md-icon md-list-icon>restaurant</md-icon>
-    <div md-line>
-      <md-form-field class="ingredient-field size-2">
-          <input mdInput placeholder="Nom de l'ingrédient" name="name" [(ngModel)]="ingredient.name">
-      </md-form-field>
-      <md-form-field class="ingredient-field size-1">
-          <input type="number" mdInput placeholder="Quantité" name="quantity" [(ngModel)]="ingredient.quantity">
-      </md-form-field>
-      <md-form-field class="ingredient-field size-1">
-          <input mdInput placeholder="Unités" name="units" [(ngModel)]="ingredient.units">
-      </md-form-field>
+<mat-list-item class="ingredient" *ngFor="let ingredient of ingredients; index as i">
+    <mat-icon mat-list-icon>restaurant</mat-icon>
+    <div mat-line>
+      <mat-form-field class="ingredient-field size-2">
+          <input matInput placeholder="Nom de l'ingrédient" name="name" [(ngModel)]="ingredient.name">
+      </mat-form-field>
+      <mat-form-field class="ingredient-field size-1">
+          <input type="number" matInput placeholder="Quantité" name="quantity" [(ngModel)]="ingredient.quantity">
+      </mat-form-field>
+      <mat-form-field class="ingredient-field size-1">
+          <input matInput placeholder="Unités" name="units" [(ngModel)]="ingredient.units">
+      </mat-form-field>
     </div>
-    <md-icon class="clickable display-when-hovered" color="accent" (click)="removeIngredient(i)" *ngIf="ingredients.length > 1">clear</md-icon>
-</md-list-item>
-<md-list-item>
-  <button type="button" class="add-ingredient" color="accent" (click)="addIngredient()" md-button>Ajoutez un ingrédient</button>
-</md-list-item>
+    <mat-icon class="clickable display-when-hovered" color="accent" (click)="removeIngredient(i)" *ngIf="ingredients.length > 1">
+      clear
+    </mat-icon>
+</mat-list-item>
+<mat-list-item>
+  <button type="button" class="add-ingredient" color="accent" (click)="addIngredient()" mat-button>Ajoutez un ingrédient</button>
+</mat-list-item>

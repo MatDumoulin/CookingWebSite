@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MdDialogRef, MdSnackBar, MD_DIALOG_DATA } from '@angular/material';
+import { MatDialogRef, MatSnackBar, MAT_DIALOG_DATA } from '@angular/material';
 
 import { Recipe } from './../shared/recipe.model';
 import { Genres } from './../genre/shared/genre.service';
@@ -26,11 +26,11 @@ export class RecipeCreator{
   finishButtonText = "Créer";
   windowTitle = "Création d'une recette";
 
-  constructor(private dialogRef: MdDialogRef<RecipeCreator>,
-              private snackBar: MdSnackBar,
+  constructor(private dialogRef: MatDialogRef<RecipeCreator>,
+              private snackBar: MatSnackBar,
               private recipeApi:ApiSpecificRecipeService,
               private recipesService:RecipesService,
-              @Inject(MD_DIALOG_DATA) private data: any) {}
+              @Inject(MAT_DIALOG_DATA) private data: any) {}
 
   ngOnInit() {
     this.isEdit = this.data;

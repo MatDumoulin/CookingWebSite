@@ -1,6 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MdButtonModule, MdCardModule, MdListModule, MdTooltipModule, MdIconModule } from '@angular/material';
+import { MatButtonModule,
+         MatCardModule,
+         MatListModule,
+         MatTooltipModule,
+         MatIconModule } from '@angular/material';
 
 import { CustomListBox } from './custom-listbox.component';
 
@@ -10,11 +14,11 @@ import { CustomListBox } from './custom-listbox.component';
   ],
   imports: [
              CommonModule,
-             MdButtonModule,
-             MdCardModule,
-             MdListModule,
-             MdTooltipModule,
-             MdIconModule
+             MatButtonModule,
+             MatCardModule,
+             MatListModule,
+             MatTooltipModule,
+             MatIconModule
            ],
   providers: [],
   exports: [ CustomListBox ]

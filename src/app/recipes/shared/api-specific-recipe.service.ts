@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { Recipe } from './recipe.model';
 import { Observable } from 'rxjs/Observable';
-import { MdSnackBar } from '@angular/material';
 import { environment } from './../../../environments/environment';
 import { LoggerService } from '../../core/logger/logger.service';
 import { ObjectID } from 'bson';

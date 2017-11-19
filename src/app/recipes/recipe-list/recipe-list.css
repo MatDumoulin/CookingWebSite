@@ -18,6 +18,9 @@ body {
 
 .table-header {
   padding-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 }
 
 .edit-button {

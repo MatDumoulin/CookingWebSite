@@ -1,7 +1,6 @@
 const express = require('express');
 const mongoClient = require('mongodb').MongoClient;
 const bodyParser = require('body-parser');
-const ObjectID = require('mongodb').ObjectID;
 const routerManager = require('./route-manager');
 
 const app = express();
@@ -39,3 +38,4 @@ mongoClient.connect(url, function(err, database) {
       console.log('API is running on port', app.get('port'));
     });
 });
+

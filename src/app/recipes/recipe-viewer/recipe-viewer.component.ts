@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject} from '@angular/core';
-import {MD_DIALOG_DATA} from '@angular/material';
+import {MAT_DIALOG_DATA} from '@angular/material';
 
 import { Recipe } from './../shared/recipe.model';
 import { ApiSpecificRecipeService } from './../shared/api-specific-recipe.service';
@@ -17,7 +17,7 @@ export class RecipeViewer{
   converter = new MinutesToTimeConverter();
 
   constructor(private apiSpecificRecipeService:ApiSpecificRecipeService,
-              @Inject(MD_DIALOG_DATA) private data: any) {}
+              @Inject(MAT_DIALOG_DATA) private data: any) {}
 
   ngOnInit() {
     this.apiSpecificRecipeService.getRecipe(this.data.recipeId)

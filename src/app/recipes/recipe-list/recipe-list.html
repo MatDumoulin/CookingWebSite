@@ -1,42 +1,45 @@
-<md-card class="mainContainer">
-  <md-card-header class="table-header">
-    <button class="button" color="accent" (click)="createRecipe()" md-button>Créer une recette</button>
-  </md-card-header>
+<mat-card class="mainContainer">
+  <mat-card-header>
+    <div class="table-header">
+      <button class="button" color="accent" (click)="createRecipe()" mat-button>Créer une recette</button>
+      <button class="button" color="accent" (click)="advancedSearch()" mat-button>Recherche avancée</button>
+    </div>
+  </mat-card-header>
 
-    <md-table class="recipe-list" [dataSource]="dataSource" (scroll)="onScrollDown($event)" #table>
+    <mat-table class="recipe-list" [dataSource]="dataSource" (scroll)="onScrollDown($event)" #table>
 
       <!--- Note that these columns can be defined in any order.
             The actual rendered columns are set as a property on the row definition -->
 
       <!-- Name Column -->
       <ng-container cdkColumnDef="name">
-        <md-header-cell *cdkHeaderCellDef> Nom </md-header-cell>
-        <md-cell *cdkCellDef="let recipe"> {{recipe.name}} </md-cell>
+        <mat-header-cell *cdkHeaderCellDef> Nom </mat-header-cell>
+        <mat-cell *cdkCellDef="let recipe"> {{recipe.name}} </mat-cell>
       </ng-container>
 
       <!-- Genre Column -->
       <ng-container cdkColumnDef="genre">
-        <md-header-cell *cdkHeaderCellDef> Genre </md-header-cell>
-        <md-cell *cdkCellDef="let recipe"> {{recipe.genre}} </md-cell>
+        <mat-header-cell *cdkHeaderCellDef> Genre </mat-header-cell>
+        <mat-cell *cdkCellDef="let recipe"> {{recipe.genre}} </mat-cell>
       </ng-container>
 
       <!-- Rating Column -->
       <ng-container cdkColumnDef="rating">
-        <md-header-cell *cdkHeaderCellDef> Note </md-header-cell>
-        <md-cell *cdkCellDef="let recipe"><star-rating [readonly]="true" [(ngModel)]="recipe.rating"></star-rating></md-cell>
+        <mat-header-cell *cdkHeaderCellDef> Note </mat-header-cell>
+        <mat-cell *cdkCellDef="let recipe"><star-rating [readonly]="true" [(ngModel)]="recipe.rating"></star-rating></mat-cell>
       </ng-container>
 
       <ng-container cdkColumnDef="actions">
-        <md-header-cell *cdkHeaderCellDef> Action </md-header-cell>
-        <md-cell *cdkCellDef="let recipe">
-          <button color="primary" (click)="editRecipe(recipe._id)" class="edit-button" md-button>
-            <i class="material-icons">create</i>
+        <mat-header-cell *cdkHeaderCellDef> Action </mat-header-cell>
+        <mat-cell *cdkCellDef="let recipe">
+          <button color="primary" (click)="editRecipe(recipe._id, $event)" class="edit-button" mat-icon-button>
+            <mat-icon aria-label="Edit or delete this recipe">create</mat-icon>
           </button>
-        </md-cell>
+        </mat-cell>
 
       </ng-container>
 
-      <md-header-row *cdkHeaderRowDef="displayedColumns"></md-header-row>
-      <md-row class="clickable" *cdkRowDef="let recipe; columns: displayedColumns;" (click)="viewRecipe(recipe._id)"></md-row>
-    </md-table>
-</md-card>
+      <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row class="clickable" *cdkRowDef="let recipe; columns: displayedColumns;" (click)="viewRecipe(recipe._id)"></mat-row>
+    </mat-table>
+</mat-card>

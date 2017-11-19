@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MdButtonModule,
-         MdCardModule,
-         MdDialogModule,
-         MdTabsModule,
-         MdListModule,
-         MdInputModule,
-         MdIconModule,
-         MdSelectModule,
-         MdTooltipModule
+import { MatButtonModule,
+         MatCardModule,
+         MatDialogModule,
+         MatTabsModule,
+         MatListModule,
+         MatInputModule,
+         MatIconModule,
+         MatSelectModule,
+         MatTooltipModule
           } from '@angular/material';
 
 import { RecipeCreator } from './recipe-creator.component';
@@ -38,15 +38,15 @@ import { EquipmentListItem } from '../equipment/equipment-listitem/equipment-lis
   ],
   imports: [
              CommonModule,
-             MdDialogModule,
-             MdButtonModule,
-             MdCardModule,
-             MdTabsModule,
-             MdListModule,
-             MdInputModule,
-             MdIconModule,
-             MdSelectModule,
-             MdTooltipModule,
+             MatDialogModule,
+             MatButtonModule,
+             MatCardModule,
+             MatTabsModule,
+             MatListModule,
+             MatInputModule,
+             MatIconModule,
+             MatSelectModule,
+             MatTooltipModule,
              StarRatingModule,
              CustomListBoxModule,
              FormsModule

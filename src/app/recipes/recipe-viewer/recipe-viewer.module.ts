@@ -1,7 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MdButtonModule, MdDialogModule, MdProgressSpinnerModule, MdIconModule } from '@angular/material';
+import { MatButtonModule,
+         MatDialogModule,
+         MatProgressSpinnerModule,
+         MatIconModule } from '@angular/material';
 
 import { RecipeViewer } from './recipe-viewer.component';
 import { StarRatingModule } from './../../controls/star-rating/star-rating.module';
@@ -12,10 +15,10 @@ import { StarRatingModule } from './../../controls/star-rating/star-rating.modul
   ],
   imports: [
              CommonModule,
-             MdDialogModule,
-             MdButtonModule,
-             MdProgressSpinnerModule,
-             MdIconModule,
+             MatDialogModule,
+             MatButtonModule,
+             MatProgressSpinnerModule,
+             MatIconModule,
              StarRatingModule,
              FormsModule
            ],

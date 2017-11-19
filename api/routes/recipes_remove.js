@@ -22,8 +22,6 @@ function routeFactory(dbColl) {
                 return;
             }
 
-            console.log(status);
-
             res.status(200).send('deleted');
         });
     }

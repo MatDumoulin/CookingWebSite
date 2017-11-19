@@ -11,17 +11,17 @@
       </div>
   </div>                                                        Modal error handling                  -->
 <div class="header">
-  <h1 md-dialog-title>{{windowTitle}}<span *ngIf="recipe.name">: <i>{{recipe.name | uppercase}}</i></span></h1>
-  <md-icon class="clickable" color="primary" (click)="closeDialog()">clear</md-icon>
+  <h1 mat-dialog-title>{{windowTitle}}<span *ngIf="recipe.name">: <i>{{recipe.name | uppercase}}</i></span></h1>
+  <mat-icon class="clickable" color="primary" (click)="closeDialog()">clear</mat-icon>
 </div>
 
-<form #createRecipeForm="ngForm" autocomplete="off" md-dialog-content>
-  <md-tab-group dynamicHeight="true" [(selectedIndex)]="selectedTab" #tabGroup md-stretch-tabs>
+<form #createRecipeForm="ngForm" autocomplete="off" mat-dialog-content>
+  <mat-tab-group dynamicHeight="true" [(selectedIndex)]="selectedTab" #tabGroup mat-stretch-tabs>
 
-    <md-tab label="Informations">
+    <mat-tab label="Informations">
       <div class="tab-content recipe-info">
 
-        <div class="image-container image-box small-margin-bottom" mdTooltip="Changez l'image de cette recette!">
+        <div class="image-container image-box small-margin-bottom" matTooltip="Changez l'image de cette recette!">
           <input type="file" class="hidden" accept="image/*" (change)="updateImage($event)" #fileInput>
           <img class="image" [src]="image.length == 0? displayedImage: image" alt="Photo of the recipe to create">
           <div class="image-hover-shader image-box" (click)="fileInput.click()">
@@ -31,46 +31,46 @@
 
         <div class="recipe-info-inputs">
           <div>
-            <md-form-field>
-              <input mdInput placeholder="Nom de la recette" name="name" [(ngModel)]="recipe.name" required>
-              <md-error> Le nom de la recette est <strong>requis</strong> </md-error>
-            </md-form-field>
+            <mat-form-field>
+              <input matInput placeholder="Nom de la recette" name="name" [(ngModel)]="recipe.name" required>
+              <mat-error> Le nom de la recette est <strong>requis</strong> </mat-error>
+            </mat-form-field>
 
-            <div class="mat-input-wraper medium-margin-bottom"> <!-- Gives the same spacing as a normal input -->
-              <md-select placeholder="Genre" name="genre" [(ngModel)]="recipe.genre" required>
-                 <md-option *ngFor="let genre of GENRES" [value]="genre">{{ genre }}</md-option>
-              </md-select>
-            </div>
+            <mat-form-field>
+              <mat-select placeholder="Genre" name="genre" [(ngModel)]="recipe.genre" required>
+                 <mat-option *ngFor="let genre of GENRES" [value]="genre">{{ genre }}</mat-option>
+              </mat-select>
+            </mat-form-field>
 
-            <md-form-field>
-              <input mdInput placeholder="Portion" name="portion" [(ngModel)]="recipe.results"
-                     mdTooltip="Vous de disposez pas de cette information? Remplissez-le plus tard!">
-            </md-form-field>
+            <mat-form-field>
+              <input matInput placeholder="Portion" name="portion" [(ngModel)]="recipe.results"
+                     matTooltip="Vous de disposez pas de cette information? Remplissez-le plus tard!">
+            </mat-form-field>
           </div>
 
           <div class="time-container">
-            <md-form-field class="time-input">
-              <input type="number" mdInput placeholder="Préparation (minutes)" name="prepTime" [(ngModel)]="recipe.prepTime" required>
-              <md-error> Le temps de préparation est <strong>requis</strong> </md-error>
-            </md-form-field>
+            <mat-form-field class="time-input">
+              <input type="number" matInput placeholder="Préparation (minutes)" name="prepTime" [(ngModel)]="recipe.prepTime" required>
+              <mat-error> Le temps de préparation est <strong>requis</strong> </mat-error>
+            </mat-form-field>
 
-            <md-form-field class="time-input">
-              <input type="number" mdInput placeholder="Cuisson (minutes)" name="cookTime" [(ngModel)]="recipe.cookTime">
-              <md-error> Le temps de cuisson est <strong>requis</strong> </md-error>
-            </md-form-field>
+            <mat-form-field class="time-input">
+              <input type="number" matInput placeholder="Cuisson (minutes)" name="cookTime" [(ngModel)]="recipe.cookTime">
+              <mat-error> Le temps de cuisson est <strong>requis</strong> </mat-error>
+            </mat-form-field>
 
-            <md-form-field class="time-input">
-              <input type="number" mdInput placeholder="Repos (minutes)" name="cooldownTime" [(ngModel)]="recipe.cooldownTime">
-              <md-error> Le temps de repos est <strong>requis</strong> </md-error>
-            </md-form-field>
+            <mat-form-field class="time-input">
+              <input type="number" matInput placeholder="Repos (minutes)" name="cooldownTime" [(ngModel)]="recipe.cooldownTime">
+              <mat-error> Le temps de repos est <strong>requis</strong> </mat-error>
+            </mat-form-field>
           </div>
         </div>
 
       </div>
 
-    </md-tab>
+    </mat-tab>
 
-    <md-tab label="Étapes et Ingrédients">
+    <mat-tab label="Étapes et Ingrédients">
       <div class="tab-content ingredients-steps">
         <ingredient-section-wrapper class="recipe-section" name="ingredient-section"
               [(ngModel)]="recipe.ingredientSection"></ingredient-section-wrapper>
@@ -78,17 +78,17 @@
         <step-section-wrapper class="recipe-section" name="step-section"
               [(ngModel)]="recipe.stepSection"></step-section-wrapper>
       </div>
-    </md-tab>
+    </mat-tab>
 
-    <md-tab label="Commentaires">
+    <mat-tab label="Commentaires">
       <div class="tab-content comments-tab">
         <equipment-listbox class="recipe-section" name="equipment-section"
               [(ngModel)]="recipe.equipment"></equipment-listbox>
 
         <div class="recipe-section comments-rating">
-          <md-form-field>
-                <textarea mdInput placeholder="Commentaires" name="notes" [(ngModel)]="recipe.notes"></textarea>
-          </md-form-field>
+          <mat-form-field>
+                <textarea matInput placeholder="Commentaires" name="notes" [(ngModel)]="recipe.notes"></textarea>
+          </mat-form-field>
 
           <div>
             <Label>Note*</Label>
@@ -98,16 +98,16 @@
           </div>
         </div>
       </div>
-    </md-tab>
-  </md-tab-group>
+    </mat-tab>
+  </mat-tab-group>
 </form>
-<md-dialog-actions align="end">
-  <button color="accent" class="delete-recipe-button" (click)="deleteRecipe()" *ngIf=" isEdit" md-button>Supprimer</button>
+<mat-dialog-actions align="end">
+  <button color="accent" class="delete-recipe-button" (click)="deleteRecipe()" *ngIf=" isEdit" mat-button>Supprimer</button>
 
-  <button color="primary" (click)="goToNextTab()" *ngIf="selectedTab != NUMBER_OF_TABS" md-raised-button>Suivant</button>
+  <button color="primary" (click)="goToNextTab()" *ngIf="selectedTab != NUMBER_OF_TABS" mat-raised-button>Suivant</button>
 
-  <div [mdTooltip]="!createRecipeForm.form.valid? 'Vous devez remplir tous les champs obligatoires*.' : null">
+  <div [matTooltip]="!createRecipeForm.form.valid? 'Vous devez remplir tous les champs obligatoires*.' : null">
     <button color="accent" (click)="isEdit? updateRecipe() : createRecipe()" *ngIf="selectedTab === NUMBER_OF_TABS"
-            [disabled]="!createRecipeForm.form.valid" mdTooltip="Vous pouvez désormais créer votre recette!" md-raised-button>{{finishButtonText}}</button>
+            [disabled]="!createRecipeForm.form.valid" matTooltip="Vous pouvez désormais créer votre recette!" mat-raised-button>{{finishButtonText}}</button>
   </div>
-</md-dialog-actions>
+</mat-dialog-actions>

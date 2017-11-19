@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { MdDialog, MdSnackBar } from '@angular/material';
+import { MatDialog, MatSnackBar } from '@angular/material';
 
 import { Recipe } from './../shared/recipe.model';
 import { RecipesService } from './../shared/recipes.service';
 import { RecipeListDataSource } from './recipe-list.datasource';
 import { RecipeViewer } from './../recipe-viewer/recipe-viewer.component';
 import { RecipeCreator } from './../recipe-creator/recipe-creator.component';
+import { AdvancedRecipeSearchComponent } from '../../search/advanced-recipe-search/advanced-recipe-search.component';
 import { InfiniteScroll } from './../shared/infinite-scroll.class';
 
 
@@ -19,8 +20,8 @@ export class RecipeList extends InfiniteScroll {
   dataSource: RecipeListDataSource;
   private hasDisplayedCantLoadMore = false;
 
-  constructor(private recipesService:RecipesService, private dialog: MdDialog,
-              private snackbar: MdSnackBar) {
+  constructor(private recipesService:RecipesService, private dialog: MatDialog,
+              private snackbar: MatSnackBar) {
     super(10); // 5 is the scroll distance for which the loadMore function will
                // be called, in pixels.
   }
@@ -31,7 +32,7 @@ export class RecipeList extends InfiniteScroll {
     // When moving from one page to another using the Angular Router, the
     // recipeService is not reinitialized since it was injected to this class.
     // We don't want to load more recipe when we navigate from one page to another
-    // but we want our md-table to display the proper recipes.
+    // but we want our mat-table to display the proper recipes.
     if(this.recipesService.data.length === 0) {
       this.loadMore();
     }
@@ -45,8 +46,13 @@ export class RecipeList extends InfiniteScroll {
     this.dialog.open(RecipeCreator);
   }
 
-  editRecipe(recipeId:string) : void {
+  editRecipe(recipeId:string, clickEvent:Event) : void {
     this.dialog.open(RecipeCreator, { data: {recipeId}});
+    clickEvent.stopPropagation(); // This is needed due to a bug introduced in first stable version of Angular Material. (5.0.0-rc0)
+  }
+
+  advancedSearch():void {
+    this.dialog.open(AdvancedRecipeSearchComponent);
   }
 
   loadMore() {

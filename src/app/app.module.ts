@@ -25,6 +25,8 @@ import { RecipeViewerModule } from './recipes/recipe-viewer/recipe-viewer.module
 import { RecipeViewer } from './recipes/recipe-viewer/recipe-viewer.component';
 import { RecipeCreatorModule } from './recipes/recipe-creator/recipe-creator.module';
 import { RecipeCreator } from './recipes/recipe-creator/recipe-creator.component';
+import { AdvancedRecipeSearchModule } from './search/advanced-recipe-search/advanced-recipe-search.module';
+import { AdvancedRecipeSearchComponent } from './search/advanced-recipe-search/advanced-recipe-search.component';
 
 
 @NgModule({
@@ -46,11 +48,13 @@ import { RecipeCreator } from './recipes/recipe-creator/recipe-creator.component
     CoreModule,
     StarRatingModule,
     RecipeViewerModule,
-    RecipeCreatorModule
+    RecipeCreatorModule,
+    AdvancedRecipeSearchModule
   ],
   entryComponents: [
     RecipeViewer,
-    RecipeCreator
+    RecipeCreator,
+    AdvancedRecipeSearchComponent
   ],
   providers: [ ApiGetRecipesService, ApiSpecificRecipeService, RecipesService ],
   bootstrap: [App]
