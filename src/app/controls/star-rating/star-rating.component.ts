@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, forwardRef } from '@angular/core';
+import { Component, OnInit, Input, forwardRef, Output, EventEmitter } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Star } from './star/star.model';
 
@@ -16,10 +16,16 @@ import { Star } from './star/star.model';
 })
 export class StarRating implements ControlValueAccessor{
   // The number of star displayed.
-  @Input() max:number = 5;
+  @Input()
+  max:number = 5;
   // The number of star that must be selected.
-  @Input() _value:number = 0;
-  @Input() readonly:boolean = false;
+  @Input()
+  _value:number = 0;
+  @Input()
+  readonly:boolean = false;
+  @Output()
+  change = new EventEmitter();
+
   stars:Star[] = [];
   propagateChange = (_: any) => {};
 
@@ -39,6 +45,8 @@ export class StarRating implements ControlValueAccessor{
 
     if(this.readonly === false) {
       this.value = index + 1;
+      // Triggering the change event.
+      this.change.emit();
     }
   }
 

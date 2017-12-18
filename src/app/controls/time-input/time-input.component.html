@@ -1,0 +1,7 @@
+<div [formGroup]="parts">
+  <input class="hours" formControlName="hours" size="3" placeholder="00" [(ngModel)]="time.hours"  (keydown)="incrementHours($event)" (keyup)="emitChanges()" min="0" onlyNumber>
+  <span>{{HOURS_SEPARATOR}}</span>
+  <input class="minutes" formControlName="minutes" size="2" placeholder="00" [(ngModel)]="time.minutes"  (keydown)="incrementMinutes($event)" (keyup)="emitChanges()" min="0" max="59" onlyNumber>
+  <span>{{MINUTES_SEPARATOR}}</span>
+</div>
+
