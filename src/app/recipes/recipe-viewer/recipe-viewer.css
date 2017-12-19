@@ -18,6 +18,13 @@
   flex-wrap: wrap;
 }
 
+.first-row {
+  display: flex;
+  width: 100%;
+  margin-top: -1em; /* To override the padding from the .mat-dialog-container */
+  margin-bottom: 1.5em;
+}
+
 /* Genre */
 .recipe-genre {
   text-align:center;
@@ -26,8 +33,6 @@
   font: caption;
   font-weight: normal;
   width: 100%;
-  margin-top: -1em; /* To override the padding from the .mat-dialog-container */
-  margin-bottom: 1.5em;
 }
 
 /* General recipe info */

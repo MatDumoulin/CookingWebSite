@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject} from '@angular/core';
-import {MAT_DIALOG_DATA} from '@angular/material';
+import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 
 import { Recipe } from './../shared/recipe.model';
 import { ApiSpecificRecipeService } from './../shared/api-specific-recipe.service';
@@ -17,6 +17,7 @@ export class RecipeViewer{
   converter = new MinutesToTimeConverter();
 
   constructor(private apiSpecificRecipeService:ApiSpecificRecipeService,
+              private dialogRef: MatDialogRef<RecipeViewer>,
               @Inject(MAT_DIALOG_DATA) private data: any) {}
 
   ngOnInit() {
@@ -33,6 +34,10 @@ export class RecipeViewer{
 
   getImageUrl(): string {
     return this.apiSpecificRecipeService.imagesUrl;
+  }
+
+  closeDialog() {
+    this.dialogRef.close();
   }
 
 }

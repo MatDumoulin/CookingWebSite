@@ -1,10 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RecipeCreatorModule } from './../../recipe-creator/recipe-creator.module';
-import { StepListbox } from './step-listbox.component';
 
-describe('IngredientListboxComponent', () => {
-  let component: StepListbox;
+describe('EquipmentListboxComponent', () => {
+  /*let component: StepListbox;
   let fixture: ComponentFixture<StepListbox>;
 
   beforeEach(async(() => {
@@ -22,5 +20,5 @@ describe('IngredientListboxComponent', () => {
 
   it('should be created', () => {
     expect(component).toBeTruthy();
-  });
+  });*/
 });

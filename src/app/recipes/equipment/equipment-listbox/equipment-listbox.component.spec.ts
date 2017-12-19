@@ -1,10 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { RecipeCreatorModule } from './../../recipe-creator/recipe-creator.module';
 
 
-describe('IngredientSectionWrapperComponent', () => {
+describe('EquipmentListBoxComponent', () => {
 /*  let component: StepSectionWrapper;
   let fixture: ComponentFixture<StepSectionWrapper>;
 

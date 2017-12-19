@@ -39,7 +39,7 @@ export class TimeInput implements OnInit, OnDestroy, MatFormFieldControl<number>
   errorState = false;                      // For now, we are not handling errors yet.
   controlType = 'time-input';  // Class identifier for this control will be mat-form-field-time-input.
   // Model used for this type of input
-  private time: Time;
+  time: Time;
 
   public ngControl: NgControl = null;
 

@@ -22,6 +22,27 @@
   display: none;
 }
 
+.no-margin-bottom {
+  margin-bottom: 0px !important; /* The important is needed when applied to a snackbar */
+}
+
+.no-margin {
+  margin: 0px;
+}
+
+.no-bold {
+  font-weight: normal;
+}
+
+label {
+  font-family: 'Roboto', sans-serif;
+}
+
+.align-end {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
 /*@-webkit-keyframes expand-height {
    0% {height: 0px;}
    100% {height: 200px;}

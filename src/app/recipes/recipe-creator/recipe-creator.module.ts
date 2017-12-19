@@ -15,7 +15,7 @@ import { MatButtonModule,
 import { RecipeCreator } from './recipe-creator.component';
 import { StarRatingModule } from '../../controls/star-rating/star-rating.module';
 import { CustomListBoxModule } from '../../controls/custom-listbox/custom-listbox.module';
-import { IngredientListbox } from '../ingredients/ingredient-listbox/ingredient-listbox.component';
+import { IngredientListboxModule } from '../ingredients/ingredient-listbox/ingredient-listbox.module';
 import { IngredientSectionComponent } from '../ingredients/ingredient-section/ingredient-section.component';
 import { IngredientSectionWrapper } from '../ingredients/ingredient-section-wrapper/ingredient-section-wrapper.component';
 import { StepListbox } from '../steps/step-listbox/step-listbox.component';
@@ -23,11 +23,12 @@ import { StepSectionComponent } from '../steps/step-section/step-section.compone
 import { StepSectionWrapper } from '../steps/step-section-wrapper/step-section-wrapper.component';
 import { EquipmentListBox } from '../equipment/equipment-listbox/equipment-listbox.component';
 import { EquipmentListItem } from '../equipment/equipment-listitem/equipment-listitem.component';
+import { UtilsModule } from '../../utils/utils.module'
+import { TimeInputModule } from './../../controls/time-input/time-input.module';
 
 @NgModule({
   declarations: [
     RecipeCreator,
-    IngredientListbox,
     IngredientSectionComponent,
     IngredientSectionWrapper,
     StepListbox,
@@ -49,7 +50,10 @@ import { EquipmentListItem } from '../equipment/equipment-listitem/equipment-lis
              MatTooltipModule,
              StarRatingModule,
              CustomListBoxModule,
-             FormsModule
+             FormsModule,
+             IngredientListboxModule,
+             UtilsModule,
+             TimeInputModule
            ],
   providers: [],
   exports: [ RecipeCreator ]

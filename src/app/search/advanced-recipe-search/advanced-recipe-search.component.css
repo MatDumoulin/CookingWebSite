@@ -5,7 +5,47 @@
   align-items: stretch;
 }
 
+
+
+/* Content of the window */
+.dialog-content {
+  width: 700px;
+}
+
+.strecth {
+  width: 96%;
+}
+
 .select {
   width:90%;
   display: flex;
+}
+
+.ingredient-field {
+  width: 100%;
+}
+
+.include-ingredient {
+  width: 15%;
+  margin-right: 5px;
+}
+
+
+.ingredient-checkbox {
+  margin-right: -11px;
+}
+
+.margin-top {
+  margin-top: 10px;
+}
+
+.cancel-padding-left {
+  margin-left: -21px;
+}
+
+.rating {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.5em;
+  width: 99.3%;
 }

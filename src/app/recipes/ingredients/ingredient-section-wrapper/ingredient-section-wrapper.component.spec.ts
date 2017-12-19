@@ -5,7 +5,7 @@ import { RecipeCreatorModule } from './../../recipe-creator/recipe-creator.modul
 import { IngredientSectionWrapper } from './ingredient-section-wrapper.component';
 import { IngredientSection } from '../shared/ingredient-section.model';
 
-describe('IngredientSectionWrapperComponent', () => {
+describe('IngredientSectionWrapper', () => {
   let component: IngredientSectionWrapper;
   let fixture: ComponentFixture<IngredientSectionWrapper>;
 
@@ -27,7 +27,7 @@ describe('IngredientSectionWrapperComponent', () => {
   });
 
   it('should create a new section when requested', () => {
-    const createSectionBtn = fixture.debugElement.query(By.css('#createSectionBtn'));
+    const createSectionBtn = fixture.debugElement.query(By.css('#createItemBtn'));
     const sections = [new IngredientSection()];
 
     // Applying a know value for the sections attribute.

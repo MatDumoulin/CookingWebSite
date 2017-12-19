@@ -19,6 +19,8 @@ export class RecipesService {
   /** Stream that emits whenever the data has been modified. */
   dataChange: BehaviorSubject<Recipe[]> = new BehaviorSubject<Recipe[]>([]);
   get data(): Recipe[] { return this.dataChange.value; }
+  // Saving the filter so that we can feed the infinite scroll with the proper recipes
+  searchIntent = null;
 
   constructor(private apiGetRecipesService:ApiGetRecipesService,
               private apiSpecificRecipeService:ApiSpecificRecipeService) {}
@@ -34,6 +36,10 @@ export class RecipesService {
     const copiedData = this.data.slice();
     copiedData.push(newRecipe);
     this.dataChange.next(copiedData);
+  }
+
+  private overrideClientSideList(newList:Recipe[]) {
+    this.dataChange.next(newList);
   }
 
   /* Updates the recipe with the given ID with the new recipe */
@@ -90,5 +96,32 @@ export class RecipesService {
         }
       );
     });
+  }
+
+  loadFromAdvancedSearch(searchIntent): Promise<boolean> {
+    this.searchIntent = searchIntent;
+
+    return new Promise( (resolve, reject) => {
+      this.apiGetRecipesService.advancedSearch(searchIntent)
+                               .subscribe( recipes => {
+                                    this.overrideClientSideList(recipes);
+                                    this.canLoadMoreRecipe = false;
+                                    this.isLoadingMoreRecipes = false;
+
+                                    resolve(true);
+                                  }
+                                );
+    });
+  }
+
+  cancelSearch() {
+    this.searchIntent = null;
+    this.overrideClientSideList([]);
+    this.canLoadMoreRecipe = true;
+    this.isLoadingMoreRecipes = false;
+  }
+
+  searchIsActive(): boolean {
+    return this.searchIntent != null;
   }
 }

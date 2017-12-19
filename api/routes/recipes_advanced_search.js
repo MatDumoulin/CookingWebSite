@@ -47,7 +47,7 @@ function routeFactory(dbColl) {
             let currentSelector;
 
             for(let i = 0; i < req.body.ingredients.length; ++i) {
-                currentSelector = { $elemMatch : { name: {$regex: ".*" + req.body.ingredients[i].info.name + ".*", $options : 'i' } } };
+                currentSelector = { $elemMatch : { name: {$regex: ".*" + req.body.ingredients[i].name + ".*", $options : 'i' } } };
 
                 // If the ingredient must be in the recipe.
                 if(req.body.ingredients[i].include) {

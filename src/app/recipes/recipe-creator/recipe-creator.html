@@ -50,17 +50,20 @@
 
           <div class="time-container">
             <mat-form-field class="time-input">
-              <input type="number" matInput placeholder="Préparation (minutes)" name="prepTime" [(ngModel)]="recipe.prepTime" required>
+              <time-input placeholder="Préparation" name="prepTime" [(ngModel)]="recipe.prepTime"></time-input>
+              <mat-icon matSuffix>schedule</mat-icon>
               <mat-error> Le temps de préparation est <strong>requis</strong> </mat-error>
             </mat-form-field>
 
             <mat-form-field class="time-input">
-              <input type="number" matInput placeholder="Cuisson (minutes)" name="cookTime" [(ngModel)]="recipe.cookTime">
+              <time-input placeholder="Cuisson" name="cookTime" [(ngModel)]="recipe.cookTime"></time-input>
+              <mat-icon matSuffix>schedule</mat-icon>
               <mat-error> Le temps de cuisson est <strong>requis</strong> </mat-error>
             </mat-form-field>
 
             <mat-form-field class="time-input">
-              <input type="number" matInput placeholder="Repos (minutes)" name="cooldownTime" [(ngModel)]="recipe.cooldownTime">
+              <time-input placeholder="Repos" name="cooldownTime" [(ngModel)]="recipe.cooldownTime" required></time-input>
+              <mat-icon matSuffix>schedule</mat-icon>
               <mat-error> Le temps de repos est <strong>requis</strong> </mat-error>
             </mat-form-field>
           </div>

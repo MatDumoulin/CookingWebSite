@@ -5,7 +5,7 @@ import { RecipeCreatorModule } from './../../recipe-creator/recipe-creator.modul
 import { StepSectionWrapper } from './step-section-wrapper.component';
 import { StepSection } from '../shared/step-section.model';
 
-describe('IngredientSectionWrapperComponent', () => {
+describe('StepSectionWrapperComponent', () => {
   let component: StepSectionWrapper;
   let fixture: ComponentFixture<StepSectionWrapper>;
 
@@ -27,7 +27,7 @@ describe('IngredientSectionWrapperComponent', () => {
   });
 
   it('should create a new section when requested', () => {
-    const createSectionBtn = fixture.debugElement.query(By.css('#createSectionBtn'));
+    const createSectionBtn = fixture.debugElement.query(By.css('#createItemBtn'));
     const sections = [new StepSection()];
 
     // Applying a know value for the sections attribute.

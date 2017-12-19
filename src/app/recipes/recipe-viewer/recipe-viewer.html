@@ -15,7 +15,10 @@
 </div>
 <div class="window" *ngIf="!isLoading">
   <div class="top-section">
-    <h4 class="recipe-genre"><small>{{ recipe.genre | uppercase }}</small></h4>
+    <div class="first-row">
+      <h4 class="recipe-genre"><small>{{ recipe.genre | uppercase }}</small></h4>
+      <mat-icon class="clickable" color="primary" (click)="closeDialog()">clear</mat-icon>
+    </div>
     <div class="recipe-top-info">
       <h2 class="recipe-name" mat-dialog-title>{{recipe.name | uppercase}}</h2>
       <star-rating [readonly]="true" [(ngModel)]="recipe.rating"></star-rating>

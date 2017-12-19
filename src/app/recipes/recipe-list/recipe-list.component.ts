@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog, MatSnackBar } from '@angular/material';
+import { MatDialog, MatSnackBar, MatSnackBarConfig } from '@angular/material';
 
 import { Recipe } from './../shared/recipe.model';
 import { RecipesService } from './../shared/recipes.service';
@@ -22,7 +22,7 @@ export class RecipeList extends InfiniteScroll {
 
   constructor(private recipesService:RecipesService, private dialog: MatDialog,
               private snackbar: MatSnackBar) {
-    super(10); // 5 is the scroll distance for which the loadMore function will
+    super(10); // the number is the scroll distance for which the loadMore function will
                // be called, in pixels.
   }
 
@@ -52,7 +52,28 @@ export class RecipeList extends InfiniteScroll {
   }
 
   advancedSearch():void {
-    this.dialog.open(AdvancedRecipeSearchComponent);
+    this.dialog.open(AdvancedRecipeSearchComponent)
+               .afterClosed()
+               .subscribe(response => {
+                 // Ignoring when the user cancels the advanced search.
+                 if(response) {
+                   this.recipesService.loadFromAdvancedSearch(response);
+                   this.hasDisplayedCantLoadMore = false;
+                   this.displaySearchCancelOption();
+                 }
+               });
+  }
+
+  displaySearchCancelOption():void {
+    let config = new MatSnackBarConfig();
+    config.horizontalPosition = "right";
+    config.extraClasses = "no-margin-bottom";
+
+    let snackBarRef = this.snackbar.open("Une recherche est active.", "Annuler", config);
+    snackBarRef.onAction().subscribe(() => {
+      this.recipesService.cancelSearch();
+      this.loadMore();
+    });
   }
 
   loadMore() {
@@ -67,9 +88,16 @@ export class RecipeList extends InfiniteScroll {
       // information message. I found that it is frustrating to the user
       // if he tries to close this snackbar but the snackbar closes automatically
       // beforehand.
-      this.snackbar.open("Toutes les recettes ont été chargées.", "", {
-        duration: 2000,
+      let snackBarRef = this.snackbar.open("Toutes les recettes ont été chargées.", "", {
+                          duration: 2000,
+                        });
+
+      snackBarRef.afterDismissed().subscribe(() => {
+        if(this.recipesService.searchIsActive()) {
+          this.displaySearchCancelOption();
+        }
       });
+
     }
   }
 }

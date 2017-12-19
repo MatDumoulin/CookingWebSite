@@ -3,18 +3,40 @@ import { Http } from '@angular/http';
 import { Recipe } from './recipe.model';
 import { Observable } from 'rxjs/Observable';
 import { environment } from './../../../environments/environment';
+import { LoggerService } from '../../core/logger/logger.service';
 import 'rxjs/add/operator/map';
 
 @Injectable()
 export class ApiGetRecipesService {
 
-    constructor(private http:Http) {}
+    constructor(private http:Http, private logger:LoggerService) {}
 
     getRecipes(from:number, to:number): Observable<Recipe[]> {
       const url = `${environment.apiUrl}/recipes?filter=&from=${from}&to=${to}`;
 
       return this.http.get(url)
                       .map(res => <Recipe[]>res.json());
+    }
+
+
+    advancedSearch(searchIntention) {
+      // Parameter validation
+      if(searchIntention == null) {
+        console.error("Invalid parameter 'searchIntention' in app.recipes.shared.advancedSearch: " + searchIntention);
+        return;
+      }
+
+      const url = `${environment.apiUrl}/recipes/advanced`;
+
+      // Fetching the API.
+      return this.http.post(url, searchIntention)
+                      .map(res => {
+                        if(res.status != 200) {
+                          this.logger.error(`Une erreur de réseau empèche la recherche avancée. Nous sommes désolé de cet inconvénient.`, `Ok`);
+                          throw new Error("Une erreur de réseau empèche la recherche avancée.");
+                        }
+                        return <Recipe[]>res.json();
+                      });
     }
 }
 

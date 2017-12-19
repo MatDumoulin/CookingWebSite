@@ -3,25 +3,94 @@
   <mat-icon class="clickable" color="primary" (click)="closeDialog()">clear</mat-icon>
 </div>
 
-<div mat-dialog-content>
+<div class="dialog-content" mat-dialog-content>
+  <!-- Name -->
   <div>
-    <mat-form-field>
+    <mat-form-field class="strecth">
       <input matInput placeholder="Nom de la recette" name="name" [(ngModel)]="searchCriteria.name"
             (keypress)="searchCriteria.wantsName = true">
     </mat-form-field>
     <mat-checkbox [(ngModel)]="searchCriteria.wantsName"></mat-checkbox>
   </div>
-
+  <!-- Recipe Type -->
   <div>
-    <mat-form-field>
+    <mat-form-field class="strecth">
       <mat-select placeholder="Genre" name="genre" [(ngModel)]="searchCriteria.genre" (change)="searchCriteria.wantsGenre = true">
          <mat-option *ngFor="let genre of GENRES" [value]="genre">{{ genre }}</mat-option>
        </mat-select>
     </mat-form-field>
     <mat-checkbox [(ngModel)]="searchCriteria.wantsGenre"></mat-checkbox>
   </div>
+
+  <!-- Total Time -->
+  <div>
+    <mat-form-field class="strecth">
+      <time-input placeholder="Temps total" name="totalTime" [(ngModel)]="searchCriteria.totalTime" (keydown)="searchCriteria.wantsTotalTime = true"></time-input>
+      <mat-icon matSuffix>schedule</mat-icon>
+    </mat-form-field>
+    <mat-checkbox [(ngModel)]="searchCriteria.wantsTotalTime"></mat-checkbox>
+  </div>
+
+  <!-- Ingredients -->
+  <!--<div>
+    <custom-listbox [title]="'Ingrédients'" [addItemText]="'Ajoutez un ingrédient'" (createNewItem)="addIngredient()">
+      <mat-list-item class="ingredient" *ngFor="let ingredient of searchCriteria.ingredients; index as i">
+          <mat-icon mat-list-icon>restaurant</mat-icon>
+          <div mat-line>
+            <mat-form-field class="ingredient-field">
+                <input matInput placeholder="Nom de l'ingrédient" name="name" [(ngModel)]="ingredient.info.name"
+                (keypress)="searchCriteria.wantsIngredient[i] = true">
+            </mat-form-field>
+          </div>
+          <mat-form-field class="include-ingredient">
+            <mat-select [(ngModel)]="ingredient.include" (change)="searchCriteria.wantsIngredient[i] = true">
+               <mat-option [value]="true">Inclure</mat-option>
+               <mat-option [value]="false">Exclure</mat-option>
+             </mat-select>
+          </mat-form-field>
+          <mat-checkbox [(ngModel)]="searchCriteria.wantsIngredient[i]"></mat-checkbox>
+      </mat-list-item>
+    </custom-listbox>
+  </div>-->
+
+  <div>
+    <label for="search-ingredients"><h3 class="no-margin-bottom no-bold">Ingrédients</h3></label>
+    <mat-list id="search-ingredients">
+      <mat-list-item class="ingredient" *ngFor="let ingredient of searchCriteria.ingredients; index as i">
+          <mat-icon class="cancel-padding-left" mat-list-icon>restaurant</mat-icon>
+          <div mat-line>
+            <mat-form-field class="ingredient-field">
+                <input matInput placeholder="Nom de l'ingrédient" name="name" [(ngModel)]="ingredient.name"
+                (keypress)="searchCriteria.wantsIngredient[i] = true">
+            </mat-form-field>
+          </div>
+          <mat-form-field class="include-ingredient">
+            <mat-select [(ngModel)]="ingredient.include" (change)="searchCriteria.wantsIngredient[i] = true">
+               <mat-option [value]="true">Inclure</mat-option>
+               <mat-option [value]="false">Exclure</mat-option>
+             </mat-select>
+          </mat-form-field>
+          <mat-checkbox class="ingredient-checkbox" [(ngModel)]="searchCriteria.wantsIngredient[i]"></mat-checkbox>
+      </mat-list-item>
+    </mat-list>
+    <div class="align-end margin-top">
+      <button type="button" color="primary" (click)="addIngredient()" mat-button>Ajoutez un ingrédient</button>
+    </div>
+  </div>
+
+  <!-- Rating -->
+  <div>
+    <label for="search-rating"><h3 class="no-margin no-bold">Note (et plus)</h3></label>
+    <div class="rating">
+      <star-rating id="search-rating"[(ngModel)]="searchCriteria.rating" (change)="searchCriteria.wantsRating = true"></star-rating>
+      <mat-checkbox [(ngModel)]="searchCriteria.wantsRating" (change)="validateRating()"></mat-checkbox>
+    </div>
+  </div>
+
+
 </div>
 
 <mat-dialog-actions align="end">
-  <button class="button" color="primary" mat-button mat-dialog-close>Fermer</button>
+  <button class="button" color="primary" (click)="search()" [disabled]="!isOneSearchCriterionActive()" mat-button>Rechercher</button>
+  <button class="button" color="primary" mat-button mat-dialog-close>Annuler</button>
 </mat-dialog-actions>

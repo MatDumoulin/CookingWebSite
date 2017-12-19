@@ -6,9 +6,13 @@ import { MatDialogModule,
          MatButtonModule,
          MatInputModule,
          MatCheckboxModule,
-         MatSelectModule
+         MatSelectModule,
+         MatListModule,
        } from '@angular/material';
 import { AdvancedRecipeSearchComponent } from './advanced-recipe-search.component';
+import { CustomListBoxModule } from '../../controls/custom-listbox/custom-listbox.module';
+import { StarRatingModule } from './../../controls/star-rating/star-rating.module';
+import { TimeInputModule } from './../../controls/time-input/time-input.module';
 
 @NgModule({
   imports: [
@@ -19,9 +23,15 @@ import { AdvancedRecipeSearchComponent } from './advanced-recipe-search.componen
     MatButtonModule,
     MatInputModule,
     MatCheckboxModule,
-    MatSelectModule
+    MatSelectModule,
+    MatListModule,
+    CustomListBoxModule,
+    StarRatingModule,
+    TimeInputModule
   ],
-  declarations: [AdvancedRecipeSearchComponent],
+  declarations: [
+    AdvancedRecipeSearchComponent
+  ],
   exports: [ AdvancedRecipeSearchComponent ]
 })
 export class AdvancedRecipeSearchModule { }

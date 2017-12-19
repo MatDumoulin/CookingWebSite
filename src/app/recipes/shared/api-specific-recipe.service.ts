@@ -32,9 +32,8 @@ export class ApiSpecificRecipeService {
       // Calling the API.
       return this.http.get(url)
                       .map(res => {
-                        console.log(res.json());
                         return res.json()
-                      });//<Recipe>res.json());
+                      });
     }
 
     addRecipe(newRecipe:Recipe) {
