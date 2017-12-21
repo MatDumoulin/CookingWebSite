@@ -19,6 +19,7 @@ export class ApiGetRecipesService {
     }
 
 
+
     advancedSearch(searchIntention) {
       // Parameter validation
       if(searchIntention == null) {

@@ -32,7 +32,7 @@
         </p>
       </div>
     </div>
-    <img class="recipe-image mat-elevation-z3" [src]="recipe.image? getImageUrl() + recipe.image: ''">
+    <img class="recipe-image" [ngClass]="{'border mat-elevation-z3': recipe.image}" [src]="recipe.image? getImageUrl() + recipe.image: defaultImage">
   </div>
 
   <div class="middle-section artisticFont">

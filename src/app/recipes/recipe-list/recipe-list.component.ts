@@ -72,6 +72,7 @@ export class RecipeList extends InfiniteScroll {
     let snackBarRef = this.snackbar.open("Une recherche est active.", "Annuler", config);
     snackBarRef.onAction().subscribe(() => {
       this.recipesService.cancelSearch();
+      this.hasDisplayedCantLoadMore = false;
       this.loadMore();
     });
   }
@@ -92,6 +93,7 @@ export class RecipeList extends InfiniteScroll {
                           duration: 2000,
                         });
 
+      // Showing the option to close the search if one is active.
       snackBarRef.afterDismissed().subscribe(() => {
         if(this.recipesService.searchIsActive()) {
           this.displaySearchCancelOption();

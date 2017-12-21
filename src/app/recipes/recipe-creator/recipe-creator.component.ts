@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MatSnackBar, MAT_DIALOG_DATA } from '@angular/material';
+import { DomSanitizer } from '@angular/platform-browser';
 
 import { Recipe } from './../shared/recipe.model';
 import { Genres } from './../genre/shared/genre.service';
@@ -18,16 +19,17 @@ export class RecipeCreator{
   GENRES = Genres.get();
   NUMBER_OF_TABS = 2;
   selectedTab = 0;
-  image = [];
-  displayedImage: any = '../../../assets/food-plate.png';
+  displayedImage = Recipe.DEFAULT_IMAGE;
   converter = new MinutesToTimeConverter();
   // Text to display wether we are on edit or create mode.
   isEdit: boolean;
   finishButtonText = "Créer";
   windowTitle = "Création d'une recette";
+  isImageLoaded = false;
 
   constructor(private dialogRef: MatDialogRef<RecipeCreator>,
               private snackBar: MatSnackBar,
+              public sanitizer: DomSanitizer,
               private recipeApi:ApiSpecificRecipeService,
               private recipesService:RecipesService,
               @Inject(MAT_DIALOG_DATA) private data: any) {}
@@ -43,7 +45,13 @@ export class RecipeCreator{
       this.recipeApi.getRecipe(this.data.recipeId)
                     .subscribe(recipe => {
                       this.recipe = recipe;
-                      this.originalRecipe = recipe;
+                      if(recipe.image) {
+                        this.loadImage()
+                            .then(() => this.originalRecipe = this.recipe);
+                      }
+                      else {
+                        this.recipe.fullImage = Recipe.DEFAULT_IMAGE;
+                      }
                     });
     }
     // else, the window is already set up for recipe creation.
@@ -54,11 +62,17 @@ export class RecipeCreator{
   }
 
   createRecipe() {
+    if(this.recipe.fullImage == Recipe.DEFAULT_IMAGE) {
+      this.recipe.fullImage = null;
+    }
     this.recipesService.addRecipe(this.recipe);
     this.closeDialog();
   }
 
   updateRecipe() {
+    if(this.recipe.fullImage == Recipe.DEFAULT_IMAGE) {
+      this.recipe.fullImage = null;
+    }
     this.recipesService.updateRecipe(this.recipe._id, this.recipe);
     this.closeDialog();
   }
@@ -68,32 +82,46 @@ export class RecipeCreator{
     this.closeDialog();
 
     // Displaying a message to indicate that the recipe was removed.
-    let snackBarRef = this.snackBar.open('La recette a été supprimée', 'Annuler');
+    let snackBarRef = this.snackBar.open('La recette a été supprimée', 'Annuler', { duration: 3000 });
     snackBarRef.onAction().subscribe(() => {
+      if(this.recipe.fullImage == Recipe.DEFAULT_IMAGE) {
+        this.recipe.fullImage = null;
+      }
       this.recipesService.addRecipe(this.originalRecipe);
     });
   }
 
   updateImage(fileInput: any): void {
-    console.log(fileInput.target.files);
-
     if (fileInput.target.files && fileInput.target.files[0]) {
-      // I create two file reader. One for the backend image (an array buffer)
-      // and one for the image display (a data url).
-      const backendImageReader = new FileReader();
-      const displayedImageReader = new FileReader();
-
-      backendImageReader.onload = ((e) => {
-        this.image = e.target['result'];
-      });
-
-      displayedImageReader.onload = ((e) => {
-        this.displayedImage = e.target['result'];
-      });
-
-      backendImageReader.readAsArrayBuffer(fileInput.target.files[0]);
-      displayedImageReader.readAsDataURL(fileInput.target.files[0]);
+      this.readImage(fileInput.target.files[0]);
     }
+  }
+
+  private loadImage() : Promise<boolean> {
+    return new Promise( (resolve, reject) => {
+      this.recipeApi.getImage(this.recipe.image)
+                    .subscribe(image => {
+                        this.readImage(image)
+                          .then(() => resolve());
+                    });
+    });
+  }
+
+  // This is needed to convert an image from a blob into a readable format
+  // for the image tag.
+  private readImage(imageFile:any): Promise<boolean> {
+    return new Promise( (resolve, reject) => {
+
+      const displayedImageReader = new FileReader();
+      // When the file is completly converted to a readable format
+      displayedImageReader.onload = ((e) => {
+        this.recipe.fullImage = e.target['result'];
+        resolve();
+      });
+
+      displayedImageReader.readAsDataURL(imageFile);
+      resolve();
+    });
   }
 
   closeDialog() {

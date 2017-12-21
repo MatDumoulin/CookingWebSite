@@ -3,7 +3,12 @@ const mongoClient = require('mongodb').MongoClient;
 const bodyParser = require('body-parser');
 const routerManager = require('./route-manager');
 
+
 const app = express();
+
+// Allowing bodies of up to 50mb. (for image upload)
+app.use(bodyParser.json({limit: '10mb'}));
+app.use(bodyParser.urlencoded({limit: '10mb', extended: true}));
 
 const url = 'mongodb://mycookingbook:~c2[hW-F#^`GpPrU@localhost:27017/easycooking';
 

@@ -14,6 +14,7 @@ export class RecipeViewer{
 
   recipe = new Recipe();
   isLoading = true;
+  defaultImage = Recipe.DEFAULT_IMAGE;
   converter = new MinutesToTimeConverter();
 
   constructor(private apiSpecificRecipeService:ApiSpecificRecipeService,

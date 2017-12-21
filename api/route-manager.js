@@ -30,7 +30,7 @@ function routerManager(express, db) {
     router.get('/recipes/genres', getRecipeGenres(recipesCollection));
     router.get('/recipes/ingredients', getIngredientsName(recipesCollection));
     router.post('/recipes/advanced', getRecipeAdvancedSearch(recipesCollection));
-    router.route('/recipes/:id').get(getSpecificRecipe(recipesCollection))
+    router.route('/recipes/:id').get(getSpecificRecipe(recipesCollection, imagesFolderLocation))
                                 .post(updateRecipe(recipesCollection))
                                 .delete(removeRecipe(recipesCollection));
     router.route('/recipes/image/:id').get(getImage(imagesFolderLocation));

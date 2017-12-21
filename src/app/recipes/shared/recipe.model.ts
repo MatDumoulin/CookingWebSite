@@ -5,6 +5,7 @@ import { StepSection } from './../steps/shared/step-section.model';
  * Represents a Recipe document from the database.
  */
 export class Recipe {
+    static DEFAULT_IMAGE = '../../../assets/food-plate.png';
     _id?: string;
     name: string;
     ingredientSection: IngredientSection[];
@@ -18,6 +19,7 @@ export class Recipe {
     genre: string;
     image: string;
     equipment: string[];
+    fullImage?: string; // Contains the base64 encoded image.
 
 
     // I'm using parameter overload since TypeScript doesn't support having more
@@ -38,6 +40,7 @@ export class Recipe {
         this.genre = "";
         this.image = "";
         this.equipment = [];
+        this.fullImage = Recipe.DEFAULT_IMAGE;
       }
       // Copy constructor.
       else {
@@ -54,6 +57,7 @@ export class Recipe {
         this.genre = recipe.genre;
         this.image = recipe.image;
         this.equipment = recipe.equipment;
+        this.fullImage = recipe.fullImage;
       }
    }
 }

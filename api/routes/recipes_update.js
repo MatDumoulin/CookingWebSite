@@ -10,6 +10,7 @@
 function routeFactory(dbColl) {
     return function updateRecipe(req, res) {
         const ObjectID = require('mongodb').ObjectID;
+        const imageManager = require('../image-manager');
         // Getting the id of the recipe to update from the url.
         let id;
         try {
@@ -23,8 +24,18 @@ function routeFactory(dbColl) {
 
         const docToUpdateIdentifier = {_id: id};
         const orderIfConflict = [['_id','asc']];
+        let recipe = req.body;
         // MongoDB does not allow to update the _id of a recipe.
-        delete req.body._id;
+        delete recipe._id;
+
+        // Setting up the recipe before updating the image.
+        const fullImage = recipe.fullImage;
+        delete recipe.fullImage; // Not saving the image to the database.
+        // If no image has been uploaded yet
+        if(!recipe.image) {
+            recipe.image = id;
+        }
+
 
         dbColl.findAndModify(docToUpdateIdentifier, orderIfConflict, {$set: req.body}, {upsert: false, new: true}, // Do not create a new record if no doc found.
             function(err, result) {
@@ -34,6 +45,11 @@ function routeFactory(dbColl) {
                 console.error("An error occurred during the update :" + err);
                 res.sendStatus(500);
                 return;
+            }
+
+            // Saving the image to the file system.
+            if(fullImage) {
+                imageManager().saveImage(recipe.image, fullImage);
             }
 
             res.status(200).send({ recipeFromDb: result.value, updateWasSuccessful: 1 });

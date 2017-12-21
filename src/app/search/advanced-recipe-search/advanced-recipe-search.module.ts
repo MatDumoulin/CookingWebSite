@@ -8,6 +8,7 @@ import { MatDialogModule,
          MatCheckboxModule,
          MatSelectModule,
          MatListModule,
+         MatTooltipModule
        } from '@angular/material';
 import { AdvancedRecipeSearchComponent } from './advanced-recipe-search.component';
 import { CustomListBoxModule } from '../../controls/custom-listbox/custom-listbox.module';
@@ -25,6 +26,7 @@ import { TimeInputModule } from './../../controls/time-input/time-input.module';
     MatCheckboxModule,
     MatSelectModule,
     MatListModule,
+    MatTooltipModule,
     CustomListBoxModule,
     StarRatingModule,
     TimeInputModule

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http, ResponseContentType } from '@angular/http';
 import { Recipe } from './recipe.model';
 import { Observable } from 'rxjs/Observable';
 import { environment } from './../../../environments/environment';
@@ -31,8 +31,23 @@ export class ApiSpecificRecipeService {
       const url = `${environment.apiUrl}/recipes/${recipeId}`;
       // Calling the API.
       return this.http.get(url)
+                      .map(res => res.json());
+    }
+
+    getImage(imageURL:string): Observable<Blob> {
+      // Parameter validation
+      if(!imageURL) {
+        console.error(`Invalid parameter 'recipeId' in app/recipes/shared/getImage: ${imageURL}`);
+        return;
+      }
+
+      console.log(imageURL);
+
+      const url = `${this.imagesUrl}${imageURL}`;
+      // Calling the API.
+      return this.http.get(url, { responseType: ResponseContentType.Blob })
                       .map(res => {
-                        return res.json()
+                        return res.blob();
                       });
     }
 

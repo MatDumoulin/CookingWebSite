@@ -1,6 +1,9 @@
-<div class="header">
-  <h1 mat-dialog-title>Recherche avancée</h1>
-  <mat-icon class="clickable" color="primary" (click)="closeDialog()">clear</mat-icon>
+<div>
+  <div class="header">
+    <h1 mat-dialog-title>Quelle(s) recette(s) désirez-vous voir?</h1>
+    <mat-icon class="clickable" color="primary" (click)="closeDialog()">clear</mat-icon>
+  </div>
+  <p class="subtitle">Choisissez quels critères seront utilisés pour la recherche.</p>
 </div>
 
 <div class="dialog-content" mat-dialog-content>
@@ -64,7 +67,7 @@
                 (keypress)="searchCriteria.wantsIngredient[i] = true">
             </mat-form-field>
           </div>
-          <mat-form-field class="include-ingredient">
+          <mat-form-field class="include-ingredient" matTooltip="Disposez vous de cet ingrédient?">
             <mat-select [(ngModel)]="ingredient.include" (change)="searchCriteria.wantsIngredient[i] = true">
                <mat-option [value]="true">Inclure</mat-option>
                <mat-option [value]="false">Exclure</mat-option>
@@ -91,6 +94,8 @@
 </div>
 
 <mat-dialog-actions align="end">
-  <button class="button" color="primary" (click)="search()" [disabled]="!isOneSearchCriterionActive()" mat-button>Rechercher</button>
+  <button class="button" color="primary" (click)="search()" [disabled]="!isOneSearchCriterionActive()" mat-button>
+    <mat-icon>search</mat-icon>Rechercher
+  </button>
   <button class="button" color="primary" mat-button mat-dialog-close>Annuler</button>
 </mat-dialog-actions>

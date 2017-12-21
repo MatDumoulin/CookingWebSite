@@ -5,6 +5,7 @@
 function routeFactory(dbColl) {
     return function removeRecipe(req, res) {
         const ObjectID = require('mongodb').ObjectID;
+        const imageManager = require('../image-manager');
         let id;
         try {
             id = new ObjectID(req.params.id);
@@ -15,11 +16,15 @@ function routeFactory(dbColl) {
             return;
         }
 
-        dbColl.deleteOne({_id: id}, function(err, status) {
+        dbColl.findAndRemove({_id: id}, [['_id',1]], function(err, doc) {
             if(err) {
                 console.error(err);
                 res.sendStatus(500);
                 return;
+            }
+
+            if(doc.value.image) {
+                imageManager().deleteImage(doc.value.image);
             }
 
             res.status(200).send('deleted');

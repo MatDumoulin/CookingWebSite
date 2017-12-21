@@ -10,10 +10,20 @@
 function routeFactory(dbColl) {
     return function addRecipe(req, res) {
         const ObjectID = require('mongodb').ObjectID;
+        const imageManager = require('../image-manager');
 
-        req.body._id = new ObjectID(req.body._id);
+        let newRecipe = req.body;
+        newRecipe._id = new ObjectID(newRecipe._id);
 
-        dbColl.insert(req.body, function(err, result) {
+        // Setting up the recipe before saving it to the database.
+        const fullImage = newRecipe.fullImage;
+        delete newRecipe.fullImage; // Not saving the image to the database.
+
+        if(fullImage) {
+            newRecipe.image = newRecipe._id.toString();
+        }
+
+        dbColl.insert(newRecipe, function(err, result) {
 
             // If an error occurred, display it.
             if(result.writeError != null) {
@@ -31,6 +41,11 @@ function routeFactory(dbColl) {
 
             if(err || result.writeError != null || result.writeConcernError != null) {
                 res.sendStatus(500);
+            }
+
+            // Saving the image to the file system.
+            if(fullImage) {
+                imageManager().saveImage(newRecipe.image, fullImage);
             }
 
             res.status(201).send({ recipeFromDb: result.ops[0], insertWasSuccessful: 1 });
