@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
+import { Observable } from 'rxjs/Observable';
+
 import { Genres } from '../../recipes/genre/shared/genre.service';
 import { Ingredient } from '../../recipes/ingredients/shared/ingredient.model';
 
@@ -10,17 +12,17 @@ import { Ingredient } from '../../recipes/ingredients/shared/ingredient.model';
 })
 export class AdvancedRecipeSearchComponent implements OnInit {
   searchCriteria = {
-      name: "",
-      ingredients: [],
-      genre: "",
-      rating: 0,
-      totalTime: 0,
-      wantsName: false,
-      wantsIngredient: [],
-      wantsGenre: false,
-      wantsRating: false,
-      wantsTotalTime: false
-    };
+    name: "",
+    ingredients: [],
+    genre: "",
+    rating: 0,
+    totalTime: 0,
+    wantsName: false,
+    wantsIngredient: [],
+    wantsGenre: false,
+    wantsRating: false,
+    wantsTotalTime: false
+  };
 
   GENRES = Genres.get();
 

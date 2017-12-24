@@ -5,6 +5,7 @@ import { MatDialogModule,
          MatIconModule,
          MatButtonModule,
          MatInputModule,
+         MatAutocompleteModule,
          MatCheckboxModule,
          MatSelectModule,
          MatListModule,
@@ -14,6 +15,7 @@ import { AdvancedRecipeSearchComponent } from './advanced-recipe-search.componen
 import { CustomListBoxModule } from '../../controls/custom-listbox/custom-listbox.module';
 import { StarRatingModule } from './../../controls/star-rating/star-rating.module';
 import { TimeInputModule } from './../../controls/time-input/time-input.module';
+import { AutocompleteInputModule } from './../../controls/autocomplete-input/autocomplete-input.module';
 
 @NgModule({
   imports: [
@@ -23,13 +25,15 @@ import { TimeInputModule } from './../../controls/time-input/time-input.module';
     MatIconModule,
     MatButtonModule,
     MatInputModule,
+    MatAutocompleteModule,
     MatCheckboxModule,
     MatSelectModule,
     MatListModule,
     MatTooltipModule,
     CustomListBoxModule,
     StarRatingModule,
-    TimeInputModule
+    TimeInputModule,
+    AutocompleteInputModule
   ],
   declarations: [
     AdvancedRecipeSearchComponent

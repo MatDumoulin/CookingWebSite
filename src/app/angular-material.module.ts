@@ -9,7 +9,9 @@ import {
         MatToolbarModule,
         MatSnackBarModule,
         MatTooltipModule,
-        MatIconModule
+        MatIconModule,
+        MatListModule,
+        MatInputModule
        }                from '@angular/material';
 import {CdkTableModule} from '@angular/cdk/table';
 
@@ -25,7 +27,9 @@ import {CdkTableModule} from '@angular/cdk/table';
             MatToolbarModule,
             MatSnackBarModule,
             MatTooltipModule,
-            MatIconModule
+            MatIconModule,
+            MatListModule,
+            MatInputModule
            ]
 })
 export class AngularMaterialModule { }

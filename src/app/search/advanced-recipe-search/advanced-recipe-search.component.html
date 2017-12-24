@@ -10,8 +10,7 @@
   <!-- Name -->
   <div>
     <mat-form-field class="strecth">
-      <input matInput placeholder="Nom de la recette" name="name" [(ngModel)]="searchCriteria.name"
-            (keypress)="searchCriteria.wantsName = true">
+      <recipename-autocomplete-input placeholder="Nom de la recette" name="name" [(ngModel)]="searchCriteria.name" (input)="searchCriteria.wantsName = true"></recipename-autocomplete-input>
     </mat-form-field>
     <mat-checkbox [(ngModel)]="searchCriteria.wantsName"></mat-checkbox>
   </div>
@@ -63,8 +62,7 @@
           <mat-icon class="cancel-padding-left" mat-list-icon>restaurant</mat-icon>
           <div mat-line>
             <mat-form-field class="ingredient-field">
-                <input matInput placeholder="Nom de l'ingrédient" name="name" [(ngModel)]="ingredient.name"
-                (keypress)="searchCriteria.wantsIngredient[i] = true">
+              <ingredient-autocomplete-input placeholder="Nom de l'ingrédient" [(ngModel)]="ingredient.name" (input)="searchCriteria.wantsIngredient[i] = true"></ingredient-autocomplete-input>
             </mat-form-field>
           </div>
           <mat-form-field class="include-ingredient" matTooltip="Disposez vous de cet ingrédient?">
@@ -89,7 +87,6 @@
       <mat-checkbox [(ngModel)]="searchCriteria.wantsRating" (change)="validateRating()"></mat-checkbox>
     </div>
   </div>
-
 
 </div>
 

@@ -13,6 +13,7 @@ import { routing } from './app.routes';
 // Custom components/services made for this app.
 import { CoreModule } from './core/core.module';
 import { App } from './app.component';
+import { IntroPage } from './pages/intro-page/intro-page.component';
 import { HomePage } from './pages/home-page/home-page.component';
 import { RecipePage } from './pages/recipe-page/recipe-page.component';
 import { TopNav } from './top-nav/top-nav.component';
@@ -27,15 +28,18 @@ import { RecipeCreatorModule } from './recipes/recipe-creator/recipe-creator.mod
 import { RecipeCreator } from './recipes/recipe-creator/recipe-creator.component';
 import { AdvancedRecipeSearchModule } from './search/advanced-recipe-search/advanced-recipe-search.module';
 import { AdvancedRecipeSearchComponent } from './search/advanced-recipe-search/advanced-recipe-search.component';
+import { LoginPage } from './pages/login-page/login-page.component';
 
 
 @NgModule({
   declarations: [
+    IntroPage,
     HomePage,
     RecipePage,
     TopNav,
     RecipeList,
-    App
+    App,
+    LoginPage
   ],
   imports: [
     BrowserModule,

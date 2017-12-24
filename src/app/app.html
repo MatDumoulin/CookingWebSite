@@ -1,2 +1,23 @@
-<top-nav></top-nav>
-<router-outlet></router-outlet>
+<mat-sidenav-container class="website-container">
+    <top-nav [sideNavRef]="sidenav"></top-nav>
+
+    <mat-sidenav #sidenav class="sidenav">
+      <div class="sidenav-title">
+        <h1>Menu</h1>
+      </div>
+      <mat-list>
+        <mat-list-item>
+          <mat-icon color="primary" matListIcon>home</mat-icon>
+          <button class="stretch" color="primary" [routerLink]="['/home']" (click)="sidenav.close()" mat-raised-button>Accueil</button>
+        </mat-list-item>
+        <mat-list-item>
+          <mat-icon color="primary" matListIcon>library_books</mat-icon>
+          <button class="stretch" color="primary" [routerLink]="['/recipes']" (click)="sidenav.close()" mat-raised-button>Mes recettes</button>
+        </mat-list-item>
+      </mat-list>
+    </mat-sidenav>
+
+    <div class="main-container">
+      <router-outlet></router-outlet>
+    </div>
+</mat-sidenav-container>

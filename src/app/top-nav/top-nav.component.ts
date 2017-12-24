@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 
 @Component({
@@ -6,4 +6,7 @@ import { Component } from '@angular/core';
   templateUrl: 'top-nav.html',
   styleUrls: ['top-nav.css']
 })
-export class TopNav{}
+export class TopNav{
+  @Input()
+  sideNavRef;
+}

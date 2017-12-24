@@ -25,6 +25,7 @@ import { EquipmentListBox } from '../equipment/equipment-listbox/equipment-listb
 import { EquipmentListItem } from '../equipment/equipment-listitem/equipment-listitem.component';
 import { UtilsModule } from '../../utils/utils.module'
 import { TimeInputModule } from './../../controls/time-input/time-input.module';
+import { AutocompleteInputModule } from './../../controls/autocomplete-input/autocomplete-input.module';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { TimeInputModule } from './../../controls/time-input/time-input.module';
              FormsModule,
              IngredientListboxModule,
              UtilsModule,
-             TimeInputModule
+             TimeInputModule,
+             AutocompleteInputModule
            ],
   providers: [],
   exports: [ RecipeCreator ]

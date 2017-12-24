@@ -2,7 +2,7 @@
     <mat-icon mat-list-icon>restaurant</mat-icon>
     <div mat-line>
       <mat-form-field class="ingredient-field size-2">
-          <input matInput placeholder="Nom de l'ingrédient" name="name" [(ngModel)]="ingredient.name">
+          <ingredient-autocomplete-input placeholder="Nom de l'ingrédient" name="name" [(ngModel)]="ingredient.name"></ingredient-autocomplete-input>
       </mat-form-field>
       <mat-form-field class="ingredient-field size-1">
           <input type="number" matInput placeholder="Quantité" name="quantity" [(ngModel)]="ingredient.quantity">

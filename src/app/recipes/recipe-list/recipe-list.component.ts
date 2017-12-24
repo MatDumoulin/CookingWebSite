@@ -22,7 +22,7 @@ export class RecipeList extends InfiniteScroll {
 
   constructor(private recipesService:RecipesService, private dialog: MatDialog,
               private snackbar: MatSnackBar) {
-    super(10); // the number is the scroll distance for which the loadMore function will
+    super(20); // the number is the scroll distance for which the loadMore function will
                // be called, in pixels.
   }
 

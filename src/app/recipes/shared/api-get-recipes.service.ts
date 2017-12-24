@@ -39,6 +39,24 @@ export class ApiGetRecipesService {
                         return <Recipe[]>res.json();
                       });
     }
+
+    getMatchingIngredientNames(ingredientName:string): Observable<string[]> {
+      ingredientName = ingredientName || "";
+
+      const url = `${environment.apiUrl}/recipes/ingredients`;
+
+      return this.http.get(url, {params: {filter: ingredientName}})
+                      .map(res => res.json().map(ingredient => ingredient.name))
+    }
+
+    getMatchingRecipeNames(recipeName:string): Observable<string[]> {
+      recipeName = recipeName || "";
+
+      const url = `${environment.apiUrl}/recipes/names`;
+
+      return this.http.get(url, {params: {filter: recipeName}})
+                      .map(res => res.json().map(recipe => recipe.name))
+    }
 }
 
 /*(function() {

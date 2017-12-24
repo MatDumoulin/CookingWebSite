@@ -1,3 +1,4 @@
 <mat-toolbar color="primary">
-  <a class="no-style" [routerLink]="['/']">MyCookingBook</a>
+  <button mat-icon-button (click)="sideNavRef.open()"><mat-icon>menu</mat-icon></button>
+  <a class="no-style margin-left" [routerLink]="['/recipes']">MyCookingBook</a>
 </mat-toolbar>

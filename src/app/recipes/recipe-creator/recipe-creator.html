@@ -32,7 +32,8 @@
         <div class="recipe-info-inputs">
           <div>
             <mat-form-field>
-              <input matInput placeholder="Nom de la recette" name="name" [(ngModel)]="recipe.name" required>
+              <!--<input matInput placeholder="Nom de la recette" name="name" [(ngModel)]="recipe.name" required>-->
+              <input placeholder="Nom de la recette" name="name" [(ngModel)]="recipe.name" matInput required>
               <mat-error> Le nom de la recette est <strong>requis</strong> </mat-error>
             </mat-form-field>
 
@@ -40,6 +41,7 @@
               <mat-select placeholder="Genre" name="genre" [(ngModel)]="recipe.genre" required>
                  <mat-option *ngFor="let genre of GENRES" [value]="genre">{{ genre }}</mat-option>
               </mat-select>
+              <mat-error> Le genre de la recette est <strong>requis</strong> </mat-error>
             </mat-form-field>
 
             <mat-form-field>
@@ -50,19 +52,19 @@
 
           <div class="time-container">
             <mat-form-field class="time-input">
-              <time-input placeholder="Préparation" name="prepTime" [(ngModel)]="recipe.prepTime"></time-input>
+              <time-input placeholder="Préparation" name="prepTime" [(ngModel)]="recipe.prepTime" required></time-input>
               <mat-icon matSuffix>schedule</mat-icon>
               <mat-error> Le temps de préparation est <strong>requis</strong> </mat-error>
             </mat-form-field>
 
             <mat-form-field class="time-input">
-              <time-input placeholder="Cuisson" name="cookTime" [(ngModel)]="recipe.cookTime"></time-input>
+              <time-input placeholder="Cuisson" name="cookTime" [(ngModel)]="recipe.cookTime" required></time-input>
               <mat-icon matSuffix>schedule</mat-icon>
               <mat-error> Le temps de cuisson est <strong>requis</strong> </mat-error>
             </mat-form-field>
 
             <mat-form-field class="time-input">
-              <time-input placeholder="Repos" name="cooldownTime" [(ngModel)]="recipe.cooldownTime" required></time-input>
+              <time-input placeholder="Repos" name="cooldownTime" [(ngModel)]="recipe.cooldownTime"></time-input>
               <mat-icon matSuffix>schedule</mat-icon>
               <mat-error> Le temps de repos est <strong>requis</strong> </mat-error>
             </mat-form-field>
