@@ -9,9 +9,11 @@
 function routerManager(express, db) {
     const router = express.Router();
     const recipesCollection = db.collection('recipes');
+    const usersCollection = db.collection('users');
     const imagesFolderLocation = __dirname + '/user-images/';
 
     // Getting all the handlers for the routes.
+    const login = require('./routes/login');
     const getRecipes = require('./routes/recipes_get');
     const getSpecificRecipe = require('./routes/recipes_get_specific');
     const getRecipeNames = require('./routes/recipes_get_names');
@@ -24,6 +26,7 @@ function routerManager(express, db) {
     const getImage = require('./routes/image_get');
 
     // Creating the routes
+    router.post('/login', login(usersCollection));
     router.get('/recipes', getRecipes(recipesCollection));
     router.post('/recipe', addRecipe(recipesCollection));
     router.get('/recipes/names', getRecipeNames(recipesCollection));

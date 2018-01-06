@@ -4,16 +4,29 @@
       <h1>Connexion</h1>
     </div>
 
-      <mat-form-field>
-        <input placeholder="Nom d'usager" matInput required>
-      </mat-form-field>
-
-      <mat-form-field>
-        <input type="password" placeholder="Mot de passe" matInput required>
-      </mat-form-field>
-
-      <div class="align-end">
-        <button color="primary" (click)="authenticate()" mat-raised-button>Se connecter</button>
-      </div>
+    <div class="social-signin">
+      <div id="signin-with-google">Se connecter avec Google</div>
+    </div>
   </div>
+  <!--<form class="login-container mat-elevation-z8" [formGroup]="form">
+    <fieldset>
+      <div class="top-section">
+        <h1>Connexion</h1>
+      </div>
+
+      <mat-form-field>
+        <input placeholder="Courriel" formControlName="email" matInput required>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input type="password" placeholder="Mot de passe" formControlName="password" matInput required>
+      </mat-form-field>
+
+
+    </fieldset>-->
+
+    <!--<div class="align-end">
+      <button color="primary" (click)="authenticate()" mat-raised-button>Se connecter</button>
+    </div>
+  </form>-->
 </div>

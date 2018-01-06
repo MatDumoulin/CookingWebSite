@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { IngredientAutocompleteInputComponent } from './ingredient-autocomplete-input.component';
+import { IngredientAutocompleteInput } from './ingredient-autocomplete-input.component';
 
-describe('IngredientAutocompleteInputComponent', () => {
-  let component: IngredientAutocompleteInputComponent;
-  let fixture: ComponentFixture<IngredientAutocompleteInputComponent>;
+describe('IngredientAutocompleteInput', () => {
+  let component: IngredientAutocompleteInput;
+  let fixture: ComponentFixture<IngredientAutocompleteInput>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ IngredientAutocompleteInputComponent ]
+      declarations: [ IngredientAutocompleteInput ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(IngredientAutocompleteInputComponent);
+    fixture = TestBed.createComponent(IngredientAutocompleteInput);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

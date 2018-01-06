@@ -1,3 +1,4 @@
+const jwt = require('jsonwebtoken');
 // Gets the recipes that are corresponding to the given filter.
 // On top of it, it gets only the recipes that are in range from 'from' to 'to'.
 //
@@ -9,8 +10,11 @@
 // Returns: A list of all recipes matching
 function routeFactory(dbColl) {
     return function getRecipes(req, res) {
+        // Getting the user from the jwt
 
-        const filter = {"name": {$regex : ".*"+ req.query.filter +".*", $options : 'i'} };
+        //const userAuthId = decoded.id;
+
+        const filter = {"name": {$regex : ".*"+ req.query.filter +".*", $options : 'i'}, 'owner': userAuthId };
         const orderBy = {name: 1, rating: -1}; // name ascending, rating descending.
         const from = parseInt(req.query.from);
         const to = parseInt(req.query.to);

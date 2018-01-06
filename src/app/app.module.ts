@@ -1,13 +1,15 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 // Angular Material Module. This module imports all needed material components.
 // See https://material.angular.io/guide/getting-started for more information.
 import { AngularMaterialModule } from './angular-material.module';
 import 'hammerjs'; // To support gestures.
+// To access HTML5 LocalStorage's features
+import { LocalStorageModule } from 'angular-2-local-storage';
 // Routes for the app
 import { routing } from './app.routes';
 // Custom components/services made for this app.
@@ -29,6 +31,7 @@ import { RecipeCreator } from './recipes/recipe-creator/recipe-creator.component
 import { AdvancedRecipeSearchModule } from './search/advanced-recipe-search/advanced-recipe-search.module';
 import { AdvancedRecipeSearchComponent } from './search/advanced-recipe-search/advanced-recipe-search.component';
 import { LoginPage } from './pages/login-page/login-page.component';
+import { TokenInterceptor } from './core/authentication/auth-http-interceptor.service'
 
 
 @NgModule({
@@ -45,10 +48,16 @@ import { LoginPage } from './pages/login-page/login-page.component';
     BrowserModule,
     BrowserAnimationsModule, // To enable animations for angular-material.
     FormsModule,             // ngModel
-    HttpModule,
+    ReactiveFormsModule,
+    HttpClientModule,
     AngularMaterialModule,
     RouterModule,
     routing,
+    LocalStorageModule.withConfig({
+            prefix: 'mycookingbook',
+            storageType: 'sessionStorage',
+            notifyOptions : {setItem: true, removeItem:true}
+        }),
     CoreModule,
     StarRatingModule,
     RecipeViewerModule,
@@ -60,7 +69,8 @@ import { LoginPage } from './pages/login-page/login-page.component';
     RecipeCreator,
     AdvancedRecipeSearchComponent
   ],
-  providers: [ ApiGetRecipesService, ApiSpecificRecipeService, RecipesService ],
+  providers: [{provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true},
+               ApiGetRecipesService, ApiSpecificRecipeService, RecipesService],
   bootstrap: [App]
 })
 export class AppModule { }

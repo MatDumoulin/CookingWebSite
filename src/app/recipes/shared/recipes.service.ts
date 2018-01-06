@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/Observable/of';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { LocalStorageService } from 'angular-2-local-storage';
 import 'rxjs/add/operator/map';
 import { ApiGetRecipesService } from './api-get-recipes.service';
 import { ApiSpecificRecipeService } from './api-specific-recipe.service';
@@ -23,7 +24,8 @@ export class RecipesService {
   searchIntent = null;
 
   constructor(private apiGetRecipesService:ApiGetRecipesService,
-              private apiSpecificRecipeService:ApiSpecificRecipeService) {}
+              private apiSpecificRecipeService:ApiSpecificRecipeService,
+              private localStorageService:LocalStorageService) {}
 
   addRecipe(newRecipe:Recipe) {
     this.apiSpecificRecipeService.addRecipe(newRecipe);
@@ -80,8 +82,10 @@ export class RecipesService {
         return;
       }
 
+      const user:any = this.localStorageService.get("user");
+
       this.isLoadingMoreRecipes = true;
-      this.apiGetRecipesService.getRecipes(this.data.length, this.data.length + this.LOADING_CHUNKS)
+      this.apiGetRecipesService.getRecipes(this.data.length, this.data.length + this.LOADING_CHUNKS, user.id)
         .subscribe( recipes => {
             if(recipes.length < this.LOADING_CHUNKS) {
               this.canLoadMoreRecipe = false;

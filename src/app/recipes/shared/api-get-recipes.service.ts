@@ -1,21 +1,24 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Recipe } from './recipe.model';
 import { Observable } from 'rxjs/Observable';
 import { environment } from './../../../environments/environment';
 import { LoggerService } from '../../core/logger/logger.service';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/concatAll';
+import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/observable/empty';
 
 @Injectable()
 export class ApiGetRecipesService {
 
-    constructor(private http:Http, private logger:LoggerService) {}
+    constructor(private http:HttpClient, private logger:LoggerService) {}
 
-    getRecipes(from:number, to:number): Observable<Recipe[]> {
-      const url = `${environment.apiUrl}/recipes?filter=&from=${from}&to=${to}`;
+    getRecipes(from:number, to:number, userId:string): Observable<Recipe[]> {
+      const url = `${environment.apiUrl}/recipes?filter=&from=${from}&to=${to}&id=${userId}`;
 
-      return this.http.get(url)
-                      .map(res => <Recipe[]>res.json());
+      return this.http.get<Recipe[]>(url);
     }
 
 
@@ -31,12 +34,10 @@ export class ApiGetRecipesService {
 
       // Fetching the API.
       return this.http.post(url, searchIntention)
-                      .map(res => {
-                        if(res.status != 200) {
-                          this.logger.error(`Une erreur de réseau empèche la recherche avancée. Nous sommes désolé de cet inconvénient.`, `Ok`);
-                          throw new Error("Une erreur de réseau empèche la recherche avancée.");
-                        }
-                        return <Recipe[]>res.json();
+                      .catch((err: HttpErrorResponse) => {
+                        this.logger.error(`Une erreur de réseau empèche la recherche avancée. Nous sommes désolé de cet inconvénient.`, `Ok`);
+
+                        return Observable.empty<any>()
                       });
     }
 
@@ -46,7 +47,7 @@ export class ApiGetRecipesService {
       const url = `${environment.apiUrl}/recipes/ingredients`;
 
       return this.http.get(url, {params: {filter: ingredientName}})
-                      .map(res => res.json().map(ingredient => ingredient.name))
+                      .map((ingredients:Array<any>) => ingredients.map((ingredient:any) => ingredient.name));
     }
 
     getMatchingRecipeNames(recipeName:string): Observable<string[]> {
@@ -55,7 +56,9 @@ export class ApiGetRecipesService {
       const url = `${environment.apiUrl}/recipes/names`;
 
       return this.http.get(url, {params: {filter: recipeName}})
-                      .map(res => res.json().map(recipe => recipe.name))
+                      .map((recipes:Array<any>) => {
+                        return recipes.map((recipe:any)=>recipe.name);
+                      });
     }
 }
 

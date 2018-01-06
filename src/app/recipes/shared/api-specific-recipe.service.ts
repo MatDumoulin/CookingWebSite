@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, ResponseContentType } from '@angular/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Recipe } from './recipe.model';
 import { Observable } from 'rxjs/Observable';
 import { environment } from './../../../environments/environment';
@@ -19,7 +19,7 @@ export class ApiSpecificRecipeService {
     //                    the data in the body of the request.
     imagesUrl = `${environment.apiUrl}/recipes/image/`;
 
-    constructor(private http:Http, private logger:LoggerService) {}
+    constructor(private http:HttpClient, private logger:LoggerService) {}
 
     getRecipe(recipeId:string): Observable<Recipe> {
       // Parameter validation
@@ -31,7 +31,7 @@ export class ApiSpecificRecipeService {
       const url = `${environment.apiUrl}/recipes/${recipeId}`;
       // Calling the API.
       return this.http.get(url)
-                      .map(res => res.json());
+                      .map((res:Recipe) => res);
     }
 
     getImage(imageURL:string): Observable<Blob> {
@@ -45,10 +45,10 @@ export class ApiSpecificRecipeService {
 
       const url = `${this.imagesUrl}${imageURL}`;
       // Calling the API.
-      return this.http.get(url, { responseType: ResponseContentType.Blob })
-                      .map(res => {
+      return this.http.get(url, { responseType: "blob" });
+                      /*.map(res => {
                         return res.blob();
-                      });
+                      });*/
     }
 
     addRecipe(newRecipe:Recipe) {
@@ -64,8 +64,8 @@ export class ApiSpecificRecipeService {
       const url = `${environment.apiUrl}/recipe`;
       // Calling the API.
       return this.http.post(url, newRecipe)
-                      .subscribe(res => {
-                          if(!res.json().insertWasSuccessful) {
+                      .subscribe((res:any) => {
+                          if(!res.insertWasSuccessful) {
                             this.logger.error(`Une erreur de réseau empèche la création de votre recette. Nous sommes désolé de cet inconvénient.`, `Ok`);
                           }
                       });
@@ -82,8 +82,8 @@ export class ApiSpecificRecipeService {
       const url = `${environment.apiUrl}/recipes/${idOfRecipeToUpdate}`;
       // Calling the API.
       return this.http.post(url, newRecipe)
-                      .subscribe(res => {
-                          if(!res.json().updateWasSuccessful) {
+                      .subscribe((res:any) => {
+                          if(!res.updateWasSuccessful) {
                             this.logger.error(`Une erreur de réseau empèche la modification de votre recette. Nous sommes désolé de cet inconvénient.`, `Ok`);
                           }
                       });
@@ -101,10 +101,8 @@ export class ApiSpecificRecipeService {
       const url = `${environment.apiUrl}/recipes/${id}`;
       // Calling the API.
       return this.http.delete(url)
-                      .subscribe(res => {
-                          if(res.status < 200 || res.status >= 300) {
-                            this.logger.error(`Une erreur de réseau empèche la suppression de votre recette. Nous sommes désolé de cet inconvénient.`, `Ok`);
-                          }
+                      .subscribe(() => {}, (err: HttpErrorResponse) => {
+                        this.logger.error(`Une erreur de réseau empèche la suppression de votre recette. Nous sommes désolés de cet inconvénient.`, `Ok`);
                       });
 
     }

@@ -1,3 +1,8 @@
+.main-toolbar {
+  display: flex;
+  justify-content: space-between;
+}
+
 .no-style {
   color: inherit;
   text-decoration: none; /* no underline */
@@ -5,4 +10,10 @@
 
 .margin-left {
   margin-left: 20px;
+}
+
+.profile-picture {
+  width: 30px;
+  height: 30px;
+  border-radius: 5px;
 }

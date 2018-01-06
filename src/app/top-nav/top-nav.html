@@ -1,4 +1,18 @@
-<mat-toolbar color="primary">
-  <button mat-icon-button (click)="sideNavRef.open()"><mat-icon>menu</mat-icon></button>
-  <a class="no-style margin-left" [routerLink]="['/recipes']">MyCookingBook</a>
+<mat-toolbar class="main-toolbar" color="primary">
+  <div>
+    <button mat-icon-button (click)="sideNavRef.open()"><mat-icon>menu</mat-icon></button>
+    <a class="no-style margin-left" [routerLink]="['/recipes']">MyCookingBook</a>
+  </div>
+
+  <div>
+    <div *ngIf="displayLogin">
+      <!-- If a user is logged in -->
+      <button color="secondary" (click)="disconnect()" *ngIf="user" mat-button>
+        <img class="profile-picture" [src]="user.profilePicture? user.profilePicture : ''">
+        <span>Bonjour {{user.firstName}}</span>
+      </button>
+      <!-- If no user is logged in -->
+      <button color="secondary" (click)="login()" *ngIf="!user" mat-button>Se connecter</button>
+    </div>
+  </div>
 </mat-toolbar>
