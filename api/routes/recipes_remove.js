@@ -6,6 +6,10 @@ function routeFactory(dbColl) {
     return function removeRecipe(req, res) {
         const ObjectID = require('mongodb').ObjectID;
         const imageManager = require('../image-manager');
+        const getUserId = require('../jwt-reader');
+
+        const userId = getUserId(req);
+
         let id;
         try {
             id = new ObjectID(req.params.id);
@@ -16,6 +20,7 @@ function routeFactory(dbColl) {
             return;
         }
 
+        console.log(req.params);
         dbColl.findAndRemove({_id: id}, [['_id',1]], function(err, doc) {
             if(err) {
                 console.error(err);
@@ -23,11 +28,18 @@ function routeFactory(dbColl) {
                 return;
             }
 
-            if(doc.value.image) {
-                imageManager().deleteImage(doc.value.image);
+            if(doc.value.owner != userId) {
+                // The user does not have the permission to delete the recipe. We revert the removal of the recipe.
+                dbColl.insert(doc.value, () => {});
+                return res.status(401).send('unauthorized');
             }
+            else {
+                if(doc.value.image) {
+                    imageManager().deleteImage(doc.value.image);
+                }
 
-            res.status(200).send('deleted');
+                res.sendStatus(200);
+            }
         });
     }
 }

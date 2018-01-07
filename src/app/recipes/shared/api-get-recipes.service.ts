@@ -4,6 +4,7 @@ import { Recipe } from './recipe.model';
 import { Observable } from 'rxjs/Observable';
 import { environment } from './../../../environments/environment';
 import { LoggerService } from '../../core/logger/logger.service';
+import { LocalStorageService } from 'angular-2-local-storage'
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/concatAll';
 import 'rxjs/add/operator/mergeMap';
@@ -13,10 +14,12 @@ import 'rxjs/add/observable/empty';
 @Injectable()
 export class ApiGetRecipesService {
 
-    constructor(private http:HttpClient, private logger:LoggerService) {}
+    constructor(private http: HttpClient,
+                private logger: LoggerService,
+                private localStorageService: LocalStorageService) {}
 
-    getRecipes(from:number, to:number, userId:string): Observable<Recipe[]> {
-      const url = `${environment.apiUrl}/recipes?filter=&from=${from}&to=${to}&id=${userId}`;
+    getRecipes(from:number, to:number): Observable<Recipe[]> {
+      const url = `${environment.apiUrl}/recipes?filter=&from=${from}&to=${to}`;
 
       return this.http.get<Recipe[]>(url);
     }

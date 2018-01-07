@@ -20,6 +20,7 @@ export class Recipe {
     image: string;
     equipment: string[];
     fullImage?: string; // Contains the base64 encoded image.
+    owner: string;
 
 
     // I'm using parameter overload since TypeScript doesn't support having more
@@ -41,6 +42,7 @@ export class Recipe {
         this.image = "";
         this.equipment = [];
         this.fullImage = Recipe.DEFAULT_IMAGE;
+        this.owner = null;
       }
       // Copy constructor.
       else {
@@ -58,6 +60,7 @@ export class Recipe {
         this.image = recipe.image;
         this.equipment = recipe.equipment;
         this.fullImage = recipe.fullImage;
+        this.owner = recipe.owner;
       }
    }
 }

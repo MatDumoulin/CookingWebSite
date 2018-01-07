@@ -1,3 +1,4 @@
+const getUserId = require('../jwt-reader');
 // Finds the recipes that are matching the given filter. Gets only the name field
 // from the matching recipes.
 
@@ -6,7 +7,8 @@
 function routeFactory(dbColl) {
     return function getRecipeNames(req, res) {
         const limit = 5;
-        const filter = {"name": {$regex : ".*"+ req.query.filter +".*", $options : 'i'}};
+        const userAuthId = getUserId(req);
+        const filter = {"name": {$regex : ".*"+ req.query.filter +".*", $options : 'i'}, 'owner': userAuthId };
 
         dbColl.aggregate([
                 { "$match": filter },

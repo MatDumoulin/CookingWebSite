@@ -16,25 +16,44 @@ export class RecipeViewer{
   isLoading = true;
   defaultImage = Recipe.DEFAULT_IMAGE;
   converter = new MinutesToTimeConverter();
+  biggestSection = [];
 
-  constructor(private apiSpecificRecipeService:ApiSpecificRecipeService,
+  constructor(private recipeApi:ApiSpecificRecipeService,
               private dialogRef: MatDialogRef<RecipeViewer>,
               @Inject(MAT_DIALOG_DATA) private data: any) {}
 
   ngOnInit() {
-    this.apiSpecificRecipeService.getRecipe(this.data.recipeId)
+    this.recipeApi.getRecipe(this.data.recipeId)
                                  .subscribe( recipe => {
                                    this.recipe = recipe;
                                    this.isLoading = false;
+                                   this.biggestSection = this.getBiggestSection();
+                                   // If the image comes from the database, get it.
+                                   if(this.recipe.image) {
+                                     this.getImage();
+                                   }
                                  });
+
   }
 
   convertToTime(minutes:number): string {
     return this.converter.getTime(minutes);
   }
 
-  getImageUrl(): string {
-    return this.apiSpecificRecipeService.imagesUrl;
+  getImage() {
+    this.recipeApi.getImage(this.recipe.image)
+                  .then((image) => {
+                    this.recipe.fullImage = image.displayableImage;
+                  });
+  }
+
+  private getBiggestSection() {
+    if(this.recipe.ingredientSection.length >= this.recipe.stepSection.length) {
+      return this.recipe.ingredientSection;
+    }
+    else {
+      return this.recipe.stepSection;
+    }
   }
 
   closeDialog() {

@@ -11,6 +11,7 @@ function routeFactory(dbColl) {
     return function updateRecipe(req, res) {
         const ObjectID = require('mongodb').ObjectID;
         const imageManager = require('../image-manager');
+
         // Getting the id of the recipe to update from the url.
         let id;
         try {
@@ -32,10 +33,9 @@ function routeFactory(dbColl) {
         const fullImage = recipe.fullImage;
         delete recipe.fullImage; // Not saving the image to the database.
         // If no image has been uploaded yet
-        if(!recipe.image) {
+        if(fullImage && !recipe.image) {
             recipe.image = id;
         }
-
 
         dbColl.findAndModify(docToUpdateIdentifier, orderIfConflict, {$set: req.body}, {upsert: false, new: true}, // Do not create a new record if no doc found.
             function(err, result) {

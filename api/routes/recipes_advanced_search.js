@@ -1,3 +1,4 @@
+const getUserId = require('../jwt-reader');
 // Gets all the recipes that are matching the given information.
 //
 // Params:
@@ -10,17 +11,21 @@
 function routeFactory(dbColl) {
     return function getRecipeAdvancedSearch(req, res) {
 
+        // User permission validation
+        const userAuthId = getUserId(req);
+
         // Setting up the stages for the aggregate query.
         var project = { $project: {
                               name: 1,
                               genre:1,
                               rating: 1,
                               "ingredientSection.ingredients.name":1,
+                              owner: 1,
                               totalTime: {$sum: ["$cookTime", "$prepTime"]}
                           }
                       };
 
-        var match = { };
+        var match = { owner: userAuthId };
         // I only include the field that are in the request to speed up the db query.
         if(req.body.name) {
           match.name = { $regex: ".*" + req.body.name + ".*", $options : 'i' }

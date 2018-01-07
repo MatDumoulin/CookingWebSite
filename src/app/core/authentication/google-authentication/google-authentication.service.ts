@@ -30,11 +30,11 @@ export class GoogleAuthenticationService {
     return this.http.post(url, body);
   }
 
-  interpretParams(googleUser:any) : User {
+  /*interpretParams(googleUser:any) : User {
     const profile = googleUser.getBasicProfile();
     let user = new User();
 
-    user.id = profile.getId();
+    user.authId = profile.getId();
     user.email = profile.getEmail();
     user.firstName = profile.getGivenName();
     user.familyName = profile.getFamilyName();
@@ -42,7 +42,7 @@ export class GoogleAuthenticationService {
     user.profilePicture = profile.getImageUrl();
 
     return user;
-  }
+  }*/
 
   disconnect(): Promise<any> {
     return gapi.auth2.getAuthInstance().disconnect();

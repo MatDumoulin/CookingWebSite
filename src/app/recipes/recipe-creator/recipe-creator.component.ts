@@ -1,12 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MatSnackBar, MAT_DIALOG_DATA } from '@angular/material';
-import { DomSanitizer } from '@angular/platform-browser';
-
 import { Recipe } from './../shared/recipe.model';
 import { Genres } from './../genre/shared/genre.service';
 import { ApiSpecificRecipeService } from './../shared/api-specific-recipe.service';
 import { RecipesService } from './../shared/recipes.service';
-import { MinutesToTimeConverter } from './../../utils/minutes-to-time-converter';
+import { ImageLoaderService } from '../../core/images/image-loader.service';
 
 @Component({
   selector: 'recipe-creator',
@@ -20,7 +18,6 @@ export class RecipeCreator{
   NUMBER_OF_TABS = 2;
   selectedTab = 0;
   displayedImage = Recipe.DEFAULT_IMAGE;
-  converter = new MinutesToTimeConverter();
   // Text to display wether we are on edit or create mode.
   isEdit: boolean;
   finishButtonText = "Créer";
@@ -29,9 +26,9 @@ export class RecipeCreator{
 
   constructor(private dialogRef: MatDialogRef<RecipeCreator>,
               private snackBar: MatSnackBar,
-              public sanitizer: DomSanitizer,
               private recipeApi:ApiSpecificRecipeService,
               private recipesService:RecipesService,
+              private imageLoader: ImageLoaderService,
               @Inject(MAT_DIALOG_DATA) private data: any) {}
 
   ngOnInit() {
@@ -46,11 +43,17 @@ export class RecipeCreator{
                     .subscribe(recipe => {
                       this.recipe = recipe;
                       if(recipe.image) {
-                        this.loadImage()
-                            .then(() => this.originalRecipe = this.recipe);
+                        this.recipeApi.getImage(this.recipe.image)
+                                      .then((image) => {
+                                        this.recipe.fullImage = image.imageString;
+                                        this.displayedImage = image.displayableImage;
+                                        // Waiting for the full image to be loaded before saving the original recipe.
+                                        this.originalRecipe = this.recipe;
+                                      });
                       }
                       else {
                         this.recipe.fullImage = Recipe.DEFAULT_IMAGE;
+                        this.originalRecipe = this.recipe;
                       }
                     });
     }
@@ -70,6 +73,7 @@ export class RecipeCreator{
   }
 
   updateRecipe() {
+    console.log(this.recipe.fullImage);
     if(this.recipe.fullImage == Recipe.DEFAULT_IMAGE) {
       this.recipe.fullImage = null;
     }
@@ -87,41 +91,19 @@ export class RecipeCreator{
       if(this.recipe.fullImage == Recipe.DEFAULT_IMAGE) {
         this.recipe.fullImage = null;
       }
+      console.log(this.originalRecipe);
       this.recipesService.addRecipe(this.originalRecipe);
     });
   }
 
   updateImage(fileInput: any): void {
     if (fileInput.target.files && fileInput.target.files[0]) {
-      this.readImage(fileInput.target.files[0]);
+      this.imageLoader.readImage(fileInput.target.files[0])
+                      .then((image) => {
+                        this.recipe.fullImage = image.imageString;
+                        this.displayedImage = image.displayableImage;
+                      });
     }
-  }
-
-  private loadImage() : Promise<boolean> {
-    return new Promise( (resolve, reject) => {
-      this.recipeApi.getImage(this.recipe.image)
-                    .subscribe(image => {
-                        this.readImage(image)
-                          .then(() => resolve());
-                    });
-    });
-  }
-
-  // This is needed to convert an image from a blob into a readable format
-  // for the image tag.
-  private readImage(imageFile:any): Promise<boolean> {
-    return new Promise( (resolve, reject) => {
-
-      const displayedImageReader = new FileReader();
-      // When the file is completly converted to a readable format
-      displayedImageReader.onload = ((e) => {
-        this.recipe.fullImage = e.target['result'];
-        resolve();
-      });
-
-      displayedImageReader.readAsDataURL(imageFile);
-      resolve();
-    });
   }
 
   closeDialog() {

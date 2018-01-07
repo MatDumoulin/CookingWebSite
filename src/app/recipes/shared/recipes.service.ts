@@ -63,6 +63,14 @@ export class RecipesService {
     return deletedRecipe[0];
   }
 
+  // Reinitializes the client side list of recipe to a blank state.
+  clearAllRecipesFromClientsideList() {
+    this.canLoadMoreRecipe = true;
+    this.isLoadingMoreRecipes = false;
+    this.searchIntent = null;
+    this.dataChange.next([]);
+  }
+
   // Fetches more recipes from the api.
   // Returns: A promise with true if there are more recipes to fetch.
   //                         false otherwise.
@@ -82,10 +90,8 @@ export class RecipesService {
         return;
       }
 
-      const user:any = this.localStorageService.get("user");
-
       this.isLoadingMoreRecipes = true;
-      this.apiGetRecipesService.getRecipes(this.data.length, this.data.length + this.LOADING_CHUNKS, user.id)
+      this.apiGetRecipesService.getRecipes(this.data.length, this.data.length + this.LOADING_CHUNKS)
         .subscribe( recipes => {
             if(recipes.length < this.LOADING_CHUNKS) {
               this.canLoadMoreRecipe = false;

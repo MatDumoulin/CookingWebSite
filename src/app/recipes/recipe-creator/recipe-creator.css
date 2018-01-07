@@ -54,7 +54,7 @@
   width: 30%;
 }
 
-@media screen and (min-width: 1100px){
+@media screen and (min-width: 1501px){
   .tab-content {
     width: 1100px;
   }
@@ -86,7 +86,7 @@
 
 }
 
-@media screen and (min-width: 550px) and (max-width: 1150px){
+@media screen and (min-width: 550px) and (max-width: 1500px){
   .tab-content {
     width: 100%;
   }

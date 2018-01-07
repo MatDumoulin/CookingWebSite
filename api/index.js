@@ -34,6 +34,7 @@ app.use(jwtMiddleware({ secret: 'mycookingbook-billie&keetah'}).unless({path: ['
 // Sending 401 status if an unauthorized error occurs
 app.use(function (err, req, res, next) {
   if (err.name === 'UnauthorizedError') {
+    console.log(err);
     res.status(401).send('Unauthorized');
   }
 });

@@ -32,28 +32,50 @@
         </p>
       </div>
     </div>
-    <img class="recipe-image" [ngClass]="{'border mat-elevation-z3': recipe.image}" [src]="recipe.image? getImageUrl() + recipe.image: defaultImage">
+    <img class="recipe-image" [ngClass]="{'border mat-elevation-z3': recipe.image}" [src]="recipe.fullImage? recipe.fullImage: defaultImage">
   </div>
 
   <div class="middle-section artisticFont">
-    <!-- The ingredients section -->
-    <div class="recipe-ingredients">
-      <h4><strong>INGRÉDIENTS</strong></h4>
-      <div class="section" *ngFor="let section of recipe.ingredientSection">
-        <h4 class="small-marginbottom" *ngIf="section.name"><strong><em>{{section.name}}</em></strong></h4>
-        <div class="ingredient" *ngFor="let ingredient of section.ingredients">
-          <div class="ingredient-quantity">{{ ingredient.quantity }} {{ ingredient.units }}</div>
-          <div class="ingredient-name capitalized">{{ ingredient.name }}</div>
+
+    <div>
+      <div class="ingredient-step-titles row">
+        <div class="section">
+          <h4 class="small-marginbottom"><strong>INGRÉDIENTS</strong></h4>
+        </div>
+        <div class="section">
+          <h4 class="small-marginbottom"><strong>ÉTAPES</strong></h4>
+        </div>
+      </div>
+      <div class="row" *ngFor="let section of biggestSection; let i = index">
+        <!-- The ingredients section -->
+        <div class="section">
+          <div *ngIf="i < recipe.ingredientSection.length">
+            <h4 class="small-marginbottom" *ngIf="recipe.ingredientSection[i].name">
+              <strong><em>{{recipe.ingredientSection[i].name}}</em></strong>
+            </h4>
+            <div class="ingredient" *ngFor="let ingredient of recipe.ingredientSection[i].ingredients">
+              <div class="ingredient-quantity">{{ ingredient.quantity }} {{ ingredient.units }}</div>
+              <div class="ingredient-name capitalized">{{ ingredient.name }}</div>
+            </div>
+          </div>
+        </div>
+        <!-- The steps section -->
+        <div class="section reset-counter" >
+          <div *ngIf="i < recipe.stepSection.length">
+            <div class="reset-counter">
+              <h4 class="small-marginbottom" *ngIf="recipe.stepSection[i].name"><strong><em>{{recipe.stepSection[i].name}}</em></strong></h4>
+              <div class="step capitalized" *ngFor="let step of recipe.stepSection[i].steps">{{ step }}</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    <!-- The steps section -->
-    <div class="recipe-steps">
-      <h4><strong>ÉTAPES</strong></h4>
-      <div class="section reset-counter" *ngFor="let section of recipe.stepSection">
-        <h4 class="small-marginbottom" *ngIf="section.name"><strong><em>{{section.name}}</em></strong></h4>
-          <div class="step capitalized" *ngFor="let step of section.steps">{{ step }}</div>
-      </div>
+    <!-- Materiel -->
+    <div *ngIf="recipe.equipment.length > 0">
+      <h4 class="small-marginbottom"><strong>MATÉRIEL NÉCESSAIRE</strong></h4>
+      <ul>
+        <li *ngFor="let equipment of recipe.equipment">{{equipment}}</li>
+      </ul>
     </div>
   </div>
 

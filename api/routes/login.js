@@ -97,7 +97,6 @@ function getUserFromDBUsingAuthId(usersColl, res, authenticationId) {
 }
 
 function createToken(userId) {
-    console.log(userId);
     return jwt.sign({ id: userId }, 'mycookingbook-billie&keetah', { algorithm: 'HS256', expiresIn: expiresInSeconds });
 }
 
