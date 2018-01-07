@@ -22,5 +22,5 @@ app.listen(app.get('port'), function() {
 // Always send the index.html file. Angular's routing is handling the different
 // url. That way, the page reload works when done with the browser.
 app.get('/*', function(request, response, next) {
-  response.sendFile(__dirname + '/server/dist/index.html');
+  response.sendFile(__dirname + '/dist/index.html');
 });

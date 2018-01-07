@@ -6,8 +6,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --proxy-config proxy.conf.json",
-    "api": "nodemon api/index.js",
-    "prod-server": "nodemon prod-server.js",
+    "api": "nodemon server/api/index.js",
+    "prod-server": "nodemon server/prod-server.js",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
