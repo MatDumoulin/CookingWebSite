@@ -5,7 +5,7 @@ app.set('port', (process.env.PORT || 4200));
 
 
 // Directory routes to hide the structure of the project.
-app.use(express.static(__dirname + '/server'));
+app.use(express.static(__dirname + '/dist'));
 
 // Enabling CORS as we want to communicate with the API.
 app.use(function(req, res, next) {
