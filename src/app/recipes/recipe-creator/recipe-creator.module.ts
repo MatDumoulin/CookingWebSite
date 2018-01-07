@@ -13,6 +13,7 @@ import { MatButtonModule,
           } from '@angular/material';
 
 import { RecipeCreator } from './recipe-creator.component';
+import { CoreModule } from '../../core/core.module';
 import { StarRatingModule } from '../../controls/star-rating/star-rating.module';
 import { CustomListBoxModule } from '../../controls/custom-listbox/custom-listbox.module';
 import { IngredientListboxModule } from '../ingredients/ingredient-listbox/ingredient-listbox.module';
@@ -49,6 +50,7 @@ import { AutocompleteInputModule } from './../../controls/autocomplete-input/aut
              MatIconModule,
              MatSelectModule,
              MatTooltipModule,
+             CoreModule,
              StarRatingModule,
              CustomListBoxModule,
              FormsModule,

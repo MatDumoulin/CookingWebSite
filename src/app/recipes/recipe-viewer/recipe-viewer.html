@@ -28,7 +28,7 @@
         <p>Portions: {{ recipe.results }}    |
            <img src="../../../assets/butcher-knife-20.png"> {{ convertToTime(recipe.prepTime) }}    |
            <img src="../../../assets/barbecue-20.png"> {{ convertToTime(recipe.cookTime) }} |
-           <i class="material-icons size-20">hourglass_empty</i> {{ convertToTime(recipe.cooldownTime) }}
+           <i class="material-icons size-20">hourglass_empty</i> {{ recipe.cooldownTime != 0 ? convertToTime(recipe.cooldownTime) : '--' }}
         </p>
       </div>
     </div>
