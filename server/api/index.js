@@ -44,7 +44,7 @@ mongoClient.connect(url, function(err, database) {
     // Routing all of the database query to the api folder.
     app.use('/api', routerManager(express, database));
 
-    //
+
     app.listen(app.get('port'), function() {
       console.log('API is running on port', app.get('port'));
     });
