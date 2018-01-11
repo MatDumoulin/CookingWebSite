@@ -6,6 +6,10 @@ const app = express();
 
 // Express configuration (order matters)
 app.set('port', (process.env.PORT || 4200));
+
+app.use("/api/*", function(request, response, next) {
+  return response.sendStatus(403);
+});
 // Directory routes to hide the structure of the project.
 app.use(express.static(__dirname + '/server', {dotfiles:'allow'}));
 app.use(express.static(__dirname + '/server/dist'));
