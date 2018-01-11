@@ -1,11 +1,15 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
-
+const https = require('https');
+const helmet = require('helmet');
 const app = express();
 
 // Express configuration (order matters)
 app.set('port', (process.env.PORT || 4200));
+
+// Adding HSTS, removes the X-Powered-By header and sets the X-Frame-Options header to prevent click jacking, among other things.
+app.use(helmet());
 
 app.use("/api/*", function(request, response, next) {
   return response.sendStatus(403);
@@ -22,10 +26,20 @@ app.use(function(req, res, next) {
 
 
 // Express routes
-app.listen(app.get('port'), function() {
-  console.log('Prod server is running on port', app.get('port'));
-});
+// HTTPS options
+const options = {
+    cert: fs.readFileSync('/etc/letsencrypt/live/www.mycookingbook.ml/fullchain.pem'),
+    key: fs.readFileSync('/etc/letsencrypt/live/www.mycookingbook.ml/privkey.pem')
+};
 
+
+/*app.listen(app.get('port'), function() {
+  console.log('Prod server is running on port', app.get('port'));
+});*/
+
+https.createServer(options, app).listen(app.get('port'), function() {
+  console.log('Secured Prod server is running on port', app.get('port'));
+});
 
 // This path is used for HTTPS certification.
 /*app.get('/.well-known/acme-challenge/*', function(request, response, next) {
