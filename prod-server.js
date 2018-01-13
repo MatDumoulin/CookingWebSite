@@ -4,7 +4,7 @@ const path = require('path');
 const https = require('https');
 const helmet = require('helmet');
 const app = express();
-
+ 
 // Express configuration (order matters)
 app.set('port', (process.env.PORT || 4200));
 
@@ -12,8 +12,17 @@ app.set('port', (process.env.PORT || 4200));
 app.use(helmet());
 
 app.use("/api/*", function(request, response, next) {
+  console.log("Request made to api route:");
+  console.log(request);
   return response.sendStatus(403);
 });
+
+app.use("/sslcert/*", function(request, response, next) {
+  console.log("Request made to sslcert route:");
+  console.log(request);
+  return response.sendStatus(403);
+});
+
 // Directory routes to hide the structure of the project.
 app.use(express.static(__dirname + '/server', {dotfiles:'allow'}));
 app.use(express.static(__dirname + '/server/dist'));
@@ -28,30 +37,23 @@ app.use(function(req, res, next) {
 // Express routes
 // HTTPS options
 const options = {
-    cert: fs.readFileSync('/etc/letsencrypt/live/www.mycookingbook.ml/fullchain.pem'),
-    key: fs.readFileSync('/etc/letsencrypt/live/www.mycookingbook.ml/privkey.pem')
+    cert: fs.readFileSync(__dirname + '/server/sslcert/fullchain.pem'),
+    key: fs.readFileSync(__dirname + '/server/sslcert/privkey.pem')
 };
 
+
+/*https.createServer(options, (req, res) => {
+  res.writeHead(200);
+  res.end('hello world\n');
+}).listen(app.get('port'));*/
 
 /*app.listen(app.get('port'), function() {
   console.log('Prod server is running on port', app.get('port'));
 });*/
 
-https.createServer(options, app).listen(app.get('port'), function() {
+const httpsServer = https.createServer(options, app).listen(app.get('port'), function() {
   console.log('Secured Prod server is running on port', app.get('port'));
 });
-
-// This path is used for HTTPS certification.
-/*app.get('/.well-known/acme-challenge/*', function(request, response, next) {
-  const filepath = path.join(__dirname, "https", request.path);
-
-  if(fs.existsSync(filepath)) {
-      response.sendFile(filepath);
-  }
-  else {
-    response.sendStatus(404);
-  }
-});*/
 
 
 // Always send the index.html file. Angular's routing is handling the different
@@ -59,3 +61,8 @@ https.createServer(options, app).listen(app.get('port'), function() {
 app.get('/*', function(request, response, next) {
   response.sendFile('index.html', {root: __dirname + '/server/dist'});
 });
+
+/*app.get('/', function (req, res) {
+      res.header('Content-type', 'text/html');
+      return res.end('<h1>Hello, Secure World!</h1>');
+    });*/
