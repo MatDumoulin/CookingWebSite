@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --proxy-config proxy.conf.json",
+    "start": "npm run prod-server",
     "api": "nodemon server/api/index.js",
     "prod-server": "nodemon prod-server.js",
     "build": "ng build",
@@ -53,6 +53,7 @@
     "@types/jasminewd2": "~2.0.2",
     "@types/node": "^8.5.7",
     "codelyzer": "^4.0.2",
+    "concurrently": "^3.5.1",
     "jasmine-core": "~2.8.0",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~1.7.0",

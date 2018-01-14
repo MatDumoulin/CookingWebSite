@@ -5,6 +5,6 @@
 
 export const environment = {
   production: false,
-  apiUrl: "http://localhost:5000/api" // In dev, we use the proxy to fetch the api. This is not the
+  apiUrl: "http://localhost:4200/api" // In dev, we use the proxy to fetch the api. This is not the
                   // case with prod server has we don't have access to the proxy.
 };

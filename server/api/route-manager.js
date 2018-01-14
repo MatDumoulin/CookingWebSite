@@ -8,9 +8,22 @@
 // project is small. The time required to securize the API would not worth the benefits.
 function routerManager(express, db) {
     const router = express.Router();
+    const jwtMiddleware = require('express-jwt');
     const recipesCollection = db.collection('recipes');
     const usersCollection = db.collection('users');
     const imagesFolderLocation = __dirname + '/user-images/';
+
+    // Authentication validation with JWT.
+    router.use(jwtMiddleware({ secret: 'mycookingbook-billie&keetah'})
+          .unless({path: ['/login', '/', '/api/login']}));
+
+    // Sending 401 status if an unauthorized error occurs
+    router.use(function (err, req, res, next) {
+      if (err.name === 'UnauthorizedError') {
+        console.log(err);
+        res.status(401).send('Unauthorized');
+      }
+    });
 
     // Getting all the handlers for the routes.
     const login = require('./routes/login');
