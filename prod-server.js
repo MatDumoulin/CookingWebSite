@@ -4,7 +4,7 @@ const path = require('path');
 const https = require('https');
 const helmet = require('helmet');
 const app = express();
- 
+
 // Express configuration (order matters)
 app.set('port', (process.env.PORT || 4200));
 
@@ -34,24 +34,13 @@ app.use(function(req, res, next) {
 });
 
 
-// Express routes
 // HTTPS options
 const options = {
     cert: fs.readFileSync(__dirname + '/server/sslcert/fullchain.pem'),
     key: fs.readFileSync(__dirname + '/server/sslcert/privkey.pem')
 };
 
-
-/*https.createServer(options, (req, res) => {
-  res.writeHead(200);
-  res.end('hello world\n');
-}).listen(app.get('port'));*/
-
-/*app.listen(app.get('port'), function() {
-  console.log('Prod server is running on port', app.get('port'));
-});*/
-
-const httpsServer = https.createServer(options, app).listen(app.get('port'), function() {
+https.createServer(options, app).listen(app.get('port'), function() {
   console.log('Secured Prod server is running on port', app.get('port'));
 });
 
@@ -62,7 +51,3 @@ app.get('/*', function(request, response, next) {
   response.sendFile('index.html', {root: __dirname + '/server/dist'});
 });
 
-/*app.get('/', function (req, res) {
-      res.header('Content-type', 'text/html');
-      return res.end('<h1>Hello, Secure World!</h1>');
-    });*/

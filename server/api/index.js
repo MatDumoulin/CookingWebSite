@@ -3,9 +3,14 @@ const mongoClient = require('mongodb').MongoClient;
 const bodyParser = require('body-parser');
 const jwtMiddleware = require('express-jwt');
 const routerManager = require('./route-manager');
-
+const https = require('https');
+const helmet = require('helmet');
 
 const app = express();
+const env = process.env.environment;
+
+// Adding HSTS, removes the X-Powered-By header and sets the X-Frame-Options header to prevent click jacking, among other things.
+app.use(helmet());
 
 // Needed in order to read the body of the requests.
 // Allowing bodies of up to 10mb. (for image upload)
@@ -34,6 +39,14 @@ app.use(function (err, req, res, next) {
   }
 });
 
+// HTTPS options
+if(env == 'prod') {
+  const options = {
+      cert: fs.readFileSync(__dirname + '/../sslcert/fullchain.pem'),
+      key: fs.readFileSync(__dirname + '/../sslcert/privkey.pem')
+  };
+}
+
 
 // Using the connection pool provided by the MongoClient driver to manage database connections.
 // To make sure that we have it set up before we render the website, we are setting it in the
@@ -45,8 +58,20 @@ mongoClient.connect(url, function(err, database) {
     app.use('/api', routerManager(express, database));
 
 
-    app.listen(app.get('port'), function() {
-      console.log('API is running on port', app.get('port'));
-    });
+    if(env == 'dev') {
+      app.listen(app.get('port'), function() {
+        console.log('API is running on port', app.get('port'));
+      });
+    }
+    else if(env == 'prod') {
+      https.createServer(options, app).listen(app.get('port'), function() {
+        console.log('Secured API is running on port', app.get('port'));
+      });
+    }
+    else {
+      console.error('You must set the "environment" environment variable in order to run api. "dev" or "prod".');
+    }
+
+
 });
 
