@@ -5,6 +5,7 @@ const jwtMiddleware = require('express-jwt');
 const routerManager = require('./route-manager');
 const https = require('https');
 const helmet = require('helmet');
+const fs = require('fs');
 
 const app = express();
 const env = process.env.environment;
