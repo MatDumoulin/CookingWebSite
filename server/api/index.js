@@ -6,7 +6,7 @@ const routerManager = require('./route-manager');
 const https = require('https');
 const helmet = require('helmet');
 const fs = require('fs');
- 
+
 const app = express();
 const env = process.env.environment;
 
@@ -23,7 +23,9 @@ const url = 'mongodb://mycookingbook:~c2[hW-F#^`GpPrU@localhost:27017/easycookin
 app.set('port', (process.env.PORT || 5000));
 
 // To allow letsencrypt to renew the https certificate.
-app.use(express.static(__dirname + '/.well-known', {dotfiles:'allow'}));
+app.use('/.well-known', function(request, response, next) {
+  response.sendFile(request.url, {root: __dirname + '/.well-known'});
+});
 
 
 // Enabling CORS as we want to communicate with the server.
@@ -35,7 +37,7 @@ app.use(function(req, res, next) {
 });
 
 app.use(jwtMiddleware({ secret: 'mycookingbook-billie&keetah'})
-   .unless({path: ['/login', '/', '/api/login', '/\/.well-known*/']}));
+   .unless({path: ['/login', '/', '/api/login', /\/.well-known*/]}));
 
 // Sending 401 status if an unauthorized error occurs
 app.use(function (err, req, res, next) {
@@ -44,14 +46,6 @@ app.use(function (err, req, res, next) {
     res.status(401).send('Unauthorized');
   }
 });
-
-// HTTPS options
-/*if(env == 'prod') {
-  const options = {
-      cert: fs.readFileSync(__dirname + '/../sslcert/fullchain.pem'),
-      key: fs.readFileSync(__dirname + '/../sslcert/privkey.pem')
-  };
-}*/
 
 
 // Using the connection pool provided by the MongoClient driver to manage database connections.
@@ -64,7 +58,7 @@ mongoClient.connect(url, function(err, database) {
     app.use('/api', routerManager(express, database));
 
 
-    if(env == 'prod') {
+    if(env == 'dev') {
       app.listen(app.get('port'), function() {
         console.log('API is running on port', app.get('port'));
       });
