@@ -14,7 +14,7 @@ function routerManager(express, db) {
     const imagesFolderLocation = __dirname + '/user-images/';
 
     // Authentication validation with JWT.
-    router.use(jwtMiddleware({ secret: 'mycookingbook-billie&keetah'})
+    /*router.use(jwtMiddleware({ secret: 'mycookingbook-billie&keetah'})
           .unless({path: ['/login', '/', '/api/login']}));
 
     // Sending 401 status if an unauthorized error occurs
@@ -23,7 +23,7 @@ function routerManager(express, db) {
         console.log(err);
         res.status(401).send('Unauthorized');
       }
-    });
+    });*/
 
     router.use(function(req, res, next) {
         res.setHeader('Content-Type', 'application/json');
