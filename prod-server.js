@@ -32,7 +32,7 @@ app.use(express.static(__dirname + '/server/dist'));
 
 // Enabling CORS as we want to communicate with the server.
 app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "http://localhost:4200");
+  res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Authorization, Content-Type, Accept");
   next();
@@ -45,15 +45,6 @@ app.use(function(req, res, next) {
 mongoClient.connect(dbUrl, function(err, database) {
     if(err) throw err;
 
-    // Routing all of the database query to the api folder.
-    app.use('/api', routerManager(express, database));
-
-    // Always send the index.html file. Angular's routing is handling the different
-    // url. That way, the page reload works when done with the browser.
-    app.get('/*', function(request, response, next) {
-      response.sendFile('index.html', {root: __dirname + '/server/dist'});
-    });
-
     if(env == 'dev') {
       app.listen(app.get('port'), function() {
         console.log('Dev server is running on port', app.get('port'));
@@ -64,6 +55,7 @@ mongoClient.connect(dbUrl, function(err, database) {
       const options = {
           cert: fs.readFileSync(__dirname + '/server/sslcert/fullchain.pem'),
           key: fs.readFileSync(__dirname + '/server/sslcert/privkey.pem')
+          //ca: fs.readFileSync(__dirname + '/server/sslcert/chain.pem')
       };
 
       https.createServer(options, app).listen(app.get('port'), function() {
@@ -73,7 +65,18 @@ mongoClient.connect(dbUrl, function(err, database) {
     else {
       console.error('You must set the "environment" environment variable in order to run server. "dev" or "prod".');
     }
+     
+    // Routing all of the database query to the api folder.
+    app.use('/api', function (req, res) {
+        res.header('Content-type', 'text/html');
+        return res.end('Hello World!');
+     });//routerManager(express, database));
 
+    // Always send the index.html file. Angular's routing is handling the diffe$
+    // url. That way, the page reload works when done with the browser.
+    app.get('/*', function(request, response, next) {
+      response.sendFile('index.html', {root: __dirname + '/server/dist'});
+    });
 
 });
 
