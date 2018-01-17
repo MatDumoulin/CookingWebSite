@@ -25,6 +25,11 @@ function routerManager(express, db) {
       }
     });
 
+    router.use(function(req, res, next) {
+        res.setHeader('Content-Type', 'application/json');
+        next();
+    });
+
     // Getting all the handlers for the routes.
     const login = require('./routes/login');
     const getRecipes = require('./routes/recipes_get');

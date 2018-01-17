@@ -55,7 +55,6 @@ mongoClient.connect(dbUrl, function(err, database) {
       const options = {
           cert: fs.readFileSync(__dirname + '/server/sslcert/fullchain.pem'),
           key: fs.readFileSync(__dirname + '/server/sslcert/privkey.pem')
-          //ca: fs.readFileSync(__dirname + '/server/sslcert/chain.pem')
       };
 
       https.createServer(options, app).listen(app.get('port'), function() {
@@ -65,12 +64,9 @@ mongoClient.connect(dbUrl, function(err, database) {
     else {
       console.error('You must set the "environment" environment variable in order to run server. "dev" or "prod".');
     }
-     
+
     // Routing all of the database query to the api folder.
-    app.use('/api', function (req, res) {
-        res.header('Content-type', 'text/html');
-        return res.end('Hello World!');
-     });//routerManager(express, database));
+    app.use('/api', routerManager(express, database));
 
     // Always send the index.html file. Angular's routing is handling the diffe$
     // url. That way, the page reload works when done with the browser.
