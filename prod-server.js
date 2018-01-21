@@ -51,11 +51,11 @@ app.use(function(req, res, next) {
 mongoClient.connect(dbUrl, function(err, database) {
     if(err) throw err;
 
-    if(env == 'dev') {
-      app.listen(app.get('port'), function() {
-        console.log('Dev server is running on port', app.get('port'));
-      });
-    }
+    //if(env == 'dev') {
+    app.listen(app.get('port'), function() {
+      console.log('Server and API are running on port', app.get('port'));
+    });
+    /*}
     else if(env == 'prod') {
       // HTTPS options
       const options = {
@@ -69,7 +69,7 @@ mongoClient.connect(dbUrl, function(err, database) {
     }
     else {
       console.error('You must set the "environment" environment variable in order to run server. "dev" or "prod".');
-    }
+    }*/
 
     // Routing all of the database query to the api folder.
     app.use('/api', routerManager(express, database));
