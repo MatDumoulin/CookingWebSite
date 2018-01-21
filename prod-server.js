@@ -2,9 +2,6 @@ const express = require('express');
 const mongoClient = require('mongodb').MongoClient;
 const bodyParser = require('body-parser');
 const routerManager = require('./server/api/route-manager');
-const fs = require('fs');
-const path = require('path');
-const https = require('https');
 const helmet = require('helmet');
 
 const app = express();
@@ -14,7 +11,7 @@ app.set('port', (process.env.PORT || 4200));
 const dbUrl = 'mongodb://mycookingbook:~c2[hW-F#^`GpPrU@localhost:27017/easycooking';
 
 // Adding HSTS, removes the X-Powered-By header and sets the X-Frame-Options header to prevent click jacking, among other things.
-app.use(helmet());
+app.use(helmet()); // All https is done through nginx.
 
 // Needed in order to read the body of the requests.
 // Allowing bodies of up to 10mb. (for image upload)
@@ -26,7 +23,7 @@ app.use(bodyParser.urlencoded({limit: '10mb', extended: true}));
 app.use('/.well-known', function(request, response, next) {
   response.sendFile(request.url, {root: __dirname + '/server/.well-known'});
 });
-
+// To allow google search engine to identify the website.
 app.use('/google*', function(request, response, next) {
   console.log("Google verification: ");
   console.log(request.originalUrl);
@@ -55,21 +52,6 @@ mongoClient.connect(dbUrl, function(err, database) {
     app.listen(app.get('port'), function() {
       console.log('Server and API are running on port', app.get('port'));
     });
-    /*}
-    else if(env == 'prod') {
-      // HTTPS options
-      const options = {
-          cert: fs.readFileSync(__dirname + '/server/sslcert/fullchain.pem'),
-          key: fs.readFileSync(__dirname + '/server/sslcert/privkey.pem')
-      };
-
-      https.createServer(options, app).listen(app.get('port'), function() {
-        console.log('Secured Prod server is running on port', app.get('port'));
-      });
-    }
-    else {
-      console.error('You must set the "environment" environment variable in order to run server. "dev" or "prod".');
-    }*/
 
     // Routing all of the database query to the api folder.
     app.use('/api', routerManager(express, database));

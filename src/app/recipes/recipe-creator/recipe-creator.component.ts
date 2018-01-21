@@ -73,7 +73,6 @@ export class RecipeCreator{
   }
 
   updateRecipe() {
-    console.log(this.recipe.fullImage);
     if(this.recipe.fullImage == Recipe.DEFAULT_IMAGE) {
       this.recipe.fullImage = null;
     }
@@ -91,7 +90,7 @@ export class RecipeCreator{
       if(this.recipe.fullImage == Recipe.DEFAULT_IMAGE) {
         this.recipe.fullImage = null;
       }
-      console.log(this.originalRecipe);
+
       this.recipesService.addRecipe(this.originalRecipe);
     });
   }
@@ -109,5 +108,4 @@ export class RecipeCreator{
   closeDialog() {
     this.dialogRef.close();
   }
-
 }

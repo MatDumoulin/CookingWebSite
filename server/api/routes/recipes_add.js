@@ -1,3 +1,5 @@
+const getUserId = require('../jwt-reader');
+
 // This function adds the given recipe to the database. No validation is done before
 // adding the recipe to the database. we are relying on the frontend to
 // provide the right information.
@@ -14,6 +16,10 @@ function routeFactory(dbColl) {
 
         let newRecipe = req.body;
         newRecipe._id = new ObjectID(newRecipe._id);
+
+        // Getting the user from the jwt
+        const userAuthId = getUserId(req);
+        newRecipe.owner = userAuthId;
 
         // Setting up the recipe before saving it to the database.
         const fullImage = newRecipe.fullImage;
