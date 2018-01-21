@@ -27,13 +27,19 @@ app.use('/.well-known', function(request, response, next) {
   response.sendFile(request.url, {root: __dirname + '/server/.well-known'});
 });
 
+app.use('/google*', function(request, response, next) {
+  console.log("Google verification: ");
+  console.log(request.originalUrl);
+  response.sendFile(request.originalUrl, {root: __dirname + '/server'});
+});
+
 // Directory routes to hide the structure of the project.
 app.use(express.static(__dirname + '/server/dist'));
-
+app.use(express.static(__dirname + '/server'));
 // Enabling CORS as we want to communicate with the server.
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
+  res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, OPTIONS");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Authorization, Content-Type, Accept");
   next();
 });
