@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
@@ -23,6 +23,7 @@ import { RecipeList } from './recipes/recipe-list/recipe-list.component';
 import { ApiGetRecipesService } from './recipes/shared/api-get-recipes.service';
 import { ApiSpecificRecipeService } from './recipes/shared/api-specific-recipe.service';
 import { RecipesService } from './recipes/shared/recipes.service';
+import { GenresService } from './recipes/genre/shared/genre.service';
 import { StarRatingModule } from './controls/star-rating/star-rating.module';
 import { RecipeViewerModule } from './recipes/recipe-viewer/recipe-viewer.module';
 import { RecipeViewer } from './recipes/recipe-viewer/recipe-viewer.component';
@@ -70,7 +71,7 @@ import { TokenInterceptor } from './core/authentication/auth-http-interceptor.se
     AdvancedRecipeSearchComponent
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true},
-               ApiGetRecipesService, ApiSpecificRecipeService, RecipesService],
+               ApiGetRecipesService, ApiSpecificRecipeService, RecipesService, GenresService],
   bootstrap: [App]
 })
 export class AppModule { }

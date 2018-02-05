@@ -1,5 +1,5 @@
 <div class="header">
-  <h1 mat-dialog-title>{{windowTitle}}<span *ngIf="recipe.name">: <i>{{recipe.name | uppercase}}</i></span></h1>
+  <h1 mat-dialog-title>{{windowTitle}}<span *ngIf="recipe.name">: <strong>{{recipe.name}}</strong></span></h1>
   <mat-icon class="clickable" color="primary" (click)="closeDialog()">clear</mat-icon>
 </div>
 
@@ -26,9 +26,10 @@
             </mat-form-field>
 
             <mat-form-field>
-              <mat-select placeholder="Genre" name="genre" [(ngModel)]="recipe.genre" required>
+              <!--<mat-select placeholder="Genre" name="genre" [(ngModel)]="recipe.genre" required>
                  <mat-option *ngFor="let genre of GENRES" [value]="genre">{{ genre }}</mat-option>
-              </mat-select>
+              </mat-select>-->
+              <genre-autocomplete-input placeholder="Genre" name="genre" [(ngModel)]="recipe.genre" required></genre-autocomplete-input>
               <mat-error> Le genre de la recette est <strong>requis</strong> </mat-error>
             </mat-form-field>
 
@@ -40,13 +41,13 @@
 
           <div class="time-container">
             <mat-form-field class="time-input">
-              <time-input placeholder="Préparation" name="prepTime" [(ngModel)]="recipe.prepTime" required></time-input>
+              <time-input placeholder="Préparation" name="prepTime" [(ngModel)]="recipe.prepTime"></time-input>
               <mat-icon matSuffix>schedule</mat-icon>
               <mat-error> Le temps de préparation est <strong>requis</strong> </mat-error>
             </mat-form-field>
 
             <mat-form-field class="time-input">
-              <time-input placeholder="Cuisson" name="cookTime" [(ngModel)]="recipe.cookTime" required></time-input>
+              <time-input placeholder="Cuisson" name="cookTime" [(ngModel)]="recipe.cookTime"></time-input>
               <mat-icon matSuffix>schedule</mat-icon>
               <mat-error> Le temps de cuisson est <strong>requis</strong> </mat-error>
             </mat-form-field>
@@ -83,7 +84,24 @@
                 <textarea matInput placeholder="Commentaires" name="notes" [(ngModel)]="recipe.notes"></textarea>
           </mat-form-field>
 
-          <div>
+
+        <mat-form-field hintLabel="Appuyez sur 'Enter' pour créer l'étiquette.">
+          <mat-chip-list #tagChipList>
+            <mat-chip *ngFor="let tag of recipe.tags" selectable="false" removable="true" (remove)="removeTag(tag)">
+              {{tag}}<mat-icon matChipRemove>cancel</mat-icon>
+            </mat-chip>
+            <input placeholder="Décrivez la recette à l'aide d'étiquettes" #input maxlength="20"
+                   [matChipInputFor]="tagChipList"
+                   [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                   matChipInputAddOnBlur="true"
+                   (matChipInputTokenEnd)="addTag($event)" />
+          </mat-chip-list>
+          <mat-hint align="end">{{input.value?.length || 0}}/20</mat-hint>
+        </mat-form-field>
+
+
+
+          <div class="flex margin-top-20">
             <Label>Note*</Label>
             <div class="rating">
               <star-rating class="rating-control" name="rating" [(ngModel)]="recipe.rating" required></star-rating>

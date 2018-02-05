@@ -63,6 +63,12 @@ export class ApiGetRecipesService {
                         return recipes.map((recipe:any)=>recipe.name);
                       });
     }
+
+    getGenres() {
+      const url = `${environment.apiUrl}/recipes/genres`;
+
+      return this.http.get<string[]>(url)
+    }
 }
 
 /*(function() {

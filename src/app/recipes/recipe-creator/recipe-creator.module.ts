@@ -9,7 +9,8 @@ import { MatButtonModule,
          MatInputModule,
          MatIconModule,
          MatSelectModule,
-         MatTooltipModule
+         MatTooltipModule,
+         MatChipsModule
           } from '@angular/material';
 
 import { RecipeCreator } from './recipe-creator.component';
@@ -50,6 +51,7 @@ import { AutocompleteInputModule } from './../../controls/autocomplete-input/aut
              MatIconModule,
              MatSelectModule,
              MatTooltipModule,
+             MatChipsModule,
              CoreModule,
              StarRatingModule,
              CustomListBoxModule,

@@ -21,6 +21,7 @@ export class Recipe {
     equipment: string[];
     fullImage?: string; // Contains the base64 encoded image.
     owner: string;
+    tags: string[];
 
 
     // I'm using parameter overload since TypeScript doesn't support having more
@@ -33,9 +34,9 @@ export class Recipe {
         this.ingredientSection = [new IngredientSection()];
         this.stepSection = [new StepSection()];
         this.rating = 0;
-        this.prepTime = 0;
-        this.cookTime = 0;
-        this.cooldownTime = 0;
+        this.prepTime = null;
+        this.cookTime = null;
+        this.cooldownTime = null;
         this.results = "";
         this.notes = "";
         this.genre = "";
@@ -43,6 +44,7 @@ export class Recipe {
         this.equipment = [];
         this.fullImage = Recipe.DEFAULT_IMAGE;
         this.owner = null;
+        this.tags = [];
       }
       // Copy constructor.
       else {
@@ -61,6 +63,7 @@ export class Recipe {
         this.equipment = recipe.equipment;
         this.fullImage = recipe.fullImage;
         this.owner = recipe.owner;
+        this.tags = recipe.tags;
       }
    }
 }

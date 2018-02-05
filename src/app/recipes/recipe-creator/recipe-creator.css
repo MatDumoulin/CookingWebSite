@@ -2,10 +2,6 @@
 .mat-form-field {
   width: 100%;
 }
-
-.mat-select {
-  width: 100%;
-}
 /* Top of the window */
 .header {
   display: flex;
@@ -45,16 +41,21 @@
 }
 
 .time-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+    display: flex;
+    justify-content: space-between;
 }
 
 .time-input {
   width: 30%;
 }
 
+
+
 @media screen and (min-width: 1501px){
+  .recipe-info-inputs .mat-form-field:not(.time-input) {
+    width: 100%;
+  }
+
   .tab-content {
     width: 1100px;
   }
@@ -84,9 +85,16 @@
     flex-direction: row;
   }
 
+  .time-container {
+    flex-direction: row;
+  }
 }
 
 @media screen and (min-width: 550px) and (max-width: 1500px){
+  .mat-form-field {
+    width: 95%;
+  }
+
   .tab-content {
     width: 100%;
   }
@@ -100,9 +108,17 @@
     flex-direction: column;
   }
 
+  .time-container {
+    flex-direction: column;
+  }
+
 }
 
 @media screen and (max-width: 550px) {
+  .mat-form-field {
+    width: 95%;
+  }
+
   .tab-content {
     width: 100vw;
   }
@@ -113,6 +129,10 @@
 
   .tab-content.ingredients-steps {
     justify-content: center;
+    flex-direction: column;
+  }
+
+  .time-container {
     flex-direction: column;
   }
 }
@@ -168,6 +188,8 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  height: 100%;
+  margin-top: 20px;
 }
 
 .rating {
@@ -182,4 +204,15 @@
 /* Window's actions */
 .delete-recipe-button {
   margin-right: 20px;
+}
+
+.margin-top-20 {
+  margin-top: 20px;
+}
+
+@media screen and (max-width: 1500px){
+  .tab-content.comments-tab {
+    justify-content: space-between;
+    flex-direction: column;
+  }
 }

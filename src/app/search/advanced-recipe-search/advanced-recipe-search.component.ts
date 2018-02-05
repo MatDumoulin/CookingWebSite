@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 
-import { Genres } from '../../recipes/genre/shared/genre.service';
+import { GenresService } from '../../recipes/genre/shared/genre.service';
 import { Ingredient } from '../../recipes/ingredients/shared/ingredient.model';
 
 @Component({
@@ -24,11 +24,15 @@ export class AdvancedRecipeSearchComponent implements OnInit {
     wantsTotalTime: false
   };
 
-  GENRES = Genres.get();
+  genres: string[];
 
-  constructor(private dialogRef: MatDialogRef<AdvancedRecipeSearchComponent>) { }
+  constructor(private dialogRef: MatDialogRef<AdvancedRecipeSearchComponent>,
+              private genresService: GenresService) { }
 
   ngOnInit() {
+    // Subscribing to the needed data stores
+    this.genresService.genres.subscribe(genres => this.genres = genres);
+
     this.addIngredient();
   }
 

@@ -18,7 +18,7 @@
   <div>
     <mat-form-field class="strecth">
       <mat-select placeholder="Genre" name="genre" [(ngModel)]="searchCriteria.genre" (change)="searchCriteria.wantsGenre = true">
-         <mat-option *ngFor="let genre of GENRES" [value]="genre">{{ genre }}</mat-option>
+         <mat-option *ngFor="let genre of genres" [value]="genre">{{ genre }}</mat-option>
        </mat-select>
     </mat-form-field>
     <mat-checkbox [(ngModel)]="searchCriteria.wantsGenre"></mat-checkbox>

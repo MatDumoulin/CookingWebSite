@@ -1,5 +1,9 @@
-<custom-listbox [title]="'Matériel'" [addItemText]="'Ajouter un équipement'" (createNewItem)="createItem()">
-  <div *ngFor="let equipment of equipments; index as i; trackBy:trackByFn">
-    <equipment-listitem [(ngModel)]="equipments[i]" (remove)="removeItem(i)"></equipment-listitem>
+<div>
+  <label for="equipment-list"><h3 class="no-margin-bottom no-bold">Matériel</h3></label>
+  <mat-list id="equipment-list">
+        <equipment-listitem *ngFor="let equipment of equipments; index as i; trackBy:trackByFn" [(ngModel)]="equipments[i]" (remove)="removeItem(i)"></equipment-listitem>
+  </mat-list>
+  <div class="align-end margin-top actions">
+    <button type="button" color="primary" (click)="createItem()" mat-button>Ajouter un équipement</button>
   </div>
-</custom-listbox>
+</div>

@@ -1,10 +1,12 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MatSnackBar, MAT_DIALOG_DATA } from '@angular/material';
 import { Recipe } from './../shared/recipe.model';
-import { Genres } from './../genre/shared/genre.service';
 import { ApiSpecificRecipeService } from './../shared/api-specific-recipe.service';
 import { RecipesService } from './../shared/recipes.service';
 import { ImageLoaderService } from '../../core/images/image-loader.service';
+import {ENTER} from '@angular/cdk/keycodes';
+
+const COMMA = 188;
 
 @Component({
   selector: 'recipe-creator',
@@ -14,15 +16,16 @@ import { ImageLoaderService } from '../../core/images/image-loader.service';
 export class RecipeCreator{
   recipe = new Recipe();
   originalRecipe:Recipe; // Keeping a copy of the recipe before modification.
-  GENRES = Genres.get();
   NUMBER_OF_TABS = 2;
   selectedTab = 0;
   displayedImage = Recipe.DEFAULT_IMAGE;
   // Text to display wether we are on edit or create mode.
   isEdit: boolean;
   finishButtonText = "Créer";
-  windowTitle = "Création d'une recette";
+  windowTitle = "Création de la recette";
   isImageLoaded = false;
+  // Tag chip list
+  separatorKeysCodes = [ENTER, COMMA];
 
   constructor(private dialogRef: MatDialogRef<RecipeCreator>,
               private snackBar: MatSnackBar,
@@ -62,6 +65,26 @@ export class RecipeCreator{
 
   goToNextTab() {
     this.selectedTab++;
+  }
+
+  addTag(event) {
+    let input = event.input;
+    let value = event.value;
+
+    // Add our tag
+    if ((value || '').trim()) {
+      this.recipe.tags.push(value.trim());
+    }
+
+    // Reset the input value
+    if (input) {
+      input.value = '';
+    }
+  }
+
+  removeTag(tagToDelete) {
+    const indexOfTag = this.recipe.tags.findIndex(tag => tag === tagToDelete);
+    this.recipe.tags.splice(indexOfTag, 1); // Removing the recipe from the list.
   }
 
   createRecipe() {

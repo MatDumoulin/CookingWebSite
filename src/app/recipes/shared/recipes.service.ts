@@ -34,9 +34,17 @@ export class RecipesService {
 
   /* Adds a recipe to the local list of recipe. */
   addToClientSideList(newRecipe:Recipe) {
-    // Creating a copy of the list of recipes                                    // TODO: Investigate if the copy is mandatory.
     const copiedData = this.data.slice();
-    copiedData.push(newRecipe);
+    // If the recipe is already in the list, update it.
+    const indexOfRecipe = copiedData.findIndex(r => r._id == newRecipe._id);
+    if(indexOfRecipe !== -1) {
+      copiedData[indexOfRecipe] = newRecipe;
+    }
+    // Otherwise, add it.
+    else {
+      copiedData.push(newRecipe);
+    }
+
     this.dataChange.next(copiedData);
   }
 

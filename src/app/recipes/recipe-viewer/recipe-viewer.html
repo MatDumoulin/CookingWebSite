@@ -20,9 +20,16 @@
       <mat-icon class="clickable" color="primary" (click)="closeDialog()">clear</mat-icon>
     </div>
     <div class="recipe-top-info">
-      <h2 class="recipe-name" mat-dialog-title>{{recipe.name | uppercase}}</h2>
-      <star-rating [readonly]="true" [(ngModel)]="recipe.rating"></star-rating>
-      <strong>TAG</strong>
+      <div class="recipe-name-container">
+        <div>
+          <h2 class="recipe-name" mat-dialog-title>{{recipe.name | uppercase}}</h2>
+          <star-rating [readonly]="true" [(ngModel)]="recipe.rating"></star-rating>
+        </div>
+        <!-- tags -->
+        <mat-chip-list class="tags" *ngIf="recipe.tags.length > 0">
+          <mat-chip *ngFor="let tag of recipe.tags" color="primary" selected="true" disabled>{{tag}}</mat-chip>
+        </mat-chip-list>
+      </div>
       <hr> <!-- Line separator -->
       <div class="artisticFont recipe-portions-time">
         <p>Portions: {{ recipe.results }}    |
@@ -35,53 +42,54 @@
     <img class="recipe-image" [ngClass]="{'border mat-elevation-z3': recipe.image}" [src]="recipe.fullImage? recipe.fullImage: defaultImage">
   </div>
 
-  <div class="middle-section artisticFont">
-
-    <div>
-      <div class="ingredient-step-titles row">
-        <div class="section">
-          <h4 class="small-marginbottom"><strong>INGRÉDIENTS</strong></h4>
+  <mat-dialog-content class="dialog-content">
+    <div class="middle-section artisticFont">
+      <div>
+        <div class="ingredient-step-titles row">
+          <div class="section">
+            <h4 class="small-marginbottom"><strong>INGRÉDIENTS</strong></h4>
+          </div>
+          <div class="section">
+            <h4 class="small-marginbottom"><strong>ÉTAPES</strong></h4>
+          </div>
         </div>
-        <div class="section">
-          <h4 class="small-marginbottom"><strong>ÉTAPES</strong></h4>
-        </div>
-      </div>
-      <div class="row" *ngFor="let section of biggestSection; let i = index">
-        <!-- The ingredients section -->
-        <div class="section">
-          <div *ngIf="i < recipe.ingredientSection.length">
-            <h4 class="small-marginbottom" *ngIf="recipe.ingredientSection[i].name">
-              <strong><em>{{recipe.ingredientSection[i].name}}</em></strong>
-            </h4>
-            <div class="ingredient" *ngFor="let ingredient of recipe.ingredientSection[i].ingredients">
-              <div class="ingredient-quantity">{{ ingredient.quantity }} {{ ingredient.units }}</div>
-              <div class="ingredient-name capitalized">{{ ingredient.name }}</div>
+        <div class="row" *ngFor="let section of biggestSection; let i = index">
+          <!-- The ingredients section -->
+          <div class="section">
+            <div *ngIf="i < recipe.ingredientSection.length">
+              <h4 class="small-marginbottom" *ngIf="recipe.ingredientSection[i].name">
+                <strong><em>{{recipe.ingredientSection[i].name}}</em></strong>
+              </h4>
+              <div class="ingredient" *ngFor="let ingredient of recipe.ingredientSection[i].ingredients">
+                <div class="ingredient-quantity">{{ ingredient.quantity }} {{ ingredient.units }}</div>
+                <div class="ingredient-name capitalized">{{ ingredient.name }}</div>
+              </div>
+            </div>
+          </div>
+          <!-- The steps section -->
+          <div class="section reset-counter" >
+            <div *ngIf="i < recipe.stepSection.length">
+              <div class="reset-counter">
+                <h4 class="small-marginbottom" *ngIf="recipe.stepSection[i].name"><strong><em>{{recipe.stepSection[i].name}}</em></strong></h4>
+                <div class="step capitalized" *ngFor="let step of recipe.stepSection[i].steps">{{ step }}</div>
+              </div>
             </div>
           </div>
         </div>
-        <!-- The steps section -->
-        <div class="section reset-counter" >
-          <div *ngIf="i < recipe.stepSection.length">
-            <div class="reset-counter">
-              <h4 class="small-marginbottom" *ngIf="recipe.stepSection[i].name"><strong><em>{{recipe.stepSection[i].name}}</em></strong></h4>
-              <div class="step capitalized" *ngFor="let step of recipe.stepSection[i].steps">{{ step }}</div>
-            </div>
-          </div>
-        </div>
+      </div>
+      <!-- Materiel -->
+      <div *ngIf="recipe.equipment.length > 0" class="equipment">
+        <h4 class="small-marginbottom"><strong>MATÉRIEL NÉCESSAIRE</strong></h4>
+        <ul>
+          <li *ngFor="let equipment of recipe.equipment">{{equipment}}</li>
+        </ul>
       </div>
     </div>
-    <!-- Materiel -->
-    <div *ngIf="recipe.equipment.length > 0">
-      <h4 class="small-marginbottom"><strong>MATÉRIEL NÉCESSAIRE</strong></h4>
-      <ul>
-        <li *ngFor="let equipment of recipe.equipment">{{equipment}}</li>
-      </ul>
-    </div>
-  </div>
 
-  <div class="recipe-notes" *ngIf="recipe.notes.length > 0">
-    <p class="note"><i>{{ recipe.notes }}</i></p>
-  </div>
+    <div class="recipe-notes" *ngIf="recipe.notes.length > 0">
+      <p class="note"><i>{{ recipe.notes }}</i></p>
+    </div>
+  </mat-dialog-content>
 
   <mat-dialog-actions align="end">
     <button class="button" color="primary" mat-button mat-dialog-close>Fermer</button>

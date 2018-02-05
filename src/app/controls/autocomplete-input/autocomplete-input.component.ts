@@ -1,7 +1,8 @@
 import { Component, OnInit, OnDestroy, Input, Output,
          forwardRef, ElementRef, EventEmitter,
-         Renderer2, HostBinding, Optional} from '@angular/core';
+         Renderer2, HostBinding, Optional, ViewChild} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, NgControl} from '@angular/forms';
+import { MatAutocomplete } from '@angular/material';
 import {Subject} from 'rxjs/Subject';
 import {coerceBooleanProperty} from '@angular/cdk/coercion';
 import {FocusMonitor} from '@angular/cdk/a11y';
@@ -16,6 +17,7 @@ import { MatFormFieldControl } from '@angular/material/form-field';
 export abstract class AutocompleteInput implements OnInit, OnDestroy, MatFormFieldControl<string>, ControlValueAccessor {
   static nextId = 0;
 
+  @ViewChild(MatAutocomplete) matAutocomplete: MatAutocomplete;
   // Changing the input event so that it triggers when an autocomplete option is chosen.
   @Output()
   input = new EventEmitter();
@@ -70,6 +72,11 @@ export abstract class AutocompleteInput implements OnInit, OnDestroy, MatFormFie
     this._value = newValue || "";
 
     this.emitChanges();
+  }
+
+  // Allows to select the first option on 'enter' pressed
+  chooseFirstOption(): void {
+    this.matAutocomplete.options.first.select();
   }
 
   // Makes this component compatible with the mat-form-field of Angular Material

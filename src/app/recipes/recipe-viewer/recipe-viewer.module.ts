@@ -4,7 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { MatButtonModule,
          MatDialogModule,
          MatProgressSpinnerModule,
-         MatIconModule } from '@angular/material';
+         MatIconModule,
+         MatChipsModule } from '@angular/material';
 
 import { RecipeViewer } from './recipe-viewer.component';
 import { StarRatingModule } from './../../controls/star-rating/star-rating.module';
@@ -19,6 +20,7 @@ import { StarRatingModule } from './../../controls/star-rating/star-rating.modul
              MatButtonModule,
              MatProgressSpinnerModule,
              MatIconModule,
+             MatChipsModule,
              StarRatingModule,
              FormsModule
            ],

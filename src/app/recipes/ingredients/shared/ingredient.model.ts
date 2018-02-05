@@ -3,14 +3,14 @@
  */
 export class Ingredient {
   name: string;
-  quantity: number;
+  quantity: string;
   units: string;
 
   constructor(ingredient ?: Ingredient) {
     // Default constructor
     if(ingredient == null) {
       this.name = "";
-      this.quantity = 0;
+      this.quantity = "";
       this.units = "";
     }
     // Copy constructor.

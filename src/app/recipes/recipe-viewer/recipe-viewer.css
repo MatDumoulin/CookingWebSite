@@ -2,7 +2,8 @@
 
 .window {
   width: 700px;  /* ~8.5 inches */
-  min-height: 825px; /* 11 inches  */
+  max-height: 825px; /* ~11 inches */
+  height: 90vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -39,6 +40,22 @@
 .recipe-top-info {
   flex-grow: 1;
   margin-right: 5%;
+}
+
+.recipe-name-container {
+  height: 52%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-bottom: 4%;
+}
+
+star-rating {
+  font-size: 0.9em;
+}
+
+mat-chip-list:focus {
+  outline: none;
 }
 
 .recipe-name {
@@ -92,6 +109,12 @@ hr {
   flex-basis: 47%;
 }
 
+.dialog-content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
 /*.section:not(:last-child) {
   margin-bottom: 25px;
 }*/
@@ -140,7 +163,6 @@ hr {
 
 .step:before {
   float:left;
-  position: absolute;
   content: counter(stepNumber);
   counter-increment: stepNumber;
   margin-left: -1.5em;
@@ -149,9 +171,7 @@ hr {
 
 /* Notes */
 .note {
-  margin-top: 5%;
   font-size: 0.95em;
-
 }
 
 .artisticFont {
@@ -169,6 +189,9 @@ hr {
   align-items: stretch;
 }
 
+.equipment {
+  margin-bottom: 3%;
+}
 /*@keyframes expand {
     0%   {
       width: 0px;
