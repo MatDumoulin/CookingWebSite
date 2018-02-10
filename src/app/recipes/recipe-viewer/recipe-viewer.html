@@ -32,11 +32,12 @@
       </div>
       <hr> <!-- Line separator -->
       <div class="artisticFont recipe-portions-time">
-        <p>Portions: {{ recipe.results }}    |
-           <img src="../../../assets/butcher-knife-20.png"> {{ convertToTime(recipe.prepTime) }}    |
-           <img src="../../../assets/barbecue-20.png"> {{ convertToTime(recipe.cookTime) }} |
-           <i class="material-icons size-20">hourglass_empty</i> {{ recipe.cooldownTime != 0 ? convertToTime(recipe.cooldownTime) : '--' }}
-        </p>
+        <span>Portions: {{ recipe.results }}</span>    |
+        <span><img src="../../../assets/butcher-knife-20.png"> {{ convertToTime(recipe.prepTime) }}</span>    |
+        <span><img src="../../../assets/barbecue-20.png"> {{ convertToTime(recipe.cookTime) }}</span> |
+        <span>
+          <i class="material-icons size-20">hourglass_empty</i> {{ recipe.cooldownTime != 0 ? convertToTime(recipe.cooldownTime) : '--' }}
+        </span>
       </div>
     </div>
     <img class="recipe-image" [ngClass]="{'border mat-elevation-z3': recipe.image}" [src]="recipe.fullImage? recipe.fullImage: defaultImage">

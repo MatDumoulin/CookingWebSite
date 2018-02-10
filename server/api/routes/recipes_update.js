@@ -34,7 +34,7 @@ function routeFactory(dbColl) {
         delete recipe.fullImage; // Not saving the image to the database.
         // If no image has been uploaded yet
         if(fullImage && !recipe.image) {
-            recipe.image = id;
+            recipe.image = id.toString();
         }
 
         dbColl.findAndModify(docToUpdateIdentifier, orderIfConflict, {$set: req.body}, {upsert: false, new: true}, // Do not create a new record if no doc found.

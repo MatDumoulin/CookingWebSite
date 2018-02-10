@@ -79,12 +79,12 @@ hr {
 .recipe-portions-time {
   font-size: 0.9em;
   flex-grow: 1;
-}
-
-.recipe-portions-time p {
-  display: inline-flex;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
 }
+
 
 .size-20 {
   font-size: 1.2em;
