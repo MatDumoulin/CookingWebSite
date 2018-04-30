@@ -43,3 +43,7 @@
       <mat-row class="clickable" *cdkRowDef="let recipe; columns: displayedColumns;" (click)="viewRecipe(recipe._id)"></mat-row>
     </mat-table>
 </mat-card>
+
+<mat-form-field>
+    <mcb-time-input-moment placeholder="Test" minutesSeparator=""></mcb-time-input-moment>
+</mat-form-field>

@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+/* import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule,
@@ -25,14 +25,14 @@ import { StepSectionComponent } from '../steps/step-section/step-section.compone
 import { StepSectionWrapper } from '../steps/step-section-wrapper/step-section-wrapper.component';
 import { EquipmentListBox } from '../equipment/equipment-listbox/equipment-listbox.component';
 import { EquipmentListItem } from '../equipment/equipment-listitem/equipment-listitem.component';
-import { UtilsModule } from '../../utils/utils.module'
+import { UtilsModule } from '../../utils/utils.module';
 import { TimeInputModule } from './../../controls/time-input/time-input.module';
 import { AutocompleteInputModule } from './../../controls/autocomplete-input/autocomplete-input.module';
 
 @NgModule({
   declarations: [
     RecipeCreator,
-    IngredientSectionComponent,
+     IngredientSectionComponent,
     IngredientSectionWrapper,
     StepListbox,
     StepSectionComponent,
@@ -65,3 +65,4 @@ import { AutocompleteInputModule } from './../../controls/autocomplete-input/aut
   exports: [ RecipeCreator ]
 })
 export class RecipeCreatorModule { }
+ */

@@ -1,0 +1,132 @@
+<div class="header">
+    <h1 mat-dialog-title>{{windowTitle}}
+        <span *ngIf="recipe.name">:
+            <strong>{{recipe.name}}</strong>
+        </span>
+    </h1>
+    <mat-icon class="clickable" color="primary" (click)="closeDialog()">clear</mat-icon>
+</div>
+
+<form #createRecipeForm="ngForm" autocomplete="off" mat-dialog-content>
+    <mat-tab-group dynamicHeight="true" [(selectedIndex)]="selectedTab" #tabGroup mat-stretch-tabs>
+
+        <mat-tab label="Informations">
+            <div class="tab-content recipe-info">
+
+                <div class="image-container image-box small-margin-bottom" matTooltip="Changez l'image de cette recette!">
+                    <input type="file" class="hidden" accept="image/*" (change)="updateImage($event)" #fileInput>
+                    <img class="image" [src]="displayedImage" (load)="isImageLoaded = true" [ngClass]="{invisible: !isImageLoaded}" alt="Photo of the recipe">
+                    <div class="image-hover-shader image-box" (click)="fileInput.click()">
+                        <img src="../../../assets/photo.svg" alt="Change photo">
+                    </div>
+                </div>
+
+                <div class="recipe-info-inputs">
+                    <div>
+                        <mat-form-field>
+                            <!--<input matInput placeholder="Nom de la recette" name="name" [(ngModel)]="recipe.name" required>-->
+                            <input placeholder="Nom de la recette" name="name" [(ngModel)]="recipe.name" matInput required>
+                            <mat-error> Le nom de la recette est
+                                <strong>requis</strong>
+                            </mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field>
+                            <!--<mat-select placeholder="Genre" name="genre" [(ngModel)]="recipe.genre" required>
+                   <mat-option *ngFor="let genre of GENRES" [value]="genre">{{ genre }}</mat-option>
+                </mat-select>-->
+                            <genre-autocomplete-input placeholder="Genre" name="genre" [(ngModel)]="recipe.genre" required></genre-autocomplete-input>
+                            <mat-error> Le genre de la recette est
+                                <strong>requis</strong>
+                            </mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field>
+                            <input matInput placeholder="Portion" name="portion" [(ngModel)]="recipe.results" matTooltip="Vous de disposez pas de cette information? Remplissez-le plus tard!">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="time-container">
+                        <mat-form-field class="time-input">
+                            <time-input placeholder="Préparation" name="prepTime" [(ngModel)]="recipe.prepTime"></time-input>
+                            <mat-icon matSuffix>schedule</mat-icon>
+                            <mat-error> Le temps de préparation est
+                                <strong>requis</strong>
+                            </mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field class="time-input">
+                            <time-input placeholder="Cuisson" name="cookTime" [(ngModel)]="recipe.cookTime"></time-input>
+                            <mat-icon matSuffix>schedule</mat-icon>
+                            <mat-error> Le temps de cuisson est
+                                <strong>requis</strong>
+                            </mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field class="time-input">
+                            <time-input placeholder="Repos" name="cooldownTime" [(ngModel)]="recipe.cooldownTime"></time-input>
+                            <mat-icon matSuffix>schedule</mat-icon>
+                            <mat-error> Le temps de repos est
+                                <strong>requis</strong>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+            </div>
+
+        </mat-tab>
+
+        <mat-tab label="Étapes et Ingrédients">
+            <div class="tab-content ingredients-steps">
+                <ingredient-section-wrapper class="recipe-section" name="ingredient-section" [(ngModel)]="recipe.ingredientSection"></ingredient-section-wrapper>
+
+                <step-section-wrapper class="recipe-section" name="step-section" [(ngModel)]="recipe.stepSection"></step-section-wrapper>
+            </div>
+        </mat-tab>
+
+        <mat-tab label="Commentaires">
+            <div class="tab-content comments-tab">
+                <equipment-listbox class="recipe-section" name="equipment-section" [(ngModel)]="recipe.equipment"></equipment-listbox>
+
+                <div class="recipe-section comments-rating">
+                    <mat-form-field>
+                        <textarea matInput placeholder="Commentaires" name="notes" [(ngModel)]="recipe.notes"></textarea>
+                    </mat-form-field>
+
+
+                    <mat-form-field hintLabel="Appuyez sur 'Enter' pour créer l'étiquette.">
+                        <mat-chip-list #tagChipList>
+                            <mat-chip *ngFor="let tag of recipe.tags" selectable="false" removable="true" (remove)="removeTag(tag)">
+                                {{tag}}
+                                <mat-icon matChipRemove>cancel</mat-icon>
+                            </mat-chip>
+                            <input placeholder="Décrivez la recette à l'aide d'étiquettes" #input maxlength="20" [matChipInputFor]="tagChipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                matChipInputAddOnBlur="true" (matChipInputTokenEnd)="addTag($event)" />
+                        </mat-chip-list>
+                        <mat-hint align="end">{{input.value?.length || 0}}/20</mat-hint>
+                    </mat-form-field>
+
+
+
+                    <div class="flex margin-top-20">
+                        <Label>Note*</Label>
+                        <div class="rating">
+                            <star-rating class="rating-control" name="rating" [(ngModel)]="recipe.rating" required></star-rating>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+</form>
+<mat-dialog-actions align="end">
+    <button color="accent" class="delete-recipe-button" (click)="deleteRecipe()" *ngIf=" isEdit" mat-button>Supprimer</button>
+
+    <button color="primary" (click)="goToNextTab()" *ngIf="selectedTab != NUMBER_OF_TABS" mat-raised-button>Suivant</button>
+
+    <div [matTooltip]="!createRecipeForm.form.valid? 'Vous devez remplir tous les champs obligatoires*.' : null">
+        <button color="accent" (click)="isEdit? updateRecipe() : createRecipe()" *ngIf="selectedTab === NUMBER_OF_TABS" [disabled]="!createRecipeForm.form.valid"
+            matTooltip="Vous pouvez désormais créer votre recette!" mat-raised-button>{{finishButtonText}}</button>
+    </div>
+</mat-dialog-actions>

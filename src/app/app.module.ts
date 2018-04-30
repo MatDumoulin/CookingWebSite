@@ -1,77 +1,109 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
-// Angular Material Module. This module imports all needed material components.
-// See https://material.angular.io/guide/getting-started for more information.
-import { AngularMaterialModule } from './angular-material.module';
 import 'hammerjs'; // To support gestures.
-// To access HTML5 LocalStorage's features
-import { LocalStorageModule } from 'angular-2-local-storage';
-// Routes for the app
-import { routing } from './app.routes';
-// Custom components/services made for this app.
+import { LocalStorageModule } from 'angular-2-local-storage'; // To access HTML5 LocalStorage's features
+// NgRx
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+// Custom modules
+import { AngularMaterialModule } from './angular-material.module';
 import { CoreModule } from './core/core.module';
-import { App } from './app.component';
-import { IntroPage } from './pages/intro-page/intro-page.component';
+import { RecipeViewerModule } from './recipes/recipe-viewer/recipe-viewer.module';
+/* import { RecipeCreatorModule } from './recipes/recipe-creator/recipe-creator.module'; */
+import { ControlsModule } from './controls/controls.module';
+// Components
+import { AppComponent } from './app.component';
+import { AdvancedRecipeSearchComponent } from './search/advanced-recipe-search/advanced-recipe-search.component';
+import { AdvancedRecipeSearchModule } from './search/advanced-recipe-search/advanced-recipe-search.module';
+import { EquipmentListBox } from './recipes/equipment/equipment-listbox/equipment-listbox.component';
+import { EquipmentListItem } from './recipes/equipment/equipment-listitem/equipment-listitem.component';
 import { HomePage } from './pages/home-page/home-page.component';
-import { RecipePage } from './pages/recipe-page/recipe-page.component';
+import { IngredientListboxModule } from './recipes/ingredients/ingredient-listbox/ingredient-listbox.module';
+import { IngredientSectionComponent } from './recipes/ingredients/ingredient-section/ingredient-section.component';
+import { IngredientSectionWrapper } from './recipes/ingredients/ingredient-section-wrapper/ingredient-section-wrapper.component';
+import { IntroPage } from './pages/intro-page/intro-page.component';
+import { LoginPage } from './pages/login-page/login-page.component';
+import { RecipePageComponent } from './pages/recipe-page/recipe-page.component';
+/* import { RecipeCreator } from './recipes/recipe-creator/recipe-creator.component'; */
+import { RecipeCreatorComponent } from './pages/recipe-creator/recipe-creator.component';
+import { RecipeListComponent } from './recipes/recipe-list/recipe-list.component';
+import { RecipeViewer } from './recipes/recipe-viewer/recipe-viewer.component';
+import { StepListbox } from './recipes/steps/step-listbox/step-listbox.component';
+import { StepSectionComponent } from './recipes/steps/step-section/step-section.component';
+import { StepSectionWrapper } from './recipes/steps/step-section-wrapper/step-section-wrapper.component';
 import { TopNav } from './top-nav/top-nav.component';
-import { RecipeList } from './recipes/recipe-list/recipe-list.component';
+// Services
 import { ApiGetRecipesService } from './recipes/shared/api-get-recipes.service';
 import { ApiSpecificRecipeService } from './recipes/shared/api-specific-recipe.service';
-import { RecipesService } from './recipes/shared/recipes.service';
 import { GenresService } from './recipes/genre/shared/genre.service';
-import { StarRatingModule } from './controls/star-rating/star-rating.module';
-import { RecipeViewerModule } from './recipes/recipe-viewer/recipe-viewer.module';
-import { RecipeViewer } from './recipes/recipe-viewer/recipe-viewer.component';
-import { RecipeCreatorModule } from './recipes/recipe-creator/recipe-creator.module';
-import { RecipeCreator } from './recipes/recipe-creator/recipe-creator.component';
-import { AdvancedRecipeSearchModule } from './search/advanced-recipe-search/advanced-recipe-search.module';
-import { AdvancedRecipeSearchComponent } from './search/advanced-recipe-search/advanced-recipe-search.component';
-import { LoginPage } from './pages/login-page/login-page.component';
-import { TokenInterceptor } from './core/authentication/auth-http-interceptor.service'
+import { RecipesService } from './recipes/shared/recipes.service';
+import { TokenInterceptor } from './core/authentication/auth-http-interceptor.service';
+// Others
+import { environment } from '../environments/environment';
+import { routing } from './app.routes';
+import { UtilsModule } from './utils/utils.module';
+import { SidenavContentComponent } from './sidenav-content/sidenav-content.component';
 
 
 @NgModule({
-  declarations: [
-    IntroPage,
-    HomePage,
-    RecipePage,
-    TopNav,
-    RecipeList,
-    App,
-    LoginPage
-  ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule, // To enable animations for angular-material.
-    FormsModule,             // ngModel
-    ReactiveFormsModule,
-    HttpClientModule,
-    AngularMaterialModule,
-    RouterModule,
-    routing,
-    LocalStorageModule.withConfig({
+    declarations: [
+        AppComponent,
+        HomePage,
+        IntroPage,
+        LoginPage,
+        RecipeCreatorComponent,
+        RecipeListComponent,
+        RecipePageComponent,
+        TopNav,
+        IngredientSectionComponent,
+        IngredientSectionWrapper,
+        StepListbox,
+        StepSectionComponent,
+        StepSectionWrapper,
+        EquipmentListBox,
+        EquipmentListItem,
+        SidenavContentComponent
+    ],
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule, // To enable animations for angular-material.
+        FormsModule,             // ngModel
+        ReactiveFormsModule,
+        HttpClientModule,
+        AngularMaterialModule,
+        RouterModule,
+        routing,
+        LocalStorageModule.withConfig({
             prefix: 'mycookingbook',
             storageType: 'sessionStorage',
-            notifyOptions : {setItem: true, removeItem:true}
+            notifyOptions: { setItem: true, removeItem: true }
         }),
-    CoreModule,
-    StarRatingModule,
-    RecipeViewerModule,
-    RecipeCreatorModule,
-    AdvancedRecipeSearchModule
-  ],
-  entryComponents: [
-    RecipeViewer,
-    RecipeCreator,
-    AdvancedRecipeSearchComponent
-  ],
-  providers: [{provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true},
-               ApiGetRecipesService, ApiSpecificRecipeService, RecipesService, GenresService],
-  bootstrap: [App]
+        CoreModule,
+        ControlsModule,
+        RecipeViewerModule,
+        /* RecipeCreatorModule, */
+        AdvancedRecipeSearchModule,
+        StoreModule.forRoot({}),
+        EffectsModule.forRoot([]),
+        StoreDevtoolsModule.instrument({
+            maxAge: 25, // Retains last 25 states
+            logOnly: environment.production // Restrict extension to log-only mode
+        }),
+        UtilsModule,
+        IngredientListboxModule
+    ],
+    entryComponents: [
+        RecipeViewer,
+        /* RecipeCreator, */
+        AdvancedRecipeSearchComponent
+    ],
+    providers: [{ provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
+        ApiGetRecipesService, ApiSpecificRecipeService, RecipesService, GenresService],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

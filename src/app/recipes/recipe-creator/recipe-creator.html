@@ -1,4 +1,4 @@
-<div class="header">
+<!-- <div class="header">
   <h1 mat-dialog-title>{{windowTitle}}<span *ngIf="recipe.name">: <strong>{{recipe.name}}</strong></span></h1>
   <mat-icon class="clickable" color="primary" (click)="closeDialog()">clear</mat-icon>
 </div>
@@ -20,15 +20,11 @@
         <div class="recipe-info-inputs">
           <div>
             <mat-form-field>
-              <!--<input matInput placeholder="Nom de la recette" name="name" [(ngModel)]="recipe.name" required>-->
               <input placeholder="Nom de la recette" name="name" [(ngModel)]="recipe.name" matInput required>
               <mat-error> Le nom de la recette est <strong>requis</strong> </mat-error>
             </mat-form-field>
 
             <mat-form-field>
-              <!--<mat-select placeholder="Genre" name="genre" [(ngModel)]="recipe.genre" required>
-                 <mat-option *ngFor="let genre of GENRES" [value]="genre">{{ genre }}</mat-option>
-              </mat-select>-->
               <genre-autocomplete-input placeholder="Genre" name="genre" [(ngModel)]="recipe.genre" required></genre-autocomplete-input>
               <mat-error> Le genre de la recette est <strong>requis</strong> </mat-error>
             </mat-form-field>
@@ -122,3 +118,4 @@
             [disabled]="!createRecipeForm.form.valid" matTooltip="Vous pouvez désormais créer votre recette!" mat-raised-button>{{finishButtonText}}</button>
   </div>
 </mat-dialog-actions>
+ -->

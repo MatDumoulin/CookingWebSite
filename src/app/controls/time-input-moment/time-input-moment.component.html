@@ -1,0 +1,13 @@
+<form (mousedown)="focusLastInput($event)">
+    <input class="hours" name="hoursDecimal" placeholder="0" pattern="[0-9]" [(ngModel)]="hoursDecimal" (input)="updateHours($event)" (keydown.ArrowRight)="incrementMinutes($event)"
+        (keyup)="emitChanges()" onlyNumber>
+    <input class="hours" name="hoursUnit" placeholder="0" pattern="[0-9]" [(ngModel)]="hoursUnit" (input)="updateHours($event)" (keydown.ArrowRight)="incrementMinutes($event)"
+    (keyup)="emitChanges()" onlyNumber>
+    <span class="separator">{{hoursSeparator}}</span>
+    <input name="minutesDecimal" placeholder="0" pattern="[0-9]" [(ngModel)]="minutesDecimal" (input)="updateMinutes()" (keydown.ArrowLeft)="incrementMinutes($event)"
+        (keyup)="emitChanges()" onlyNumber>
+    <input name="minutesUnit" placeholder="0" pattern="[0-9]" [(ngModel)]="minutesUnit" (input)="updateMinutes()" (keydown.ArrowLeft)="incrementMinutes($event)"
+    (keyup)="emitChanges()" #lastInput onlyNumber>
+    <span class="separator">{{minutesSeparator}}</span>
+    <span>{{ hours + minutes }}</span>
+</form>

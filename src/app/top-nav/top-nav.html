@@ -1,6 +1,6 @@
 <mat-toolbar class="main-toolbar" color="primary">
   <div>
-    <button mat-icon-button (click)="sideNavRef.open()"><mat-icon>menu</mat-icon></button>
+    <button *ngIf="sideNavRef" (click)="sideNavRef.open()"  mat-icon-button><mat-icon>menu</mat-icon></button>
     <a class="no-style margin-left" [routerLink]="['/recipes']">MyCookBook</a>
   </div>
 

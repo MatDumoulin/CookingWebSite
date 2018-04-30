@@ -32,8 +32,8 @@ function routeFactory(dbColl) {
                 { "$addFields": {  "insensitive": { "$toLower": "$name" }} },
                 { "$sort": {insensitive: 1} },
                 { "$skip" : from },
-                { "$limit": to - from },
-                { "$project": { _id: 1, name: 1, genre: 1, rating: 1}}],
+                { "$limit": to - from }/* ,
+                { "$project": { _id: 1, name: 1, genre: 1, rating: 1} }*/],
                  function(err, recipes) {
                     if(err) {
                         console.error(err);
