@@ -12,12 +12,16 @@ input {
     padding: 0;
     outline: none;
     font: inherit;
-    text-align: center;
-    width: 1em;
+    text-align: right;
+    width: 0.7em;
 }
 
-input:not(:first-child), .separator {
+input:not(:first-child) {
     margin-left: -5px;
+}
+
+.separator {
+    margin-left: -2px;
 }
 
 /* Fading animation of separators when control is focused. */
@@ -28,4 +32,8 @@ span, input {
 
 :host.floating span, :host.floating input {
     opacity: 1;
+}
+
+.dimmed {
+    color: grey;
 }
