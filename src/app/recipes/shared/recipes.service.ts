@@ -3,7 +3,6 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/Observable/of';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { LocalStorageService } from 'angular-2-local-storage';
-import 'rxjs/add/operator/map';
 import { ApiGetRecipesService } from './api-get-recipes.service';
 import { ApiSpecificRecipeService } from './api-specific-recipe.service';
 import { Recipe } from './recipe.model';
@@ -121,7 +120,7 @@ export class RecipesService {
 
         return new Promise((resolve, reject) => {
             this.apiGetRecipesService.advancedSearch(searchIntent)
-                .subscribe(recipes => {
+                .subscribe( (recipes: any) => {
                     this.overrideClientSideList(recipes);
                     this.canLoadMoreRecipe = false;
                     this.isLoadingMoreRecipes = false;

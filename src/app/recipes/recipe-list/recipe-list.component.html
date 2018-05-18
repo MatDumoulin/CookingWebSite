@@ -45,5 +45,7 @@
 </mat-card>
 
 <mat-form-field>
-    <mcb-time-input-moment placeholder="Test" minutesSeparator=""></mcb-time-input-moment>
+    <ng-md-time-input [(ngModel)]="testTime" placeholder="Test" minutesSeparator="" (change)="ONCHANGE($event)" required></ng-md-time-input>
 </mat-form-field>
+
+<pre>{{testTime | json}}</pre>

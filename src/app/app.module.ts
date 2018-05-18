@@ -6,6 +6,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import 'hammerjs'; // To support gestures.
 import { LocalStorageModule } from 'angular-2-local-storage'; // To access HTML5 LocalStorage's features
+import { NgMdTimeInputModule } from 'ng-md-time-input';
 // NgRx
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -95,7 +96,8 @@ import { SidenavContentComponent } from './sidenav-content/sidenav-content.compo
             logOnly: environment.production // Restrict extension to log-only mode
         }),
         UtilsModule,
-        IngredientListboxModule
+        IngredientListboxModule,
+        NgMdTimeInputModule
     ],
     entryComponents: [
         RecipeViewer,

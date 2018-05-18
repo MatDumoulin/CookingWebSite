@@ -17,7 +17,7 @@
   <!-- Recipe Type -->
   <div>
     <mat-form-field class="strecth">
-      <mat-select placeholder="Genre" name="genre" [(ngModel)]="searchCriteria.genre" (change)="searchCriteria.wantsGenre = true">
+      <mat-select placeholder="Genre" name="genre" [(ngModel)]="searchCriteria.genre" (selectionChange)="searchCriteria.wantsGenre = true">
          <mat-option *ngFor="let genre of genres" [value]="genre">{{ genre }}</mat-option>
        </mat-select>
     </mat-form-field>
@@ -45,7 +45,7 @@
             </mat-form-field>
           </div>
           <mat-form-field class="include-ingredient">
-            <mat-select [(ngModel)]="ingredient.include" (change)="searchCriteria.wantsIngredient[i] = true">
+            <mat-select [(ngModel)]="ingredient.include" (selectionChange)="searchCriteria.wantsIngredient[i] = true">
                <mat-option [value]="true">Inclure</mat-option>
                <mat-option [value]="false">Exclure</mat-option>
              </mat-select>
@@ -66,7 +66,7 @@
             </mat-form-field>
           </div>
           <mat-form-field class="include-ingredient" matTooltip="Disposez vous de cet ingrédient?">
-            <mat-select [(ngModel)]="ingredient.include" (change)="searchCriteria.wantsIngredient[i] = true">
+            <mat-select [(ngModel)]="ingredient.include" (selectionChange)="searchCriteria.wantsIngredient[i] = true">
                <mat-option [value]="true">Inclure</mat-option>
                <mat-option [value]="false">Exclure</mat-option>
              </mat-select>

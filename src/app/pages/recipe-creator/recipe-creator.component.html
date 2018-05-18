@@ -97,7 +97,7 @@
 
                     <mat-form-field hintLabel="Appuyez sur 'Enter' pour créer l'étiquette.">
                         <mat-chip-list #tagChipList>
-                            <mat-chip *ngFor="let tag of recipe.tags" selectable="false" removable="true" (remove)="removeTag(tag)">
+                            <mat-chip *ngFor="let tag of recipe.tags" selectable="false" removable="true" (removed)="removeTag(tag)">
                                 {{tag}}
                                 <mat-icon matChipRemove>cancel</mat-icon>
                             </mat-chip>

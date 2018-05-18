@@ -7,9 +7,8 @@ import { environment } from './../../../environments/environment';
 import { LoggerService } from '../../core/logger/logger.service';
 import { ImageLoaderService } from '../../core/images/image-loader.service';
 import { Image } from '../../core/images/image.model';
-import { ObjectID } from 'bson';
-
-import 'rxjs/add/operator/map';
+import { ObjectID } from 'bson/browser_build/bson.js';
+import { map } from 'rxjs/operators';
 
 // Interacts with the API when it comes to single recipe request.
 @Injectable()
@@ -37,7 +36,7 @@ export class ApiSpecificRecipeService {
         const url = `${environment.apiUrl}/recipes/${recipeId}`;
         // Calling the API.
         return this.http.get(url)
-            .map((res: Recipe) => res);
+            .pipe(map((res: Recipe) => res));
     }
 
     getImage(imageURL: string): Promise<Image> {

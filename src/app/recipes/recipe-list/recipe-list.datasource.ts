@@ -1,8 +1,7 @@
 import { DataSource } from '@angular/cdk/collections';
 // Rxjs
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/merge';
-import 'rxjs/add/operator/map';
+import { map } from 'rxjs/operators';
 // Ngrx Store
 import { Store } from '@ngrx/store';
 import * as fromStore from '../../core/store';
@@ -23,7 +22,7 @@ export class RecipeListDataSource extends DataSource<any> {
 
         this.recipes$ = this.store.select(fromStore.getAllRecipes);
 
-        return this.recipes$.map((data) => this.sortData(data));
+        return this.recipes$.pipe(map((data) => this.sortData(data)));
     }
 
     disconnect() {

@@ -1,5 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog, MatSnackBar, MatSnackBarConfig } from '@angular/material';
+// moment
+import * as moment from 'moment';
 // Ngrx Store
 import { Store } from '@ngrx/store';
 import * as fromStore from '../../core/store';
@@ -37,6 +39,7 @@ export class RecipeListComponent extends InfiniteScroll implements OnInit, OnDes
     private allDataIsLoaded = false;
     private canLoadMoreData$: Observable<boolean>;
     private subcriptions: Subscription[] = [];
+    public testTime = moment.duration(15, 'days');
 
     constructor(private recipesService: RecipesService,
         private dialog: MatDialog,
@@ -94,7 +97,7 @@ export class RecipeListComponent extends InfiniteScroll implements OnInit, OnDes
     displaySearchCancelOption(): void {
         const config = new MatSnackBarConfig();
         config.horizontalPosition = "right";
-        config.extraClasses = "no-margin-bottom";
+        config.panelClass = "no-margin-bottom";
 
         const snackBarRef = this.snackbar.open("Une recherche est active.", "Annuler", config);
         snackBarRef.onAction().subscribe(() => {
@@ -145,5 +148,9 @@ export class RecipeListComponent extends InfiniteScroll implements OnInit, OnDes
             });
 
         }
+    }
+
+    ONCHANGE(event) {
+        console.log("CHANGED:", event);
     }
 }
