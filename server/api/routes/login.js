@@ -1,7 +1,7 @@
 let GoogleAuth = require('google-auth-library');
 const jwt = require('jsonwebtoken');
 
-const CLIENT_ID = "611116082789-nnb2ap65tvvfiq99nnve5oh8d6tksc2a.apps.googleusercontent.com";
+const CLIENT_ID = "570370763529-lvcc421ainf71o88qm18i95ahn05hq39.apps.googleusercontent.com";
 const expiresInSeconds = 3600;
 let auth = new GoogleAuth;
 let client = new auth.OAuth2(CLIENT_ID, '', '');

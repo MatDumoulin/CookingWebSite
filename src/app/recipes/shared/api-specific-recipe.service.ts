@@ -35,8 +35,7 @@ export class ApiSpecificRecipeService {
 
         const url = `${environment.apiUrl}/recipes/${recipeId}`;
         // Calling the API.
-        return this.http.get(url)
-            .pipe(map((res: Recipe) => res));
+        return this.http.get<Recipe>(url);
     }
 
     getImage(imageURL: string): Promise<Image> {
@@ -51,7 +50,7 @@ export class ApiSpecificRecipeService {
         return this.imageLoader.getImage(url);
     }
 
-    addRecipe(newRecipe: Recipe) {
+    addRecipe(newRecipe: Recipe): Observable<any> {
         // Parameter validation
         if (!newRecipe) {
             this.logger.error(`Il est impossible de créer une recette qui ne contient aucune information.`, `Ok`);
@@ -63,12 +62,7 @@ export class ApiSpecificRecipeService {
 
         const url = `${environment.apiUrl}/recipe`;
         // Calling the API.
-        return this.http.post(url, newRecipe)
-            .subscribe((res: any) => {
-                if (!res.insertWasSuccessful) {
-                    this.logger.error(`Une erreur empèche la création de votre recette. Nous sommes désolé de cet inconvénient.`, `Ok`);
-                }
-            });
+        return this.http.post(url, newRecipe);
     }
 
     updateRecipe(idOfRecipeToUpdate: string, newRecipe: Recipe) {
@@ -81,13 +75,7 @@ export class ApiSpecificRecipeService {
 
         const url = `${environment.apiUrl}/recipes/${idOfRecipeToUpdate}`;
         // Calling the API.
-        return this.http.post(url, newRecipe)
-            .subscribe((res: any) => {
-                if (!res.updateWasSuccessful) {
-                    this.logger.error(`Une erreur empèche la modification de votre recette. Nous sommes désolé de cet inconvénient.`, `Ok`);
-                }
-            });
-
+        return this.http.post(url, newRecipe);
     }
 
     deleteRecipe(id: string) {

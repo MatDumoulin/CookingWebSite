@@ -54,7 +54,7 @@ function routeFactory(dbColl) {
                 imageManager().saveImage(newRecipe.image, fullImage);
             }
 
-            res.status(201).send({ recipeFromDb: result.ops[0], insertWasSuccessful: 1 });
+            res.status(201).send(result.ops[0]);
         });
 
     }

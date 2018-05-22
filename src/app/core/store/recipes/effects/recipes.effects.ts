@@ -11,13 +11,15 @@ import { of } from 'rxjs/observable/of';
 import { Recipe } from '../../../../recipes/shared/recipe.model';
 // Services
 import { ApiGetRecipesService } from '../../../../recipes/shared/api-get-recipes.service';
+import { ApiSpecificRecipeService } from '../../../../recipes/shared/api-specific-recipe.service';
 
 @Injectable()
 export class RecipesEffects {
-    readonly LOADING_CHUNKS = 20;
+    private readonly LOADING_CHUNKS = 20;
 
     constructor(private actions$: Actions,
         private apiGetRecipesService: ApiGetRecipesService,
+        private apiSpecificRecipeService: ApiSpecificRecipeService,
         private store: Store<fromReducers.DataState>) { }
 
     @Effect()
@@ -46,7 +48,59 @@ export class RecipesEffects {
             else {
                 return of(new recipesActions.HasLoadedAllRecipes());
             }
+        })
+    );
 
+    /**
+     * This effect considers that the user already checked in the store if the recipe
+     * was there.
+     */
+    @Effect()
+    loadRecipe$ = this.actions$.ofType(recipesActions.LOAD_RECIPE).pipe(
+        switchMap((action) => {
+            const recipeId = (<recipesActions.LoadRecipe>action).payload;
+            // Request more recipes from the database.
+            return this.apiSpecificRecipeService.getRecipe(recipeId).pipe(
+                // Handle the status of the request.
+                switchMap(recipe => {
+                    return of(new recipesActions.LoadRecipesSuccess([recipe]));
+                }),
+                catchError(error => of(new recipesActions.LoadRecipesFail(error)))
+            );
+        })
+    );
+
+    @Effect()
+    createRecipe$ = this.actions$.ofType(recipesActions.CREATE_RECIPE).pipe(
+        withLatestFrom(this.store.select(fromReducers.getRecipesEntities)),
+        switchMap(([action, storeState]) => {
+            const recipeToAdd = (<recipesActions.CreateRecipe>action).payload;
+            // Add recipe to the database
+            return this.apiSpecificRecipeService.addRecipe(recipeToAdd).pipe(
+                // Handle the status of the request.
+                switchMap((recipe: Recipe) => {
+                    // Here, we return the create recipe success action.
+                    return of(new recipesActions.CreateRecipeSuccess(recipe));
+                }),
+                catchError(error => of(new recipesActions.CreateRecipeFail(error)))
+            );
+        })
+    );
+
+    @Effect()
+    updateRecipe$ = this.actions$.ofType(recipesActions.UPDATE_RECIPE).pipe(
+        withLatestFrom(this.store.select(fromReducers.getRecipesEntities)),
+        switchMap(([action, storeState]) => {
+            const recipeToUpdate = (<recipesActions.UpdateRecipe>action).payload;
+            // Update recipe in the database
+            return this.apiSpecificRecipeService.updateRecipe(recipeToUpdate._id, recipeToUpdate).pipe(
+                // Handle the status of the request.
+                switchMap((recipe: Recipe) => {
+                    // Here, we return the update recipe success action.
+                    return of(new recipesActions.UpdateRecipeSuccess(recipe));
+                }),
+                catchError(error => of(new recipesActions.UpdateRecipeFail(error)))
+            );
         })
     );
 }

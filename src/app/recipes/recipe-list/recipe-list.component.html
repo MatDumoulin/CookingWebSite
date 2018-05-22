@@ -1,13 +1,12 @@
 <mat-card class="mainContainer">
   <mat-card-header>
     <div class="table-header">
-      <button class="button" color="accent" (click)="createRecipe()" mat-button>Créer une recette</button>
+      <button class="button" color="accent" [routerLink]="['/recipe/create']" mat-button>Créer une recette</button>
       <button class="button" color="accent" (click)="advancedSearch()" mat-button><mat-icon>search</mat-icon>Recherche avancée</button>
     </div>
   </mat-card-header>
 
     <mat-table class="recipe-list" [dataSource]="dataSource" (scroll)="onScrollDown($event)" #table>
-
       <!--- Note that these columns can be defined in any order.
             The actual rendered columns are set as a property on the row definition -->
 
@@ -32,7 +31,7 @@
       <ng-container cdkColumnDef="actions">
         <mat-header-cell *cdkHeaderCellDef> Action </mat-header-cell>
         <mat-cell *cdkCellDef="let recipe">
-          <button color="primary" (click)="editRecipe(recipe._id, $event)" class="edit-button" mat-icon-button>
+          <button color="primary" [routerLink]="['/recipe/edit/' + recipe._id]" class="edit-button" mat-icon-button>
             <mat-icon aria-label="Edit or delete this recipe">create</mat-icon>
           </button>
         </mat-cell>
@@ -43,9 +42,3 @@
       <mat-row class="clickable" *cdkRowDef="let recipe; columns: displayedColumns;" (click)="viewRecipe(recipe._id)"></mat-row>
     </mat-table>
 </mat-card>
-
-<mat-form-field>
-    <ng-md-time-input [(ngModel)]="testTime" placeholder="Test" minutesSeparator="" (change)="ONCHANGE($event)" required></ng-md-time-input>
-</mat-form-field>
-
-<pre>{{testTime | json}}</pre>

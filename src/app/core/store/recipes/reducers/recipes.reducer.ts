@@ -17,7 +17,8 @@ export const initialState: RecipesState = {
 
 export function reducer(state = initialState, action: fromRecipes.RecipesAction): RecipesState {
     switch (action.type) {
-        case fromRecipes.LOAD_RECIPES: {
+        case fromRecipes.LOAD_RECIPES:
+        case fromRecipes.LOAD_RECIPE: {
             return {
                 ...state,
                 loading: true
@@ -59,6 +60,33 @@ export function reducer(state = initialState, action: fromRecipes.RecipesAction)
                 canLoadMore: false
             };
         }
+        // Create
+        case fromRecipes.CREATE_RECIPE_SUCCESS: {
+            const newRecipe = action.payload;
+            const flattenedNewRecipe = {[newRecipe._id]: newRecipe};
+            const entities = Object.assign({}, state.entities, flattenedNewRecipe);
+
+            return {
+                ...state,
+                entities
+            };
+        }
+        // Update
+        case fromRecipes.UPDATE_RECIPE_SUCCESS: {
+            const updatedRecipe = action.payload;
+            // Working on a copy of the entities for immutability.
+            const copyOfEntities = Object.assign({}, state.entities);
+            // Updating our clientside recipe.
+            copyOfEntities[updatedRecipe._id] = updatedRecipe;
+
+            return {
+                ...state,
+                entities: copyOfEntities
+            };
+        }
+
+        // Not handling the create recipe fail for now.
+        // Not handling the update recipe fail for now.
     }
 
     return state;

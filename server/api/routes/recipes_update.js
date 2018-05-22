@@ -52,7 +52,7 @@ function routeFactory(dbColl) {
                 imageManager().saveImage(recipe.image, fullImage);
             }
 
-            res.status(200).send({ recipeFromDb: result.value, updateWasSuccessful: 1 });
+            res.status(200).send(result.value);
         });
 
     }

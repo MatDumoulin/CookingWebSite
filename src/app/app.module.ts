@@ -14,6 +14,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 // Custom modules
 import { AngularMaterialModule } from './angular-material.module';
 import { CoreModule } from './core/core.module';
+import { RoutingModule } from './routing/routing.module';
 import { RecipeViewerModule } from './recipes/recipe-viewer/recipe-viewer.module';
 /* import { RecipeCreatorModule } from './recipes/recipe-creator/recipe-creator.module'; */
 import { ControlsModule } from './controls/controls.module';
@@ -77,6 +78,7 @@ import { SidenavContentComponent } from './sidenav-content/sidenav-content.compo
         ReactiveFormsModule,
         HttpClientModule,
         AngularMaterialModule,
+        RoutingModule,
         RouterModule,
         routing,
         LocalStorageModule.withConfig({

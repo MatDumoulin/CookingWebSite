@@ -1,7 +1,7 @@
 import { DataSource } from '@angular/cdk/collections';
 // Rxjs
 import { Observable } from 'rxjs/Observable';
-import { map } from 'rxjs/operators';
+import { map, count } from 'rxjs/operators';
 // Ngrx Store
 import { Store } from '@ngrx/store';
 import * as fromStore from '../../core/store';

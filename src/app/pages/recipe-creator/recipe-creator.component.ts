@@ -5,6 +5,12 @@ import { ApiSpecificRecipeService } from '../../recipes/shared/api-specific-reci
 import { RecipesService } from '../../recipes/shared/recipes.service';
 import { ImageLoaderService } from '../../core/images/image-loader.service';
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
+// Moment
+import { Duration } from 'moment';
+import * as moment from 'moment';
+// Ngrx Store
+import { Store } from '@ngrx/store';
+import * as fromStore from '../../core/store';
 
 @Component({
     selector: 'mcb-recipe-creator',
@@ -14,6 +20,9 @@ import { ENTER, COMMA } from '@angular/cdk/keycodes';
 export class RecipeCreatorComponent implements OnInit {
     recipe = new Recipe();
     originalRecipe: Recipe; // Keeping a copy of the recipe before modification.
+    prepDuration: Duration;
+    cookDuration: Duration;
+    cooldownDuration: Duration;
     NUMBER_OF_TABS = 2;
     selectedTab = 0;
     displayedImage = Recipe.DEFAULT_IMAGE;
@@ -26,9 +35,8 @@ export class RecipeCreatorComponent implements OnInit {
     separatorKeysCodes = [ENTER, COMMA];
 
     constructor(private snackBar: MatSnackBar,
-        private recipeApi: ApiSpecificRecipeService,
-        private recipesService: RecipesService,
-        private imageLoader: ImageLoaderService) { }
+        private imageLoader: ImageLoaderService,
+        private store: Store<fromStore.DataState>) { }
 
     ngOnInit() {
         this.isEdit = false;
@@ -87,7 +95,8 @@ export class RecipeCreatorComponent implements OnInit {
         if (this.recipe.fullImage === Recipe.DEFAULT_IMAGE) {
             this.recipe.fullImage = null;
         }
-        this.recipesService.addRecipe(this.recipe);
+        // this.recipesService.addRecipe(this.recipe);
+        this.store.dispatch(new fromStore.CreateRecipe(this.recipe));
         this.closeDialog();
     }
 
@@ -95,12 +104,12 @@ export class RecipeCreatorComponent implements OnInit {
         if (this.recipe.fullImage === Recipe.DEFAULT_IMAGE) {
             this.recipe.fullImage = null;
         }
-        this.recipesService.updateRecipe(this.recipe._id, this.recipe);
+        // this.recipesService.updateRecipe(this.recipe._id, this.recipe);
         this.closeDialog();
     }
 
     deleteRecipe() {
-        this.recipesService.deleteRecipe(this.recipe._id);
+        // this.recipesService.deleteRecipe(this.recipe._id);
         this.closeDialog();
 
         // Displaying a message to indicate that the recipe was removed.
@@ -110,7 +119,7 @@ export class RecipeCreatorComponent implements OnInit {
                 this.recipe.fullImage = null;
             }
 
-            this.recipesService.addRecipe(this.originalRecipe);
+            // this.recipesService.addRecipe(this.originalRecipe);
         });
     }
 
@@ -121,6 +130,33 @@ export class RecipeCreatorComponent implements OnInit {
                     this.recipe.fullImage = image.imageString;
                     this.displayedImage = image.displayableImage;
                 });
+        }
+    }
+
+    updatePrepDuration(): void {
+        if (this.prepDuration && moment.isDuration(this.prepDuration)) {
+            this.recipe.prepTime = this.prepDuration.asMinutes();
+        }
+        else {
+            this.recipe.prepTime = 0;
+        }
+    }
+
+    updateCookDuration(): void {
+        if (this.cookDuration && moment.isDuration(this.cookDuration)) {
+            this.recipe.cookTime = this.cookDuration.asMinutes();
+        }
+        else {
+            this.recipe.cookTime = 0;
+        }
+    }
+
+    updateCooldownDuration(): void {
+        if (this.cooldownDuration && moment.isDuration(this.cooldownDuration)) {
+            this.recipe.cooldownTime = this.cooldownDuration.asMinutes();
+        }
+        else {
+            this.recipe.cooldownTime = 0;
         }
     }
 

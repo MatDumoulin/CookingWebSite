@@ -6,7 +6,7 @@ import * as moment from 'moment';
 import { Store } from '@ngrx/store';
 import * as fromStore from '../../core/store';
 // Rxjs
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 // Components
 import { RecipeViewer } from './../recipe-viewer/recipe-viewer.component';
@@ -39,7 +39,6 @@ export class RecipeListComponent extends InfiniteScroll implements OnInit, OnDes
     private allDataIsLoaded = false;
     private canLoadMoreData$: Observable<boolean>;
     private subcriptions: Subscription[] = [];
-    public testTime = moment.duration(15, 'days');
 
     constructor(private recipesService: RecipesService,
         private dialog: MatDialog,
@@ -70,10 +69,6 @@ export class RecipeListComponent extends InfiniteScroll implements OnInit, OnDes
 
     viewRecipe(recipeId: string): void {
         this.dialog.open(RecipeViewer, { data: { recipeId } });
-    }
-
-    createRecipe(): void {
-        /* this.dialog.open(RecipeCreator); */
     }
 
     editRecipe(recipeId: string, clickEvent: Event): void {
