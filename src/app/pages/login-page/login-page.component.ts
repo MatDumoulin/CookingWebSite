@@ -1,17 +1,16 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthenticationService } from "../../core/authentication/authentication.service"
+import { Component, OnInit, AfterViewInit } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { AuthenticationService } from "../../core/authentication/authentication.service";
 
 declare const gapi: any;
 
 @Component({
-  selector: 'app-login-page',
-  templateUrl: './login-page.component.html',
-  styleUrls: ['./login-page.component.css']
+    selector: "mcb-login-page",
+    templateUrl: "./login-page.component.html",
+    styleUrls: ["./login-page.component.css"]
 })
-export class LoginPage implements OnInit, AfterViewInit {
-
-  /*form:FormGroup;
+export class LoginPageComponent implements OnInit, AfterViewInit {
+    /*form:FormGroup;
 
   constructor(private fb:FormBuilder/*, private authService: AuthService,
               private router: Router) {
@@ -22,22 +21,22 @@ export class LoginPage implements OnInit, AfterViewInit {
     });
   }*/
 
-  constructor(private authService: AuthenticationService) {}
+    constructor(private authService: AuthenticationService) {}
 
-  ngOnInit() {}
+    ngOnInit() {}
 
-  ngAfterViewInit() {
-    gapi.signin2.render('signin-with-google', {
-      'scope': 'profile email',
-      'width': 240,
-      'height': 50,
-      'longtitle': true,
-      'theme': 'dark',
-      'onsuccess': param => this.authService.onSignInWithGoogle(param)
-    });
-  }
+    ngAfterViewInit() {
+        gapi.signin2.render("signin-with-google", {
+            scope: "profile email",
+            width: 240,
+            height: 50,
+            longtitle: true,
+            theme: "dark",
+            onsuccess: param => this.authService.onSignInWithGoogle(param)
+        });
+    }
 
-  /*authenticate() {
+    /*authenticate() {
     const val = this.form.value;
 
     if (val.email && val.password) {
@@ -46,8 +45,7 @@ export class LoginPage implements OnInit, AfterViewInit {
     alert("Not yet implemented.");
   }*/
 
-  /*onSignInWithGoogle(googleUser:any) {
+    /*onSignInWithGoogle(googleUser:any) {
     this.authService.onSignInWithGoogle(googleUser)
   }*/
-
 }

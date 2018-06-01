@@ -11,10 +11,9 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
       multi: true
     }]
 })
-export class EquipmentListItem implements ControlValueAccessor {
-  _item: string = "";
-  @Output()
-  remove: EventEmitter<number> = new EventEmitter<number>();
+export class EquipmentListItem implements ControlValueAccessor, OnInit {
+  _item = "";
+  @Output()remove = new EventEmitter<number>();
   propagateChange = (_: any) => {};
 
   constructor() { }

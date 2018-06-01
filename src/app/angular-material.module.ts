@@ -17,9 +17,13 @@ import {
     MatChipsModule
 } from '@angular/material';
 import { CdkTableModule } from '@angular/cdk/table';
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+
+import { NgMdTimeInputModule } from 'ng-md-time-input';
 
 @NgModule({
     exports: [
+        BrowserAnimationsModule, // To enable animations for angular-material.
         MatButtonModule,
         MatCheckboxModule,
         MatTableModule,
@@ -35,7 +39,8 @@ import { CdkTableModule } from '@angular/cdk/table';
         MatInputModule,
         MatTabsModule,
         MatSelectModule,
-        MatChipsModule
+        MatChipsModule,
+        NgMdTimeInputModule
     ]
 })
 export class AngularMaterialModule { }

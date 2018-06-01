@@ -1,6 +1,6 @@
 import { Component, OnInit, ElementRef, Renderer2, forwardRef } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { AutocompleteInput } from '../autocomplete-input.component'
+import { AutocompleteInput } from '../autocomplete-input.component';
 import { GenresService } from '../../../recipes/genre/shared/genre.service';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { FocusMonitor } from '@angular/cdk/a11y';
