@@ -4,6 +4,7 @@ import * as fromRoot from "../../../../routing/router-store";
 import * as fromFeatures from "../reducers";
 import * as fromRecipes from "../reducers/recipes.reducer";
 import { Recipe } from "../../../../recipes/shared/recipe.model";
+import { SearchIntent, SearchIntentMatcher } from "../../../../search/advanced-recipe-search/shared/";
 
 // Recipes state
 export const getRecipesState = createSelector(
@@ -34,6 +35,29 @@ export const getCanLoadMoreRecipes = createSelector(
     getRecipesState,
     fromRecipes.getCanLoadMoreRecipes
 );
+
+export const getSearchIntent = createSelector(
+    getRecipesState,
+    fromRecipes.getSearchIntent
+);
+
+export const getSearchedRecipes = createSelector(
+    getAllRecipes,
+    fromRecipes.getSearchIntent,
+    (recipes: Recipe[], searchIntent: SearchIntent) => {
+        // If no search intent is applied, return all recipes.
+        if (!searchIntent) {
+            return recipes;
+        }
+        // Else, retrieve the recipes that are matching the search intent.
+        else {
+            return recipes.filter(recipe =>
+                SearchIntentMatcher.isRecipeMatchingIntent(recipe, searchIntent)
+            );
+        }
+    }
+);
+
 // Returns the selected recipe from the url.
 export const getSelectedRecipe = createSelector(
     getRecipesEntities,

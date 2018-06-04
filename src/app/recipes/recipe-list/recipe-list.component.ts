@@ -1,50 +1,53 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { MatDialog, MatSnackBar, MatSnackBarConfig } from '@angular/material';
+import { Component, OnInit, OnDestroy } from "@angular/core";
+import { MatDialog, MatSnackBar, MatSnackBarConfig } from "@angular/material";
 // moment
-import * as moment from 'moment';
+import * as moment from "moment";
 // Ngrx Store
-import { Store } from '@ngrx/store';
-import * as fromStore from '../../core/store';
+import { Store, ActionsSubject } from "@ngrx/store";
+import * as fromStore from "../../core/store";
 // Rxjs
-import { Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { Subscription } from "rxjs";
+import { take } from "rxjs/operators";
 // Components
-import { RecipeViewer } from './../recipe-viewer/recipe-viewer.component';
+import { RecipeViewer } from "./../recipe-viewer/recipe-viewer.component";
 /* import { RecipeCreator } from './../recipe-creator/recipe-creator.component'; */
-import { AdvancedRecipeSearchComponent } from '../../search/advanced-recipe-search/advanced-recipe-search.component';
+import { AdvancedRecipeSearchComponent } from "../../search/advanced-recipe-search/advanced-recipe-search.component";
 // Rxjs
-import { Observable } from 'rxjs/Observable';
+import { Observable } from "rxjs/Observable";
 // Models
-import { Recipe } from './../shared/recipe.model';
+import { Recipe } from "./../shared/recipe.model";
 // Services
-import { RecipesService } from './../shared/recipes.service';
+import { RecipesService } from "./../shared/recipes.service";
 // Others
-import { InfiniteScroll } from './../shared/infinite-scroll.class';
-import { RecipeListDataSource } from './recipe-list.datasource';
-
+import { InfiniteScroll } from "./../shared/infinite-scroll.class";
+import { RecipeListDataSource } from "./recipe-list.datasource";
 
 @Component({
-    selector: 'mcb-recipe-list',
-    templateUrl: 'recipe-list.component.html',
-    styleUrls: ['recipe-list.component.css']
+    selector: "mcb-recipe-list",
+    templateUrl: "recipe-list.component.html",
+    styleUrls: ["recipe-list.component.css"]
 })
-export class RecipeListComponent extends InfiniteScroll implements OnInit, OnDestroy {
+export class RecipeListComponent extends InfiniteScroll
+    implements OnInit, OnDestroy {
     /**
      * the number is the scroll distance for which the loadMore function will
      * be called, in pixels.
      */
     static readonly LOADING_DISTANCE = 20;
-    displayedColumns = ['name', 'genre', 'rating', 'actions'];
+    displayedColumns = ["name", "genre", "rating", "actions"];
     dataSource: RecipeListDataSource;
     private allDataIsLoaded = false;
+    private hasShownAllDataIsLoaded = false;
     private canLoadMoreData$: Observable<boolean>;
     private subcriptions: Subscription[] = [];
 
-    constructor(private recipesService: RecipesService,
+    constructor(
+        private actions$: ActionsSubject,
+        private recipesService: RecipesService,
         private dialog: MatDialog,
         private snackbar: MatSnackBar,
-        private store: Store<fromStore.DataState>) {
-
+        private store: Store<fromStore.DataState>
+    ) {
         super(RecipeListComponent.LOADING_DISTANCE);
     }
 
@@ -77,13 +80,13 @@ export class RecipeListComponent extends InfiniteScroll implements OnInit, OnDes
     }
 
     advancedSearch(): void {
-        this.dialog.open(AdvancedRecipeSearchComponent)
+        this.dialog
+            .open(AdvancedRecipeSearchComponent)
             .afterClosed()
             .subscribe(response => {
                 // Ignoring when the user cancels the advanced search.
                 if (response) {
-                    this.recipesService.loadFromAdvancedSearch(response);
-                    this.allDataIsLoaded = false;
+                    this.store.dispatch(new fromStore.SearchRecipes(response));
                     this.displaySearchCancelOption();
                 }
             });
@@ -94,11 +97,13 @@ export class RecipeListComponent extends InfiniteScroll implements OnInit, OnDes
         config.horizontalPosition = "right";
         config.panelClass = "no-margin-bottom";
 
-        const snackBarRef = this.snackbar.open("Une recherche est active.", "Annuler", config);
+        const snackBarRef = this.snackbar.open(
+            "Une recherche est active.",
+            "Annuler",
+            config
+        );
         snackBarRef.onAction().subscribe(() => {
-            this.recipesService.cancelSearch();
-            this.allDataIsLoaded = false;
-            this.loadMore();
+            this.store.dispatch(new fromStore.CancelSearchRecipes());
         });
     }
 
@@ -111,29 +116,39 @@ export class RecipeListComponent extends InfiniteScroll implements OnInit, OnDes
             this.store.dispatch(new fromStore.LoadRecipes());
             return this.canLoadMoreData$.pipe(take(1)).toPromise();
         }
+        else if (!this.hasShownAllDataIsLoaded) {
+            this.allDataIsLoaded = true;
+            this.hasShownAllDataIsLoaded = true;
+            this.showAllDataIsLoadedMessage();
+        }
 
         // Else,
         return Promise.resolve();
     }
 
     private listenToStoreState(): void {
-        this.canLoadMoreData$ = this.store.select(fromStore.getCanLoadMoreRecipes);
+        this.canLoadMoreData$ = this.store.select(
+            fromStore.getCanLoadMoreRecipes
+        );
 
         this.subcriptions.push(
-            this.canLoadMoreData$.subscribe(canLoadMore => this.loadingHasFinished(canLoadMore))
+            this.canLoadMoreData$.subscribe(canLoadMore =>
+                this.allDataIsLoaded = !canLoadMore
+            )
         );
     }
 
-    private loadingHasFinished(canLoadMore: boolean) {
-        if (!canLoadMore) {
-            this.allDataIsLoaded = true;
+    private showAllDataIsLoadedMessage() {
             // There are no actions for this snackbar since it displays only an
-            // information message. I found that it is frustrating to the user
-            // if he tries to close this snackbar but the snackbar closes automatically
-            // beforehand.
-            const snackBarRef = this.snackbar.open("Toutes les recettes ont été chargées.", "", {
-                duration: 2000,
-            });
+            // information message. It is frustrating to the user if he tries to close
+            // this snackbar but the snackbar closes automatically beforehand.
+            const snackBarRef = this.snackbar.open(
+                "Toutes les recettes ont été chargées.",
+                "",
+                {
+                    duration: 2000
+                }
+            );
 
             // Showing the option to close the search if one is active.
             snackBarRef.afterDismissed().subscribe(() => {
@@ -141,11 +156,5 @@ export class RecipeListComponent extends InfiniteScroll implements OnInit, OnDes
                     this.displaySearchCancelOption();
                 }
             });
-
-        }
-    }
-
-    ONCHANGE(event) {
-        console.log("CHANGED:", event);
     }
 }

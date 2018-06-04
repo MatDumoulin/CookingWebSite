@@ -1,5 +1,5 @@
-<input [(ngModel)]="value" (input)="valueChanged()" [matAutocomplete]="autocomplete" (keyup.enter)="chooseFirstOption()">
+<input [(ngModel)]="value" (input)="valueChanged()" [matAutocomplete]="autocomplete" (keyup.enter)="chooseFirstOption()" autocomplete="off">
 
-<mat-autocomplete #autocomplete="matAutocomplete" (optionSelected)="valueChanged()">
+<mat-autocomplete #autocomplete="matAutocomplete" autoActiveFirstOption (optionSelected)="valueChanged()">
    <mat-option class="option" *ngFor="let option of options" [value]="option" (mousedown)="focusIn()" (focusout)="focusOut()" [innerHTML]="option | highlight:value"></mat-option>
 </mat-autocomplete>

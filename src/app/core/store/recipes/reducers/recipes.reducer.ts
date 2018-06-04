@@ -1,18 +1,21 @@
 import * as fromRecipes from '../actions/recipes.action';
 import { Recipe } from '../../../../recipes/shared/recipe.model';
+import { SearchIntent } from '../../../../search/advanced-recipe-search/shared';
 
 export interface RecipesState {
     entities: { [id: string]: Recipe };
     loaded: boolean;
     loading: boolean;
     canLoadMore: boolean;
+    searchIntent: SearchIntent;
 }
 
 export const initialState: RecipesState = {
     entities: {},
     loaded: false,
     loading: false,
-    canLoadMore: true
+    canLoadMore: true,
+    searchIntent: null
 };
 
 export function reducer(state = initialState, action: fromRecipes.RecipesAction): RecipesState {
@@ -32,7 +35,6 @@ export function reducer(state = initialState, action: fromRecipes.RecipesAction)
             };
         }
         case fromRecipes.LOAD_RECIPES_SUCCESS: {
-            console.log(action.payload);
             const recipes = action.payload;
             // Flattening the state for faster lookup. It becomes a map of <id, recipe>.
             const allEntities = recipes.reduce(
@@ -60,6 +62,22 @@ export function reducer(state = initialState, action: fromRecipes.RecipesAction)
                 canLoadMore: false
             };
         }
+        // Search
+        case fromRecipes.SEARCH_RECIPES: {
+            const searchIntent = action.payload;
+
+            return {
+                ...state,
+                searchIntent
+            };
+        }
+        case fromRecipes.CANCEL_SEARCH_RECIPES: {
+
+            return {
+                ...state,
+                searchIntent: null
+            };
+        }
         // Create
         case fromRecipes.CREATE_RECIPE_SUCCESS: {
             const newRecipe = action.payload;
@@ -84,9 +102,22 @@ export function reducer(state = initialState, action: fromRecipes.RecipesAction)
                 entities: copyOfEntities
             };
         }
+        // Delete
+        case fromRecipes.DELETE_RECIPE_SUCCESS: {
+            const deletedRecipeId = action.payload;
+            // Working on a copy of the entities for immutability.
+            const copyOfEntities = Object.assign({}, state.entities);
+            // Removing the recipe from our clientside recipe.
+            delete copyOfEntities[deletedRecipeId];
 
-        // Not handling the create recipe fail for now.
-        // Not handling the update recipe fail for now.
+            return {
+                ...state,
+                entities: copyOfEntities
+            };
+        }
+
+        // We are handling the create, update and delete recipe fail in the error-handling.effects.ts file
+        // since it requires logging.
     }
 
     return state;
@@ -96,3 +127,4 @@ export const getRecipesLoading = (state: RecipesState) => state.loading;
 export const getRecipesLoaded = (state: RecipesState) => state.loading;
 export const getRecipesEntities = (state: RecipesState) => state.entities;
 export const getCanLoadMoreRecipes = (state: RecipesState) => state.canLoadMore;
+export const getSearchIntent = (state: RecipesState) => state.searchIntent;

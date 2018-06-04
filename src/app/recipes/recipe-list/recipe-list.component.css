@@ -1,13 +1,10 @@
-body {
-  width: 100%;
-}
-
 .mainContainer {
   min-height: 80vh;
-  margin:0 auto;
+  margin-left: 10px;
+  margin-right: 10px;
 
   /* Added temporary for material design */
-  width: 60%;
+  /* width: 60%; */
 }
 
 .recipe-list {
@@ -61,65 +58,4 @@ body {
   width:50%;
   float:right;
 }
-
-.recipesList-Pagination {
-  text-align: center;
-}
-
-.modal-title {
-  text-align: center;
-}
-
-#createRecipeForm {
-  padding-left: 5%;
-  padding-right: 5%;
-}
-
-.vcenter {
-    display: flex;
-    align-items: center;
-}
-
-.hcenter {
-  margin:0 auto;
-}
-
-.nomargin {
-  margin:0;
-}
-
-
-.form-group .ng-invalid.ng-dirty {
-  border-color: #FA787E;
-}
-
-.customListBox-Input.ng-invalid.ng-dirty {
-  background-color: rgba(250,120,126, 0.5);
-  color:black;
-}
-
-/*.customListBox-Input.ng-valid.ng-dirty {
-  background-color: rgba(120,250,137, 0.5);
-  color:black;
-}
-
-.form-group .ng-valid.ng-dirty {
-  border-color: #78FA89;
-}*/
-/*
-.CreateRecipe-RemoveSection {
-  margin-left: 2%;
-}
-
-.CreateRecipe-Title {
-  background: inherit;
-  width:95%;
-}
-
-.CreateRecipe-ingredientSection:focus {
-  background: #fff;
-}
-
-textarea#recipeComments {
-  resize: none;
-}*/
+*/

@@ -22,7 +22,8 @@ export class ErrorHandlingEffects {
         .ofType(
             recipesActions.LOAD_RECIPES_FAIL,
             recipesActions.CREATE_RECIPE_FAIL,
-            recipesActions.UPDATE_RECIPE_FAIL
+            recipesActions.UPDATE_RECIPE_FAIL,
+            recipesActions.DELETE_RECIPE_FAIL
         )
         .pipe(
             switchMap(error => {

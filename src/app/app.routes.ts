@@ -13,6 +13,7 @@ export const routes: Routes = [
     { path: 'login', component: LoginPageComponent },
     { path: 'home', component: HomePageComponent, canActivate: [AuthenticationGuard] },
     { path: 'recipes', component: RecipePageComponent, canActivate: [AuthenticationGuard] },
+    { path: 'recipe/:id', component: RecipePageComponent, canActivate: [AuthenticationGuard] },
     { path: 'recipe/create', component: RecipeCreatorComponent, canActivate: [AuthenticationGuard] },
     {
         path: 'recipe/edit/:id',

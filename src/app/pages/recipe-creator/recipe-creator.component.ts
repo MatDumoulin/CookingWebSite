@@ -67,7 +67,6 @@ export class RecipeCreatorComponent implements OnInit, OnDestroy {
         }
         // this.recipesService.addRecipe(this.recipe);
         this.store.dispatch(new fromStore.CreateRecipe(recipe));
-        this.closeDialog();
     }
 
     updateRecipe(recipe: Recipe): void {
@@ -76,16 +75,13 @@ export class RecipeCreatorComponent implements OnInit, OnDestroy {
         }
 
         this.store.dispatch(new fromStore.UpdateRecipe(recipe));
-        this.closeDialog();
     }
 
     deleteRecipe(recipe: Recipe): void {
-        alert("TODO: Delete recipe with ngrx");
-        // this.recipesService.deleteRecipe(this.recipe._id);
-        this.closeDialog();
+        this.store.dispatch(new fromStore.DeleteRecipe(recipe._id));
 
         // Displaying a message to indicate that the recipe was removed.
-        const snackBarRef = this.snackBar.open(
+        /* const snackBarRef = this.snackBar.open(
             "La recette a été supprimée",
             "Annuler",
             { duration: 3000 }
@@ -95,10 +91,6 @@ export class RecipeCreatorComponent implements OnInit, OnDestroy {
             //   this.recipe.fullImage = null;
             // }
             // this.recipesService.addRecipe(this.originalRecipe);
-        });
-    }
-
-    closeDialog() {
-        // this.dialogRef.close();
+        }); */
     }
 }

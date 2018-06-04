@@ -7,6 +7,7 @@ import { LoggerService } from '../../core/logger/logger.service';
 import { LocalStorageService } from 'angular-2-local-storage';
 import { map, catchError } from 'rxjs/operators';
 import { empty } from 'rxjs/observable/empty';
+import { SearchIntent } from '../../search/advanced-recipe-search/shared';
 
 @Injectable()
 export class ApiGetRecipesService {
@@ -21,23 +22,17 @@ export class ApiGetRecipesService {
         return this.http.get<Recipe[]>(url);
     }
 
-    advancedSearch(searchIntention) {
+    advancedSearch(searchIntent: SearchIntent) {
         // Parameter validation
-        if (searchIntention == null) {
-            console.error("Invalid parameter 'searchIntention' in app.recipes.shared.advancedSearch: " + searchIntention);
+        if (searchIntent == null) {
+            console.error("Invalid parameter 'searchIntention' in app.recipes.shared.advancedSearch: " + searchIntent);
             return;
         }
 
         const url = `${environment.apiUrl}/recipes/advanced`;
 
         // Fetching the API.
-        return this.http.post(url, searchIntention).pipe(
-            catchError((err: HttpErrorResponse) => {
-                this.logger.error(`Une erreur de réseau empèche la recherche avancée. Nous sommes désolé de cet inconvénient.`, `Ok`);
-
-                return empty();
-            })
-        );
+        return this.http.post<Recipe[]>(url, searchIntent);
 
     }
 

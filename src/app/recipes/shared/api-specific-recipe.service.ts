@@ -90,14 +90,7 @@ export class ApiSpecificRecipeService {
 
         const url = `${environment.apiUrl}/recipes/${id}`;
         // Calling the API.
-        return this.http.delete(url)
-            .subscribe(() => { }, (err: HttpErrorResponse) => {
-                // As of Angular 5.0, there is a bug with the HttpClient where
-                if (err.status !== 200) {
-                    this.logger.error(`Une erreur empèche la suppression de votre recette. Nous sommes désolés de cet inconvénient.`, `Ok`);
-                }
-            });
-
+        return this.http.delete(url);
     }
 
     private getUserId(): string {
