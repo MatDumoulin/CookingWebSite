@@ -6,11 +6,11 @@ import {
 
 import { CustomSerializer } from "./router-store";
 
-import { EditRecipeResolverService } from "./edit-recipe-resolver.service";
+import { LoadRecipeResolverService } from "./load-recipe-resolver.service";
 
 @NgModule({
     providers: [
-        EditRecipeResolverService,
+        LoadRecipeResolverService,
         { provide: RouterStateSerializer, useClass: CustomSerializer }
     ],
     exports: [

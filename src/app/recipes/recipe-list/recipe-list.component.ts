@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { MatDialog, MatSnackBar, MatSnackBarConfig } from "@angular/material";
+import { Router } from "@angular/router";
 // moment
 import * as moment from "moment";
 // Ngrx Store
@@ -40,11 +41,13 @@ export class RecipeListComponent extends InfiniteScroll
     private hasShownAllDataIsLoaded = false;
     private canLoadMoreData$: Observable<boolean>;
     private subcriptions: Subscription[] = [];
+    private selectedRecipe$: Observable<Recipe>;
 
     constructor(
         private actions$: ActionsSubject,
         private recipesService: RecipesService,
         private dialog: MatDialog,
+        private router: Router,
         private snackbar: MatSnackBar,
         private store: Store<fromStore.DataState>
     ) {
@@ -55,6 +58,16 @@ export class RecipeListComponent extends InfiniteScroll
         this.listenToStoreState();
         this.dataSource = new RecipeListDataSource(this.store);
 
+        this.selectedRecipe$ = this.store.select(fromStore.getSelectedRecipe);
+
+        this.subcriptions.push(
+            this.selectedRecipe$.pipe(take(1)).subscribe(recipe => {
+                console.log("Recipe:", recipe);
+                if (recipe) {
+                    this.dialog.open(RecipeViewer, { data: { recipe } });
+                }
+            })
+        );
         // When moving from one page to another using the Angular Router, the
         // recipeService is not reinitialized since it was injected to this class.
         // We don't want to load more recipe when we navigate from one page to another
@@ -71,7 +84,8 @@ export class RecipeListComponent extends InfiniteScroll
     }
 
     viewRecipe(recipeId: string): void {
-        this.dialog.open(RecipeViewer, { data: { recipeId } });
+        // this.dialog.open(RecipeViewer, { data: { recipeId } });
+        this.router.navigateByUrl("/recipes/" + recipeId);
     }
 
     editRecipe(recipeId: string, clickEvent: Event): void {
@@ -115,8 +129,7 @@ export class RecipeListComponent extends InfiniteScroll
         if (!this.allDataIsLoaded) {
             this.store.dispatch(new fromStore.LoadRecipes());
             return this.canLoadMoreData$.pipe(take(1)).toPromise();
-        }
-        else if (!this.hasShownAllDataIsLoaded) {
+        } else if (!this.hasShownAllDataIsLoaded) {
             this.allDataIsLoaded = true;
             this.hasShownAllDataIsLoaded = true;
             this.showAllDataIsLoadedMessage();
@@ -132,29 +145,29 @@ export class RecipeListComponent extends InfiniteScroll
         );
 
         this.subcriptions.push(
-            this.canLoadMoreData$.subscribe(canLoadMore =>
-                this.allDataIsLoaded = !canLoadMore
+            this.canLoadMoreData$.subscribe(
+                canLoadMore => (this.allDataIsLoaded = !canLoadMore)
             )
         );
     }
 
     private showAllDataIsLoadedMessage() {
-            // There are no actions for this snackbar since it displays only an
-            // information message. It is frustrating to the user if he tries to close
-            // this snackbar but the snackbar closes automatically beforehand.
-            const snackBarRef = this.snackbar.open(
-                "Toutes les recettes ont été chargées.",
-                "",
-                {
-                    duration: 2000
-                }
-            );
+        // There are no actions for this snackbar since it displays only an
+        // information message. It is frustrating to the user if he tries to close
+        // this snackbar but the snackbar closes automatically beforehand.
+        const snackBarRef = this.snackbar.open(
+            "Toutes les recettes ont été chargées.",
+            "",
+            {
+                duration: 2000
+            }
+        );
 
-            // Showing the option to close the search if one is active.
-            snackBarRef.afterDismissed().subscribe(() => {
-                if (this.recipesService.searchIsActive()) {
-                    this.displaySearchCancelOption();
-                }
-            });
+        // Showing the option to close the search if one is active.
+        snackBarRef.afterDismissed().subscribe(() => {
+            if (this.recipesService.searchIsActive()) {
+                this.displaySearchCancelOption();
+            }
+        });
     }
 }

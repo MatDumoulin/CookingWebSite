@@ -1,15 +1,15 @@
 <div class="website-container">
     <mcb-top-nav [sideNavRef]="isUserOnMobile ? sidenav : null"></mcb-top-nav>
 
-    <mat-sidenav-container>
+    <mat-sidenav-container class="sidenav-container">
         <mat-sidenav [mode]="sidenavOptions.mode" [fixedInViewport]="sidenavOptions.fixedInViewport" [opened]="sidenavOptions.opened"
             [disableClose]="sidenavOptions.disableClose" [fixedTopGap]="sidenavOptions.fixedTopGap" #sidenav>
 
             <mcb-sidenav-content></mcb-sidenav-content>
         </mat-sidenav>
 
-        <div class="main-container">
+        <mat-sidenav-content class="main-container">
             <router-outlet></router-outlet>
-        </div>
+        </mat-sidenav-content>
     </mat-sidenav-container>
 </div>

@@ -33,6 +33,7 @@ import { ApiSpecificRecipeService } from "../recipes/shared/api-specific-recipe.
 import { GenresService } from "../recipes/genre/shared/genre.service";
 import { RecipesService } from "../recipes/shared/recipes.service";
 import { RecipeCreatorFormComponent } from './recipe-creator/recipe-creator-form/recipe-creator-form.component';
+import { RecipeViewerComponent } from './recipe-viewer/recipe-viewer.component';
 
 @NgModule({
     imports: [
@@ -63,7 +64,8 @@ import { RecipeCreatorFormComponent } from './recipe-creator/recipe-creator-form
         StepListbox,
         StepSectionComponent,
         StepSectionWrapper,
-        RecipeCreatorFormComponent
+        RecipeCreatorFormComponent,
+        RecipeViewerComponent
     ],
     exports: [
         AngularMaterialModule,
