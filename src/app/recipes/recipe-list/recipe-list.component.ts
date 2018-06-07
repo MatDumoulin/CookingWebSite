@@ -1,5 +1,11 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
-import { MatDialog, MatSnackBar, MatSnackBarConfig } from "@angular/material";
+import {
+    MatDialog,
+    MatSnackBar,
+    MatSnackBarConfig,
+    MatSnackBarRef,
+    SimpleSnackBar
+} from "@angular/material";
 import { Router } from "@angular/router";
 // moment
 import * as moment from "moment";
@@ -16,6 +22,7 @@ import { Observable } from "rxjs/Observable";
 // Models
 import { Recipe } from "./../shared/recipe.model";
 // Services
+import { LoggerService } from "../../core/logger/logger.service";
 import { RecipesService } from "./../shared/recipes.service";
 // Others
 import { InfiniteScroll } from "./../shared/infinite-scroll.class";
@@ -39,10 +46,12 @@ export class RecipeListComponent extends InfiniteScroll
     private hasShownAllDataIsLoaded = false;
     private canLoadMoreData$: Observable<boolean>;
     private subcriptions: Subscription[] = [];
+    private searchSnackBarRef: MatSnackBarRef<SimpleSnackBar>;
 
     constructor(
         private actions$: ActionsSubject,
         private recipesService: RecipesService,
+        private loggerService: LoggerService,
         private dialog: MatDialog,
         private router: Router,
         private snackbar: MatSnackBar,
@@ -67,6 +76,11 @@ export class RecipeListComponent extends InfiniteScroll
     ngOnDestroy() {
         for (const sub of this.subcriptions) {
             sub.unsubscribe();
+        }
+
+        // Hide advanced search snack bar if we are leaving the page.
+        if (this.searchSnackBarRef) {
+            this.searchSnackBarRef.instance.action(); // Cancels the search.
         }
     }
 
@@ -96,13 +110,13 @@ export class RecipeListComponent extends InfiniteScroll
         config.horizontalPosition = "right";
         config.panelClass = "no-margin-bottom";
 
-        const snackBarRef = this.snackbar.open(
-            "Une recherche est active.",
-            "Annuler",
-            config
+        this.searchSnackBarRef = this.loggerService.persistentAction(
+            "Une recherche est active."
         );
-        snackBarRef.onAction().subscribe(() => {
+
+        this.searchSnackBarRef.onAction().subscribe(() => {
             this.store.dispatch(new fromStore.CancelSearchRecipes());
+            this.searchSnackBarRef = null;
         });
     }
 
@@ -140,19 +154,6 @@ export class RecipeListComponent extends InfiniteScroll
         // There are no actions for this snackbar since it displays only an
         // information message. It is frustrating to the user if he tries to close
         // this snackbar but the snackbar closes automatically beforehand.
-        const snackBarRef = this.snackbar.open(
-            "Toutes les recettes ont été chargées.",
-            "",
-            {
-                duration: 2000
-            }
-        );
-
-        // Showing the option to close the search if one is active.
-        snackBarRef.afterDismissed().subscribe(() => {
-            if (this.recipesService.searchIsActive()) {
-                this.displaySearchCancelOption();
-            }
-        });
+        this.loggerService.info("Toutes les recettes ont été chargées.", "");
     }
 }

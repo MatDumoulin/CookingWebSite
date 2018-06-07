@@ -104,10 +104,11 @@ export class RecipesEffects {
                             // Handle the status of the request.
                             switchMap(recipes => {
                                 // Here, we return a first action that is the loading success.
-                                const actions: recipesActions.RecipesAction[] = [
+                                const actions = [
                                     new recipesActions.LoadRecipesSuccess(
                                         recipes
-                                    )
+                                    ),
+                                    new recipesActions.HasLoadedAllRecipes()
                                 ];
 
                                 return actions;

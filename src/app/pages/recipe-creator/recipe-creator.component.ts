@@ -23,7 +23,6 @@ import { Recipe } from "../../recipes/shared/recipe.model";
 export class RecipeCreatorComponent implements OnInit, OnDestroy {
     recipe$: Observable<Recipe>;
     originalRecipe: Recipe; // Keeping a copy of the recipe before modification.
-    isImageLoaded = false;
     displayedImage: string;
     private subscriptions: Subscription[] = [];
 

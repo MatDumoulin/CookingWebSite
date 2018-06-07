@@ -23,6 +23,7 @@ export class RecipeCreatorFormComponent implements OnInit {
     NUMBER_OF_TABS = 2;
     selectedTab = 0;
     isEdit: boolean;
+    isImageLoaded = false;
     finishButtonText = "Créer";
     windowTitle = "Création de la recette";
     // Tag chip list

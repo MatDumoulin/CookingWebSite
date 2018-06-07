@@ -75,7 +75,8 @@ export function reducer(state = initialState, action: fromRecipes.RecipesAction)
 
             return {
                 ...state,
-                searchIntent: null
+                searchIntent: null,
+                canLoadMore: true
             };
         }
         // Create
