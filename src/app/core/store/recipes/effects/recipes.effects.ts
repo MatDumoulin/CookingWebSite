@@ -136,9 +136,13 @@ export class RecipesEffects {
                 switchMap(recipe => {
                     return of(new recipesActions.LoadRecipesSuccess([recipe]));
                 }),
-                catchError(error =>
-                    of(new recipesActions.LoadRecipesFail(error))
-                )
+                catchError(error => {
+                    if (error.status === 404) {
+                        return of(new recipesActions.RecipeNotFound(error));
+                    } else {
+                        return of(new recipesActions.LoadRecipesFail(error));
+                    }
+                })
             );
         })
     );

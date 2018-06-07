@@ -20,6 +20,7 @@ import { TopNav } from './top-nav/top-nav.component';
 import { SidenavContentComponent } from './sidenav-content/sidenav-content.component';
 // Services
 import { TokenInterceptor } from './core/authentication/auth-http-interceptor.service';
+import { NotFoundInterceptor } from './routing/not-found-interceptor.service';
 // Others
 import { environment } from '../environments/environment';
 import { routing } from './app.routes';
@@ -49,7 +50,10 @@ import { routing } from './app.routes';
             logOnly: environment.production // Restrict extension to log-only mode
         }),
     ],
-    providers: [{ provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }],
+    providers: [
+        { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: NotFoundInterceptor, multi: true }
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -8,6 +8,8 @@ export const LOAD_RECIPES_FAIL = '[RecipesApi] Load Recipes Fail';
 export const LOAD_RECIPES_SUCCESS = '[RecipesApi] Load Recipes Success';
 export const HAS_LOADED_ALL_RECIPES = '[RecipesApi] Has Loaded All Recipes';
 export const LOAD_RECIPE = '[Recipes] Load Recipe';
+export const RECIPE_NOT_FOUND = '[RecipesApi] Recipe Not Found';
+
 // Search
 export const SEARCH_RECIPES = '[Advanced Recipes] Search Recipes';
 export const CANCEL_SEARCH_RECIPES = '[Advanced Recipes] Cancel Search Recipes';
@@ -35,6 +37,12 @@ export class LoadRecipe implements Action {
 
 export class LoadRecipesFail implements Action {
     readonly type = LOAD_RECIPES_FAIL;
+
+    constructor(public payload: any) { }
+}
+
+export class RecipeNotFound implements Action {
+    readonly type = RECIPE_NOT_FOUND;
 
     constructor(public payload: any) { }
 }
@@ -119,8 +127,10 @@ export class DeleteRecipeSuccess implements Action {
 
 // Action types
 export type RecipesAction =
-    // Load
-    LoadRecipes | LoadRecipe | LoadRecipesFail | LoadRecipesSuccess | HasLoadedAllRecipes |
+    // Load Multiple Recipes
+    LoadRecipes | LoadRecipesFail | LoadRecipesSuccess | HasLoadedAllRecipes |
+    // Load Recipe
+    LoadRecipe | RecipeNotFound |
     // Search
     SearchRecipes | CancelSearchRecipes |
     // Create

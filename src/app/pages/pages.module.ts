@@ -17,7 +17,6 @@ import { LoginPageComponent } from "./login-page/login-page.component";
 import { RecipeCreatorComponent } from "./recipe-creator/recipe-creator.component";
 import { RecipeListComponent } from "../recipes/recipe-list/recipe-list.component";
 import { RecipePageComponent } from "./recipe-page/recipe-page.component";
-import { RecipeViewer } from "../recipes/recipe-viewer/recipe-viewer.component";
 import { StepListbox } from "../recipes/steps/step-listbox/step-listbox.component";
 import { StepSectionComponent } from "../recipes/steps/step-section/step-section.component";
 import { StepSectionWrapper } from "../recipes/steps/step-section-wrapper/step-section-wrapper.component";
@@ -25,7 +24,6 @@ import { StepSectionWrapper } from "../recipes/steps/step-section-wrapper/step-s
 import { AngularMaterialModule } from "../angular-material.module";
 import { ControlsModule } from "../controls/controls.module";
 import { CoreModule } from "../core/core.module";
-import { RecipeViewerModule } from "../recipes/recipe-viewer/recipe-viewer.module";
 import { UtilsModule } from "../utils/utils.module";
 // Services
 import { ApiGetRecipesService } from "../recipes/shared/api-get-recipes.service";
@@ -34,6 +32,7 @@ import { GenresService } from "../recipes/genre/shared/genre.service";
 import { RecipesService } from "../recipes/shared/recipes.service";
 import { RecipeCreatorFormComponent } from './recipe-creator/recipe-creator-form/recipe-creator-form.component';
 import { RecipeViewerComponent } from './recipe-viewer/recipe-viewer.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 @NgModule({
     imports: [
@@ -46,7 +45,6 @@ import { RecipeViewerComponent } from './recipe-viewer/recipe-viewer.component';
         FormsModule, // ngModel
         IngredientListboxModule,
         ReactiveFormsModule,
-        RecipeViewerModule,
         RouterModule,
         UtilsModule
     ],
@@ -65,7 +63,8 @@ import { RecipeViewerComponent } from './recipe-viewer/recipe-viewer.component';
         StepSectionComponent,
         StepSectionWrapper,
         RecipeCreatorFormComponent,
-        RecipeViewerComponent
+        RecipeViewerComponent,
+        NotFoundComponent
     ],
     exports: [
         AngularMaterialModule,
@@ -76,7 +75,7 @@ import { RecipeViewerComponent } from './recipe-viewer/recipe-viewer.component';
         FormsModule, // ngModel,
         ReactiveFormsModule
     ],
-    entryComponents: [RecipeViewer, AdvancedRecipeSearchComponent],
+    entryComponents: [AdvancedRecipeSearchComponent],
     providers: [
         ApiGetRecipesService,
         ApiSpecificRecipeService,

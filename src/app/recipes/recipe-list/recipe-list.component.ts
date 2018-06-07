@@ -10,8 +10,6 @@ import * as fromStore from "../../core/store";
 import { Subscription } from "rxjs";
 import { take } from "rxjs/operators";
 // Components
-import { RecipeViewer } from "./../recipe-viewer/recipe-viewer.component";
-/* import { RecipeCreator } from './../recipe-creator/recipe-creator.component'; */
 import { AdvancedRecipeSearchComponent } from "../../search/advanced-recipe-search/advanced-recipe-search.component";
 // Rxjs
 import { Observable } from "rxjs/Observable";
@@ -41,7 +39,6 @@ export class RecipeListComponent extends InfiniteScroll
     private hasShownAllDataIsLoaded = false;
     private canLoadMoreData$: Observable<boolean>;
     private subcriptions: Subscription[] = [];
-    private selectedRecipe$: Observable<Recipe>;
 
     constructor(
         private actions$: ActionsSubject,
@@ -58,16 +55,6 @@ export class RecipeListComponent extends InfiniteScroll
         this.listenToStoreState();
         this.dataSource = new RecipeListDataSource(this.store);
 
-        this.selectedRecipe$ = this.store.select(fromStore.getSelectedRecipe);
-
-        this.subcriptions.push(
-            this.selectedRecipe$.pipe(take(1)).subscribe(recipe => {
-                console.log("Recipe:", recipe);
-                if (recipe) {
-                    this.dialog.open(RecipeViewer, { data: { recipe } });
-                }
-            })
-        );
         // When moving from one page to another using the Angular Router, the
         // recipeService is not reinitialized since it was injected to this class.
         // We don't want to load more recipe when we navigate from one page to another
@@ -84,12 +71,10 @@ export class RecipeListComponent extends InfiniteScroll
     }
 
     viewRecipe(recipeId: string): void {
-        // this.dialog.open(RecipeViewer, { data: { recipeId } });
         this.router.navigateByUrl("/recipes/" + recipeId);
     }
 
     editRecipe(recipeId: string, clickEvent: Event): void {
-        /* this.dialog.open(RecipeCreator, { data: { recipeId } }); */
         clickEvent.stopPropagation(); // This is needed due to a bug introduced in first stable version of Angular Material. (5.0.0-rc0)
     }
 

@@ -8,8 +8,8 @@
             <mcb-sidenav-content></mcb-sidenav-content>
         </mat-sidenav>
 
-        <mat-sidenav-content class="main-container">
-            <router-outlet></router-outlet>
+        <mat-sidenav-content class="main-container" [@fadeAnimation]="outlet.isActivated ? outlet.activatedRoute : ''">
+            <router-outlet #outlet="outlet"></router-outlet>
         </mat-sidenav-content>
     </mat-sidenav-container>
 </div>

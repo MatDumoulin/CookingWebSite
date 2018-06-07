@@ -1,9 +1,12 @@
 import { Component, OnDestroy, ChangeDetectorRef } from "@angular/core";
 import { MediaMatcher } from "@angular/cdk/layout";
+// Router animation
+import { fadeAnimation } from "./routing/animations";
 
 @Component({
     selector: "mcb-app",
-    templateUrl: "app.html"
+    templateUrl: "app.html",
+    animations: [fadeAnimation] // register the animation
 })
 export class AppComponent implements OnDestroy {
     private _mobileQueryListener: () => void;

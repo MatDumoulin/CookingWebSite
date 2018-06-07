@@ -7,6 +7,7 @@ import { RecipeCreatorComponent } from "./pages/recipe-creator/recipe-creator.co
 import { AuthenticationGuard } from "./core/authentication/auth-guard.service";
 import { LoadRecipeResolverService } from "./routing/load-recipe-resolver.service";
 import { RecipeViewerComponent } from "./pages/recipe-viewer/recipe-viewer.component";
+import { NotFoundComponent } from "./pages/not-found/not-found.component";
 
 // Route Configuration
 export const routes: Routes = [
@@ -39,6 +40,6 @@ export const routes: Routes = [
         canActivate: [AuthenticationGuard],
         resolve: { recipe: LoadRecipeResolverService }
     },
-    { path: "**", redirectTo: "" }
+    { path: "**", component: NotFoundComponent }
 ];
 export const routing: ModuleWithProviders = RouterModule.forRoot(routes);
