@@ -8,7 +8,7 @@ const app = express();
 const env = process.env.environment;
 // Express configuration (order matters)
 app.set('port', (process.env.PORT || 4200));
-const dbUrl = 'mongodb://mycookingbook:~c2[hW-F#^`GpPrU@ds123500.mlab.com:23500/mycookbook';
+const dbUrl = process.env.MYCOOKBOOK_DB;
 
 // Adding HSTS, removes the X-Powered-By header and sets the X-Frame-Options header to prevent click jacking, among other things.
 app.use(helmet()); // All https is done through nginx.

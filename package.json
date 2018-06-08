@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "npm run prod-server",
+    "start": "ng build --prod && npm run prod-server",
     "api": "nodemon server/api/index.js",
     "prod-server": "nodemon prod-server.js",
     "build": "ng build",

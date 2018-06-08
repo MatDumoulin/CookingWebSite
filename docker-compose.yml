@@ -1,0 +1,11 @@
+version: '2.1'
+
+services:
+  mycookingbook:
+    image: kingbaub3/mycookbook:initial
+    build: .
+    deploy:
+        restart_policy:
+            condition: on-failure
+    ports:
+      - 4200:4200
