@@ -13,7 +13,7 @@ import { CustomListBox } from '../../../controls/custom-listbox/custom-listbox.c
       multi: true
     }]
 })
-export class IngredientSectionWrapper implements ControlValueAccessor {
+export class IngredientSectionWrapper implements ControlValueAccessor, OnInit {
   _sections: IngredientSection[];
   propagateChange = (_: any) => {};
 

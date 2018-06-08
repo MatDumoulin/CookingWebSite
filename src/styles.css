@@ -1,79 +1,91 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
-html, body {
-  padding: 0px;
-  margin: 0px;
-}
-
-.sidenav {
-  width: 400px;
-}
-
-.sidenav-title {
-  text-align: center;
+html,
+body {
+    padding: 0px;
+    margin: 0px;
+    height: 100%;
 }
 
 .website-container {
-   position: absolute !important;
+    /* position: absolute !important;
    height: 100%;
    min-height: 100%;
    width: 100%;
-   min-width: 100%;
+   min-width: 100%; */
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.sidenav-container {
+    flex-grow: 1;
+}
+
+.main-container {
+    display: flex !important;
+    height: calc(100vh - 64px) !important;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+router-outlet ~ * {
+    position: absolute;
+    height: 100%;
+    width: 100%;
 }
 
 .button {
-  font-weight: bold;
+    font-weight: bold;
 }
 
 .capitalized::first-letter {
-  text-transform: uppercase;
+    text-transform: uppercase;
 }
 
 .clickable {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .clickable:hover {
-  background-color: #EEEEEE;
+    background-color: #eeeeee;
 }
 
 .hidden {
-  display: none;
+    display: none;
 }
 
 .stretch {
-  width: 100%;
+    width: 100%;
 }
 
 .no-margin-bottom {
-  margin-bottom: 0px !important; /* The important is needed when applied to a snackbar */
+    margin-bottom: 0px !important; /* The important is needed when applied to a snackbar */
 }
 
 .no-margin {
-  margin: 0px;
+    margin: 0px;
 }
 
 .no-bold {
-  font-weight: normal;
+    font-weight: normal;
 }
 
-
-
-h1, label {
-  font-family: 'Roboto', sans-serif;
+h1,
+label {
+    font-family: "Roboto", sans-serif;
 }
 
 .align-end {
-  display: flex;
-  flex-direction: row-reverse;
+    display: flex;
+    flex-direction: row-reverse;
 }
 
 .flex {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 
 /*@-webkit-keyframes expand-height {

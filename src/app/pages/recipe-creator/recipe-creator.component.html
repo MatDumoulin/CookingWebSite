@@ -1,0 +1,4 @@
+<div class="create-recipe-container">
+    <mcb-recipe-creator-form [recipe]="recipe$ | async" (createRecipe)="createRecipe($event)" (updateRecipe)="updateRecipe($event)"
+        (deleteRecipe)="deleteRecipe($event)"></mcb-recipe-creator-form>
+</div>

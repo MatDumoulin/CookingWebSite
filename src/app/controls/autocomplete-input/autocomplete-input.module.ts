@@ -7,17 +7,24 @@ import { UtilsModule } from '../../utils/utils.module';
 import { AutocompleteInput } from './autocomplete-input.component';
 import { IngredientAutocompleteInput } from './ingredient-autocomplete-input/ingredient-autocomplete-input.component';
 import { RecipenameAutocompleteInput } from './recipename-autocomplete-input/recipename-autocomplete-input.component';
-import { GenreAutocompleteInput } from './genre-autocomplete-input/genre-autocomplete-input.component';
+import { GenreAutocompleteInputComponent } from './genre-autocomplete-input/genre-autocomplete-input.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    MatInputModule,
-    MatAutocompleteModule,
-    UtilsModule
-  ],
-  declarations: [IngredientAutocompleteInput, RecipenameAutocompleteInput, GenreAutocompleteInput],
-  exports: [IngredientAutocompleteInput, RecipenameAutocompleteInput, GenreAutocompleteInput]
+    imports: [
+        CommonModule,
+        FormsModule,
+        MatInputModule,
+        MatAutocompleteModule,
+        UtilsModule
+    ],
+    declarations: [
+        IngredientAutocompleteInput,
+        RecipenameAutocompleteInput,
+        GenreAutocompleteInputComponent
+    ],
+    exports: [
+        IngredientAutocompleteInput,
+        RecipenameAutocompleteInput,
+        GenreAutocompleteInputComponent]
 })
 export class AutocompleteInputModule { }

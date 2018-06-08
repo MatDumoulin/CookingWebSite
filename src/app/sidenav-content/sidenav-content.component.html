@@ -1,0 +1,6 @@
+<mat-nav-list class="sidenav-content">
+    <a [routerLink]="item.routerLink" (click)="emitClick()" *ngFor="let item of items" mat-list-item>
+        <mat-icon color="primary" mat-list-icon>{{ item.icon }}</mat-icon>
+        <span class="item-text">{{ item.text }}</span>
+    </a>
+</mat-nav-list>

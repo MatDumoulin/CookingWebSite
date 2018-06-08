@@ -1,6 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RecipeCreatorModule } from './../../recipe-creator/recipe-creator.module';
 import { StepListbox } from './step-listbox.component';
 
 describe('IngredientListboxComponent', () => {
@@ -9,7 +8,7 @@ describe('IngredientListboxComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ RecipeCreatorModule ]
+      declarations: [ StepListbox ]
     })
     .compileComponents();
   }));

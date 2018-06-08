@@ -1,23 +1,15 @@
-<mat-sidenav-container class="website-container">
-    <top-nav [sideNavRef]="sidenav"></top-nav>
+<div class="website-container">
+    <mcb-top-nav [sideNavRef]="isUserOnMobile ? sidenav : null"></mcb-top-nav>
 
-    <mat-sidenav #sidenav class="sidenav">
-      <div class="sidenav-title">
-        <h1>Menu</h1>
-      </div>
-      <mat-list>
-        <mat-list-item>
-          <mat-icon color="primary" matListIcon>home</mat-icon>
-          <button class="stretch" color="primary" [routerLink]="['/home']" (click)="sidenav.close()" mat-raised-button>Accueil</button>
-        </mat-list-item>
-        <mat-list-item>
-          <mat-icon color="primary" matListIcon>library_books</mat-icon>
-          <button class="stretch" color="primary" [routerLink]="['/recipes']" (click)="sidenav.close()" mat-raised-button>Mes recettes</button>
-        </mat-list-item>
-      </mat-list>
-    </mat-sidenav>
+    <mat-sidenav-container class="sidenav-container">
+        <mat-sidenav [mode]="sidenavOptions.mode" [fixedInViewport]="sidenavOptions.fixedInViewport" [opened]="sidenavOptions.opened"
+            [disableClose]="sidenavOptions.disableClose" [fixedTopGap]="sidenavOptions.fixedTopGap" #sidenav>
 
-    <div class="main-container">
-      <router-outlet></router-outlet>
-    </div>
-</mat-sidenav-container>
+            <mcb-sidenav-content></mcb-sidenav-content>
+        </mat-sidenav>
+
+        <mat-sidenav-content class="main-container" [@fadeAnimation]="outlet.isActivated ? outlet.activatedRoute : ''">
+            <router-outlet #outlet="outlet"></router-outlet>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+</div>

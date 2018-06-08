@@ -1,0 +1,44 @@
+<mat-card class="mainContainer">
+  <mat-card-header>
+    <div class="table-header">
+      <button class="button" color="accent" [routerLink]="['/recipe/create']" mat-button>Créer une recette</button>
+      <button class="button" color="accent" (click)="advancedSearch()" mat-button><mat-icon>search</mat-icon>Recherche avancée</button>
+    </div>
+  </mat-card-header>
+
+    <mat-table class="recipe-list" [dataSource]="dataSource" (scroll)="onScrollDown($event)" #table>
+      <!--- Note that these columns can be defined in any order.
+            The actual rendered columns are set as a property on the row definition -->
+
+      <!-- Name Column -->
+      <ng-container cdkColumnDef="name">
+        <mat-header-cell *cdkHeaderCellDef> Nom </mat-header-cell>
+        <mat-cell *cdkCellDef="let recipe"> {{recipe.name}} </mat-cell>
+      </ng-container>
+
+      <!-- Genre Column -->
+      <ng-container cdkColumnDef="genre">
+        <mat-header-cell *cdkHeaderCellDef> Genre </mat-header-cell>
+        <mat-cell *cdkCellDef="let recipe"> {{recipe.genre}} </mat-cell>
+      </ng-container>
+
+      <!-- Rating Column -->
+      <ng-container cdkColumnDef="rating">
+        <mat-header-cell *cdkHeaderCellDef> Note </mat-header-cell>
+        <mat-cell *cdkCellDef="let recipe"><star-rating [readonly]="true" [(ngModel)]="recipe.rating"></star-rating></mat-cell>
+      </ng-container>
+
+      <ng-container cdkColumnDef="actions">
+        <mat-header-cell *cdkHeaderCellDef> Action </mat-header-cell>
+        <mat-cell *cdkCellDef="let recipe">
+          <button color="primary" [routerLink]="['/recipe/edit/' + recipe._id]" class="edit-button" mat-icon-button>
+            <mat-icon aria-label="Edit or delete this recipe">create</mat-icon>
+          </button>
+        </mat-cell>
+
+      </ng-container>
+
+      <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row class="clickable" *cdkRowDef="let recipe; columns: displayedColumns;" (click)="viewRecipe(recipe._id)"></mat-row>
+    </mat-table>
+</mat-card>

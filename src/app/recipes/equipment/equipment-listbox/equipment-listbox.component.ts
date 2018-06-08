@@ -11,7 +11,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
       multi: true
     }]
 })
-export class EquipmentListBox implements ControlValueAccessor {
+export class EquipmentListBox implements ControlValueAccessor, OnInit {
   _equipments = [""];
   propagateChange = (_: any) => {};
 
