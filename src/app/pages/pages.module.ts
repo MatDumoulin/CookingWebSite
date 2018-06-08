@@ -29,7 +29,6 @@ import { UtilsModule } from "../utils/utils.module";
 import { ApiGetRecipesService } from "../recipes/shared/api-get-recipes.service";
 import { ApiSpecificRecipeService } from "../recipes/shared/api-specific-recipe.service";
 import { GenresService } from "../recipes/genre/shared/genre.service";
-import { RecipesService } from "../recipes/shared/recipes.service";
 import { RecipeCreatorFormComponent } from './recipe-creator/recipe-creator-form/recipe-creator-form.component';
 import { RecipeViewerComponent } from './recipe-viewer/recipe-viewer.component';
 import { NotFoundComponent } from './not-found/not-found.component';
@@ -79,7 +78,6 @@ import { NotFoundComponent } from './not-found/not-found.component';
     providers: [
         ApiGetRecipesService,
         ApiSpecificRecipeService,
-        RecipesService,
         GenresService
     ]
 })

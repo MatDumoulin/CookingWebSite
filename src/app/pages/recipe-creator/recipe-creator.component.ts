@@ -1,12 +1,6 @@
 import { Component, Inject, OnInit, OnDestroy } from "@angular/core";
 import { MatSnackBar } from "@angular/material";
 import { ApiSpecificRecipeService } from "../../recipes/shared/api-specific-recipe.service";
-import { RecipesService } from "../../recipes/shared/recipes.service";
-/* import { ImageLoaderService } from "../../core/images/image-loader.service"; */
-/* import { ENTER, COMMA } from '@angular/cdk/keycodes'; */
-/* // Moment
-import { Duration } from 'moment';
-import * as moment from 'moment'; */
 // Rxjs
 import { Observable, Subscription } from "rxjs";
 // Ngrx Store

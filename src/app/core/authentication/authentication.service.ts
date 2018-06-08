@@ -5,7 +5,6 @@ import * as moment from 'moment';
 import { LocalStorageService } from 'angular-2-local-storage';
 import { environment } from './../../../environments/environment';
 import { GoogleAuthenticationService } from './google-authentication/google-authentication.service';
-import { RecipesService } from '../../recipes/shared/recipes.service';
 import { User } from './user.model';
 
 @Injectable()
@@ -14,20 +13,9 @@ export class AuthenticationService {
 
   constructor(private googleAuth: GoogleAuthenticationService,
               private localStorageService: LocalStorageService,
-              private recipeService: RecipesService,
               private router: Router,
               private zone: NgZone) {
   }
-  /*private url: string = `${environment.apiUrl}/login`;
-  private headers = new Headers({ 'Content-Type': 'application/json' });
-
-  constructor(private http: Http) { }
-
-  login(email:string, password:string ) {
-    return this.http.post(this.url, {email: email, password: password});
-        // this is just the HTTP call,
-        // we still need to handle the reception of the token
-  }*/
 
   private setSession(authResult) {
     const expiresAt = moment().add(authResult.tokenExpiresIn, 'second');
@@ -41,7 +29,6 @@ export class AuthenticationService {
     this.localStorageService.remove('auth_token');
     this.localStorageService.remove('token_expires_at');
     // Clearing all loaded data from app.
-    this.recipeService.clearAllRecipesFromClientsideList();
   }
 
   onSignInWithGoogle(googleUser: any) {

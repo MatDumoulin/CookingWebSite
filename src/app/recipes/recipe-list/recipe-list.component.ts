@@ -23,7 +23,6 @@ import { Observable } from "rxjs/Observable";
 import { Recipe } from "./../shared/recipe.model";
 // Services
 import { LoggerService } from "../../core/logger/logger.service";
-import { RecipesService } from "./../shared/recipes.service";
 // Others
 import { InfiniteScroll } from "./../shared/infinite-scroll.class";
 import { RecipeListDataSource } from "./recipe-list.datasource";
@@ -50,7 +49,6 @@ export class RecipeListComponent extends InfiniteScroll
 
     constructor(
         private actions$: ActionsSubject,
-        private recipesService: RecipesService,
         private loggerService: LoggerService,
         private dialog: MatDialog,
         private router: Router,

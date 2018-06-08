@@ -13,7 +13,6 @@ import * as fromStore from "../../core/store";
 // Models
 import { Recipe } from "./../shared/recipe.model";
 // Services
-import { RecipesService } from "./../shared/recipes.service";
 import { SearchIntent, SearchIntentMatcher } from "../../search/advanced-recipe-search/shared";
 import { combineLatest } from "rxjs";
 
