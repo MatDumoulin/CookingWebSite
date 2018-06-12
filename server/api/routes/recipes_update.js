@@ -9,53 +9,53 @@
 //
 function routeFactory(dbColl) {
     return function updateRecipe(req, res) {
-        const ObjectID = require('mongodb').ObjectID;
-        const imageManager = require('../image-manager');
+        const ObjectID = require("mongodb").ObjectID;
 
         // Getting the id of the recipe to update from the url.
         let id;
         try {
             id = new ObjectID(req.params.id);
-        }
-        catch(err) {
+        } catch (err) {
             console.error(err);
             res.status(404).send("Invalid identifier.");
             return;
         }
 
-        const docToUpdateIdentifier = {_id: id};
-        const orderIfConflict = [['_id','asc']];
+        // If there was an error with the image, cancel the add and notify the user.
+        if (req.imageError) {
+            console.log(
+                "An error occurred while uploading the image to the cloud."
+            );
+            console.log("Error:", req.imageError);
+            res.sendStatus(500);
+            return;
+        }
+
+        const docToUpdateIdentifier = { _id: id };
+        const orderIfConflict = [["_id", "asc"]];
         let recipe = req.body;
         // MongoDB does not allow to update the _id of a recipe.
         delete recipe._id;
 
-        // Setting up the recipe before updating the image.
-        const fullImage = recipe.fullImage;
-        delete recipe.fullImage; // Not saving the image to the database.
-        // If no image has been uploaded yet
-        if(fullImage && !recipe.image) {
-            recipe.image = id.toString();
-        }
-
-        dbColl.findAndModify(docToUpdateIdentifier, orderIfConflict, {$set: req.body}, {upsert: false, new: true}, // Do not create a new record if no doc found.
+        dbColl.findAndModify(
+            docToUpdateIdentifier,
+            orderIfConflict,
+            { $set: req.body },
+            { upsert: false, new: true }, // Do not create a new record if no doc found.
             function(err, result) {
+                // If an error occurred, display it.
+                if (err) {
+                    console.error(
+                        "An error occurred during the update :" + err
+                    );
+                    res.sendStatus(500);
+                    return;
+                }
 
-            // If an error occurred, display it.
-            if(err) {
-                console.error("An error occurred during the update :" + err);
-                res.sendStatus(500);
-                return;
+                res.status(200).send(result.value);
             }
-
-            // Saving the image to the file system.
-            if(fullImage) {
-                imageManager().saveImage(recipe.image, fullImage);
-            }
-
-            res.status(200).send(result.value);
-        });
-
-    }
+        );
+    };
 }
 
 module.exports = routeFactory;

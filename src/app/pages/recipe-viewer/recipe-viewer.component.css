@@ -1,4 +1,5 @@
 /* For the view recipe window.*/
+
 :host {
     height: 100%;
     display: flex;
@@ -9,7 +10,8 @@
 }
 
 .window {
-    width: 700px;  /* ~8.5 inches */
+    width: 700px;
+    /* ~8.5 inches */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -17,199 +19,228 @@
     background-color: white;
     padding: 20px;
     flex-grow: 1;
-  /*  animation-name: expand;
+    /*  animation-name: expand;
     animation-duration: .9s;*/
-  }
+}
 
-  /* Top of the window */
-  .top-section {
+/* Top of the window */
+
+.top-section {
     display: flex;
     justify-content: space-between;
     align-items: stretch;
     flex-wrap: wrap;
-  }
+}
 
-  .first-row {
+.first-row {
     display: flex;
     width: 100%;
-    margin-top: -1em; /* To override the padding from the .mat-dialog-container */
+    margin-top: -1em;
+    /* To override the padding from the .mat-dialog-container */
     margin-bottom: 1.5em;
-  }
+}
 
-  /* Genre */
-  .recipe-genre {
-    text-align:center;
+/* Genre */
+
+.recipe-genre {
+    text-align: center;
     margin: 0;
     color: gray;
     font: caption;
     font-weight: normal;
     width: 100%;
-  }
+}
 
-  /* General recipe info */
-  .recipe-top-info {
+/* General recipe info */
+
+.recipe-top-info {
     flex-grow: 1;
     margin-right: 5%;
-  }
+}
 
-  .recipe-name-container {
+.recipe-name-container {
     height: 52%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     padding-bottom: 4%;
-  }
+}
 
-  star-rating {
+star-rating {
     font-size: 0.9em;
-  }
+}
 
-  mat-chip-list:focus {
+mat-chip-list:focus {
     outline: none;
-  }
+}
 
-  .recipe-name {
+.recipe-name {
     margin: 0;
-  }
+}
 
-  .recipe-image {
+.recipe-image {
     width: 200px;
     height: 200px;
-  }
+}
 
-  .border {
-    border:solid black 1px;
-  }
+.border {
+    border: solid black 1px;
+}
 
-  hr {
+hr {
     border-color: lightgrey;
     border-top: 1px;
-  }
+}
 
-  .recipe-portions-time {
+.recipe-portions-time {
     font-size: 0.9em;
     flex-grow: 1;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-  }
+}
 
-
-  .size-20 {
+.size-20 {
     font-size: 1.2em;
-  }
+}
 
-  /* Middle of the window */
-  .middle-section {
+/* Middle of the window */
+
+.middle-section {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-  }
+}
 
-  .row {
+.row {
     display: flex;
     justify-content: space-between;
     width: 100%;
-  }
+}
 
-
-  .section {
+.section {
     flex-basis: 47%;
-  }
+}
 
-  .dialog-content {
+.dialog-content {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-  }
+}
 
-  /*.section:not(:last-child) {
+/*.section:not(:last-child) {
     margin-bottom: 25px;
   }*/
 
-  /* Ingredients */
-  .recipe-ingredients {
-    flex-basis: 45%;
-  }
+/* Ingredients */
 
-  .ingredient {
+.recipe-ingredients {
+    flex-basis: 45%;
+}
+
+.ingredient {
     display: flex;
     justify-content: space-between;
-  }
+}
 
-  .ingredient:not(:last-child),
-  .step:not(:last-child) {
+.ingredient:not(:last-child), .step:not(:last-child) {
     margin-bottom: 0.2em;
-  }
+}
 
-  .ingredient-quantity {
+.ingredient-quantity {
     padding-right: 10px;
     flex-shrink: 0;
     min-width: 87px;
-  }
+}
 
-  .ingredient-name {
+.ingredient-name {
     flex-grow: 1;
-  }
+}
 
-  .small-marginbottom {
+.small-marginbottom {
     margin-bottom: 5px;
-  }
+}
 
-  /* Steps */
-  .recipe-steps {
+/* Steps */
+
+.recipe-steps {
     flex-basis: 45%;
-  }
+}
 
-  .step {
-    text-align:justify;
-  }
+.step {
+    text-align: justify;
+}
 
-  .reset-counter {
+.reset-counter {
     counter-reset: stepNumber;
-  }
+}
 
-  .step:before {
-    float:left;
+.step:before {
+    float: left;
     content: counter(stepNumber);
     counter-increment: stepNumber;
     margin-left: -1.5em;
-  }
+}
 
+/* Notes */
 
-  /* Notes */
-  .note {
+.recipe-notes {
+    width: 45%;
+}
+
+.note {
     font-size: 0.95em;
     margin: 0;
-  }
+}
 
-  .artisticFont {
-    font-family: Century Gothic,CenturyGothic,AppleGothic,sans-serif;
+.artisticFont {
+    font-family: Century Gothic, CenturyGothic, AppleGothic, sans-serif;
     font-size: 0.9em;
-  }
+}
 
-  /* Loading state */
-  .shader {
+/* Loading state */
+
+.shader {
     width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: stretch;
-  }
+}
 
-  .equipment {
+.bottom-section {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.equipment {
     margin-bottom: 3%;
-  }
-  /*@keyframes expand {
+    width: 45%;
+}
+
+.equipment h4 {
+    margin-top: 0;
+}
+
+.actions {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+}
+
+/*@keyframes expand {
       0%   {
         width: 0px;
         min-height: 0px;
       }
       100% {
         width: 700px;  /* ~8.5 inches */
-        /*min-height: 825px; /* 11 inches  */
-  /*    }
+
+/*min-height: 825px; /* 11 inches  */
+
+/*    }
   }*/

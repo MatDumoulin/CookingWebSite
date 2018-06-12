@@ -48,7 +48,6 @@ export class LoadRecipeResolverService implements Resolve<Recipe> {
             take(1),
             map(entities => {
                 // If the recipe is already loaded, return it.
-                console.log(entities[id]);
                 return entities[id];
             })
         );

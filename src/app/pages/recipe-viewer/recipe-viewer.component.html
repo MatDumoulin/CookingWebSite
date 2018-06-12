@@ -1,6 +1,6 @@
 <!--<div class="modal-header viewRecipe-ModalHeader">
   <button type="button" class="close" data-dismiss="modal">&times;</button>-->
-  <!-- div class="modal hide" id="pleaseWaitDialog" data-backdrop="static" data-keyboard="false" >
+<!-- div class="modal hide" id="pleaseWaitDialog" data-backdrop="static" data-keyboard="false" >
       <div class="modal-header">
           <h1>Processing...</h1>
       </div>
@@ -10,85 +10,112 @@
           </div>
       </div>
   </div>                                                        Modal error handling                  -->
-  <div class="shader" *ngIf="!recipe">
+<div class="shader" *ngIf="!recipe">
     <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
-  </div>
-  <div class="window mat-elevation-z4" *ngIf="recipe">
+</div>
+<div class="window mat-elevation-z4" *ngIf="recipe">
     <div class="top-section">
-      <div class="first-row">
-        <h4 class="recipe-genre"><small>{{ recipe.genre | uppercase }}</small></h4>
-      </div>
-      <div class="recipe-top-info">
-        <div class="recipe-name-container">
-          <div>
-            <h2 class="recipe-name" mat-dialog-title>{{recipe.name | uppercase}}</h2>
-            <star-rating [readonly]="true" [(ngModel)]="recipe.rating"></star-rating>
-          </div>
-          <!-- tags -->
-          <mat-chip-list class="tags" *ngIf="recipe.tags.length > 0">
-            <mat-chip *ngFor="let tag of recipe.tags" color="primary" selected="true" disabled>{{tag}}</mat-chip>
-          </mat-chip-list>
+        <div class="first-row">
+            <h4 class="recipe-genre">
+                <small>{{ recipe.genre | uppercase }}</small>
+            </h4>
         </div>
-        <hr> <!-- Line separator -->
-        <div class="artisticFont recipe-portions-time">
-          <span>Portions: {{ recipe.results }}</span>    |
-          <span><img src="../../../assets/butcher-knife-20.png"> {{ convertToTime(recipe.prepTime) }}</span>    |
-          <span><img src="../../../assets/barbecue-20.png"> {{ convertToTime(recipe.cookTime) }}</span> |
-          <span>
-            <i class="material-icons size-20">hourglass_empty</i> {{ recipe.cooldownTime != 0 ? convertToTime(recipe.cooldownTime) : '--' }}
-          </span>
+        <div class="recipe-top-info">
+            <div class="recipe-name-container">
+                <div>
+                    <h2 class="recipe-name" mat-dialog-title>{{recipe.name | uppercase}}</h2>
+                    <star-rating [readonly]="true" [(ngModel)]="recipe.rating"></star-rating>
+                </div>
+                <!-- tags -->
+                <mat-chip-list class="tags" *ngIf="recipe.tags.length > 0">
+                    <mat-chip *ngFor="let tag of recipe.tags" color="primary" selected="true" disabled>{{tag}}</mat-chip>
+                </mat-chip-list>
+            </div>
+            <hr>
+            <!-- Line separator -->
+            <div class="artisticFont recipe-portions-time">
+                <span>Portions: {{ recipe.results }}</span> |
+                <span>
+                    <img src="../../../assets/butcher-knife-20.png"> {{ convertToTime(recipe.prepTime) }}</span> |
+                <span>
+                    <img src="../../../assets/barbecue-20.png"> {{ convertToTime(recipe.cookTime) }}</span> |
+                <span>
+                    <i class="material-icons size-20">hourglass_empty</i> {{ recipe.cooldownTime != 0 ? convertToTime(recipe.cooldownTime) : '--' }}
+                </span>
+            </div>
         </div>
-      </div>
-      <img class="recipe-image" [ngClass]="{'border mat-elevation-z3': recipe.image}" [src]="recipe.fullImage? recipe.fullImage: defaultImage">
+        <img class="recipe-image" [ngClass]="{'border mat-elevation-z3': recipe.image}" [src]="recipe.image? recipe.image: defaultImage">
     </div>
 
-    <mat-dialog-content class="dialog-content">
-      <div class="middle-section artisticFont">
-        <div>
-          <div class="ingredient-step-titles row">
-            <div class="section">
-              <h4 class="small-marginbottom"><strong>INGRÉDIENTS</strong></h4>
-            </div>
-            <div class="section">
-              <h4 class="small-marginbottom"><strong>ÉTAPES</strong></h4>
-            </div>
-          </div>
-          <div class="row" *ngFor="let section of biggestSection; let i = index">
-            <!-- The ingredients section -->
-            <div class="section">
-              <div *ngIf="i < recipe.ingredientSection.length">
-                <h4 class="small-marginbottom" *ngIf="recipe.ingredientSection[i].name">
-                  <strong><em>{{recipe.ingredientSection[i].name}}</em></strong>
-                </h4>
-                <div class="ingredient" *ngFor="let ingredient of recipe.ingredientSection[i].ingredients">
-                  <div class="ingredient-quantity">{{ ingredient.quantity }} {{ ingredient.units }}</div>
-                  <div class="ingredient-name capitalized">{{ ingredient.name }}</div>
+    <div class="dialog-content">
+        <div class="middle-section artisticFont">
+            <div>
+                <div class="ingredient-step-titles row">
+                    <div class="section">
+                        <h4 class="small-marginbottom">
+                            <strong>INGRÉDIENTS</strong>
+                        </h4>
+                    </div>
+                    <div class="section">
+                        <h4 class="small-marginbottom">
+                            <strong>ÉTAPES</strong>
+                        </h4>
+                    </div>
                 </div>
-              </div>
-            </div>
-            <!-- The steps section -->
-            <div class="section reset-counter" >
-              <div *ngIf="i < recipe.stepSection.length">
-                <div class="reset-counter">
-                  <h4 class="small-marginbottom" *ngIf="recipe.stepSection[i].name"><strong><em>{{recipe.stepSection[i].name}}</em></strong></h4>
-                  <div class="step capitalized" *ngFor="let step of recipe.stepSection[i].steps">{{ step }}</div>
+                <div class="row" *ngFor="let section of biggestSection; let i = index">
+                    <!-- The ingredients section -->
+                    <div class="section">
+                        <div *ngIf="i < recipe.ingredientSection.length">
+                            <h4 class="small-marginbottom" *ngIf="recipe.ingredientSection[i].name">
+                                <strong>
+                                    <em>{{recipe.ingredientSection[i].name}}</em>
+                                </strong>
+                            </h4>
+                            <div class="ingredient" *ngFor="let ingredient of recipe.ingredientSection[i].ingredients">
+                                <div class="ingredient-quantity">{{ ingredient.quantity }} {{ ingredient.units }}</div>
+                                <div class="ingredient-name capitalized">{{ ingredient.name }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- The steps section -->
+                    <div class="section reset-counter">
+                        <div *ngIf="i < recipe.stepSection.length">
+                            <div class="reset-counter">
+                                <h4 class="small-marginbottom" *ngIf="recipe.stepSection[i].name">
+                                    <strong>
+                                        <em>{{recipe.stepSection[i].name}}</em>
+                                    </strong>
+                                </h4>
+                                <div class="step capitalized" *ngFor="let step of recipe.stepSection[i].steps">{{ step }}</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
-          </div>
-        </div>
-        <!-- Materiel -->
-        <div *ngIf="recipe.equipment.length > 0" class="equipment">
-          <h4 class="small-marginbottom"><strong>MATÉRIEL NÉCESSAIRE</strong></h4>
-          <ul>
-            <li *ngFor="let equipment of recipe.equipment">{{equipment}}</li>
-          </ul>
-        </div>
-      </div>
+            <div class="bottom-section">
+                <!-- Materiel -->
+                <div *ngIf="recipe.equipment.length > 0" class="equipment">
+                    <h4 class="small-marginbottom">
+                        <strong>MATÉRIEL NÉCESSAIRE</strong>
+                    </h4>
+                    <ul>
+                        <li *ngFor="let equipment of recipe.equipment">{{equipment}}</li>
+                    </ul>
+                </div>
 
-      <div class="recipe-notes" *ngIf="recipe.notes.length > 0">
-        <p class="note"><i>{{ recipe.notes }}</i></p>
-      </div>
-    </mat-dialog-content>
-  </div>
+                <div class="recipe-notes" *ngIf="recipe.notes.length > 0">
+                    <p class="note">
+                        <i>{{ recipe.notes }}</i>
+                    </p>
+                </div>
+            </div>
 
+            <div class="actions">
+                <button class="edit-recipe" color="primary" [routerLink]="['/recipe/edit/' + recipe._id]" mat-button>
+                    <mat-icon>edit</mat-icon>
+                    Modifier
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

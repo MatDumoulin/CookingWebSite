@@ -31,6 +31,10 @@ export class LoggerService extends BasicLoggerService {
         return this.keepPersistentAlive(super.error.bind(this), message, action);
     }
 
+    action(message: string, action: string, duration: number): MatSnackBarRef<SimpleSnackBar> {
+        return this.keepPersistentAlive(super.action.bind(this), message, action, duration);
+    }
+
     /**
      * Displays a message to the user that will remain until the user
      * manually disposes it or that the ref is implicitly closed.

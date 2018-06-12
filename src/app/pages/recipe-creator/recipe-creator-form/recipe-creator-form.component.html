@@ -14,7 +14,7 @@
 
                 <div class="image-container image-box small-margin-bottom" matTooltip="Changez l'image de cette recette!">
                     <input type="file" class="hidden" accept="image/*" (change)="updateImage($event)" #fileInput>
-                    <img class="image" [src]="displayedImage" (load)="isImageLoaded = true" [ngClass]="{invisible: !isImageLoaded}" alt="Photo of the recipe">
+                    <img class="image" [src]="recipe.image? recipe.image : defaultImage" (load)="isImageLoaded = true" [ngClass]="{invisible: !isImageLoaded}" alt="Photo of the recipe">
                     <div class="image-hover-shader image-box" (click)="fileInput.click()">
                         <img src="../../../assets/photo.svg" alt="Change photo">
                     </div>

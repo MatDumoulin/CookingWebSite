@@ -5,10 +5,16 @@ const routerManager = require('./server/api/route-manager');
 const helmet = require('helmet');
 
 const app = express();
-const env = process.env.environment;
+const env = process.env.ENVIRONMENT;
+
+if(env === "production") {
+    // Google cloud debug on production server.
+    require('@google-cloud/debug-agent').start();
+}
+
 // Express configuration (order matters)
 app.set('port', (process.env.PORT || 4200));
-const dbUrl = 'mongodb://mycookingbook:~c2[hW-F#^`GpPrU@ds123500.mlab.com:23500/mycookbook';
+const dbUrl = process.env.MYCOOKBOOK_DB;
 
 // Adding HSTS, removes the X-Powered-By header and sets the X-Frame-Options header to prevent click jacking, among other things.
 app.use(helmet()); // All https is done through nginx.

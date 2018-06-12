@@ -9,6 +9,7 @@
 function routerManager(express, db) {
     const router = express.Router();
     const jwtMiddleware = require('express-jwt');
+    const imageManager = require('./image-manager');
     const recipesCollection = db.collection('recipes');
     const usersCollection = db.collection('users');
     const imagesFolderLocation = __dirname + '/user-images/';
@@ -46,13 +47,13 @@ function routerManager(express, db) {
     // Creating the routes
     router.post('/login', login(usersCollection));
     router.get('/recipes', getRecipes(recipesCollection));
-    router.post('/recipe', addRecipe(recipesCollection));
+    router.post('/recipe', imageManager.middleware, addRecipe(recipesCollection));
     router.get('/recipes/names', getRecipeNames(recipesCollection));
     router.get('/recipes/genres', getRecipeGenres(recipesCollection));
     router.get('/recipes/ingredients', getIngredientsName(recipesCollection));
     router.post('/recipes/advanced', getRecipeAdvancedSearch(recipesCollection));
     router.route('/recipes/:id').get(getSpecificRecipe(recipesCollection, imagesFolderLocation))
-                                .post(updateRecipe(recipesCollection))
+                                .post(imageManager.middleware, updateRecipe(recipesCollection))
                                 .delete(removeRecipe(recipesCollection));
     router.route('/recipes/image/:id').get(getImage(imagesFolderLocation));
 

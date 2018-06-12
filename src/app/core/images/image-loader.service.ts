@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, SecurityContext } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Image } from './image.model';
@@ -29,7 +29,7 @@ export class ImageLoaderService {
             // When the file is completly converted to a readable format
             displayedImageReader.onload = ((e) => {
                 image.imageString = e.target['result'];
-                image.displayableImage = this.sanitizer.bypassSecurityTrustUrl(image.imageString);
+                image.displayableImage = this.sanitizer.sanitize(SecurityContext.URL, image.imageString);
                 resolve(image);
             });
 

@@ -20,4 +20,10 @@ export class BasicLoggerService {
             duration: this.errorDuration
         });
     }
+
+    action(message: string, action: string, duration: number): MatSnackBarRef<SimpleSnackBar> {
+        return this.snackBar.open(message, action, {
+            duration: duration
+        });
+    }
 }

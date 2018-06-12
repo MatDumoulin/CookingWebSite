@@ -8,7 +8,6 @@ import { Recipe } from "../../../recipes/shared/recipe.model";
 // Services
 import { ImageLoaderService } from "../../../core/images/image-loader.service";
 
-
 @Component({
     selector: "mcb-recipe-creator-form",
     templateUrl: "./recipe-creator-form.component.html",
@@ -16,7 +15,7 @@ import { ImageLoaderService } from "../../../core/images/image-loader.service";
 })
 export class RecipeCreatorFormComponent implements OnInit {
     private _recipe = new Recipe();
-    displayedImage = Recipe.DEFAULT_IMAGE;
+    readonly defaultImage = Recipe.DEFAULT_IMAGE;
     prepDuration: Duration;
     cookDuration: Duration;
     cooldownDuration: Duration;
@@ -38,6 +37,8 @@ export class RecipeCreatorFormComponent implements OnInit {
             this._recipe = new Recipe();
             this.setToCreateMode();
         }
+
+        this.setDurationsFromRecipe(this._recipe);
     }
     get recipe(): Recipe {
         return this._recipe;
@@ -46,7 +47,6 @@ export class RecipeCreatorFormComponent implements OnInit {
     @Output() createRecipe = new EventEmitter<Recipe>();
     @Output() updateRecipe = new EventEmitter<Recipe>();
     @Output() deleteRecipe = new EventEmitter<Recipe>();
-
 
     constructor(private imageLoader: ImageLoaderService) {}
 
@@ -62,6 +62,25 @@ export class RecipeCreatorFormComponent implements OnInit {
         this.isEdit = false;
         this.finishButtonText = "Créer";
         this.windowTitle = "Création de la recette";
+    }
+
+    /**
+     * Extracts the durations from the recipe (they are in minutes)
+     * and converts them into moment.duration object.
+     * @param recipe The recipe that contains the duration values
+     */
+    setDurationsFromRecipe(recipe: Recipe): void {
+        if (recipe) {
+            this.prepDuration = recipe.prepTime
+                ? moment.duration(recipe.prepTime, "minutes")
+                : null;
+            this.cookDuration = recipe.cookTime
+                ? moment.duration(recipe.cookTime, "minutes")
+                : null;
+            this.cooldownDuration = recipe.cooldownTime
+                ? moment.duration(recipe.cooldownTime, "minutes")
+                : null;
+        }
     }
 
     goToNextTab() {
@@ -119,8 +138,7 @@ export class RecipeCreatorFormComponent implements OnInit {
             this.imageLoader
                 .readImage(fileInput.target.files[0])
                 .then(image => {
-                    // this.recipe.fullImage = image.imageString;
-                    this.displayedImage = image.displayableImage;
+                    this.recipe.image = image.imageString;
                 });
         }
     }
@@ -136,6 +154,4 @@ export class RecipeCreatorFormComponent implements OnInit {
     onDeleteRecipe() {
         this.deleteRecipe.emit(this.recipe);
     }
-
-
 }

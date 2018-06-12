@@ -215,19 +215,31 @@ export class RecipesEffects {
     );
 
     @Effect()
-    redirectToRecipePage$ = this.actions$
+    showSaveSuccessful$ = this.actions$
         .ofType(
             recipesActions.CREATE_RECIPE_SUCCESS,
-            recipesActions.DELETE_RECIPE_SUCCESS,
             recipesActions.UPDATE_RECIPE_SUCCESS
         )
         .pipe(
-            switchMap(recipe => {
+            switchMap(action => {
                 this.loggerService.info("Vos changements sont sauvegardés");
-
-                this.router.navigateByUrl("recipes");
 
                 return empty();
             })
         );
+
+        @Effect()
+        redirectToRecipePage$ = this.actions$
+            .ofType(
+                recipesActions.CREATE_RECIPE_SUCCESS,
+                recipesActions.DELETE_RECIPE_SUCCESS,
+                recipesActions.UPDATE_RECIPE_SUCCESS
+            )
+            .pipe(
+                switchMap(action => {
+                    this.router.navigateByUrl("recipes");
+
+                    return empty();
+                })
+            );
 }

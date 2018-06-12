@@ -20,7 +20,7 @@ function routeFactory(dbColl) {
             return;
         }
 
-        dbColl.findAndRemove({_id: id}, [['_id',1]], function(err, doc) {
+        dbColl.findAndRemove({_id: id}, [['_id',1]], (err, doc) => {
             if(err) {
                 console.error(err);
                 res.sendStatus(500);
@@ -34,7 +34,7 @@ function routeFactory(dbColl) {
             }
             else {
                 if(doc.value.image) {
-                    imageManager().deleteImage(doc.value.image);
+                    imageManager.deleteImage(id.toString());
                 }
 
                 res.status(200).send({status: "Success"});

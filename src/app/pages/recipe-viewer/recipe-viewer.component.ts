@@ -34,10 +34,6 @@ export class RecipeViewerComponent implements OnInit, OnDestroy {
 
             if (recipe) {
                 this.biggestSection = this.getBiggestSection();
-                // If the image comes from the database, get it.
-                if (this.recipe.image) {
-                    this.getImage();
-                }
             }
         });
     }
@@ -66,12 +62,6 @@ export class RecipeViewerComponent implements OnInit, OnDestroy {
         }
         // Else, display --.
         return "--";
-    }
-
-    getImage() {
-        this.recipeApi.getImage(this.recipe.image).then(image => {
-            this.recipe.fullImage = image.displayableImage;
-        });
     }
 
     private getBiggestSection() {

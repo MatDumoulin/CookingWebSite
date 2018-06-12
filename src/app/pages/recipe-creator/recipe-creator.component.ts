@@ -8,6 +8,7 @@ import { Store } from "@ngrx/store";
 import * as fromStore from "../../core/store";
 // Models
 import { Recipe } from "../../recipes/shared/recipe.model";
+import { LoggerService } from "../../core/logger";
 
 @Component({
     selector: "mcb-recipe-creator",
@@ -17,35 +18,25 @@ import { Recipe } from "../../recipes/shared/recipe.model";
 export class RecipeCreatorComponent implements OnInit, OnDestroy {
     recipe$: Observable<Recipe>;
     originalRecipe: Recipe; // Keeping a copy of the recipe before modification.
-    displayedImage: string;
     private subscriptions: Subscription[] = [];
 
     constructor(
         private snackBar: MatSnackBar,
-        /* private imageLoader: ImageLoaderService ,*/
+        private loggerService: LoggerService,
         private store: Store<fromStore.DataState>
     ) {}
 
     ngOnInit() {
         this.recipe$ = this.store.select(fromStore.getSelectedRecipe);
 
-        /* TODO: Load image async
-
+        // Keeping a copy of the recipe in case the user cancels the delete.
         this.subscriptions.push(
-            this.recipe$.subscribe(selectedRecipe => {
-                if (recipe.image) {
-                    this.recipeApi.getImage(this.recipe.image).then(image => {
-                        this.recipe.fullImage = image.imageString;
-                        this.displayedImage = image.displayableImage;
-                        // Waiting for the full image to be loaded before saving the original recipe.
-                        this.originalRecipe = this.recipe;
-                    });
-                } else {
-                    this.recipe.fullImage = Recipe.DEFAULT_IMAGE;
-                    this.originalRecipe = this.recipe;
+            this.recipe$.subscribe(recipe => {
+                if (recipe) {
+                    this.originalRecipe = Object.assign({}, recipe);
                 }
             })
-        ); */
+        );
     }
 
     ngOnDestroy() {
@@ -55,35 +46,25 @@ export class RecipeCreatorComponent implements OnInit, OnDestroy {
     }
 
     createRecipe(recipe: Recipe): void {
-        if (recipe.fullImage === Recipe.DEFAULT_IMAGE) {
-            recipe.fullImage = null;
-        }
-        // this.recipesService.addRecipe(this.recipe);
         this.store.dispatch(new fromStore.CreateRecipe(recipe));
     }
 
     updateRecipe(recipe: Recipe): void {
-        if (recipe.fullImage === Recipe.DEFAULT_IMAGE) {
-            recipe.fullImage = null;
-        }
-
         this.store.dispatch(new fromStore.UpdateRecipe(recipe));
     }
 
     deleteRecipe(recipe: Recipe): void {
         this.store.dispatch(new fromStore.DeleteRecipe(recipe._id));
-
         // Displaying a message to indicate that the recipe was removed.
-        /* const snackBarRef = this.snackBar.open(
+        const snackBarRef = this.loggerService.action(
             "La recette a été supprimée",
             "Annuler",
-            { duration: 3000 }
+            3000
         );
         snackBarRef.onAction().subscribe(() => {
-            // if (this.recipe.fullImage === Recipe.DEFAULT_IMAGE) {
-            //   this.recipe.fullImage = null;
-            // }
-            // this.recipesService.addRecipe(this.originalRecipe);
-        }); */
+            this.store.dispatch(
+                new fromStore.CreateRecipe(this.originalRecipe)
+            );
+        });
     }
 }

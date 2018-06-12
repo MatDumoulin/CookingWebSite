@@ -7,12 +7,9 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Launch Program",
-            "program": "${workspaceFolder}\\prod-server",
-            "preLaunchTask": "tsc: build - tsconfig.json",
-            "outFiles": [
-                "${workspaceFolder}/server/dist/out-tsc/**/*.js"
-            ]
+            "name": "Launch Server",
+            "program": "${workspaceFolder}\\prod-server.js",
+            "console": "integratedTerminal"
         }
     ]
 }

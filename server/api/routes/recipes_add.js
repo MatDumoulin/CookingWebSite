@@ -12,7 +12,6 @@ const getUserId = require('../jwt-reader');
 function routeFactory(dbColl) {
     return function addRecipe(req, res) {
         const ObjectID = require('mongodb').ObjectID;
-        const imageManager = require('../image-manager');
 
         let newRecipe = req.body;
         newRecipe._id = new ObjectID(newRecipe._id);
@@ -21,12 +20,14 @@ function routeFactory(dbColl) {
         const userAuthId = getUserId(req);
         newRecipe.owner = userAuthId;
 
-        // Setting up the recipe before saving it to the database.
-        const fullImage = newRecipe.fullImage;
-        delete newRecipe.fullImage; // Not saving the image to the database.
-
-        if(fullImage) {
-            newRecipe.image = newRecipe._id.toString();
+        // If there was an error with the image, cancel the add and notify the user.
+        if (req.imageError) {
+            console.log(
+                "An error occurred while uploading the image to the cloud."
+            );
+            console.log("Error:", req.imageError);
+            res.sendStatus(500);
+            return;
         }
 
         dbColl.insert(newRecipe, function(err, result) {
@@ -47,11 +48,6 @@ function routeFactory(dbColl) {
 
             if(err || result.writeError != null || result.writeConcernError != null) {
                 res.sendStatus(500);
-            }
-
-            // Saving the image to the file system.
-            if(fullImage) {
-                imageManager().saveImage(newRecipe.image, fullImage);
             }
 
             res.status(201).send(result.ops[0]);

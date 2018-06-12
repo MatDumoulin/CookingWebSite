@@ -1,0 +1,6 @@
+runtime: nodejs
+env: flex
+env_variables:
+  MYCOOKBOOK_DB: "mongodb://mycookingbook:~c2[hW-F#^`GpPrU@ds123500.mlab.com:23500/mycookbook"
+  ENVIRONMENT: "production"
+  IMAGE_STORAGE_NAME: "mycookbook-1.appspot.com"
