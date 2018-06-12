@@ -6,6 +6,9 @@ import { LocalStorageService } from 'angular-2-local-storage';
 import { environment } from './../../../environments/environment';
 import { GoogleAuthenticationService } from './google-authentication/google-authentication.service';
 import { User } from './user.model';
+// Ngrx Store
+import { Store } from "@ngrx/store";
+import * as fromStore from "../../core/store";
 
 @Injectable()
 export class AuthenticationService {
@@ -14,6 +17,7 @@ export class AuthenticationService {
   constructor(private googleAuth: GoogleAuthenticationService,
               private localStorageService: LocalStorageService,
               private router: Router,
+              private store: Store<fromStore.DataState>,
               private zone: NgZone) {
   }
 
@@ -29,6 +33,7 @@ export class AuthenticationService {
     this.localStorageService.remove('auth_token');
     this.localStorageService.remove('token_expires_at');
     // Clearing all loaded data from app.
+    this.store.dispatch(new fromStore.ClearUserData());
   }
 
   onSignInWithGoogle(googleUser: any) {

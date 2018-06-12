@@ -23,6 +23,8 @@ export const UPDATE_RECIPE_SUCCESS = '[RecipesApi] Update Recipe Success';
 export const DELETE_RECIPE = '[Create and Update Recipe] Delete Recipe';
 export const DELETE_RECIPE_FAIL = '[RecipesApi] Delete Recipe Fail';
 export const DELETE_RECIPE_SUCCESS = '[RecipesApi] Delete Recipe Success';
+// Reset Store data
+export const CLEAR_USER_DATA = '[User Disconnect] Clear User Data';
 
 // Load
 export class LoadRecipes implements Action {
@@ -125,6 +127,11 @@ export class DeleteRecipeSuccess implements Action {
     constructor(public payload: string) { }
 }
 
+// Reset User Data
+export class ClearUserData implements Action {
+    readonly type = CLEAR_USER_DATA;
+}
+
 // Action types
 export type RecipesAction =
     // Load Multiple Recipes
@@ -138,4 +145,6 @@ export type RecipesAction =
     // Update
     UpdateRecipe | UpdateRecipeFail | UpdateRecipeSuccess |
     // Delete
-    DeleteRecipe | DeleteRecipeFail | DeleteRecipeSuccess;
+    DeleteRecipe | DeleteRecipeFail | DeleteRecipeSuccess |
+    // Clear recipes
+    ClearUserData;

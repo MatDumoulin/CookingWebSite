@@ -2152,6 +2152,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var angular_2_local_storage__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! angular-2-local-storage */ "./node_modules/angular-2-local-storage/dist/index.js");
 /* harmony import */ var angular_2_local_storage__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(angular_2_local_storage__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _google_authentication_google_authentication_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./google-authentication/google-authentication.service */ "./src/app/core/authentication/google-authentication/google-authentication.service.ts");
+/* harmony import */ var _ngrx_store__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @ngrx/store */ "./node_modules/@ngrx/store/fesm5/store.js");
+/* harmony import */ var _core_store__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../core/store */ "./src/app/core/store/index.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2167,11 +2169,15 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+// Ngrx Store
+
+
 var AuthenticationService = /** @class */ (function () {
-    function AuthenticationService(googleAuth, localStorageService, router, zone) {
+    function AuthenticationService(googleAuth, localStorageService, router, store, zone) {
         this.googleAuth = googleAuth;
         this.localStorageService = localStorageService;
         this.router = router;
+        this.store = store;
         this.zone = zone;
         this.currentUserChanged = new rxjs_Subject__WEBPACK_IMPORTED_MODULE_2__["Subject"]();
     }
@@ -2186,6 +2192,7 @@ var AuthenticationService = /** @class */ (function () {
         this.localStorageService.remove('auth_token');
         this.localStorageService.remove('token_expires_at');
         // Clearing all loaded data from app.
+        this.store.dispatch(new _core_store__WEBPACK_IMPORTED_MODULE_7__["ClearUserData"]());
     };
     AuthenticationService.prototype.onSignInWithGoogle = function (googleUser) {
         var _this = this;
@@ -2229,6 +2236,7 @@ var AuthenticationService = /** @class */ (function () {
         __metadata("design:paramtypes", [_google_authentication_google_authentication_service__WEBPACK_IMPORTED_MODULE_5__["GoogleAuthenticationService"],
             angular_2_local_storage__WEBPACK_IMPORTED_MODULE_4__["LocalStorageService"],
             _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"],
+            _ngrx_store__WEBPACK_IMPORTED_MODULE_6__["Store"],
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["NgZone"]])
     ], AuthenticationService);
     return AuthenticationService;
@@ -2707,7 +2715,7 @@ var DataStoreModule = /** @class */ (function () {
 /*!*************************************!*\
   !*** ./src/app/core/store/index.ts ***!
   \*************************************/
-/*! exports provided: reducers, getDataState, LOAD_RECIPES, LOAD_RECIPES_FAIL, LOAD_RECIPES_SUCCESS, HAS_LOADED_ALL_RECIPES, LOAD_RECIPE, RECIPE_NOT_FOUND, SEARCH_RECIPES, CANCEL_SEARCH_RECIPES, CREATE_RECIPE, CREATE_RECIPE_FAIL, CREATE_RECIPE_SUCCESS, UPDATE_RECIPE, UPDATE_RECIPE_FAIL, UPDATE_RECIPE_SUCCESS, DELETE_RECIPE, DELETE_RECIPE_FAIL, DELETE_RECIPE_SUCCESS, LoadRecipes, LoadRecipe, LoadRecipesFail, RecipeNotFound, LoadRecipesSuccess, HasLoadedAllRecipes, SearchRecipes, CancelSearchRecipes, CreateRecipe, CreateRecipeFail, CreateRecipeSuccess, UpdateRecipe, UpdateRecipeFail, UpdateRecipeSuccess, DeleteRecipe, DeleteRecipeFail, DeleteRecipeSuccess, getRecipesState, getRecipesEntities, getAllRecipes, getRecipesLoaded, getRecipesLoading, getCanLoadMoreRecipes, getSearchIntent, getSearchedRecipes, getSelectedRecipe */
+/*! exports provided: reducers, getDataState, LOAD_RECIPES, LOAD_RECIPES_FAIL, LOAD_RECIPES_SUCCESS, HAS_LOADED_ALL_RECIPES, LOAD_RECIPE, RECIPE_NOT_FOUND, SEARCH_RECIPES, CANCEL_SEARCH_RECIPES, CREATE_RECIPE, CREATE_RECIPE_FAIL, CREATE_RECIPE_SUCCESS, UPDATE_RECIPE, UPDATE_RECIPE_FAIL, UPDATE_RECIPE_SUCCESS, DELETE_RECIPE, DELETE_RECIPE_FAIL, DELETE_RECIPE_SUCCESS, CLEAR_USER_DATA, LoadRecipes, LoadRecipe, LoadRecipesFail, RecipeNotFound, LoadRecipesSuccess, HasLoadedAllRecipes, SearchRecipes, CancelSearchRecipes, CreateRecipe, CreateRecipeFail, CreateRecipeSuccess, UpdateRecipe, UpdateRecipeFail, UpdateRecipeSuccess, DeleteRecipe, DeleteRecipeFail, DeleteRecipeSuccess, ClearUserData, getRecipesState, getRecipesEntities, getAllRecipes, getRecipesLoaded, getRecipesLoading, getCanLoadMoreRecipes, getSearchIntent, getSearchedRecipes, getSelectedRecipe */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2752,6 +2760,8 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "DELETE_RECIPE_SUCCESS", function() { return _recipes_actions__WEBPACK_IMPORTED_MODULE_1__["DELETE_RECIPE_SUCCESS"]; });
 
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "CLEAR_USER_DATA", function() { return _recipes_actions__WEBPACK_IMPORTED_MODULE_1__["CLEAR_USER_DATA"]; });
+
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LoadRecipes", function() { return _recipes_actions__WEBPACK_IMPORTED_MODULE_1__["LoadRecipes"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LoadRecipe", function() { return _recipes_actions__WEBPACK_IMPORTED_MODULE_1__["LoadRecipe"]; });
@@ -2786,6 +2796,8 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "DeleteRecipeSuccess", function() { return _recipes_actions__WEBPACK_IMPORTED_MODULE_1__["DeleteRecipeSuccess"]; });
 
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ClearUserData", function() { return _recipes_actions__WEBPACK_IMPORTED_MODULE_1__["ClearUserData"]; });
+
 /* harmony import */ var _recipes_selectors__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./recipes/selectors */ "./src/app/core/store/recipes/selectors/index.ts");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getRecipesState", function() { return _recipes_selectors__WEBPACK_IMPORTED_MODULE_2__["getRecipesState"]; });
 
@@ -2816,7 +2828,7 @@ __webpack_require__.r(__webpack_exports__);
 /*!*****************************************************!*\
   !*** ./src/app/core/store/recipes/actions/index.ts ***!
   \*****************************************************/
-/*! exports provided: LOAD_RECIPES, LOAD_RECIPES_FAIL, LOAD_RECIPES_SUCCESS, HAS_LOADED_ALL_RECIPES, LOAD_RECIPE, RECIPE_NOT_FOUND, SEARCH_RECIPES, CANCEL_SEARCH_RECIPES, CREATE_RECIPE, CREATE_RECIPE_FAIL, CREATE_RECIPE_SUCCESS, UPDATE_RECIPE, UPDATE_RECIPE_FAIL, UPDATE_RECIPE_SUCCESS, DELETE_RECIPE, DELETE_RECIPE_FAIL, DELETE_RECIPE_SUCCESS, LoadRecipes, LoadRecipe, LoadRecipesFail, RecipeNotFound, LoadRecipesSuccess, HasLoadedAllRecipes, SearchRecipes, CancelSearchRecipes, CreateRecipe, CreateRecipeFail, CreateRecipeSuccess, UpdateRecipe, UpdateRecipeFail, UpdateRecipeSuccess, DeleteRecipe, DeleteRecipeFail, DeleteRecipeSuccess */
+/*! exports provided: LOAD_RECIPES, LOAD_RECIPES_FAIL, LOAD_RECIPES_SUCCESS, HAS_LOADED_ALL_RECIPES, LOAD_RECIPE, RECIPE_NOT_FOUND, SEARCH_RECIPES, CANCEL_SEARCH_RECIPES, CREATE_RECIPE, CREATE_RECIPE_FAIL, CREATE_RECIPE_SUCCESS, UPDATE_RECIPE, UPDATE_RECIPE_FAIL, UPDATE_RECIPE_SUCCESS, DELETE_RECIPE, DELETE_RECIPE_FAIL, DELETE_RECIPE_SUCCESS, CLEAR_USER_DATA, LoadRecipes, LoadRecipe, LoadRecipesFail, RecipeNotFound, LoadRecipesSuccess, HasLoadedAllRecipes, SearchRecipes, CancelSearchRecipes, CreateRecipe, CreateRecipeFail, CreateRecipeSuccess, UpdateRecipe, UpdateRecipeFail, UpdateRecipeSuccess, DeleteRecipe, DeleteRecipeFail, DeleteRecipeSuccess, ClearUserData */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2856,6 +2868,8 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "DELETE_RECIPE_SUCCESS", function() { return _recipes_action__WEBPACK_IMPORTED_MODULE_0__["DELETE_RECIPE_SUCCESS"]; });
 
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "CLEAR_USER_DATA", function() { return _recipes_action__WEBPACK_IMPORTED_MODULE_0__["CLEAR_USER_DATA"]; });
+
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LoadRecipes", function() { return _recipes_action__WEBPACK_IMPORTED_MODULE_0__["LoadRecipes"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LoadRecipe", function() { return _recipes_action__WEBPACK_IMPORTED_MODULE_0__["LoadRecipe"]; });
@@ -2890,6 +2904,8 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "DeleteRecipeSuccess", function() { return _recipes_action__WEBPACK_IMPORTED_MODULE_0__["DeleteRecipeSuccess"]; });
 
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ClearUserData", function() { return _recipes_action__WEBPACK_IMPORTED_MODULE_0__["ClearUserData"]; });
+
 
 
 
@@ -2899,7 +2915,7 @@ __webpack_require__.r(__webpack_exports__);
 /*!**************************************************************!*\
   !*** ./src/app/core/store/recipes/actions/recipes.action.ts ***!
   \**************************************************************/
-/*! exports provided: LOAD_RECIPES, LOAD_RECIPES_FAIL, LOAD_RECIPES_SUCCESS, HAS_LOADED_ALL_RECIPES, LOAD_RECIPE, RECIPE_NOT_FOUND, SEARCH_RECIPES, CANCEL_SEARCH_RECIPES, CREATE_RECIPE, CREATE_RECIPE_FAIL, CREATE_RECIPE_SUCCESS, UPDATE_RECIPE, UPDATE_RECIPE_FAIL, UPDATE_RECIPE_SUCCESS, DELETE_RECIPE, DELETE_RECIPE_FAIL, DELETE_RECIPE_SUCCESS, LoadRecipes, LoadRecipe, LoadRecipesFail, RecipeNotFound, LoadRecipesSuccess, HasLoadedAllRecipes, SearchRecipes, CancelSearchRecipes, CreateRecipe, CreateRecipeFail, CreateRecipeSuccess, UpdateRecipe, UpdateRecipeFail, UpdateRecipeSuccess, DeleteRecipe, DeleteRecipeFail, DeleteRecipeSuccess */
+/*! exports provided: LOAD_RECIPES, LOAD_RECIPES_FAIL, LOAD_RECIPES_SUCCESS, HAS_LOADED_ALL_RECIPES, LOAD_RECIPE, RECIPE_NOT_FOUND, SEARCH_RECIPES, CANCEL_SEARCH_RECIPES, CREATE_RECIPE, CREATE_RECIPE_FAIL, CREATE_RECIPE_SUCCESS, UPDATE_RECIPE, UPDATE_RECIPE_FAIL, UPDATE_RECIPE_SUCCESS, DELETE_RECIPE, DELETE_RECIPE_FAIL, DELETE_RECIPE_SUCCESS, CLEAR_USER_DATA, LoadRecipes, LoadRecipe, LoadRecipesFail, RecipeNotFound, LoadRecipesSuccess, HasLoadedAllRecipes, SearchRecipes, CancelSearchRecipes, CreateRecipe, CreateRecipeFail, CreateRecipeSuccess, UpdateRecipe, UpdateRecipeFail, UpdateRecipeSuccess, DeleteRecipe, DeleteRecipeFail, DeleteRecipeSuccess, ClearUserData */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2921,6 +2937,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DELETE_RECIPE", function() { return DELETE_RECIPE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DELETE_RECIPE_FAIL", function() { return DELETE_RECIPE_FAIL; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DELETE_RECIPE_SUCCESS", function() { return DELETE_RECIPE_SUCCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CLEAR_USER_DATA", function() { return CLEAR_USER_DATA; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LoadRecipes", function() { return LoadRecipes; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LoadRecipe", function() { return LoadRecipe; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LoadRecipesFail", function() { return LoadRecipesFail; });
@@ -2938,6 +2955,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DeleteRecipe", function() { return DeleteRecipe; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DeleteRecipeFail", function() { return DeleteRecipeFail; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DeleteRecipeSuccess", function() { return DeleteRecipeSuccess; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ClearUserData", function() { return ClearUserData; });
 // Load
 var LOAD_RECIPES = '[Recipes] Load Recipes';
 var LOAD_RECIPES_FAIL = '[RecipesApi] Load Recipes Fail';
@@ -2958,6 +2976,8 @@ var UPDATE_RECIPE_SUCCESS = '[RecipesApi] Update Recipe Success';
 var DELETE_RECIPE = '[Create and Update Recipe] Delete Recipe';
 var DELETE_RECIPE_FAIL = '[RecipesApi] Delete Recipe Fail';
 var DELETE_RECIPE_SUCCESS = '[RecipesApi] Delete Recipe Success';
+// Reset Store data
+var CLEAR_USER_DATA = '[User Disconnect] Clear User Data';
 // Load
 var LoadRecipes = /** @class */ (function () {
     function LoadRecipes() {
@@ -3094,6 +3114,14 @@ var DeleteRecipeSuccess = /** @class */ (function () {
         this.type = DELETE_RECIPE_SUCCESS;
     }
     return DeleteRecipeSuccess;
+}());
+
+// Reset User Data
+var ClearUserData = /** @class */ (function () {
+    function ClearUserData() {
+        this.type = CLEAR_USER_DATA;
+    }
+    return ClearUserData;
 }());
 
 
@@ -3547,6 +3575,12 @@ function reducer(state, action) {
             // Removing the recipe from our clientside recipe.
             delete copyOfEntities[deletedRecipeId];
             return __assign({}, state, { entities: copyOfEntities });
+        }
+        // We are handling the create, update and delete recipe fail in the error-handling.effects.ts file
+        // since it requires logging.
+        // Clear Recipes
+        case _actions_recipes_action__WEBPACK_IMPORTED_MODULE_0__["CLEAR_USER_DATA"]: {
+            return initialState;
         }
     }
     return state;

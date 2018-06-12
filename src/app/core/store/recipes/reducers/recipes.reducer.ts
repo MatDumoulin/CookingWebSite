@@ -116,9 +116,13 @@ export function reducer(state = initialState, action: fromRecipes.RecipesAction)
                 entities: copyOfEntities
             };
         }
-
         // We are handling the create, update and delete recipe fail in the error-handling.effects.ts file
         // since it requires logging.
+
+        // Clear Recipes
+        case fromRecipes.CLEAR_USER_DATA: {
+            return initialState;
+        }
     }
 
     return state;
