@@ -6,13 +6,7 @@
 
   <div>
     <div *ngIf="displayLogin">
-      <!-- If a user is logged in -->
-      <button color="secondary" (click)="disconnect()" *ngIf="user" mat-button>
-        <img class="profile-picture" [src]="user.profilePicture? user.profilePicture : ''">
-        <span>Bonjour {{user.firstName}}</span>
-      </button>
-      <!-- If no user is logged in -->
-      <button color="secondary" (click)="login()" *ngIf="!user" mat-button>Se connecter</button>
+      <mcb-avatar [user]="user$ | async" (login)="login()" (logout)="disconnect()"></mcb-avatar>
     </div>
   </div>
 </mat-toolbar>

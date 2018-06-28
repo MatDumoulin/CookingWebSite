@@ -1,0 +1,7 @@
+<!-- If a user is logged in -->
+<button color="secondary" (click)="logout.emit()" *ngIf="user" mat-button>
+    <img class="profile-picture" [src]="user.profilePicture? user.profilePicture : ''">
+    <span>Bonjour {{user.firstName}}</span>
+</button>
+<!-- If no user is logged in -->
+<button color="secondary" (click)="login.emit()" *ngIf="!user" mat-button>Se connecter</button>

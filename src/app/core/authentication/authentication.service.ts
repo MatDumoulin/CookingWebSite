@@ -16,36 +16,16 @@ export class AuthenticationService {
 
   constructor(private googleAuth: GoogleAuthenticationService,
               private localStorageService: LocalStorageService,
-              private router: Router,
               private store: Store<fromStore.DataState>,
               private zone: NgZone) {
-  }
-
-  private setSession(authResult) {
-    const expiresAt = moment().add(authResult.tokenExpiresIn, 'second');
-    this.localStorageService.set("user", authResult.user );
-    this.localStorageService.set('auth_token', authResult.token);
-    this.localStorageService.set("token_expires_at", JSON.stringify(expiresAt.valueOf()) );
-  }
-
-  public clearSession() {
-    this.localStorageService.remove("user");
-    this.localStorageService.remove('auth_token');
-    this.localStorageService.remove('token_expires_at');
-    // Clearing all loaded data from app.
-    this.store.dispatch(new fromStore.ClearUserData());
   }
 
   onSignInWithGoogle(googleUser: any) {
     // We have to run this code inside of an Angular zone since the Google api callback does not run in Angular.
     this.zone.run(() => {
       this.googleAuth.onSignedIn(googleUser).subscribe((response: any) => {
-        const currentUser = response.user;
-        this.setSession(response);
-        this.router.navigateByUrl('/recipes');
-        this.currentUserChanged.next(currentUser);
+        this.store.dispatch(new fromStore.LoggedIn(response));
       });
-
     });
   }
 
@@ -53,20 +33,18 @@ export class AuthenticationService {
     this.googleAuth.disconnect().then(() => {
       // We have to run this code inside of an Angular zone since the Google api callback does not run in Angular.
       this.zone.run(() => {
-        this.clearSession();
-        this.router.navigateByUrl('/login');
-        this.currentUserChanged.next(null);
+        this.store.dispatch(new fromStore.LoggedOut());
       });
     });
   }
 
-  isLoggedIn() {
+/*   isLoggedIn() {
       return moment().isBefore(this.getExpiration());
   }
 
   isLoggedOut() {
       return !this.isLoggedIn();
-  }
+  } */
 
   getExpiration() {
       const expiration: string = this.localStorageService.get("token_expires_at");

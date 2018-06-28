@@ -18,7 +18,7 @@ export const initialState: RecipesState = {
     searchIntent: null
 };
 
-export function reducer(state = initialState, action: fromRecipes.RecipesAction): RecipesState {
+export function recipesReducer(state = initialState, action: fromRecipes.RecipesAction): RecipesState {
     switch (action.type) {
         case fromRecipes.LOAD_RECIPES:
         case fromRecipes.LOAD_RECIPE: {

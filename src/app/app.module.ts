@@ -16,7 +16,8 @@ import { routerReducers } from './routing/router-store';
 import { PagesModule } from './pages/pages.module';
 // Components
 import { AppComponent } from './app.component';
-import { TopNav } from './top-nav/top-nav.component';
+import { AvatarComponent } from './top-nav/avatar/avatar.component';
+import { TopNavComponent } from './top-nav/top-nav.component';
 import { SidenavContentComponent } from './sidenav-content/sidenav-content.component';
 // Services
 import { TokenInterceptor } from './core/authentication/auth-http-interceptor.service';
@@ -29,8 +30,9 @@ import { routing } from './app.routes';
 @NgModule({
     declarations: [
         AppComponent,
-        TopNav,
-        SidenavContentComponent
+        TopNavComponent,
+        SidenavContentComponent,
+        AvatarComponent
     ],
     imports: [
         HttpClientModule,

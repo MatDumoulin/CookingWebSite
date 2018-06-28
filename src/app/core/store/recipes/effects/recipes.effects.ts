@@ -4,7 +4,7 @@ import { Router } from "@angular/router";
 import { Store } from "@ngrx/store";
 import { Actions, Effect } from "@ngrx/effects";
 import * as recipesActions from "../actions/recipes.action";
-import * as fromReducers from "../reducers";
+import * as fromReducers from "../../store-state";
 import * as fromSelectors from "../selectors";
 // Rxjs
 import {

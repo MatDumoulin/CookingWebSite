@@ -13,6 +13,9 @@ import { Observable } from 'rxjs/Observable';
 import { tap } from 'rxjs/operators';
 import { LocalStorageService } from 'angular-2-local-storage';
 import { LoggerService } from '../logger/logger.service';
+// Ngrx
+import { Store } from '@ngrx/store';
+import * as fromStore from "../../core/store/auth";
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
@@ -20,6 +23,7 @@ export class TokenInterceptor implements HttpInterceptor {
 
     constructor(private localStorageService: LocalStorageService,
         private logger: LoggerService,
+        private store: Store<fromStore.AuthState>,
         private router: Router,
         private injector: Injector) { }
 
@@ -42,7 +46,7 @@ export class TokenInterceptor implements HttpInterceptor {
                 if (err instanceof HttpErrorResponse) {
                     if (err.status === 401) {
                         // Making sure everything is disconnected properly.
-                        this.authService.clearSession();
+                        this.store.dispatch(new fromStore.LoggedOut());
                         this.logger.error("Veuillez vous connecter pour effectuer cette action.", "J'ai compris");
                         this.router.navigateByUrl('/login');
                     }
