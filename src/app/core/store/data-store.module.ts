@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
-import { reducers } from './index';
+import { reducers } from './store-state';
 import { recipesEffects } from './recipes/effects';
 import { authEffects } from './auth/effects';
 

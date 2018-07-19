@@ -1,11 +1,11 @@
 import { createSelector } from "@ngrx/store";
 
-import * as fromFeatures from "../../store-state";
+import { DataState, getDataState } from "../../store-state";
 import * as fromAuth from "../reducers/auth.reducer";
 
 export const getAuthState = createSelector(
-    fromFeatures.getDataState,
-    (state: fromFeatures.DataState) => state.auth
+    getDataState,
+    (state: DataState) => state.auth
 );
 
 export const getLoggedIn = createSelector(

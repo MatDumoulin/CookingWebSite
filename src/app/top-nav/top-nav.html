@@ -1,11 +1,13 @@
 <mat-toolbar class="main-toolbar" color="primary">
   <div>
-    <button *ngIf="sideNavRef" (click)="sideNavRef.open()"  mat-icon-button><mat-icon>menu</mat-icon></button>
+    <button *ngIf="sideNavRef && isUserLoggedIn$ | async" (click)="sideNavRef.toggle()" mat-icon-button>
+        <mat-icon>menu</mat-icon>
+    </button>
     <a class="no-style margin-left" [routerLink]="['/recipes']">MyCookBook</a>
   </div>
 
   <div>
-    <div *ngIf="displayLogin">
+    <div *ngIf="isUserLoggedIn$ | async">
       <mcb-avatar [user]="user$ | async" (login)="login()" (logout)="disconnect()"></mcb-avatar>
     </div>
   </div>

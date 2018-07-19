@@ -6,9 +6,9 @@ import * as moment from 'moment';
 // Ngrx
 import { Store } from "@ngrx/store";
 import { Actions, Effect } from "@ngrx/effects";
-import * as authActions from "../actions";
-import * as fromRecipes from "../../recipes/actions";
-import * as fromReducers from "../../store-state";
+import { LOGGED_IN, LOGGED_OUT, LoggedIn} from "../actions";
+import { ClearUserData } from "../../recipes/actions";
+import { DataState } from "../../store-state";
 // Rxjs
 import { tap } from "rxjs/operators";
 
@@ -20,7 +20,7 @@ export class AuthEffects {
         private actions$: Actions,
         private localStorageService: LocalStorageService,
         private router: Router,
-        private store: Store<fromReducers.DataState>
+        private store: Store<DataState>
     ) {}
 
     /**
@@ -28,10 +28,10 @@ export class AuthEffects {
      */
     @Effect({ dispatch: false })
     loggedIn$ = this.actions$
-        .ofType(authActions.LOGGED_IN)
+        .ofType(LOGGED_IN)
         .pipe(
             tap((action) => {
-                const authResult = (action as authActions.LoggedIn).payload;
+                const authResult = (action as LoggedIn).payload;
                 const expiresAt = moment().add(authResult.tokenExpiresIn, 'second');
                 this.localStorageService.set("user", authResult.user );
                 this.localStorageService.set('auth_token', authResult.token);
@@ -46,14 +46,14 @@ export class AuthEffects {
      */
     @Effect({ dispatch: false })
     loggedOut$ = this.actions$
-        .ofType(authActions.LOGGED_OUT)
+        .ofType(LOGGED_OUT)
         .pipe(
             tap(() => {
                 this.localStorageService.remove("user");
                 this.localStorageService.remove('auth_token');
                 this.localStorageService.remove('token_expires_at');
                 // Clearing all loaded data from app.
-                this.store.dispatch(new fromRecipes.ClearUserData());
+                this.store.dispatch(new ClearUserData());
                 this.router.navigateByUrl('/login');
             })
         );

@@ -8,14 +8,14 @@
 
 <div class="dialog-content" mat-dialog-content>
   <!-- Name -->
-  <div>
+  <div class="flex row">
     <mat-form-field class="strecth">
       <recipename-autocomplete-input placeholder="Nom de la recette" name="name" [(ngModel)]="searchCriteria.name" (input)="searchCriteria.wantsName = true"></recipename-autocomplete-input>
     </mat-form-field>
     <mat-checkbox [(ngModel)]="searchCriteria.wantsName"></mat-checkbox>
   </div>
   <!-- Recipe Type -->
-  <div>
+  <div class="flex row">
     <mat-form-field class="strecth">
       <mat-select placeholder="Genre" name="genre" [(ngModel)]="searchCriteria.genre" (selectionChange)="searchCriteria.wantsGenre = true">
          <mat-option *ngFor="let genre of genres" [value]="genre">{{ genre }}</mat-option>
@@ -25,7 +25,7 @@
   </div>
 
   <!-- Total Time -->
-  <div>
+  <div class="flex row">
     <mat-form-field class="strecth">
       <time-input placeholder="Temps total" name="totalTime" [(ngModel)]="searchCriteria.totalTime" (keydown)="searchCriteria.wantsTotalTime = true"></time-input>
       <mat-icon matSuffix>schedule</mat-icon>
@@ -34,28 +34,7 @@
   </div>
 
   <!-- Ingredients -->
-  <!--<div>
-    <custom-listbox [title]="'Ingrédients'" [addItemText]="'Ajoutez un ingrédient'" (createNewItem)="addIngredient()">
-      <mat-list-item class="ingredient" *ngFor="let ingredient of searchCriteria.ingredients; index as i">
-          <mat-icon mat-list-icon>restaurant</mat-icon>
-          <div mat-line>
-            <mat-form-field class="ingredient-field">
-                <input matInput placeholder="Nom de l'ingrédient" name="name" [(ngModel)]="ingredient.info.name"
-                (keypress)="searchCriteria.wantsIngredient[i] = true">
-            </mat-form-field>
-          </div>
-          <mat-form-field class="include-ingredient">
-            <mat-select [(ngModel)]="ingredient.include" (selectionChange)="searchCriteria.wantsIngredient[i] = true">
-               <mat-option [value]="true">Inclure</mat-option>
-               <mat-option [value]="false">Exclure</mat-option>
-             </mat-select>
-          </mat-form-field>
-          <mat-checkbox [(ngModel)]="searchCriteria.wantsIngredient[i]"></mat-checkbox>
-      </mat-list-item>
-    </custom-listbox>
-  </div>-->
-
-  <div>
+  <div class="row">
     <label for="search-ingredients"><h3 class="no-margin-bottom no-bold">Ingrédients</h3></label>
     <mat-list id="search-ingredients">
       <mat-list-item class="ingredient" *ngFor="let ingredient of searchCriteria.ingredients; index as i">
@@ -74,14 +53,14 @@
           <mat-checkbox class="ingredient-checkbox" [(ngModel)]="searchCriteria.wantsIngredient[i]"></mat-checkbox>
       </mat-list-item>
     </mat-list>
-    <div class="align-end margin-top">
+    <div class="align-end">
       <button type="button" color="primary" (click)="addIngredient()" mat-button>Ajoutez un ingrédient</button>
     </div>
   </div>
 
   <!-- Rating -->
-  <div>
-    <label for="search-rating"><h3 class="no-margin no-bold">Note (et plus)</h3></label>
+  <div class="flex row">
+    <label for="search-rating"><h3 class="no-margin no-bold rating-label">Note (et plus)</h3></label>
     <div class="rating">
       <star-rating id="search-rating"[(ngModel)]="searchCriteria.rating" (change)="searchCriteria.wantsRating = true"></star-rating>
       <mat-checkbox [(ngModel)]="searchCriteria.wantsRating" (change)="validateRating()"></mat-checkbox>

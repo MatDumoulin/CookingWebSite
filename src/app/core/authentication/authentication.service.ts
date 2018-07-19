@@ -1,9 +1,7 @@
 import { Injectable, NgZone } from '@angular/core';
-import { Router } from '@angular/router';
 import { Subject } from 'rxjs/Subject';
 import * as moment from 'moment';
 import { LocalStorageService } from 'angular-2-local-storage';
-import { environment } from './../../../environments/environment';
 import { GoogleAuthenticationService } from './google-authentication/google-authentication.service';
 import { User } from './user.model';
 // Ngrx Store
@@ -37,14 +35,6 @@ export class AuthenticationService {
       });
     });
   }
-
-/*   isLoggedIn() {
-      return moment().isBefore(this.getExpiration());
-  }
-
-  isLoggedOut() {
-      return !this.isLoggedIn();
-  } */
 
   getExpiration() {
       const expiration: string = this.localStorageService.get("token_expires_at");

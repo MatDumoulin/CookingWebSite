@@ -25,6 +25,7 @@ import { NotFoundInterceptor } from './routing/not-found-interceptor.service';
 // Others
 import { environment } from '../environments/environment';
 import { routing } from './app.routes';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 
 @NgModule({
@@ -51,6 +52,7 @@ import { routing } from './app.routes';
             maxAge: 25, // Retains last 25 states
             logOnly: environment.production // Restrict extension to log-only mode
         }),
+        ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },

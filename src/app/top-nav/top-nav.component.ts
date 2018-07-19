@@ -19,21 +19,16 @@ export class TopNavComponent implements OnDestroy {
 
     user$: Observable<User>;
 
-    displayLogin = false;
+    isUserLoggedIn$: Observable<boolean>;
 
     NO_LOGIN_ROUTES: Array<string> = ["/login", "/"];
 
     constructor(private authService: AuthenticationService,
         private router: Router,
         private store: Store<fromStore.DataState>) {
-        // Listening to the current route to decide wheter we want to display the login/logout button or not.
-        this.router.events.subscribe((event: RouterEvent) => {
-            if (event instanceof NavigationEnd) {
-                this.displayLogin = this.canDisplayLogin();
-            }
-        });
 
         this.user$ = this.store.select(fromStore.getUser);
+        this.isUserLoggedIn$ = this.store.select(fromStore.getLoggedIn);
     }
 
     disconnect() {

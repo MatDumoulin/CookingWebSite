@@ -15,6 +15,7 @@ import { IngredientSectionWrapper } from "../recipes/ingredients/ingredient-sect
 import { IntroPageComponent } from "./intro-page/intro-page.component";
 import { LoginPageComponent } from "./login-page/login-page.component";
 import { RecipeCreatorComponent } from "./recipe-creator/recipe-creator.component";
+import { RecipeGridComponent } from './recipe-grid/recipe-grid.component';
 import { RecipeListComponent } from "../recipes/recipe-list/recipe-list.component";
 import { RecipePageComponent } from "./recipe-page/recipe-page.component";
 import { StepListbox } from "../recipes/steps/step-listbox/step-listbox.component";
@@ -32,6 +33,7 @@ import { GenresService } from "../recipes/genre/shared/genre.service";
 import { RecipeCreatorFormComponent } from './recipe-creator/recipe-creator-form/recipe-creator-form.component';
 import { RecipeViewerComponent } from './recipe-viewer/recipe-viewer.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { GridLayoutComponent } from './recipe-grid/grid-layout/grid-layout.component';
 
 @NgModule({
     imports: [
@@ -63,7 +65,9 @@ import { NotFoundComponent } from './not-found/not-found.component';
         StepSectionWrapper,
         RecipeCreatorFormComponent,
         RecipeViewerComponent,
-        NotFoundComponent
+        NotFoundComponent,
+        RecipeGridComponent,
+        GridLayoutComponent
     ],
     exports: [
         AngularMaterialModule,

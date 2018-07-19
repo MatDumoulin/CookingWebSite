@@ -1,0 +1,50 @@
+:host() {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.mainContainer {
+    flex-grow: 1;
+    margin: 10px;
+}
+
+.recipe-list {
+    width: 100%;
+    height: 80vh;
+    overflow: auto;
+}
+
+.table-header {
+    padding-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.grid {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.tile {
+    background-color: aliceblue;
+    cursor: pointer;
+}
+
+.recipe-image {
+    width: 100%;
+}
+
+.edit-button {
+    min-width: 2.5em;
+    width: 2.5em;
+    padding: 0px;
+}
+
+.mat-column-actions {
+    max-width: 20px;
+}
+
+
