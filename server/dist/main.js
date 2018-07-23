@@ -353,7 +353,7 @@ var AngularMaterialModule = /** @class */ (function () {
                 _angular_material__WEBPACK_IMPORTED_MODULE_1__["MatSelectModule"],
                 _angular_material__WEBPACK_IMPORTED_MODULE_1__["MatChipsModule"],
                 _angular_material__WEBPACK_IMPORTED_MODULE_1__["MatProgressSpinnerModule"],
-                _angular_material__WEBPACK_IMPORTED_MODULE_1__["MatGridListModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_1__["MatMenuModule"],
                 ng_md_time_input__WEBPACK_IMPORTED_MODULE_4__["NgMdTimeInputModule"]
             ]
         })
@@ -659,7 +659,7 @@ var routing = _angular_router__WEBPACK_IMPORTED_MODULE_0__["RouterModule"].forRo
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "input {\n  border: none;\n  background: none;\n  padding: 0;\n  outline: none;\n  font: inherit;\n  width:2em;\n  width: 100%;\n}\n\n.option {\n  /* Prevents the inner html from stripping away white spaces.*/\n  white-space: pre;\n}\n"
+module.exports = "input {\r\n  border: none;\r\n  background: none;\r\n  padding: 0;\r\n  outline: none;\r\n  font: inherit;\r\n  width:2em;\r\n  width: 100%;\r\n}\r\n\r\n.option {\r\n  /* Prevents the inner html from stripping away white spaces.*/\r\n  white-space: pre;\r\n}\r\n"
 
 /***/ }),
 
@@ -1359,7 +1359,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<mat-card>\n  <mat-card-header>\n    <mat-card-title><h2>{{title}}</h2></mat-card-title>\n  </mat-card-header>\n  <mat-card-content>\n\n    <mat-list>\n      <ng-content></ng-content>\n    </mat-list>\n\n  </mat-card-content>\n  <mat-card-actions align=\"end\">\n    <button id=\"createItemBtn\" type=\"button\" color=\"primary\" (click)=\"addItem()\" mat-button>{{addItemText}}</button>\n  </mat-card-actions>\n</mat-card>\n"
+module.exports = "<mat-card>\r\n  <mat-card-header>\r\n    <mat-card-title><h2>{{title}}</h2></mat-card-title>\r\n  </mat-card-header>\r\n  <mat-card-content>\r\n\r\n    <mat-list>\r\n      <ng-content></ng-content>\r\n    </mat-list>\r\n\r\n  </mat-card-content>\r\n  <mat-card-actions align=\"end\">\r\n    <button id=\"createItemBtn\" type=\"button\" color=\"primary\" (click)=\"addItem()\" mat-button>{{addItemText}}</button>\r\n  </mat-card-actions>\r\n</mat-card>\r\n"
 
 /***/ }),
 
@@ -1630,7 +1630,7 @@ var Star = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "div {\n  display: flex;\n}\n\n.container {\n  justify-content: space-between;\n}\n\ninput {\n  border: none;\n  background: none;\n  padding: 0;\n  outline: none;\n  font: inherit;\n  text-align: center;\n  width:2em;\n}\n\n/* Fading animation of separators when control is focused. */\n\nspan, input {\n  opacity: 0;\n  transition: opacity 200ms;\n}\n\n:host.floating span, :host.floating input {\n  opacity: 1;\n}\n"
+module.exports = "div {\r\n  display: flex;\r\n}\r\n\r\n.container {\r\n  justify-content: space-between;\r\n}\r\n\r\ninput {\r\n  border: none;\r\n  background: none;\r\n  padding: 0;\r\n  outline: none;\r\n  font: inherit;\r\n  text-align: center;\r\n  width:2em;\r\n}\r\n\r\n/* Fading animation of separators when control is focused. */\r\n\r\nspan, input {\r\n  opacity: 0;\r\n  transition: opacity 200ms;\r\n}\r\n\r\n:host.floating span, :host.floating input {\r\n  opacity: 1;\r\n}\r\n"
 
 /***/ }),
 
@@ -1641,7 +1641,7 @@ module.exports = "div {\n  display: flex;\n}\n\n.container {\n  justify-content:
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div [formGroup]=\"parts\">\n  <input class=\"hours\" formControlName=\"hours\" size=\"3\" placeholder=\"00\" [(ngModel)]=\"time.hours\"  (keydown)=\"incrementHours($event)\" (keyup)=\"emitChanges()\" min=\"0\" onlyNumber>\n  <span>{{HOURS_SEPARATOR}}</span>\n  <input class=\"minutes\" formControlName=\"minutes\" size=\"2\" placeholder=\"00\" [(ngModel)]=\"time.minutes\"  (keydown)=\"incrementMinutes($event)\" (keyup)=\"emitChanges()\" min=\"0\" max=\"59\" onlyNumber>\n  <span>{{MINUTES_SEPARATOR}}</span>\n</div>\n\n"
+module.exports = "<div [formGroup]=\"parts\">\r\n  <input class=\"hours\" formControlName=\"hours\" size=\"3\" placeholder=\"00\" [(ngModel)]=\"time.hours\"  (keydown)=\"incrementHours($event)\" (keyup)=\"emitChanges()\" min=\"0\" onlyNumber>\r\n  <span>{{HOURS_SEPARATOR}}</span>\r\n  <input class=\"minutes\" formControlName=\"minutes\" size=\"2\" placeholder=\"00\" [(ngModel)]=\"time.minutes\"  (keydown)=\"incrementMinutes($event)\" (keyup)=\"emitChanges()\" min=\"0\" max=\"59\" onlyNumber>\r\n  <span>{{MINUTES_SEPARATOR}}</span>\r\n</div>\r\n\r\n"
 
 /***/ }),
 
@@ -4212,7 +4212,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<mcb-recipe-grid></mcb-recipe-grid>\n"
+module.exports = "<mcb-recipe-grid></mcb-recipe-grid>\r\n"
 
 /***/ }),
 
@@ -4315,7 +4315,7 @@ module.exports = "<div class=\"main-container\">\r\n  <mat-card>\r\n    <h1>Webs
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".main-container {\n  min-height: 80vh;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-around;\n  align-items: center;\n}\n\n.login-container {\n  max-width: 400px;\n  padding: 30px;\n\n  display: flex;\n  flex-direction: column;\n  justify-content: space-between;\n}\n\n.social-signin {\n  display: flex;\n  justify-content: space-around;\n  align-items: center;\n}\n\n/*.login-container fieldset {\n  border: none;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-between;\n}*/\n\n.top-section {\n  text-align: center;\n}\n"
+module.exports = ".main-container {\r\n  min-height: 80vh;\r\n  display: flex;\r\n  flex-direction: column;\r\n  justify-content: space-around;\r\n  align-items: center;\r\n}\r\n\r\n.login-container {\r\n  max-width: 400px;\r\n  padding: 30px;\r\n\r\n  display: flex;\r\n  flex-direction: column;\r\n  justify-content: space-between;\r\n}\r\n\r\n.social-signin {\r\n  display: flex;\r\n  justify-content: space-around;\r\n  align-items: center;\r\n}\r\n\r\n/*.login-container fieldset {\r\n  border: none;\r\n  display: flex;\r\n  flex-direction: column;\r\n  justify-content: space-between;\r\n}*/\r\n\r\n.top-section {\r\n  text-align: center;\r\n}\r\n"
 
 /***/ }),
 
@@ -4412,7 +4412,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<h1>\r\n  Page not found :(\r\n</h1>\r\n"
+module.exports = "<h1>\n  Page not found :(\n</h1>\n"
 
 /***/ }),
 
@@ -4940,7 +4940,7 @@ module.exports = ".grid {\r\n    display: flex;\r\n}\r\n\r\n.grid .col {\r\n    
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div>\n    <p>This is a grid layout</p>\n    <div class=\"grid\">\n        <div class=\"col\" *ngIf=\"columnCount >= 1\" [ngStyle]=\"{'width.px': colWidth, 'margin.px': gutterSize}\">\n            <ng-content select=\".col-1\"></ng-content>\n        </div>\n        <div class=\"col\" *ngIf=\"columnCount >= 2\" [ngStyle]=\"{'width.px': colWidth, 'margin.px': gutterSize}\">\n            <ng-content select=\".col-2\"></ng-content>\n        </div>\n        <div class=\"col\" *ngIf=\"columnCount >= 3\" [ngStyle]=\"{'width.px': colWidth, 'margin.px': gutterSize}\">\n            <ng-content select=\".col-3\"></ng-content>\n        </div>\n        <div class=\"col\" *ngIf=\"columnCount >= 4\" [ngStyle]=\"{'width.px': colWidth, 'margin.px': gutterSize}\">\n            <ng-content select=\".col-4\"></ng-content>\n        </div>\n        <div class=\"col\" *ngIf=\"columnCount >= 5\" [ngStyle]=\"{'width.px': colWidth, 'margin.px': gutterSize}\">\n            <ng-content select=\".col-5\"></ng-content>\n        </div>\n        <div class=\"col\" *ngIf=\"columnCount >= 6\" [ngStyle]=\"{'width.px': colWidth, 'margin.px': gutterSize}\">\n            <ng-content select=\".col-6\"></ng-content>\n        </div>\n    </div>\n</div>\n"
+module.exports = "<div>\r\n    <p>This is a grid layout</p>\r\n    <div class=\"grid\">\r\n        <div class=\"col\" *ngIf=\"columnCount >= 1\" [ngStyle]=\"{'width.px': colWidth, 'margin.px': gutterSize}\">\r\n            <ng-content select=\".col-1\"></ng-content>\r\n        </div>\r\n        <div class=\"col\" *ngIf=\"columnCount >= 2\" [ngStyle]=\"{'width.px': colWidth, 'margin.px': gutterSize}\">\r\n            <ng-content select=\".col-2\"></ng-content>\r\n        </div>\r\n        <div class=\"col\" *ngIf=\"columnCount >= 3\" [ngStyle]=\"{'width.px': colWidth, 'margin.px': gutterSize}\">\r\n            <ng-content select=\".col-3\"></ng-content>\r\n        </div>\r\n        <div class=\"col\" *ngIf=\"columnCount >= 4\" [ngStyle]=\"{'width.px': colWidth, 'margin.px': gutterSize}\">\r\n            <ng-content select=\".col-4\"></ng-content>\r\n        </div>\r\n        <div class=\"col\" *ngIf=\"columnCount >= 5\" [ngStyle]=\"{'width.px': colWidth, 'margin.px': gutterSize}\">\r\n            <ng-content select=\".col-5\"></ng-content>\r\n        </div>\r\n        <div class=\"col\" *ngIf=\"columnCount >= 6\" [ngStyle]=\"{'width.px': colWidth, 'margin.px': gutterSize}\">\r\n            <ng-content select=\".col-6\"></ng-content>\r\n        </div>\r\n    </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -5040,7 +5040,7 @@ var GridLayoutComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ":host() {\r\n    display: flex;\r\n    flex-direction: column;\r\n    height: 100%;\r\n}\r\n\r\n.mainContainer {\r\n    flex-grow: 1;\r\n    margin: 10px;\r\n}\r\n\r\n.recipe-list {\r\n    width: 100%;\r\n    height: 80vh;\r\n    overflow: auto;\r\n}\r\n\r\n.table-header {\r\n    padding-bottom: 10px;\r\n    display: flex;\r\n    justify-content: space-between;\r\n    width: 100%;\r\n}\r\n\r\n.grid {\r\n    display: flex;\r\n    flex-direction: row;\r\n    justify-content: space-evenly;\r\n}\r\n\r\n.tile {\r\n    background-color: aliceblue;\r\n    cursor: pointer;\r\n}\r\n\r\n.recipe-image {\r\n    width: 100%;\r\n}\r\n\r\n.edit-button {\r\n    min-width: 2.5em;\r\n    width: 2.5em;\r\n    padding: 0px;\r\n}\r\n\r\n.mat-column-actions {\r\n    max-width: 20px;\r\n}\r\n\r\n\r\n"
+module.exports = ":host() {\r\n    display: flex;\r\n    flex-direction: column;\r\n    height: 100%;\r\n}\r\n\r\n.mainContainer {\r\n    flex-grow: 1;\r\n    margin: 10px;\r\n}\r\n\r\n.recipe-list {\r\n    width: 100%;\r\n    height: 80vh;\r\n    overflow: auto;\r\n}\r\n\r\n.table-header {\r\n    padding-bottom: 10px;\r\n    display: flex;\r\n    justify-content: space-between;\r\n    width: 100%;\r\n}\r\n\r\n.grid {\r\n    display: flex;\r\n    flex-direction: row;\r\n    justify-content: center;\r\n}\r\n\r\n.tile {\r\n    background-color: aliceblue;\r\n    cursor: pointer;\r\n}\r\n\r\n.recipe-image {\r\n    width: 100%;\r\n}\r\n\r\n.edit-button {\r\n    min-width: 2.5em;\r\n    width: 2.5em;\r\n    padding: 0px;\r\n}\r\n\r\n.mat-column-actions {\r\n    max-width: 20px;\r\n}\r\n\r\n.actions {\r\n    display: flex;\r\n    justify-content: flex-end;\r\n}\r\n"
 
 /***/ }),
 
@@ -5051,7 +5051,7 @@ module.exports = ":host() {\r\n    display: flex;\r\n    flex-direction: column;
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<mat-card class=\"mainContainer\">\n    <mat-card-header>\n        <div class=\"table-header\">\n            <button class=\"button\" color=\"accent\" [routerLink]=\"['/recipe/create']\" mat-button>Créer une recette</button>\n            <button class=\"button\" color=\"accent\" (click)=\"advancedSearch()\" mat-button>\n                <mat-icon>search</mat-icon>Recherche avancée</button>\n        </div>\n    </mat-card-header>\n\n    <mat-card-content class=\"grid\" #grid>\n        <div class=\"column\" *ngFor=\"let column of columns\">\n            <div class=\"tile mat-elevation-z2\" [ngStyle]=\"{'width.px': colWidth}\" (click)=\"viewRecipe(recipe.id)\" *ngFor=\"let recipe of column\">\n                <img class=\"recipe-image\" [src]=\"recipe.image? recipe.image: defaultImage\">\n                <h4>{{recipe.name}}</h4>\n            </div>\n        </div>\n    </mat-card-content>\n</mat-card>\n"
+module.exports = "<mat-card class=\"mainContainer\">\r\n    <mat-card-header>\r\n        <div class=\"table-header\">\r\n            <button class=\"button\" color=\"accent\" [routerLink]=\"['/recipe/create']\" mat-button>Créer une recette</button>\r\n            <button class=\"button\" color=\"accent\" (click)=\"advancedSearch()\" mat-button>\r\n                <mat-icon>search</mat-icon>Recherche avancée</button>\r\n        </div>\r\n    </mat-card-header>\r\n\r\n    <mat-card-content class=\"grid\" #grid>\r\n        <div class=\"column\" *ngFor=\"let column of columns\">\r\n            <div class=\"tile mat-elevation-z2\" [ngStyle]=\"{'width.px': colWidth, 'margin-right.px': gutterSize, 'margin-bottom.px': gutterSize}\" (click)=\"viewRecipe(recipe._id)\" *ngFor=\"let recipe of column\">\r\n                <div class=\"actions\">\r\n                    <mat-menu #appMenu=\"matMenu\">\r\n                        <button (click)=\"editRecipe(recipe._id)\" mat-menu-item>Modifier</button>\r\n                        <button (click)=\"deleteRecipe(recipe._id)\" mat-menu-item>Supprimer</button>\r\n                    </mat-menu>\r\n\r\n                    <button mat-icon-button color=\"secondary\" (click)=\"stopPropagation($event)\" [matMenuTriggerFor]=\"appMenu\">\r\n                        <mat-icon>more_vert</mat-icon>\r\n                    </button>\r\n                </div>\r\n                <img class=\"recipe-image\" [src]=\"recipe.image? recipe.image: defaultImage\">\r\n                <h4>{{recipe.name}}</h4>\r\n            </div>\r\n        </div>\r\n    </mat-card-content>\r\n</mat-card>\r\n"
 
 /***/ }),
 
@@ -5126,7 +5126,7 @@ var RecipeGridComponent = /** @class */ (function (_super) {
         _this.columns = [];
         _this.numberOfColumn = 4;
         _this.colWidth = 200; /** In pixels */
-        _this.minGutter = 5;
+        _this.gutterSize = 16;
         _this.hasLoadedView = false;
         _this.recipes = [];
         _this.allDataIsLoaded = false;
@@ -5173,6 +5173,15 @@ var RecipeGridComponent = /** @class */ (function (_super) {
     };
     RecipeGridComponent.prototype.viewRecipe = function (recipeId) {
         this.router.navigateByUrl("/recipes/" + recipeId);
+    };
+    RecipeGridComponent.prototype.editRecipe = function (recipeId) {
+        this.router.navigateByUrl("/recipe/edit/" + recipeId);
+    };
+    RecipeGridComponent.prototype.deleteRecipe = function (recipeId) {
+        this.store.dispatch(new _core_store__WEBPACK_IMPORTED_MODULE_4__["DeleteRecipe"](recipeId));
+    };
+    RecipeGridComponent.prototype.stopPropagation = function (event) {
+        event.stopPropagation();
     };
     RecipeGridComponent.prototype.advancedSearch = function () {
         var _this = this;
@@ -5228,7 +5237,7 @@ var RecipeGridComponent = /** @class */ (function (_super) {
         var currentGridWidth = this.gridWidth;
         // Take all space available if the current col width is invalid.
         var currentColWidth = this.colWidth;
-        var newNumberOfColumn = Math.floor(currentGridWidth / (currentColWidth + this.minGutter));
+        var newNumberOfColumn = Math.floor(currentGridWidth / (currentColWidth + this.gutterSize));
         if (this.numberOfColumn !== newNumberOfColumn) {
             this.numberOfColumn = newNumberOfColumn;
             this.updateGridDisplay();
@@ -5488,7 +5497,7 @@ var RecipeViewerComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".actions {\n  padding: 0 32px 0 32px;\n}\n"
+module.exports = ".actions {\r\n  padding: 0 32px 0 32px;\r\n}\r\n"
 
 /***/ }),
 
@@ -5499,7 +5508,7 @@ module.exports = ".actions {\n  padding: 0 32px 0 32px;\n}\n"
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div>\n  <label for=\"equipment-list\"><h3 class=\"no-margin-bottom no-bold\">Matériel</h3></label>\n  <mat-list id=\"equipment-list\">\n        <equipment-listitem *ngFor=\"let equipment of equipments; index as i; trackBy:trackByFn\" [(ngModel)]=\"equipments[i]\" (remove)=\"removeItem(i)\"></equipment-listitem>\n  </mat-list>\n  <div class=\"align-end margin-top actions\">\n    <button type=\"button\" color=\"primary\" (click)=\"createItem()\" mat-button>Ajouter un équipement</button>\n  </div>\n</div>\n"
+module.exports = "<div>\r\n  <label for=\"equipment-list\"><h3 class=\"no-margin-bottom no-bold\">Matériel</h3></label>\r\n  <mat-list id=\"equipment-list\">\r\n        <equipment-listitem *ngFor=\"let equipment of equipments; index as i; trackBy:trackByFn\" [(ngModel)]=\"equipments[i]\" (remove)=\"removeItem(i)\"></equipment-listitem>\r\n  </mat-list>\r\n  <div class=\"align-end margin-top actions\">\r\n    <button type=\"button\" color=\"primary\" (click)=\"createItem()\" mat-button>Ajouter un équipement</button>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -5599,7 +5608,7 @@ var EquipmentListBox = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".display-when-hovered {\n  visibility: hidden;\n  position: absolute;\n  right: 4px;\n  top: 10px;\n  z-index: 3;\n}\n\n.equipment:hover .display-when-hovered {\n  visibility: visible;\n}\n\n.equipment-textfield {\n  width: 100%;\n}\n\n.add-equipment {\n  width: 100%;\n  height: 100%;\n}\n"
+module.exports = ".display-when-hovered {\r\n  visibility: hidden;\r\n  position: absolute;\r\n  right: 4px;\r\n  top: 10px;\r\n  z-index: 3;\r\n}\r\n\r\n.equipment:hover .display-when-hovered {\r\n  visibility: visible;\r\n}\r\n\r\n.equipment-textfield {\r\n  width: 100%;\r\n}\r\n\r\n.add-equipment {\r\n  width: 100%;\r\n  height: 100%;\r\n}\r\n"
 
 /***/ }),
 
@@ -5610,7 +5619,7 @@ module.exports = ".display-when-hovered {\n  visibility: hidden;\n  position: ab
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<mat-list-item class=\"equipment\">\n    <mat-icon mat-list-icon>local_dining</mat-icon>\n    <div mat-line>\n      <mat-form-field class=\"equipment-textfield\">\n          <input matInput placeholder=\"Quel outils avez-vous utilisé?\" [(ngModel)]=\"item\">\n      </mat-form-field>\n    </div>\n    <mat-icon class=\"clickable display-when-hovered\" color=\"accent\" (click)=\"removeItem()\">clear</mat-icon>\n</mat-list-item>\n"
+module.exports = "<mat-list-item class=\"equipment\">\r\n    <mat-icon mat-list-icon>local_dining</mat-icon>\r\n    <div mat-line>\r\n      <mat-form-field class=\"equipment-textfield\">\r\n          <input matInput placeholder=\"Quel outils avez-vous utilisé?\" [(ngModel)]=\"item\">\r\n      </mat-form-field>\r\n    </div>\r\n    <mat-icon class=\"clickable display-when-hovered\" color=\"accent\" (click)=\"removeItem()\">clear</mat-icon>\r\n</mat-list-item>\r\n"
 
 /***/ }),
 
@@ -5764,7 +5773,7 @@ var GenresService = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".size-2 {\n  width: 60%;\n}\n\n.size-1 {\n  width: 20%;\n}\n\n.display-when-hovered {\n  visibility: hidden;\n  position: absolute;\n  right: 4px;\n  top: 10px;\n  z-index: 3;\n}\n\n.ingredient:hover .display-when-hovered {\n  visibility: visible;\n}\n\n.add-ingredient {\n  width: 100%;\n  height: 100%;\n}\n"
+module.exports = ".size-2 {\r\n  width: 60%;\r\n}\r\n\r\n.size-1 {\r\n  width: 20%;\r\n}\r\n\r\n.display-when-hovered {\r\n  visibility: hidden;\r\n  position: absolute;\r\n  right: 4px;\r\n  top: 10px;\r\n  z-index: 3;\r\n}\r\n\r\n.ingredient:hover .display-when-hovered {\r\n  visibility: visible;\r\n}\r\n\r\n.add-ingredient {\r\n  width: 100%;\r\n  height: 100%;\r\n}\r\n"
 
 /***/ }),
 
@@ -5775,7 +5784,7 @@ module.exports = ".size-2 {\n  width: 60%;\n}\n\n.size-1 {\n  width: 20%;\n}\n\n
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<mat-list-item class=\"ingredient\" *ngFor=\"let ingredient of ingredients; index as i\">\n    <mat-icon mat-list-icon>restaurant</mat-icon>\n    <div mat-line>\n      <mat-form-field class=\"ingredient-field size-2\">\n          <ingredient-autocomplete-input placeholder=\"Nom de l'ingrédient\" name=\"name\" [(ngModel)]=\"ingredient.name\"></ingredient-autocomplete-input>\n      </mat-form-field>\n      <mat-form-field class=\"ingredient-field size-1\">\n          <input matInput placeholder=\"Quantité\" name=\"quantity\" [(ngModel)]=\"ingredient.quantity\">\n      </mat-form-field>\n      <mat-form-field class=\"ingredient-field size-1\">\n          <input matInput placeholder=\"Unités\" name=\"units\" [(ngModel)]=\"ingredient.units\">\n      </mat-form-field>\n    </div>\n    <mat-icon class=\"clickable display-when-hovered\" color=\"accent\" (click)=\"removeIngredient(i)\" *ngIf=\"ingredients.length > 1\">\n      clear\n    </mat-icon>\n</mat-list-item>\n<mat-list-item>\n  <button type=\"button\" class=\"add-ingredient\" color=\"accent\" (click)=\"addIngredient()\" mat-button>Ajoutez un ingrédient</button>\n</mat-list-item>\n"
+module.exports = "<mat-list-item class=\"ingredient\" *ngFor=\"let ingredient of ingredients; index as i\">\r\n    <mat-icon mat-list-icon>restaurant</mat-icon>\r\n    <div mat-line>\r\n      <mat-form-field class=\"ingredient-field size-2\">\r\n          <ingredient-autocomplete-input placeholder=\"Nom de l'ingrédient\" name=\"name\" [(ngModel)]=\"ingredient.name\"></ingredient-autocomplete-input>\r\n      </mat-form-field>\r\n      <mat-form-field class=\"ingredient-field size-1\">\r\n          <input matInput placeholder=\"Quantité\" name=\"quantity\" [(ngModel)]=\"ingredient.quantity\">\r\n      </mat-form-field>\r\n      <mat-form-field class=\"ingredient-field size-1\">\r\n          <input matInput placeholder=\"Unités\" name=\"units\" [(ngModel)]=\"ingredient.units\">\r\n      </mat-form-field>\r\n    </div>\r\n    <mat-icon class=\"clickable display-when-hovered\" color=\"accent\" (click)=\"removeIngredient(i)\" *ngIf=\"ingredients.length > 1\">\r\n      clear\r\n    </mat-icon>\r\n</mat-list-item>\r\n<mat-list-item>\r\n  <button type=\"button\" class=\"add-ingredient\" color=\"accent\" (click)=\"addIngredient()\" mat-button>Ajoutez un ingrédient</button>\r\n</mat-list-item>\r\n"
 
 /***/ }),
 
@@ -5923,7 +5932,7 @@ var IngredientListboxModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".mat-divider {\n  margin-top: 1em;\n  margin-bottom: 2em;\n  position: relative;\n}\n"
+module.exports = ".mat-divider {\r\n  margin-top: 1em;\r\n  margin-bottom: 2em;\r\n  position: relative;\r\n}\r\n"
 
 /***/ }),
 
@@ -5934,7 +5943,7 @@ module.exports = ".mat-divider {\n  margin-top: 1em;\n  margin-bottom: 2em;\n  p
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<custom-listbox [title]=\"'Ingrédients'\" [addItemText]=\"'Ajouter une section'\" (createNewItem)=\"createNewSection()\">\n  <div *ngFor=\"let section of sections; index as i; last as isLast\">\n    <ingredient-section  [(ngModel)]=\"sections[i]\"></ingredient-section>\n    <mat-divider *ngIf=\"!isLast\"></mat-divider>\n  </div>\n</custom-listbox>\n"
+module.exports = "<custom-listbox [title]=\"'Ingrédients'\" [addItemText]=\"'Ajouter une section'\" (createNewItem)=\"createNewSection()\">\r\n  <div *ngFor=\"let section of sections; index as i; last as isLast\">\r\n    <ingredient-section  [(ngModel)]=\"sections[i]\"></ingredient-section>\r\n    <mat-divider *ngIf=\"!isLast\"></mat-divider>\r\n  </div>\r\n</custom-listbox>\r\n"
 
 /***/ }),
 
@@ -6026,7 +6035,7 @@ var IngredientSectionWrapper = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".section-title {\n  height: 1em;\n  border: none;\n  margin-bottom: 10px;\n  font-size: large;\n  font-style: italic;\n}\n\n.section-title:focus {\n  color: black;\n}\n"
+module.exports = ".section-title {\r\n  height: 1em;\r\n  border: none;\r\n  margin-bottom: 10px;\r\n  font-size: large;\r\n  font-style: italic;\r\n}\r\n\r\n.section-title:focus {\r\n  color: black;\r\n}\r\n"
 
 /***/ }),
 
@@ -6037,7 +6046,7 @@ module.exports = ".section-title {\n  height: 1em;\n  border: none;\n  margin-bo
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<input class=\"section-title\" [(ngModel)]=\"section.name\" placeholder=\"Nom de la section\" matTooltip=\"Changez le nom de cette section!\" matSubheader>\n<ingredient-listbox [(ngModel)]=\"section.ingredients\"></ingredient-listbox>\n"
+module.exports = "<input class=\"section-title\" [(ngModel)]=\"section.name\" placeholder=\"Nom de la section\" matTooltip=\"Changez le nom de cette section!\" matSubheader>\r\n<ingredient-listbox [(ngModel)]=\"section.ingredients\"></ingredient-listbox>\r\n"
 
 /***/ }),
 
@@ -6834,7 +6843,7 @@ var StepSection = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".size-2 {\n  width: 60%;\n}\n\n.size-1 {\n  width: 20%;\n}\n\n.display-when-hovered {\n  visibility: hidden;\n  position: absolute;\n  right: 4px;\n  top: 10px;\n  z-index: 3;\n}\n\n.step:hover .display-when-hovered {\n  visibility: visible;\n}\n\n.step-instruction {\n  width: 100%;\n}\n\n.add-step {\n  width: 100%;\n  height: 100%;\n}\n"
+module.exports = ".size-2 {\r\n  width: 60%;\r\n}\r\n\r\n.size-1 {\r\n  width: 20%;\r\n}\r\n\r\n.display-when-hovered {\r\n  visibility: hidden;\r\n  position: absolute;\r\n  right: 4px;\r\n  top: 10px;\r\n  z-index: 3;\r\n}\r\n\r\n.step:hover .display-when-hovered {\r\n  visibility: visible;\r\n}\r\n\r\n.step-instruction {\r\n  width: 100%;\r\n}\r\n\r\n.add-step {\r\n  width: 100%;\r\n  height: 100%;\r\n}\r\n"
 
 /***/ }),
 
@@ -6845,7 +6854,7 @@ module.exports = ".size-2 {\n  width: 60%;\n}\n\n.size-1 {\n  width: 20%;\n}\n\n
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<mat-list-item class=\"step\" *ngFor=\"let step of steps; index as i; trackBy:trackByFn\">\n    <mat-icon mat-list-icon>assignment</mat-icon>\n    <div mat-line>\n      <mat-form-field class=\"step-instruction\">\n          <input matInput placeholder=\"Quoi faire à cette étape de la recette?\" [(ngModel)]=\"steps[i]\">\n      </mat-form-field>\n    </div>\n    <mat-icon class=\"clickable display-when-hovered\" color=\"accent\" (click)=\"removeStep(i)\" *ngIf=\"steps.length > 1\">clear</mat-icon>\n</mat-list-item>\n<mat-list-item>\n  <button type=\"button\" class=\"add-step\" color=\"accent\" (click)=\"addStep()\" mat-button>Ajoutez une étape</button>\n</mat-list-item>\n"
+module.exports = "<mat-list-item class=\"step\" *ngFor=\"let step of steps; index as i; trackBy:trackByFn\">\r\n    <mat-icon mat-list-icon>assignment</mat-icon>\r\n    <div mat-line>\r\n      <mat-form-field class=\"step-instruction\">\r\n          <input matInput placeholder=\"Quoi faire à cette étape de la recette?\" [(ngModel)]=\"steps[i]\">\r\n      </mat-form-field>\r\n    </div>\r\n    <mat-icon class=\"clickable display-when-hovered\" color=\"accent\" (click)=\"removeStep(i)\" *ngIf=\"steps.length > 1\">clear</mat-icon>\r\n</mat-list-item>\r\n<mat-list-item>\r\n  <button type=\"button\" class=\"add-step\" color=\"accent\" (click)=\"addStep()\" mat-button>Ajoutez une étape</button>\r\n</mat-list-item>\r\n"
 
 /***/ }),
 
@@ -6943,7 +6952,7 @@ var StepListbox = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".mat-divider {\n  margin-top: 1em;\n  margin-bottom: 2em;\n  position: relative;\n}\n"
+module.exports = ".mat-divider {\r\n  margin-top: 1em;\r\n  margin-bottom: 2em;\r\n  position: relative;\r\n}\r\n"
 
 /***/ }),
 
@@ -6954,7 +6963,7 @@ module.exports = ".mat-divider {\n  margin-top: 1em;\n  margin-bottom: 2em;\n  p
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<custom-listbox [title]=\"'Étapes'\" [addItemText]=\"'Ajouter une section'\" (createNewItem)=\"createNewSection()\">\n  <div *ngFor=\"let section of sections; index as i; last as isLast\">\n    <step-section  [(ngModel)]=\"sections[i]\"></step-section>\n    <mat-divider *ngIf=\"!isLast\"></mat-divider>\n  </div>\n</custom-listbox>\n"
+module.exports = "<custom-listbox [title]=\"'Étapes'\" [addItemText]=\"'Ajouter une section'\" (createNewItem)=\"createNewSection()\">\r\n  <div *ngFor=\"let section of sections; index as i; last as isLast\">\r\n    <step-section  [(ngModel)]=\"sections[i]\"></step-section>\r\n    <mat-divider *ngIf=\"!isLast\"></mat-divider>\r\n  </div>\r\n</custom-listbox>\r\n"
 
 /***/ }),
 
@@ -7046,7 +7055,7 @@ var StepSectionWrapper = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".section-title {\n  height: 1em;\n  border: none;\n  margin-bottom: 10px;\n  font-size: large;\n  font-style: italic;\n}\n\n.section-title:focus {\n  color: black;\n}\n"
+module.exports = ".section-title {\r\n  height: 1em;\r\n  border: none;\r\n  margin-bottom: 10px;\r\n  font-size: large;\r\n  font-style: italic;\r\n}\r\n\r\n.section-title:focus {\r\n  color: black;\r\n}\r\n"
 
 /***/ }),
 
@@ -7057,7 +7066,7 @@ module.exports = ".section-title {\n  height: 1em;\n  border: none;\n  margin-bo
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<input class=\"section-title\" [(ngModel)]=\"section.name\" placeholder=\"Nom de la section\" matTooltip=\"Changez le nom de cette section!\" mat-subheader>\n<step-listbox [(ngModel)]=\"section.steps\"></step-listbox>\n"
+module.exports = "<input class=\"section-title\" [(ngModel)]=\"section.name\" placeholder=\"Nom de la section\" matTooltip=\"Changez le nom de cette section!\" mat-subheader>\r\n<step-listbox [(ngModel)]=\"section.steps\"></step-listbox>\r\n"
 
 /***/ }),
 
@@ -7441,7 +7450,7 @@ var RoutingModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/* Top of the window */\n.header {\n  display: flex;\n  justify-content: space-between;\n  align-items: stretch;\n}\n.header h1 {\n  margin-bottom: 0px;\n}\n.subtitle {\n  font-size: 18px;\n  color: rgba(0, 0, 0, 0.54);\n  font-family: Roboto, \"Helvetica Neue\", sans-serif;\n  font-style: italic;\n  margin-top: 5px;\n}\n/* Content of the window */\n.dialog-content {\n  max-width: 700px;\n  width: 100%;\n}\n.strecth {\n  width: 96%;\n}\n.select {\n  width:90%;\n  display: flex;\n}\n.ingredient-field {\n  width: 100%;\n}\n.include-ingredient {\n  width: 15%;\n  margin-right: 5px;\n}\n.ingredient-checkbox {\n  margin-right: -16px;\n}\n.margin-top {\n  margin-top: 10px;\n}\n.cancel-padding-left {\n  margin-left: -21px;\n}\n.rating-label {\n    width: 115px;\n}\n.rating {\n  display: flex;\n  justify-content: space-between;\n  font-size: 1.5em;\n  width: 99.3%;\n}\n.dialog-content .row {\n    width:100%;\n}\n.flex > mat-checkbox {\n    margin-left: 5px;\n}\n"
+module.exports = "/* Top of the window */\r\n.header {\r\n  display: flex;\r\n  justify-content: space-between;\r\n  align-items: stretch;\r\n}\r\n.header h1 {\r\n  margin-bottom: 0px;\r\n}\r\n.subtitle {\r\n  font-size: 18px;\r\n  color: rgba(0, 0, 0, 0.54);\r\n  font-family: Roboto, \"Helvetica Neue\", sans-serif;\r\n  font-style: italic;\r\n  margin-top: 5px;\r\n}\r\n/* Content of the window */\r\n.dialog-content {\r\n  max-width: 700px;\r\n  width: 100%;\r\n}\r\n.strecth {\r\n  width: 96%;\r\n}\r\n.select {\r\n  width:90%;\r\n  display: flex;\r\n}\r\n.ingredient-field {\r\n  width: 100%;\r\n}\r\n.include-ingredient {\r\n  width: 15%;\r\n  margin-right: 5px;\r\n}\r\n.ingredient-checkbox {\r\n  margin-right: -16px;\r\n}\r\n.margin-top {\r\n  margin-top: 10px;\r\n}\r\n.cancel-padding-left {\r\n  margin-left: -21px;\r\n}\r\n.rating-label {\r\n    width: 115px;\r\n}\r\n.rating {\r\n  display: flex;\r\n  justify-content: space-between;\r\n  font-size: 1.5em;\r\n  width: 99.3%;\r\n}\r\n.dialog-content .row {\r\n    width:100%;\r\n}\r\n.flex > mat-checkbox {\r\n    margin-left: 5px;\r\n}\r\n"
 
 /***/ }),
 
@@ -7815,7 +7824,7 @@ module.exports = ".profile-picture {\r\n    width: 30px;\r\n    height: 30px;\r\
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!-- If a user is logged in -->\n<button color=\"secondary\" (click)=\"logout.emit()\" *ngIf=\"user\" mat-button>\n    <img class=\"profile-picture\" [src]=\"user.profilePicture? user.profilePicture : ''\">\n    <span>Bonjour {{user.firstName}}</span>\n</button>\n<!-- If no user is logged in -->\n<button color=\"secondary\" (click)=\"login.emit()\" *ngIf=\"!user\" mat-button>Se connecter</button>\n"
+module.exports = "<!-- If a user is logged in -->\r\n<button color=\"secondary\" (click)=\"logout.emit()\" *ngIf=\"user\" mat-button>\r\n    <img class=\"profile-picture\" [src]=\"user.profilePicture? user.profilePicture : ''\">\r\n    <span>Bonjour {{user.firstName}}</span>\r\n</button>\r\n<!-- If no user is logged in -->\r\n<button color=\"secondary\" (click)=\"login.emit()\" *ngIf=\"!user\" mat-button>Se connecter</button>\r\n"
 
 /***/ }),
 

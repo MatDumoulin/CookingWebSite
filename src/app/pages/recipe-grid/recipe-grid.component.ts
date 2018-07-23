@@ -50,7 +50,7 @@ export class RecipeGridComponent extends InfiniteScroll
     columns = [];
     numberOfColumn = 4;
     colWidth = 200; /** In pixels */
-    private readonly minGutter = 5;
+    readonly gutterSize = 16;
     private gridWidth: number; /** In pixels */
     private hasLoadedView = false;
     @ViewChild("grid") gridElement: ElementRef<HTMLDivElement>;
@@ -118,6 +118,18 @@ export class RecipeGridComponent extends InfiniteScroll
 
     viewRecipe(recipeId: string): void {
         this.router.navigateByUrl("/recipes/" + recipeId);
+    }
+
+    editRecipe(recipeId: string): void {
+        this.router.navigateByUrl("/recipe/edit/" + recipeId);
+    }
+
+    deleteRecipe(recipeId: string): void {
+        this.store.dispatch(new fromStore.DeleteRecipe(recipeId));
+    }
+
+    stopPropagation(event: MouseEvent) {
+        event.stopPropagation();
     }
 
     advancedSearch(): void {
@@ -188,7 +200,7 @@ export class RecipeGridComponent extends InfiniteScroll
         // Take all space available if the current col width is invalid.
         const currentColWidth = this.colWidth;
         const newNumberOfColumn = Math.floor(
-            currentGridWidth / (currentColWidth + this.minGutter)
+            currentGridWidth / (currentColWidth + this.gutterSize)
         );
 
         if (this.numberOfColumn !== newNumberOfColumn) {

@@ -9,7 +9,17 @@
 
     <mat-card-content class="grid" #grid>
         <div class="column" *ngFor="let column of columns">
-            <div class="tile mat-elevation-z2" [ngStyle]="{'width.px': colWidth}" (click)="viewRecipe(recipe.id)" *ngFor="let recipe of column">
+            <div class="tile mat-elevation-z2" [ngStyle]="{'width.px': colWidth, 'margin-right.px': gutterSize, 'margin-bottom.px': gutterSize}" (click)="viewRecipe(recipe._id)" *ngFor="let recipe of column">
+                <div class="actions">
+                    <mat-menu #appMenu="matMenu">
+                        <button (click)="editRecipe(recipe._id)" mat-menu-item>Modifier</button>
+                        <button (click)="deleteRecipe(recipe._id)" mat-menu-item>Supprimer</button>
+                    </mat-menu>
+
+                    <button mat-icon-button color="secondary" (click)="stopPropagation($event)" [matMenuTriggerFor]="appMenu">
+                        <mat-icon>more_vert</mat-icon>
+                    </button>
+                </div>
                 <img class="recipe-image" [src]="recipe.image? recipe.image: defaultImage">
                 <h4>{{recipe.name}}</h4>
             </div>
