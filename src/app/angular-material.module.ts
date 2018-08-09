@@ -16,7 +16,7 @@ import {
     MatSelectModule,
     MatChipsModule,
     MatProgressSpinnerModule,
-    MatGridListModule
+    MatMenuModule
 } from '@angular/material';
 import { CdkTableModule } from '@angular/cdk/table';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
@@ -43,7 +43,7 @@ import { NgMdTimeInputModule } from 'ng-md-time-input';
         MatSelectModule,
         MatChipsModule,
         MatProgressSpinnerModule,
-        MatGridListModule,
+        MatMenuModule,
         NgMdTimeInputModule
     ]
 })

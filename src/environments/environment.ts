@@ -4,7 +4,9 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
-  production: false,
-  apiUrl: "http://localhost:4200/api" // In dev, we use the proxy to fetch the api. This is not the
-                  // case with prod server has we don't have access to the proxy.
+    production: false,
+    localStoragePrefix: 'mycookingbook',
+    apiUrl: "http://localhost:4200/api" // In dev, we use the proxy to fetch the api. This is not the
+                                        // case with prod server has we don't have access to the proxy.
+
 };

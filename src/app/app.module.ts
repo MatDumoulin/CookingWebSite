@@ -1,7 +1,4 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import 'hammerjs'; // To support gestures.
@@ -42,8 +39,8 @@ import { ServiceWorkerModule } from '@angular/service-worker';
         routing,
         PagesModule,
         LocalStorageModule.withConfig({
-            prefix: 'mycookingbook',
-            storageType: 'sessionStorage',
+            prefix: environment.localStoragePrefix,
+            storageType: 'localStorage',
             notifyOptions: { setItem: true, removeItem: true }
         }),
         StoreModule.forRoot(routerReducers),

@@ -1,7 +1,6 @@
 import { Component, Input, OnDestroy } from '@angular/core';
 import { Router, RouterEvent, NavigationEnd } from '@angular/router';
 import { MatSidenav } from '@angular/material';
-import { AuthenticationService } from '../core/authentication/authentication.service';
 import { User } from '../core/authentication/user.model';
 // Ngrx Store
 import { Store } from "@ngrx/store";
@@ -14,16 +13,14 @@ import { Observable } from 'rxjs';
     templateUrl: 'top-nav.html',
     styleUrls: ['top-nav.css']
 })
-export class TopNavComponent implements OnDestroy {
+export class TopNavComponent {
     @Input() sideNavRef: MatSidenav;
 
     user$: Observable<User>;
 
     isUserLoggedIn$: Observable<boolean>;
 
-    NO_LOGIN_ROUTES: Array<string> = ["/login", "/"];
-
-    constructor(private authService: AuthenticationService,
+    constructor(
         private router: Router,
         private store: Store<fromStore.DataState>) {
 
@@ -32,19 +29,11 @@ export class TopNavComponent implements OnDestroy {
     }
 
     disconnect() {
-        this.authService.disconnect();
+        this.store.dispatch(new fromStore.LogOut());
     }
 
     login() {
         // Redirect to login window.
         this.router.navigateByUrl('/login');
-    }
-
-    ngOnDestroy() {
-        this.authService.currentUserChanged.unsubscribe();
-    }
-
-    private canDisplayLogin(): boolean {
-        return this.NO_LOGIN_ROUTES.indexOf(this.router.url) === -1;
     }
 }

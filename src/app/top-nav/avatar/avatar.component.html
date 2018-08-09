@@ -1,7 +1,11 @@
 <!-- If a user is logged in -->
-<button color="secondary" (click)="logout.emit()" *ngIf="user" mat-button>
+<button class="avatar" color="secondary" *ngIf="user" [matMenuTriggerFor]="userMenu" mat-button>
     <img class="profile-picture" [src]="user.profilePicture? user.profilePicture : ''">
     <span>Bonjour {{user.firstName}}</span>
 </button>
 <!-- If no user is logged in -->
 <button color="secondary" (click)="login.emit()" *ngIf="!user" mat-button>Se connecter</button>
+
+<mat-menu #userMenu="matMenu" overlapTrigger="false">
+    <button class="avatar user-menu-item" (click)="logout.emit()" mat-menu-item>Déconnexion</button>
+</mat-menu>

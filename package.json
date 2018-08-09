@@ -27,6 +27,7 @@
     "@angular/platform-browser-dynamic": "6.0.9",
     "@angular/pwa": "^0.6.8",
     "@angular/router": "6.0.9",
+    "@angular/service-worker": "6.0.9",
     "@google-cloud/debug-agent": "^2.5.1",
     "@google-cloud/storage": "^1.7.0",
     "@ngrx/effects": "^6.0.1",
@@ -49,11 +50,10 @@
     "material-design-icons": "^3.0.1",
     "moment": "^2.22.2",
     "mongodb": "^2.2.35",
-    "ng-md-time-input": "^1.1.1",
+    "ng-md-time-input": "^2.0.2",
     "rxjs": "6.2.2",
     "rxjs-compat": "^6.2.2",
-    "zone.js": "^0.8.26",
-    "@angular/service-worker": "6.0.9"
+    "zone.js": "^0.8.26"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.6.0",

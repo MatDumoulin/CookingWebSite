@@ -187,9 +187,11 @@ export class RecipeGridComponent extends InfiniteScroll
         const currentGridWidth = this.gridWidth;
         // Take all space available if the current col width is invalid.
         const currentColWidth = this.colWidth;
-        const newNumberOfColumn = Math.floor(
+        const calculatedNumberOfColumn = Math.floor(
             currentGridWidth / (currentColWidth + this.minGutter)
         );
+
+        const newNumberOfColumn = Math.max(calculatedNumberOfColumn, 1); // Always display at least one column.
 
         if (this.numberOfColumn !== newNumberOfColumn) {
             this.numberOfColumn = newNumberOfColumn;

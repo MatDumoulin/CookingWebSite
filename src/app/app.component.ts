@@ -42,7 +42,7 @@ export class AppComponent implements OnDestroy {
         private store: Store<fromStore.DataState>
     ) {
         // Listening to the screen size in order to display either in mobile or desktop mode.
-        this.mobileQuery = media.matchMedia("(max-width: 600px)");
+        this.mobileQuery = media.matchMedia("(max-width: 1024px)");
         this._mobileQueryListener = () => {
             this.handleScreenChange();
             changeDetectorRef.detectChanges();

@@ -6,11 +6,13 @@ import * as moment from 'moment';
 // Ngrx
 import { Store } from "@ngrx/store";
 import { Actions, Effect } from "@ngrx/effects";
-import { LOGGED_IN, LOGGED_OUT, LoggedIn} from "../actions";
+import { LOGGED_IN, LOG_OUT, LOGGED_OUT, LoggedIn} from "../actions";
 import { ClearUserData } from "../../recipes/actions";
 import { DataState } from "../../store-state";
 // Rxjs
 import { tap } from "rxjs/operators";
+// Auth service (to interact with federate log in providers)
+import { AuthenticationService } from '../../../authentication/authentication.service';
 
 
 @Injectable()
@@ -18,6 +20,7 @@ export class AuthEffects {
 
     constructor(
         private actions$: Actions,
+        private authService: AuthenticationService,
         private localStorageService: LocalStorageService,
         private router: Router,
         private store: Store<DataState>
@@ -45,13 +48,23 @@ export class AuthEffects {
      * When a user logs out, clear all of its client side data.
      */
     @Effect({ dispatch: false })
+    logOut$ = this.actions$
+        .ofType(LOG_OUT)
+        .pipe(
+            tap(() => {
+                this.authService.disconnect();
+            })
+        );
+
+    /**
+     * When a user logs out, clear all of its client side data.
+     */
+    @Effect({ dispatch: false })
     loggedOut$ = this.actions$
         .ofType(LOGGED_OUT)
         .pipe(
             tap(() => {
-                this.localStorageService.remove("user");
-                this.localStorageService.remove('auth_token');
-                this.localStorageService.remove('token_expires_at');
+                this.localStorageService.remove("user", "auth_token", "token_expires_at");
                 // Clearing all loaded data from app.
                 this.store.dispatch(new ClearUserData());
                 this.router.navigateByUrl('/login');

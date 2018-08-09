@@ -1,4 +1,5 @@
 export const environment = {
-  production: true,
-  apiUrl: "https://www.mycookbook.recipes/api"
+    production: true,
+    localStoragePrefix: "mycookingbook",
+    apiUrl: "https://www.mycookbook.recipes/api"
 };

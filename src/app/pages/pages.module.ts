@@ -33,7 +33,6 @@ import { GenresService } from "../recipes/genre/shared/genre.service";
 import { RecipeCreatorFormComponent } from './recipe-creator/recipe-creator-form/recipe-creator-form.component';
 import { RecipeViewerComponent } from './recipe-viewer/recipe-viewer.component';
 import { NotFoundComponent } from './not-found/not-found.component';
-import { GridLayoutComponent } from './recipe-grid/grid-layout/grid-layout.component';
 
 @NgModule({
     imports: [
@@ -66,8 +65,7 @@ import { GridLayoutComponent } from './recipe-grid/grid-layout/grid-layout.compo
         RecipeCreatorFormComponent,
         RecipeViewerComponent,
         NotFoundComponent,
-        RecipeGridComponent,
-        GridLayoutComponent
+        RecipeGridComponent
     ],
     exports: [
         AngularMaterialModule,

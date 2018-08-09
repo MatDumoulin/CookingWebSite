@@ -1,8 +1,0 @@
-.grid {
-    display: flex;
-}
-
-.grid .col {
-    display: flex;
-    flex-direction: column;
-}

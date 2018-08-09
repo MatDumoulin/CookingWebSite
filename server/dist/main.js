@@ -353,7 +353,7 @@ var AngularMaterialModule = /** @class */ (function () {
                 _angular_material__WEBPACK_IMPORTED_MODULE_1__["MatSelectModule"],
                 _angular_material__WEBPACK_IMPORTED_MODULE_1__["MatChipsModule"],
                 _angular_material__WEBPACK_IMPORTED_MODULE_1__["MatProgressSpinnerModule"],
-                _angular_material__WEBPACK_IMPORTED_MODULE_1__["MatGridListModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_1__["MatMenuModule"],
                 ng_md_time_input__WEBPACK_IMPORTED_MODULE_4__["NgMdTimeInputModule"]
             ]
         })
@@ -419,7 +419,7 @@ var AppComponent = /** @class */ (function () {
         };
         this.sidenavOptions = this.mobileSidenavOptions;
         // Listening to the screen size in order to display either in mobile or desktop mode.
-        this.mobileQuery = media.matchMedia("(max-width: 600px)");
+        this.mobileQuery = media.matchMedia("(max-width: 1024px)");
         this._mobileQueryListener = function () {
             _this.handleScreenChange();
             changeDetectorRef.detectChanges();
@@ -559,8 +559,8 @@ var AppModule = /** @class */ (function () {
                 _app_routes__WEBPACK_IMPORTED_MODULE_18__["routing"],
                 _pages_pages_module__WEBPACK_IMPORTED_MODULE_10__["PagesModule"],
                 angular_2_local_storage__WEBPACK_IMPORTED_MODULE_4__["LocalStorageModule"].withConfig({
-                    prefix: 'mycookingbook',
-                    storageType: 'sessionStorage',
+                    prefix: _environments_environment__WEBPACK_IMPORTED_MODULE_17__["environment"].localStoragePrefix,
+                    storageType: 'localStorage',
                     notifyOptions: { setItem: true, removeItem: true }
                 }),
                 _ngrx_store__WEBPACK_IMPORTED_MODULE_5__["StoreModule"].forRoot(_routing_router_store__WEBPACK_IMPORTED_MODULE_9__["routerReducers"]),
@@ -2039,10 +2039,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AuthenticationGuard", function() { return AuthenticationGuard; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
-/* harmony import */ var _logger_logger_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../logger/logger.service */ "./src/app/core/logger/logger.service.ts");
-/* harmony import */ var _ngrx_store__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @ngrx/store */ "./node_modules/@ngrx/store/fesm5/store.js");
-/* harmony import */ var _core_store_auth__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../core/store/auth */ "./src/app/core/store/auth/index.ts");
-/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
+/* harmony import */ var angular_2_local_storage__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! angular-2-local-storage */ "./node_modules/angular-2-local-storage/dist/index.js");
+/* harmony import */ var angular_2_local_storage__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(angular_2_local_storage__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _logger_logger_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../logger/logger.service */ "./src/app/core/logger/logger.service.ts");
+/* harmony import */ var _ngrx_store__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @ngrx/store */ "./node_modules/@ngrx/store/fesm5/store.js");
+/* harmony import */ var _core_store_auth__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../core/store/auth */ "./src/app/core/store/auth/index.ts");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2055,21 +2057,29 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
 // Ngrx Store
 
 
 
 var AuthenticationGuard = /** @class */ (function () {
-    function AuthenticationGuard(router, store, logger) {
+    function AuthenticationGuard(router, store, localStorageService, logger) {
         this.router = router;
         this.store = store;
+        this.localStorageService = localStorageService;
         this.logger = logger;
     }
     AuthenticationGuard.prototype.canActivate = function () {
         var isLoggedIn = false;
-        this.store.select(_core_store_auth__WEBPACK_IMPORTED_MODULE_4__["getLoggedIn"]).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["take"])(1)).subscribe(function (loggedIn) {
+        // First check in the store if the user is logged in.
+        this.store.select(_core_store_auth__WEBPACK_IMPORTED_MODULE_5__["getLoggedIn"]).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["take"])(1)).subscribe(function (loggedIn) {
             isLoggedIn = loggedIn;
         });
+        // Here, we can't rely on the store as the source of thruth since when we first come to the website
+        // the store is on a blank state. Instead, we check in the local storage.
+        /*         if (this.localStorageService.get("user")) {
+                    isLoggedIn = true;
+                } */
         if (!isLoggedIn) {
             this.logger.info("Veuillez vous connecter avant d'accéder à cette page.");
             this.router.navigateByUrl('/login');
@@ -2079,8 +2089,9 @@ var AuthenticationGuard = /** @class */ (function () {
     AuthenticationGuard = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])(),
         __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"],
-            _ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"],
-            _logger_logger_service__WEBPACK_IMPORTED_MODULE_2__["LoggerService"]])
+            _ngrx_store__WEBPACK_IMPORTED_MODULE_4__["Store"],
+            angular_2_local_storage__WEBPACK_IMPORTED_MODULE_2__["LocalStorageService"],
+            _logger_logger_service__WEBPACK_IMPORTED_MODULE_3__["LoggerService"]])
     ], AuthenticationGuard);
     return AuthenticationGuard;
 }());
@@ -2677,16 +2688,19 @@ var LoggerService = /** @class */ (function (_super) {
 /*!********************************************************!*\
   !*** ./src/app/core/store/auth/actions/auth.action.ts ***!
   \********************************************************/
-/*! exports provided: LOGGED_IN, LOGGED_OUT, LoggedIn, LoggedOut */
+/*! exports provided: LOGGED_IN, LOG_OUT, LOGGED_OUT, LoggedIn, LogOut, LoggedOut */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOGGED_IN", function() { return LOGGED_IN; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOG_OUT", function() { return LOG_OUT; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOGGED_OUT", function() { return LOGGED_OUT; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LoggedIn", function() { return LoggedIn; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LogOut", function() { return LogOut; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LoggedOut", function() { return LoggedOut; });
 var LOGGED_IN = '[Auth] User is logged in';
+var LOG_OUT = '[Auth] User wants to log out';
 var LOGGED_OUT = '[Auth] User is logged out';
 var LoggedIn = /** @class */ (function () {
     function LoggedIn(payload) {
@@ -2694,6 +2708,13 @@ var LoggedIn = /** @class */ (function () {
         this.type = LOGGED_IN;
     }
     return LoggedIn;
+}());
+
+var LogOut = /** @class */ (function () {
+    function LogOut() {
+        this.type = LOG_OUT;
+    }
+    return LogOut;
 }());
 
 var LoggedOut = /** @class */ (function () {
@@ -2711,7 +2732,7 @@ var LoggedOut = /** @class */ (function () {
 /*!**************************************************!*\
   !*** ./src/app/core/store/auth/actions/index.ts ***!
   \**************************************************/
-/*! exports provided: LOGGED_IN, LOGGED_OUT, LoggedIn, LoggedOut */
+/*! exports provided: LOGGED_IN, LOG_OUT, LOGGED_OUT, LoggedIn, LogOut, LoggedOut */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2719,9 +2740,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _auth_action__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./auth.action */ "./src/app/core/store/auth/actions/auth.action.ts");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LOGGED_IN", function() { return _auth_action__WEBPACK_IMPORTED_MODULE_0__["LOGGED_IN"]; });
 
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LOG_OUT", function() { return _auth_action__WEBPACK_IMPORTED_MODULE_0__["LOG_OUT"]; });
+
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LOGGED_OUT", function() { return _auth_action__WEBPACK_IMPORTED_MODULE_0__["LOGGED_OUT"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LoggedIn", function() { return _auth_action__WEBPACK_IMPORTED_MODULE_0__["LoggedIn"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LogOut", function() { return _auth_action__WEBPACK_IMPORTED_MODULE_0__["LogOut"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LoggedOut", function() { return _auth_action__WEBPACK_IMPORTED_MODULE_0__["LoggedOut"]; });
 
@@ -2751,6 +2776,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../actions */ "./src/app/core/store/auth/actions/index.ts");
 /* harmony import */ var _recipes_actions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../recipes/actions */ "./src/app/core/store/recipes/actions/index.ts");
 /* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
+/* harmony import */ var _authentication_authentication_service__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../../authentication/authentication.service */ "./src/app/core/authentication/authentication.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2772,10 +2798,13 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 // Rxjs
 
+// Auth service (to interact with federate log in providers)
+
 var AuthEffects = /** @class */ (function () {
-    function AuthEffects(actions$, localStorageService, router, store) {
+    function AuthEffects(actions$, authService, localStorageService, router, store) {
         var _this = this;
         this.actions$ = actions$;
+        this.authService = authService;
         this.localStorageService = localStorageService;
         this.router = router;
         this.store = store;
@@ -2796,12 +2825,18 @@ var AuthEffects = /** @class */ (function () {
         /**
          * When a user logs out, clear all of its client side data.
          */
+        this.logOut$ = this.actions$
+            .ofType(_actions__WEBPACK_IMPORTED_MODULE_6__["LOG_OUT"])
+            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_8__["tap"])(function () {
+            _this.authService.disconnect();
+        }));
+        /**
+         * When a user logs out, clear all of its client side data.
+         */
         this.loggedOut$ = this.actions$
             .ofType(_actions__WEBPACK_IMPORTED_MODULE_6__["LOGGED_OUT"])
             .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_8__["tap"])(function () {
-            _this.localStorageService.remove("user");
-            _this.localStorageService.remove('auth_token');
-            _this.localStorageService.remove('token_expires_at');
+            _this.localStorageService.remove("user", "auth_token", "token_expires_at");
             // Clearing all loaded data from app.
             _this.store.dispatch(new _recipes_actions__WEBPACK_IMPORTED_MODULE_7__["ClearUserData"]());
             _this.router.navigateByUrl('/login');
@@ -2814,10 +2849,15 @@ var AuthEffects = /** @class */ (function () {
     __decorate([
         Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_5__["Effect"])({ dispatch: false }),
         __metadata("design:type", Object)
+    ], AuthEffects.prototype, "logOut$", void 0);
+    __decorate([
+        Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_5__["Effect"])({ dispatch: false }),
+        __metadata("design:type", Object)
     ], AuthEffects.prototype, "loggedOut$", void 0);
     AuthEffects = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])(),
         __metadata("design:paramtypes", [_ngrx_effects__WEBPACK_IMPORTED_MODULE_5__["Actions"],
+            _authentication_authentication_service__WEBPACK_IMPORTED_MODULE_9__["AuthenticationService"],
             angular_2_local_storage__WEBPACK_IMPORTED_MODULE_2__["LocalStorageService"],
             _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"],
             _ngrx_store__WEBPACK_IMPORTED_MODULE_4__["Store"]])
@@ -2853,7 +2893,7 @@ var authEffects = [_auth_effects__WEBPACK_IMPORTED_MODULE_0__["AuthEffects"]];
 /*!******************************************!*\
   !*** ./src/app/core/store/auth/index.ts ***!
   \******************************************/
-/*! exports provided: authReducer, LOGGED_IN, LOGGED_OUT, LoggedIn, LoggedOut, getAuthState, getLoggedIn, getUser */
+/*! exports provided: authReducer, LOGGED_IN, LOG_OUT, LOGGED_OUT, LoggedIn, LogOut, LoggedOut, getAuthState, getLoggedIn, getUser */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2861,9 +2901,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./actions */ "./src/app/core/store/auth/actions/index.ts");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LOGGED_IN", function() { return _actions__WEBPACK_IMPORTED_MODULE_0__["LOGGED_IN"]; });
 
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LOG_OUT", function() { return _actions__WEBPACK_IMPORTED_MODULE_0__["LOG_OUT"]; });
+
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LOGGED_OUT", function() { return _actions__WEBPACK_IMPORTED_MODULE_0__["LOGGED_OUT"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LoggedIn", function() { return _actions__WEBPACK_IMPORTED_MODULE_0__["LoggedIn"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LogOut", function() { return _actions__WEBPACK_IMPORTED_MODULE_0__["LogOut"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LoggedOut", function() { return _actions__WEBPACK_IMPORTED_MODULE_0__["LoggedOut"]; });
 
@@ -2884,6 +2928,38 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./src/app/core/store/auth/reducers/auth-state-local-storage.ts":
+/*!**********************************************************************!*\
+  !*** ./src/app/core/store/auth/reducers/auth-state-local-storage.ts ***!
+  \**********************************************************************/
+/*! exports provided: getUserFromStorage */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getUserFromStorage", function() { return getUserFromStorage; });
+/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../environments/environment */ "./src/environments/environment.ts");
+
+/**
+ * Returns undefined if there is no user in the local storage.
+ */
+function getUserFromStorage() {
+    try {
+        var serializedState = localStorage.getItem(_environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].localStoragePrefix + ".user");
+        if (serializedState === null) {
+            return undefined;
+        }
+        return JSON.parse(serializedState);
+    }
+    catch (error) {
+        console.log("Local storage is not enabled... Setting blank initial state.");
+        return undefined;
+    }
+}
+
+
+/***/ }),
+
 /***/ "./src/app/core/store/auth/reducers/auth.reducer.ts":
 /*!**********************************************************!*\
   !*** ./src/app/core/store/auth/reducers/auth.reducer.ts ***!
@@ -2898,6 +2974,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getLoggedIn", function() { return getLoggedIn; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getUser", function() { return getUser; });
 /* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../actions */ "./src/app/core/store/auth/actions/index.ts");
+/* harmony import */ var _auth_state_local_storage__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./auth-state-local-storage */ "./src/app/core/store/auth/reducers/auth-state-local-storage.ts");
 var __assign = (undefined && undefined.__assign) || Object.assign || function(t) {
     for (var s, i = 1, n = arguments.length; i < n; i++) {
         s = arguments[i];
@@ -2907,9 +2984,12 @@ var __assign = (undefined && undefined.__assign) || Object.assign || function(t)
     return t;
 };
 
+
+// First, we check if the user is already logged in from the local storage.
+var userFromLocalStorage = Object(_auth_state_local_storage__WEBPACK_IMPORTED_MODULE_1__["getUserFromStorage"])();
 var InitialAuthState = {
-    isLoggedIn: false,
-    user: null
+    isLoggedIn: userFromLocalStorage !== undefined,
+    user: userFromLocalStorage ? userFromLocalStorage : null
 };
 function authReducer(state, action) {
     if (state === void 0) { state = InitialAuthState; }
@@ -2918,7 +2998,7 @@ function authReducer(state, action) {
             return __assign({}, state, { isLoggedIn: true, user: action.payload.user });
         }
         case _actions__WEBPACK_IMPORTED_MODULE_0__["LOGGED_OUT"]: {
-            return InitialAuthState;
+            return __assign({}, state, { isLoggedIn: false, user: null });
         }
         default: {
             return state;
@@ -3053,7 +3133,7 @@ var DataStoreModule = /** @class */ (function () {
 /*!*************************************!*\
   !*** ./src/app/core/store/index.ts ***!
   \*************************************/
-/*! exports provided: reducers, getDataState, authReducer, recipesReducer, LOAD_RECIPES, LOAD_RECIPES_FAIL, LOAD_RECIPES_SUCCESS, HAS_LOADED_ALL_RECIPES, LOAD_RECIPE, RECIPE_NOT_FOUND, SEARCH_RECIPES, CANCEL_SEARCH_RECIPES, CREATE_RECIPE, CREATE_RECIPE_FAIL, CREATE_RECIPE_SUCCESS, UPDATE_RECIPE, UPDATE_RECIPE_FAIL, UPDATE_RECIPE_SUCCESS, DELETE_RECIPE, DELETE_RECIPE_FAIL, DELETE_RECIPE_SUCCESS, CLEAR_USER_DATA, LoadRecipes, LoadRecipe, LoadRecipesFail, RecipeNotFound, LoadRecipesSuccess, HasLoadedAllRecipes, SearchRecipes, CancelSearchRecipes, CreateRecipe, CreateRecipeFail, CreateRecipeSuccess, UpdateRecipe, UpdateRecipeFail, UpdateRecipeSuccess, DeleteRecipe, DeleteRecipeFail, DeleteRecipeSuccess, ClearUserData, LOGGED_IN, LOGGED_OUT, LoggedIn, LoggedOut, getAuthState, getLoggedIn, getUser, getRecipesState, getRecipesEntities, getAllRecipes, getRecipesLoaded, getRecipesLoading, getCanLoadMoreRecipes, getSearchIntent, getSearchedRecipes, getSelectedRecipe */
+/*! exports provided: reducers, getDataState, authReducer, recipesReducer, LOGGED_IN, LOG_OUT, LOGGED_OUT, LoggedIn, LogOut, LoggedOut, getAuthState, getLoggedIn, getUser, LOAD_RECIPES, LOAD_RECIPES_FAIL, LOAD_RECIPES_SUCCESS, HAS_LOADED_ALL_RECIPES, LOAD_RECIPE, RECIPE_NOT_FOUND, SEARCH_RECIPES, CANCEL_SEARCH_RECIPES, CREATE_RECIPE, CREATE_RECIPE_FAIL, CREATE_RECIPE_SUCCESS, UPDATE_RECIPE, UPDATE_RECIPE_FAIL, UPDATE_RECIPE_SUCCESS, DELETE_RECIPE, DELETE_RECIPE_FAIL, DELETE_RECIPE_SUCCESS, CLEAR_USER_DATA, LoadRecipes, LoadRecipe, LoadRecipesFail, RecipeNotFound, LoadRecipesSuccess, HasLoadedAllRecipes, SearchRecipes, CancelSearchRecipes, CreateRecipe, CreateRecipeFail, CreateRecipeSuccess, UpdateRecipe, UpdateRecipeFail, UpdateRecipeSuccess, DeleteRecipe, DeleteRecipeFail, DeleteRecipeSuccess, ClearUserData, getRecipesState, getRecipesEntities, getAllRecipes, getRecipesLoaded, getRecipesLoading, getCanLoadMoreRecipes, getSearchIntent, getSearchedRecipes, getSelectedRecipe */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3063,9 +3143,13 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LOGGED_IN", function() { return _auth__WEBPACK_IMPORTED_MODULE_0__["LOGGED_IN"]; });
 
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LOG_OUT", function() { return _auth__WEBPACK_IMPORTED_MODULE_0__["LOG_OUT"]; });
+
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LOGGED_OUT", function() { return _auth__WEBPACK_IMPORTED_MODULE_0__["LOGGED_OUT"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LoggedIn", function() { return _auth__WEBPACK_IMPORTED_MODULE_0__["LoggedIn"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LogOut", function() { return _auth__WEBPACK_IMPORTED_MODULE_0__["LogOut"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LoggedOut", function() { return _auth__WEBPACK_IMPORTED_MODULE_0__["LoggedOut"]; });
 
@@ -4499,7 +4583,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _recipe_creator_recipe_creator_form_recipe_creator_form_component__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./recipe-creator/recipe-creator-form/recipe-creator-form.component */ "./src/app/pages/recipe-creator/recipe-creator-form/recipe-creator-form.component.ts");
 /* harmony import */ var _recipe_viewer_recipe_viewer_component__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ./recipe-viewer/recipe-viewer.component */ "./src/app/pages/recipe-viewer/recipe-viewer.component.ts");
 /* harmony import */ var _not_found_not_found_component__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! ./not-found/not-found.component */ "./src/app/pages/not-found/not-found.component.ts");
-/* harmony import */ var _recipe_grid_grid_layout_grid_layout_component__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! ./recipe-grid/grid-layout/grid-layout.component */ "./src/app/pages/recipe-grid/grid-layout/grid-layout.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -4541,7 +4624,6 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
-
 var PagesModule = /** @class */ (function () {
     function PagesModule() {
     }
@@ -4577,8 +4659,7 @@ var PagesModule = /** @class */ (function () {
                 _recipe_creator_recipe_creator_form_recipe_creator_form_component__WEBPACK_IMPORTED_MODULE_29__["RecipeCreatorFormComponent"],
                 _recipe_viewer_recipe_viewer_component__WEBPACK_IMPORTED_MODULE_30__["RecipeViewerComponent"],
                 _not_found_not_found_component__WEBPACK_IMPORTED_MODULE_31__["NotFoundComponent"],
-                _recipe_grid_recipe_grid_component__WEBPACK_IMPORTED_MODULE_16__["RecipeGridComponent"],
-                _recipe_grid_grid_layout_grid_layout_component__WEBPACK_IMPORTED_MODULE_32__["GridLayoutComponent"]
+                _recipe_grid_recipe_grid_component__WEBPACK_IMPORTED_MODULE_16__["RecipeGridComponent"]
             ],
             exports: [
                 _angular_material_module__WEBPACK_IMPORTED_MODULE_22__["AngularMaterialModule"],
@@ -4611,7 +4692,7 @@ var PagesModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\r\n.mat-form-field {\r\n    width: 100%;\r\n}\r\n\r\n/* Top of the window */\r\n\r\n.header {\r\n    display: flex;\r\n    justify-content: space-between;\r\n    align-items: stretch;\r\n}\r\n\r\n.tab-content {\r\n    display: flex;\r\n    flex-direction: column;\r\n    padding: 10px;\r\n    min-height: 320px;\r\n}\r\n\r\n/* Informations tab */\r\n\r\n.image-container {\r\n    display: flex;\r\n    justify-content: space-around;\r\n}\r\n\r\n.image {\r\n    height: 100%;\r\n    opacity: 1;\r\n    transition: opacity 0.5s ease-out;\r\n}\r\n\r\n.image.invisible {\r\n    opacity: 0;\r\n}\r\n\r\n.image-box {\r\n    height: 300px;\r\n}\r\n\r\n.recipe-info-inputs {\r\n    width: 100%;\r\n}\r\n\r\n.time-container {\r\n    display: flex;\r\n    justify-content: space-between;\r\n    margin-bottom: 5px;\r\n}\r\n\r\n.time-input {\r\n    width: 30%;\r\n}\r\n\r\n@media screen and (min-width: 1501px) {\r\n    .recipe-info-inputs .mat-form-field:not(.time-input) {\r\n        width: 100%;\r\n    }\r\n    .tab-content {\r\n        width: 1100px;\r\n    }\r\n    .recipe-info {\r\n        flex-direction: row-reverse;\r\n        justify-content: space-between;\r\n    }\r\n    .recipe-info-inputs {\r\n        display: flex;\r\n        flex-direction: column;\r\n        justify-content: space-between;\r\n        width: 50%;\r\n    }\r\n    .image {\r\n        height: inherit;\r\n    }\r\n    .image-box {\r\n        width: 500px;\r\n    }\r\n    .tab-content.ingredients-steps {\r\n        justify-content: space-between;\r\n        flex-direction: row;\r\n    }\r\n    .time-container {\r\n        flex-direction: row;\r\n    }\r\n}\r\n\r\n@media screen and (min-width: 550px) and (max-width: 1500px) {\r\n    .mat-form-field {\r\n        width: 95%;\r\n    }\r\n    .tab-content {\r\n        width: 100%;\r\n    }\r\n    .image-box {\r\n        width: 100%;\r\n    }\r\n    .tab-content.ingredients-steps {\r\n        justify-content: center;\r\n        flex-direction: column;\r\n    }\r\n    .time-container {\r\n        flex-direction: column;\r\n    }\r\n}\r\n\r\n@media screen and (max-width: 550px) {\r\n    .mat-form-field {\r\n        width: 95%;\r\n    }\r\n    .tab-content {\r\n        width: 100vw;\r\n    }\r\n    .image-box {\r\n        width: 100%;\r\n    }\r\n    .tab-content.ingredients-steps {\r\n        justify-content: center;\r\n        flex-direction: column;\r\n    }\r\n    .time-container {\r\n        flex-direction: column;\r\n    }\r\n}\r\n\r\n.image-hover-shader {\r\n    position: absolute;\r\n    z-index: 2;\r\n    cursor: pointer;\r\n    display: flex;\r\n    justify-content: space-around;\r\n    align-items: center;\r\n}\r\n\r\n.image-hover-shader img {\r\n    visibility: hidden;\r\n    height: 50px;\r\n}\r\n\r\n.image-hover-shader:hover {\r\n    background-color: rgba(0, 0, 0, 0.3);\r\n}\r\n\r\n.image-hover-shader:hover img {\r\n    visibility: visible;\r\n}\r\n\r\n.small-margin-bottom {\r\n    margin-bottom: 1em;\r\n}\r\n\r\n/* ---- END OF INFORMATIONS TAB -------- */\r\n\r\n/* ---- Ingredients & Steps tab -------- */\r\n\r\n.recipe-section {\r\n    width: 540px;\r\n    margin-bottom: 1em;\r\n}\r\n\r\n.tab-content.ingredients-steps {\r\n    display: flex;\r\n    flex-wrap: wrap;\r\n}\r\n\r\n/* ---- Comments tab ---- */\r\n\r\n.tab-content.comments-tab {\r\n    justify-content: space-between;\r\n    flex-direction: row;\r\n}\r\n\r\n.comments-rating {\r\n    display: flex;\r\n    flex-direction: column;\r\n    justify-content: space-between;\r\n    height: 100%;\r\n    margin-top: 20px;\r\n}\r\n\r\n.rating {\r\n    display: flex;\r\n    justify-content: space-around;\r\n}\r\n\r\n.rating-control {\r\n    font-size: 2em !important;\r\n}\r\n\r\n/* Window's actions */\r\n\r\n.delete-recipe-button {\r\n    margin-right: 20px;\r\n}\r\n\r\n.margin-top-20 {\r\n    margin-top: 20px;\r\n}\r\n\r\n@media screen and (max-width: 1500px) {\r\n    .tab-content.comments-tab {\r\n        justify-content: space-between;\r\n        flex-direction: column;\r\n    }\r\n}\r\n\r\n.actions {\r\n    display: flex;\r\n    flex-direction: row;\r\n    justify-content: flex-end;\r\n}\r\n"
+module.exports = "\r\n.mat-form-field {\r\n    width: 100%;\r\n}\r\n\r\n/* Top of the window */\r\n\r\n.header {\r\n    display: flex;\r\n    justify-content: space-between;\r\n    align-items: stretch;\r\n}\r\n\r\n.tab-content {\r\n    display: flex;\r\n    flex-direction: column;\r\n    padding: 10px;\r\n    min-height: 320px;\r\n}\r\n\r\n/* Informations tab */\r\n\r\n.image-container {\r\n    display: flex;\r\n    justify-content: space-around;\r\n}\r\n\r\n.image {\r\n    height: 100%;\r\n    opacity: 1;\r\n    transition: opacity 0.5s ease-out;\r\n}\r\n\r\n.image.invisible {\r\n    opacity: 0;\r\n}\r\n\r\n.image-box {\r\n    height: 300px;\r\n}\r\n\r\n.recipe-info-inputs {\r\n    width: 100%;\r\n}\r\n\r\n.time-container {\r\n    display: flex;\r\n    justify-content: space-between;\r\n    margin-bottom: 5px;\r\n}\r\n\r\n.time-input {\r\n    width: 30%;\r\n}\r\n\r\n@media screen and (min-width: 1501px) {\r\n    .recipe-info-inputs .mat-form-field:not(.time-input) {\r\n        width: 100%;\r\n    }\r\n    .tab-content {\r\n        width: 1100px;\r\n    }\r\n    .recipe-info {\r\n        flex-direction: row-reverse;\r\n        justify-content: space-between;\r\n    }\r\n    .recipe-info-inputs {\r\n        display: flex;\r\n        flex-direction: column;\r\n        justify-content: space-between;\r\n        width: 50%;\r\n    }\r\n    .image {\r\n        height: inherit;\r\n    }\r\n    .image-box {\r\n        width: 500px;\r\n    }\r\n    .tab-content.ingredients-steps {\r\n        justify-content: space-between;\r\n        flex-direction: row;\r\n    }\r\n    .time-container {\r\n        flex-direction: row;\r\n    }\r\n}\r\n\r\n@media screen and (min-width: 550px) and (max-width: 1500px) {\r\n    .mat-form-field {\r\n        width: 95%;\r\n    }\r\n    .tab-content {\r\n        width: 100%;\r\n    }\r\n    .image-box {\r\n        width: 100%;\r\n    }\r\n    .tab-content.ingredients-steps {\r\n        justify-content: center;\r\n        flex-direction: column;\r\n    }\r\n    .time-container {\r\n        flex-direction: column;\r\n    }\r\n}\r\n\r\n@media screen and (max-width: 550px) {\r\n    .mat-form-field {\r\n        width: 95%;\r\n    }\r\n    .tab-content {\r\n        width: 100vw;\r\n    }\r\n    .image-box {\r\n        width: 100%;\r\n    }\r\n    .tab-content.ingredients-steps {\r\n        justify-content: center;\r\n        flex-direction: column;\r\n    }\r\n    .time-container {\r\n        flex-direction: column;\r\n    }\r\n}\r\n\r\n.image-hover-shader {\r\n    position: absolute;\r\n    z-index: 2;\r\n    cursor: pointer;\r\n    display: flex;\r\n    justify-content: space-around;\r\n    align-items: center;\r\n}\r\n\r\n.image-hover-shader img {\r\n    visibility: hidden;\r\n    height: 50px;\r\n}\r\n\r\n.image-hover-shader:hover {\r\n    background-color: rgba(0, 0, 0, 0.3);\r\n}\r\n\r\n.image-hover-shader:hover img {\r\n    visibility: visible;\r\n}\r\n\r\n.small-margin-bottom {\r\n    margin-bottom: 1em;\r\n}\r\n\r\n/* ---- END OF INFORMATIONS TAB -------- */\r\n\r\n/* ---- Ingredients & Steps tab -------- */\r\n\r\n.recipe-section {\r\n    max-width: 540px;\r\n    width: 100%;\r\n    margin-bottom: 1em;\r\n}\r\n\r\n.tab-content.ingredients-steps {\r\n    display: flex;\r\n    flex-wrap: wrap;\r\n}\r\n\r\n/* ---- Comments tab ---- */\r\n\r\n.tab-content.comments-tab {\r\n    justify-content: space-between;\r\n    flex-direction: row;\r\n}\r\n\r\n.comments-rating {\r\n    display: flex;\r\n    flex-direction: column;\r\n    justify-content: space-between;\r\n    height: 100%;\r\n    margin-top: 20px;\r\n}\r\n\r\n.rating {\r\n    display: flex;\r\n    justify-content: space-around;\r\n}\r\n\r\n.rating-control {\r\n    font-size: 2em !important;\r\n}\r\n\r\n/* Window's actions */\r\n\r\n.delete-recipe-button {\r\n    margin-right: 20px;\r\n}\r\n\r\n.margin-top-20 {\r\n    margin-top: 20px;\r\n}\r\n\r\n@media screen and (max-width: 1500px) {\r\n    .tab-content.comments-tab {\r\n        justify-content: space-between;\r\n        flex-direction: column;\r\n    }\r\n}\r\n\r\n.actions {\r\n    display: flex;\r\n    flex-direction: row;\r\n    justify-content: flex-end;\r\n}\r\n"
 
 /***/ }),
 
@@ -4922,117 +5003,6 @@ var RecipeCreatorComponent = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/app/pages/recipe-grid/grid-layout/grid-layout.component.css":
-/*!*************************************************************************!*\
-  !*** ./src/app/pages/recipe-grid/grid-layout/grid-layout.component.css ***!
-  \*************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = ".grid {\r\n    display: flex;\r\n}\r\n\r\n.grid .col {\r\n    display: flex;\r\n    flex-direction: column;\r\n}\r\n"
-
-/***/ }),
-
-/***/ "./src/app/pages/recipe-grid/grid-layout/grid-layout.component.html":
-/*!**************************************************************************!*\
-  !*** ./src/app/pages/recipe-grid/grid-layout/grid-layout.component.html ***!
-  \**************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "<div>\n    <p>This is a grid layout</p>\n    <div class=\"grid\">\n        <div class=\"col\" *ngIf=\"columnCount >= 1\" [ngStyle]=\"{'width.px': colWidth, 'margin.px': gutterSize}\">\n            <ng-content select=\".col-1\"></ng-content>\n        </div>\n        <div class=\"col\" *ngIf=\"columnCount >= 2\" [ngStyle]=\"{'width.px': colWidth, 'margin.px': gutterSize}\">\n            <ng-content select=\".col-2\"></ng-content>\n        </div>\n        <div class=\"col\" *ngIf=\"columnCount >= 3\" [ngStyle]=\"{'width.px': colWidth, 'margin.px': gutterSize}\">\n            <ng-content select=\".col-3\"></ng-content>\n        </div>\n        <div class=\"col\" *ngIf=\"columnCount >= 4\" [ngStyle]=\"{'width.px': colWidth, 'margin.px': gutterSize}\">\n            <ng-content select=\".col-4\"></ng-content>\n        </div>\n        <div class=\"col\" *ngIf=\"columnCount >= 5\" [ngStyle]=\"{'width.px': colWidth, 'margin.px': gutterSize}\">\n            <ng-content select=\".col-5\"></ng-content>\n        </div>\n        <div class=\"col\" *ngIf=\"columnCount >= 6\" [ngStyle]=\"{'width.px': colWidth, 'margin.px': gutterSize}\">\n            <ng-content select=\".col-6\"></ng-content>\n        </div>\n    </div>\n</div>\n"
-
-/***/ }),
-
-/***/ "./src/app/pages/recipe-grid/grid-layout/grid-layout.component.ts":
-/*!************************************************************************!*\
-  !*** ./src/app/pages/recipe-grid/grid-layout/grid-layout.component.ts ***!
-  \************************************************************************/
-/*! exports provided: GridLayoutComponent */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GridLayoutComponent", function() { return GridLayoutComponent; });
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (undefined && undefined.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-var GridLayoutComponent = /** @class */ (function () {
-    function GridLayoutComponent() {
-        // Inputs
-        this.gutterSize = 10;
-        this.columnCount = 0;
-        this.gridWidth = 500;
-        this.colWidth = 100;
-    }
-    Object.defineProperty(GridLayoutComponent.prototype, "gridWidth", {
-        get: function () {
-            return this._gridWidth;
-        },
-        // Host Bindings
-        set: function (width) {
-            this._gridWidth = width;
-            this.updateColWidth();
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(GridLayoutComponent.prototype, "colWidth", {
-        get: function () {
-            return this._colWidth;
-        },
-        set: function (width) {
-            this._colWidth = width;
-            this.updateColWidth();
-        },
-        enumerable: true,
-        configurable: true
-    });
-    GridLayoutComponent.prototype.ngOnInit = function () { };
-    GridLayoutComponent.prototype.updateColWidth = function () {
-        var currentGridWidth = this.gridWidth ? this.gridWidth : 0;
-        // Take all space available if the current col width is invalid.
-        var currentColWidth = this.colWidth && this.colWidth > 0 ? this.colWidth : 1;
-        this.columnCount = Math.floor(currentGridWidth / currentColWidth);
-        this._colWidth = Math.floor(currentGridWidth / this.columnCount); // Adjusting the width of the tiles.
-    };
-    __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["HostBinding"])('style.width.px'),
-        __metadata("design:type", Number),
-        __metadata("design:paramtypes", [Number])
-    ], GridLayoutComponent.prototype, "gridWidth", null);
-    __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
-        __metadata("design:type", Object)
-    ], GridLayoutComponent.prototype, "gutterSize", void 0);
-    __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
-        __metadata("design:type", Number),
-        __metadata("design:paramtypes", [Number])
-    ], GridLayoutComponent.prototype, "colWidth", null);
-    GridLayoutComponent = __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
-            selector: "mcb-grid-layout",
-            template: __webpack_require__(/*! ./grid-layout.component.html */ "./src/app/pages/recipe-grid/grid-layout/grid-layout.component.html"),
-            styles: [__webpack_require__(/*! ./grid-layout.component.css */ "./src/app/pages/recipe-grid/grid-layout/grid-layout.component.css")]
-        }),
-        __metadata("design:paramtypes", [])
-    ], GridLayoutComponent);
-    return GridLayoutComponent;
-}());
-
-
-
-/***/ }),
-
 /***/ "./src/app/pages/recipe-grid/recipe-grid.component.css":
 /*!*************************************************************!*\
   !*** ./src/app/pages/recipe-grid/recipe-grid.component.css ***!
@@ -5040,7 +5010,7 @@ var GridLayoutComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ":host() {\r\n    display: flex;\r\n    flex-direction: column;\r\n    height: 100%;\r\n}\r\n\r\n.mainContainer {\r\n    flex-grow: 1;\r\n    margin: 10px;\r\n}\r\n\r\n.recipe-list {\r\n    width: 100%;\r\n    height: 80vh;\r\n    overflow: auto;\r\n}\r\n\r\n.table-header {\r\n    padding-bottom: 10px;\r\n    display: flex;\r\n    justify-content: space-between;\r\n    width: 100%;\r\n}\r\n\r\n.grid {\r\n    display: flex;\r\n    flex-direction: row;\r\n    justify-content: space-evenly;\r\n}\r\n\r\n.tile {\r\n    background-color: aliceblue;\r\n    cursor: pointer;\r\n}\r\n\r\n.recipe-image {\r\n    width: 100%;\r\n}\r\n\r\n.edit-button {\r\n    min-width: 2.5em;\r\n    width: 2.5em;\r\n    padding: 0px;\r\n}\r\n\r\n.mat-column-actions {\r\n    max-width: 20px;\r\n}\r\n\r\n\r\n"
+module.exports = ":host() {\r\n    display: flex;\r\n    flex-direction: column;\r\n    height: 100%;\r\n}\r\n\r\n.mainContainer {\r\n    flex-grow: 1;\r\n    margin: 10px;\r\n    /* height: 100%; */\r\n}\r\n\r\n.recipe-list {\r\n    width: 100%;\r\n    height: 80vh;\r\n    overflow: auto;\r\n}\r\n\r\n.table-header {\r\n    padding-bottom: 10px;\r\n    display: flex;\r\n    justify-content: space-between;\r\n    width: 100%;\r\n}\r\n\r\n.grid {\r\n    display: flex;\r\n    flex-direction: row;\r\n    justify-content: center;\r\n/*     height: 100%;\r\n    overflow-y: auto; */\r\n}\r\n\r\n.column:not(:last-child) {\r\n    margin-right: 20px;\r\n}\r\n\r\n.column:only-child {\r\n    margin: 0;\r\n    width: 90%;\r\n}\r\n\r\n.column:only-child .tile {\r\n    width: 100% !important;\r\n}\r\n\r\n.tile {\r\n    background-color: aliceblue;\r\n    cursor: pointer;\r\n    z-index: auto;\r\n}\r\n\r\n.recipe-image {\r\n    width: 100%;\r\n}\r\n\r\n.edit-button {\r\n    min-width: 2.5em;\r\n    width: 2.5em;\r\n    padding: 0px;\r\n}\r\n\r\n.mat-column-actions {\r\n    max-width: 20px;\r\n}\r\n\r\n\r\n"
 
 /***/ }),
 
@@ -5051,7 +5021,7 @@ module.exports = ":host() {\r\n    display: flex;\r\n    flex-direction: column;
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<mat-card class=\"mainContainer\">\n    <mat-card-header>\n        <div class=\"table-header\">\n            <button class=\"button\" color=\"accent\" [routerLink]=\"['/recipe/create']\" mat-button>Créer une recette</button>\n            <button class=\"button\" color=\"accent\" (click)=\"advancedSearch()\" mat-button>\n                <mat-icon>search</mat-icon>Recherche avancée</button>\n        </div>\n    </mat-card-header>\n\n    <mat-card-content class=\"grid\" #grid>\n        <div class=\"column\" *ngFor=\"let column of columns\">\n            <div class=\"tile mat-elevation-z2\" [ngStyle]=\"{'width.px': colWidth}\" (click)=\"viewRecipe(recipe.id)\" *ngFor=\"let recipe of column\">\n                <img class=\"recipe-image\" [src]=\"recipe.image? recipe.image: defaultImage\">\n                <h4>{{recipe.name}}</h4>\n            </div>\n        </div>\n    </mat-card-content>\n</mat-card>\n"
+module.exports = "<div class=\"mainContainer\">\n    <div class=\"table-header\">\n        <button class=\"button\" color=\"accent\" [routerLink]=\"['/recipe/create']\" mat-button>Créer une recette</button>\n        <button class=\"button\" color=\"accent\" (click)=\"advancedSearch()\" mat-button>\n            <mat-icon>search</mat-icon>Recherche avancée</button>\n    </div>\n\n    <div class=\"grid\" #grid>\n        <div class=\"column\" *ngFor=\"let column of columns\">\n            <div class=\"tile mat-elevation-z2\" [ngStyle]=\"{'width.px': colWidth}\" (click)=\"viewRecipe(recipe._id)\" *ngFor=\"let recipe of column\">\n                <img class=\"recipe-image\" [src]=\"recipe.image? recipe.image: defaultImage\">\n                <h4>{{recipe.name}}</h4>\n            </div>\n        </div>\n    </div>\n</div>\n\n"
 
 /***/ }),
 
@@ -5228,7 +5198,8 @@ var RecipeGridComponent = /** @class */ (function (_super) {
         var currentGridWidth = this.gridWidth;
         // Take all space available if the current col width is invalid.
         var currentColWidth = this.colWidth;
-        var newNumberOfColumn = Math.floor(currentGridWidth / (currentColWidth + this.minGutter));
+        var calculatedNumberOfColumn = Math.floor(currentGridWidth / (currentColWidth + this.minGutter));
+        var newNumberOfColumn = Math.max(calculatedNumberOfColumn, 1); // Always display at least one column.
         if (this.numberOfColumn !== newNumberOfColumn) {
             this.numberOfColumn = newNumberOfColumn;
             this.updateGridDisplay();
@@ -5369,7 +5340,7 @@ module.exports = "<mat-sidenav-container>\r\n  <mat-sidenav>\r\n  </mat-sidenav>
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/* For the view recipe window.*/\r\n\r\n:host {\r\n    height: 100%;\r\n    display: flex;\r\n    flex-direction: column;\r\n    align-items: center;\r\n    background-image: url('recipe-background-blur.jpeg');\r\n    background-size: contain;\r\n}\r\n\r\n.window {\r\n    width: 700px;\r\n    /* ~8.5 inches */\r\n    display: flex;\r\n    flex-direction: column;\r\n    justify-content: space-between;\r\n    margin: 10px 0;\r\n    background-color: white;\r\n    padding: 20px;\r\n    flex-grow: 1;\r\n    /*  animation-name: expand;\r\n    animation-duration: .9s;*/\r\n}\r\n\r\n/* Top of the window */\r\n\r\n.top-section {\r\n    display: flex;\r\n    justify-content: space-between;\r\n    align-items: stretch;\r\n    flex-wrap: wrap;\r\n}\r\n\r\n.first-row {\r\n    display: flex;\r\n    width: 100%;\r\n    margin-top: -1em;\r\n    /* To override the padding from the .mat-dialog-container */\r\n    margin-bottom: 1.5em;\r\n}\r\n\r\n/* Genre */\r\n\r\n.recipe-genre {\r\n    text-align: center;\r\n    margin: 0;\r\n    color: gray;\r\n    font: caption;\r\n    font-weight: normal;\r\n    width: 100%;\r\n}\r\n\r\n/* General recipe info */\r\n\r\n.recipe-top-info {\r\n    flex-grow: 1;\r\n    margin-right: 5%;\r\n}\r\n\r\n.recipe-name-container {\r\n    height: 52%;\r\n    display: flex;\r\n    flex-direction: column;\r\n    justify-content: space-between;\r\n    padding-bottom: 4%;\r\n}\r\n\r\nstar-rating {\r\n    font-size: 0.9em;\r\n}\r\n\r\nmat-chip-list:focus {\r\n    outline: none;\r\n}\r\n\r\n.recipe-name {\r\n    margin: 0;\r\n}\r\n\r\n.recipe-image {\r\n    width: 200px;\r\n    height: 200px;\r\n}\r\n\r\n.border {\r\n    border: solid black 1px;\r\n}\r\n\r\nhr {\r\n    border-color: lightgrey;\r\n    border-top: 1px;\r\n}\r\n\r\n.recipe-portions-time {\r\n    font-size: 0.9em;\r\n    flex-grow: 1;\r\n    display: flex;\r\n    flex-direction: row;\r\n    justify-content: space-between;\r\n    align-items: center;\r\n}\r\n\r\n.size-20 {\r\n    font-size: 1.2em;\r\n}\r\n\r\n/* Middle of the window */\r\n\r\n.middle-section {\r\n    flex-grow: 1;\r\n    display: flex;\r\n    flex-direction: column;\r\n    justify-content: space-between;\r\n}\r\n\r\n.row {\r\n    display: flex;\r\n    justify-content: space-between;\r\n    width: 100%;\r\n}\r\n\r\n.section {\r\n    flex-basis: 47%;\r\n}\r\n\r\n.dialog-content {\r\n    display: flex;\r\n    flex-direction: column;\r\n    flex-grow: 1;\r\n}\r\n\r\n/*.section:not(:last-child) {\r\n    margin-bottom: 25px;\r\n  }*/\r\n\r\n/* Ingredients */\r\n\r\n.recipe-ingredients {\r\n    flex-basis: 45%;\r\n}\r\n\r\n.ingredient {\r\n    display: flex;\r\n    justify-content: space-between;\r\n}\r\n\r\n.ingredient:not(:last-child), .step:not(:last-child) {\r\n    margin-bottom: 0.2em;\r\n}\r\n\r\n.ingredient-quantity {\r\n    padding-right: 10px;\r\n    flex-shrink: 0;\r\n    min-width: 87px;\r\n}\r\n\r\n.ingredient-name {\r\n    flex-grow: 1;\r\n}\r\n\r\n.small-marginbottom {\r\n    margin-bottom: 5px;\r\n}\r\n\r\n/* Steps */\r\n\r\n.recipe-steps {\r\n    flex-basis: 45%;\r\n}\r\n\r\n.step {\r\n    text-align: justify;\r\n}\r\n\r\n.reset-counter {\r\n    counter-reset: stepNumber;\r\n}\r\n\r\n.step:before {\r\n    float: left;\r\n    content: counter(stepNumber);\r\n    counter-increment: stepNumber;\r\n    margin-left: -1.5em;\r\n}\r\n\r\n/* Notes */\r\n\r\n.recipe-notes {\r\n    width: 45%;\r\n}\r\n\r\n.note {\r\n    font-size: 0.95em;\r\n    margin: 0;\r\n}\r\n\r\n.artisticFont {\r\n    font-family: Century Gothic, CenturyGothic, AppleGothic, sans-serif;\r\n    font-size: 0.9em;\r\n}\r\n\r\n/* Loading state */\r\n\r\n.shader {\r\n    width: 100%;\r\n    height: 100%;\r\n    display: flex;\r\n    flex-direction: column;\r\n    justify-content: center;\r\n    align-items: stretch;\r\n}\r\n\r\n.bottom-section {\r\n    display: flex;\r\n    flex-direction: row;\r\n    justify-content: space-between;\r\n}\r\n\r\n.equipment {\r\n    margin-bottom: 3%;\r\n    width: 45%;\r\n}\r\n\r\n.equipment h4 {\r\n    margin-top: 0;\r\n}\r\n\r\n.actions {\r\n    display: flex;\r\n    flex-direction: row-reverse;\r\n    align-items: center;\r\n}\r\n\r\n/*@keyframes expand {\r\n      0%   {\r\n        width: 0px;\r\n        min-height: 0px;\r\n      }\r\n      100% {\r\n        width: 700px;  /* ~8.5 inches */\r\n\r\n/*min-height: 825px; /* 11 inches  */\r\n\r\n/*    }\r\n  }*/\r\n"
+module.exports = "/* For the view recipe window.*/\r\n\r\n:host {\r\n    height: 100%;\r\n    display: flex;\r\n    flex-direction: column;\r\n    align-items: center;\r\n    background-image: url('hardwood-background.jpeg');\r\n    background-size: contain;\r\n}\r\n\r\n.window {\r\n    max-width: 700px; /* ~8.5 inches */\r\n    display: flex;\r\n    flex-direction: column;\r\n    justify-content: space-between;\r\n    margin: 10px 0;\r\n    background-color: white;\r\n    padding: 20px;\r\n    flex-grow: 1;\r\n    /*  animation-name: expand;\r\n    animation-duration: .9s;*/\r\n}\r\n\r\n/* Top of the window */\r\n\r\n.top-section {\r\n    display: flex;\r\n    justify-content: space-between;\r\n    align-items: stretch;\r\n    flex-wrap: wrap;\r\n}\r\n\r\n.first-row {\r\n    display: flex;\r\n    width: 100%;\r\n    margin-top: -1em;\r\n    /* To override the padding from the .mat-dialog-container */\r\n    margin-bottom: 1.5em;\r\n}\r\n\r\n/* Genre */\r\n\r\n.recipe-genre {\r\n    text-align: center;\r\n    margin: 0;\r\n    color: gray;\r\n    font: caption;\r\n    font-weight: normal;\r\n    width: 100%;\r\n}\r\n\r\n/* General recipe info */\r\n\r\n.recipe-top-info {\r\n    flex-grow: 1;\r\n    margin-right: 5%;\r\n}\r\n\r\n.recipe-name-container {\r\n    height: 52%;\r\n    display: flex;\r\n    flex-direction: column;\r\n    justify-content: space-between;\r\n    padding-bottom: 4%;\r\n}\r\n\r\nstar-rating {\r\n    font-size: 0.9em;\r\n}\r\n\r\nmat-chip-list:focus {\r\n    outline: none;\r\n}\r\n\r\n.recipe-name {\r\n    margin: 0;\r\n}\r\n\r\n.recipe-image {\r\n    width: 200px;\r\n    height: 200px;\r\n}\r\n\r\n.border {\r\n    border: solid black 1px;\r\n}\r\n\r\nhr {\r\n    border-color: lightgrey;\r\n    border-top: 1px;\r\n}\r\n\r\n.recipe-portions-time {\r\n    font-size: 0.9em;\r\n    flex-grow: 1;\r\n    display: flex;\r\n    flex-direction: row;\r\n    justify-content: space-between;\r\n    align-items: center;\r\n}\r\n\r\n.size-20 {\r\n    font-size: 1.2em;\r\n}\r\n\r\n/* Middle of the window */\r\n\r\n.middle-section {\r\n    flex-grow: 1;\r\n    display: flex;\r\n    flex-direction: column;\r\n    justify-content: space-between;\r\n}\r\n\r\n.row {\r\n    display: flex;\r\n    justify-content: space-between;\r\n    width: 100%;\r\n}\r\n\r\n.section {\r\n    flex-basis: 47%;\r\n}\r\n\r\n.dialog-content {\r\n    display: flex;\r\n    flex-direction: column;\r\n    flex-grow: 1;\r\n}\r\n\r\n/*.section:not(:last-child) {\r\n    margin-bottom: 25px;\r\n  }*/\r\n\r\n/* Ingredients */\r\n\r\n.recipe-ingredients {\r\n    flex-basis: 45%;\r\n}\r\n\r\n.ingredient {\r\n    display: flex;\r\n    justify-content: space-between;\r\n}\r\n\r\n.ingredient:not(:last-child), .step:not(:last-child) {\r\n    margin-bottom: 0.2em;\r\n}\r\n\r\n.ingredient-quantity {\r\n    padding-right: 10px;\r\n    flex-shrink: 0;\r\n    min-width: 87px;\r\n}\r\n\r\n.ingredient-name {\r\n    flex-grow: 1;\r\n}\r\n\r\n.small-marginbottom {\r\n    margin-bottom: 5px;\r\n}\r\n\r\n/* Steps */\r\n\r\n.recipe-steps {\r\n    flex-basis: 45%;\r\n}\r\n\r\n.step {\r\n    text-align: justify;\r\n}\r\n\r\n.reset-counter {\r\n    counter-reset: stepNumber;\r\n}\r\n\r\n.step:before {\r\n    float: left;\r\n    content: counter(stepNumber);\r\n    counter-increment: stepNumber;\r\n    margin-left: -1.5em;\r\n}\r\n\r\n/* Notes */\r\n\r\n.recipe-notes {\r\n    width: 45%;\r\n}\r\n\r\n.note {\r\n    font-size: 0.95em;\r\n    margin: 0;\r\n}\r\n\r\n.artisticFont {\r\n    font-family: Century Gothic, CenturyGothic, AppleGothic, sans-serif;\r\n    font-size: 0.9em;\r\n}\r\n\r\n/* Loading state */\r\n\r\n.shader {\r\n    width: 100%;\r\n    height: 100%;\r\n    display: flex;\r\n    flex-direction: column;\r\n    justify-content: center;\r\n    align-items: stretch;\r\n}\r\n\r\n.bottom-section {\r\n    display: flex;\r\n    flex-direction: row;\r\n    justify-content: space-between;\r\n}\r\n\r\n.equipment {\r\n    margin-bottom: 3%;\r\n    width: 45%;\r\n}\r\n\r\n.equipment h4 {\r\n    margin-top: 0;\r\n}\r\n\r\n.actions {\r\n    display: flex;\r\n    flex-direction: row-reverse;\r\n    align-items: center;\r\n}\r\n\r\n/*@keyframes expand {\r\n      0%   {\r\n        width: 0px;\r\n        min-height: 0px;\r\n      }\r\n      100% {\r\n        width: 700px;  /* ~8.5 inches */\r\n\r\n/*min-height: 825px; /* 11 inches  */\r\n\r\n/*    }\r\n  }*/\r\n"
 
 /***/ }),
 
@@ -5923,7 +5894,7 @@ var IngredientListboxModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".mat-divider {\n  margin-top: 1em;\n  margin-bottom: 2em;\n  position: relative;\n}\n"
+module.exports = "ingredient-section {\n    padding-top: 1em;\n    padding-bottom: 2em;\n}\n\n"
 
 /***/ }),
 
@@ -5934,7 +5905,7 @@ module.exports = ".mat-divider {\n  margin-top: 1em;\n  margin-bottom: 2em;\n  p
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<custom-listbox [title]=\"'Ingrédients'\" [addItemText]=\"'Ajouter une section'\" (createNewItem)=\"createNewSection()\">\n  <div *ngFor=\"let section of sections; index as i; last as isLast\">\n    <ingredient-section  [(ngModel)]=\"sections[i]\"></ingredient-section>\n    <mat-divider *ngIf=\"!isLast\"></mat-divider>\n  </div>\n</custom-listbox>\n"
+module.exports = "<custom-listbox [title]=\"'Ingrédients'\" [addItemText]=\"'Ajouter une section'\" (createNewItem)=\"createNewSection()\">\n  <div *ngFor=\"let section of sections; index as i; last as isLast\">\n    <ingredient-section [(ngModel)]=\"sections[i]\"></ingredient-section>\n    <mat-divider *ngIf=\"!isLast\"></mat-divider>\n  </div>\n</custom-listbox>\n"
 
 /***/ }),
 
@@ -6943,7 +6914,7 @@ var StepListbox = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".mat-divider {\n  margin-top: 1em;\n  margin-bottom: 2em;\n  position: relative;\n}\n"
+module.exports = "step-section {\n    padding-top: 1em;\n    padding-bottom: 2em;\n}\n"
 
 /***/ }),
 
@@ -7046,7 +7017,7 @@ var StepSectionWrapper = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".section-title {\n  height: 1em;\n  border: none;\n  margin-bottom: 10px;\n  font-size: large;\n  font-style: italic;\n}\n\n.section-title:focus {\n  color: black;\n}\n"
+module.exports = ".section-title {\n  height: 1em;\n  border: none;\n  margin-bottom: 10px;\n  font-size: large;\n  font-style: italic;\n}\n\n.section-title:focus {\n  color: black;\n}\n\n"
 
 /***/ }),
 
@@ -7804,7 +7775,7 @@ var SidenavContentComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".profile-picture {\r\n    width: 30px;\r\n    height: 30px;\r\n    border-radius: 5px;\r\n    margin-right: 5px;\r\n}\r\n"
+module.exports = ".profile-picture {\r\n    width: 30px;\r\n    height: 30px;\r\n    border-radius: 5px;\r\n    margin-right: 5px;\r\n}\r\n\r\n.avatar {\r\n    width: 200px;\r\n}\r\n\r\n.user-menu-item {\r\n    text-align: center;\r\n}\r\n"
 
 /***/ }),
 
@@ -7815,7 +7786,7 @@ module.exports = ".profile-picture {\r\n    width: 30px;\r\n    height: 30px;\r\
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!-- If a user is logged in -->\n<button color=\"secondary\" (click)=\"logout.emit()\" *ngIf=\"user\" mat-button>\n    <img class=\"profile-picture\" [src]=\"user.profilePicture? user.profilePicture : ''\">\n    <span>Bonjour {{user.firstName}}</span>\n</button>\n<!-- If no user is logged in -->\n<button color=\"secondary\" (click)=\"login.emit()\" *ngIf=\"!user\" mat-button>Se connecter</button>\n"
+module.exports = "<!-- If a user is logged in -->\n<button class=\"avatar\" color=\"secondary\" *ngIf=\"user\" [matMenuTriggerFor]=\"userMenu\" mat-button>\n    <img class=\"profile-picture\" [src]=\"user.profilePicture? user.profilePicture : ''\">\n    <span>Bonjour {{user.firstName}}</span>\n</button>\n<!-- If no user is logged in -->\n<button color=\"secondary\" (click)=\"login.emit()\" *ngIf=\"!user\" mat-button>Se connecter</button>\n\n<mat-menu #userMenu=\"matMenu\" overlapTrigger=\"false\">\n    <button class=\"avatar user-menu-item\" (click)=\"logout.emit()\" mat-menu-item>Déconnexion</button>\n</mat-menu>\n"
 
 /***/ }),
 
@@ -7888,9 +7859,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 /* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
-/* harmony import */ var _core_authentication_authentication_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../core/authentication/authentication.service */ "./src/app/core/authentication/authentication.service.ts");
-/* harmony import */ var _ngrx_store__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @ngrx/store */ "./node_modules/@ngrx/store/fesm5/store.js");
-/* harmony import */ var _core_store__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../core/store */ "./src/app/core/store/index.ts");
+/* harmony import */ var _ngrx_store__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @ngrx/store */ "./node_modules/@ngrx/store/fesm5/store.js");
+/* harmony import */ var _core_store__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../core/store */ "./src/app/core/store/index.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -7903,31 +7873,22 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
-
 // Ngrx Store
 
 
 var TopNavComponent = /** @class */ (function () {
-    function TopNavComponent(authService, router, store) {
-        this.authService = authService;
+    function TopNavComponent(router, store) {
         this.router = router;
         this.store = store;
-        this.NO_LOGIN_ROUTES = ["/login", "/"];
-        this.user$ = this.store.select(_core_store__WEBPACK_IMPORTED_MODULE_5__["getUser"]);
-        this.isUserLoggedIn$ = this.store.select(_core_store__WEBPACK_IMPORTED_MODULE_5__["getLoggedIn"]);
+        this.user$ = this.store.select(_core_store__WEBPACK_IMPORTED_MODULE_4__["getUser"]);
+        this.isUserLoggedIn$ = this.store.select(_core_store__WEBPACK_IMPORTED_MODULE_4__["getLoggedIn"]);
     }
     TopNavComponent.prototype.disconnect = function () {
-        this.authService.disconnect();
+        this.store.dispatch(new _core_store__WEBPACK_IMPORTED_MODULE_4__["LogOut"]());
     };
     TopNavComponent.prototype.login = function () {
         // Redirect to login window.
         this.router.navigateByUrl('/login');
-    };
-    TopNavComponent.prototype.ngOnDestroy = function () {
-        this.authService.currentUserChanged.unsubscribe();
-    };
-    TopNavComponent.prototype.canDisplayLogin = function () {
-        return this.NO_LOGIN_ROUTES.indexOf(this.router.url) === -1;
     };
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
@@ -7939,9 +7900,8 @@ var TopNavComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./top-nav.html */ "./src/app/top-nav/top-nav.html"),
             styles: [__webpack_require__(/*! ./top-nav.css */ "./src/app/top-nav/top-nav.css")]
         }),
-        __metadata("design:paramtypes", [_core_authentication_authentication_service__WEBPACK_IMPORTED_MODULE_3__["AuthenticationService"],
-            _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"],
-            _ngrx_store__WEBPACK_IMPORTED_MODULE_4__["Store"]])
+        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"],
+            _ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"]])
     ], TopNavComponent);
     return TopNavComponent;
 }());
@@ -8149,6 +8109,7 @@ __webpack_require__.r(__webpack_exports__);
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 var environment = {
     production: false,
+    localStoragePrefix: 'mycookingbook',
     apiUrl: "http://localhost:4200/api" // In dev, we use the proxy to fetch the api. This is not the
     // case with prod server has we don't have access to the proxy.
 };
