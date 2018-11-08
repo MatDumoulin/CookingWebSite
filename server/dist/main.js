@@ -8110,8 +8110,7 @@ __webpack_require__.r(__webpack_exports__);
 var environment = {
     production: false,
     localStoragePrefix: 'mycookingbook',
-    apiUrl: "http://localhost:4200/api" // In dev, we use the proxy to fetch the api. This is not the
-    // case with prod server has we don't have access to the proxy.
+    apiUrl: "https://mycookingrecipes.herokuapp.com/api"
 };
 
 
