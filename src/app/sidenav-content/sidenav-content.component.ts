@@ -15,11 +15,11 @@ export class SidenavContentComponent implements OnInit {
     @Output() itemClick = new EventEmitter();
 
     items: SidenavItem[] = [
-        {
+        /*{
             text: "Accueil",
             routerLink: ['/home'],
             icon: "home"
-        },
+        },*/
         {
             text: "Mes recettes",
             routerLink: ['/recipes'],

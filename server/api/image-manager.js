@@ -1,9 +1,21 @@
 const stream = require("stream");
 const Storage = require("@google-cloud/storage");
+const fs = require("fs");
+
+// Google auth needs to read a file that contains a json value with our credentials.
+// But, we can't commit this file since it will compromise our credentials. Thus,
+// we need to create a file with the credentials for Google Cloud Storage to read it.
+const credentialsFilePath = "./config/GOOGLE_APPLICATION_CREDENTIALS.json";
+
+fs.mkdirSync("./config", { recursive: true }, (err) => {
+    if (err) throw err;
+});
+fs.writeFileSync(credentialsFilePath, process.env.GOOGLE_APPLICATION_CREDENTIALS);
 
 const gcpStorageBucketName = process.env.IMAGE_STORAGE_NAME;
 const storage = Storage({
-    projectId: "mycookbook-1"
+    projectId: "mycookbook-1",
+    keyFilename: credentialsFilePath
 });
 const bucket = storage.bucket(gcpStorageBucketName);
 

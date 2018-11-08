@@ -7728,11 +7728,11 @@ var SidenavContentComponent = /** @class */ (function () {
     function SidenavContentComponent() {
         this.itemClick = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
         this.items = [
-            {
+            /*{
                 text: "Accueil",
                 routerLink: ['/home'],
                 icon: "home"
-            },
+            },*/
             {
                 text: "Mes recettes",
                 routerLink: ['/recipes'],
