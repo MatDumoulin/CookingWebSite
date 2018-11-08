@@ -7728,11 +7728,11 @@ var SidenavContentComponent = /** @class */ (function () {
     function SidenavContentComponent() {
         this.itemClick = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
         this.items = [
-            {
+            /*{
                 text: "Accueil",
                 routerLink: ['/home'],
                 icon: "home"
-            },
+            },*/
             {
                 text: "Mes recettes",
                 routerLink: ['/recipes'],
@@ -8110,7 +8110,8 @@ __webpack_require__.r(__webpack_exports__);
 var environment = {
     production: false,
     localStoragePrefix: 'mycookingbook',
-    apiUrl: "https://mycookingrecipes.herokuapp.com/api"
+    apiUrl: "http://localhost:4200/api" // In dev, we use the proxy to fetch the api. This is not the
+    // case with prod server has we don't have access to the proxy.
 };
 
 
