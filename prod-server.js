@@ -5,12 +5,6 @@ const routerManager = require('./server/api/route-manager');
 const helmet = require('helmet');
 
 const app = express();
-const env = process.env.ENVIRONMENT;
-
-if(env === "production") {
-    // Google cloud debug on production server.
-    require('@google-cloud/debug-agent').start();
-}
 
 // Express configuration (order matters)
 app.set('port', (process.env.PORT || 4200));
@@ -54,7 +48,6 @@ app.use(function(req, res, next) {
 mongoClient.connect(dbUrl, function(err, database) {
     if(err) throw err;
 
-    //if(env == 'dev') {
     app.listen(app.get('port'), function() {
       console.log('Server and API are running on port', app.get('port'));
     });

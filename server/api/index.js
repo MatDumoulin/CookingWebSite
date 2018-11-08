@@ -1,4 +1,4 @@
-const express = require('express');
+/*const express = require('express');
 const mongoClient = require('mongodb').MongoClient;
 const bodyParser = require('body-parser');
 const jwtMiddleware = require('express-jwt');
@@ -37,7 +37,7 @@ app.use(function(req, res, next) {
 });
 
 app.use(jwtMiddleware({ secret: 'mycookingbook-billie&keetah'})
-   .unless({path: ['/login', '/', '/api/login', /\/.well-known*/]}));
+   .unless({path: ['/login', '/', '/api/login', /\/.well-known*//*]}));
 
 // Sending 401 status if an unauthorized error occurs
 app.use(function (err, req, res, next) {
@@ -80,4 +80,4 @@ mongoClient.connect(url, function(err, database) {
 
 
 });
-
+*/

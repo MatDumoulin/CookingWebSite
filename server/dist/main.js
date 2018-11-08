@@ -3133,7 +3133,7 @@ var DataStoreModule = /** @class */ (function () {
 /*!*************************************!*\
   !*** ./src/app/core/store/index.ts ***!
   \*************************************/
-/*! exports provided: reducers, getDataState, authReducer, recipesReducer, LOGGED_IN, LOG_OUT, LOGGED_OUT, LoggedIn, LogOut, LoggedOut, getAuthState, getLoggedIn, getUser, LOAD_RECIPES, LOAD_RECIPES_FAIL, LOAD_RECIPES_SUCCESS, HAS_LOADED_ALL_RECIPES, LOAD_RECIPE, RECIPE_NOT_FOUND, SEARCH_RECIPES, CANCEL_SEARCH_RECIPES, CREATE_RECIPE, CREATE_RECIPE_FAIL, CREATE_RECIPE_SUCCESS, UPDATE_RECIPE, UPDATE_RECIPE_FAIL, UPDATE_RECIPE_SUCCESS, DELETE_RECIPE, DELETE_RECIPE_FAIL, DELETE_RECIPE_SUCCESS, CLEAR_USER_DATA, LoadRecipes, LoadRecipe, LoadRecipesFail, RecipeNotFound, LoadRecipesSuccess, HasLoadedAllRecipes, SearchRecipes, CancelSearchRecipes, CreateRecipe, CreateRecipeFail, CreateRecipeSuccess, UpdateRecipe, UpdateRecipeFail, UpdateRecipeSuccess, DeleteRecipe, DeleteRecipeFail, DeleteRecipeSuccess, ClearUserData, getRecipesState, getRecipesEntities, getAllRecipes, getRecipesLoaded, getRecipesLoading, getCanLoadMoreRecipes, getSearchIntent, getSearchedRecipes, getSelectedRecipe */
+/*! exports provided: reducers, getDataState, authReducer, recipesReducer, LOAD_RECIPES, LOAD_RECIPES_FAIL, LOAD_RECIPES_SUCCESS, HAS_LOADED_ALL_RECIPES, LOAD_RECIPE, RECIPE_NOT_FOUND, SEARCH_RECIPES, CANCEL_SEARCH_RECIPES, CREATE_RECIPE, CREATE_RECIPE_FAIL, CREATE_RECIPE_SUCCESS, UPDATE_RECIPE, UPDATE_RECIPE_FAIL, UPDATE_RECIPE_SUCCESS, DELETE_RECIPE, DELETE_RECIPE_FAIL, DELETE_RECIPE_SUCCESS, CLEAR_USER_DATA, LoadRecipes, LoadRecipe, LoadRecipesFail, RecipeNotFound, LoadRecipesSuccess, HasLoadedAllRecipes, SearchRecipes, CancelSearchRecipes, CreateRecipe, CreateRecipeFail, CreateRecipeSuccess, UpdateRecipe, UpdateRecipeFail, UpdateRecipeSuccess, DeleteRecipe, DeleteRecipeFail, DeleteRecipeSuccess, ClearUserData, LOGGED_IN, LOG_OUT, LOGGED_OUT, LoggedIn, LogOut, LoggedOut, getAuthState, getLoggedIn, getUser, getRecipesState, getRecipesEntities, getAllRecipes, getRecipesLoaded, getRecipesLoading, getCanLoadMoreRecipes, getSearchIntent, getSearchedRecipes, getSelectedRecipe */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6162,7 +6162,7 @@ var Ingredient = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".mainContainer {\r\n  min-height: 80vh;\r\n  margin: 10px 10px 2px 10px;\r\n}\r\n\r\n.recipe-list {\r\n  width: 100%;\r\n  height: 80vh;\r\n  overflow: auto;\r\n}\r\n\r\n.table-header {\r\n  padding-bottom: 10px;\r\n  display: flex;\r\n  justify-content: space-between;\r\n  width: 100%;\r\n}\r\n\r\n.mat-column-name {\r\n    min-width: 150px;\r\n}\r\n\r\n.edit-button {\r\n  min-width: 2.5em;\r\n  width: 2.5em;\r\n  padding: 0px;\r\n}\r\n\r\n.mat-column-actions {\r\n    max-width: 20px;\r\n}\r\n\r\n/*\r\n\r\n.searchBar-Input {\r\n  min-width: 100px !important;\r\n  width: 50% !important;\r\n  -webkit-transition: width 0.4s ease-in-out;\r\n  transition: width 0.4s ease-in-out;\r\n  float: right !important;\r\n}\r\n\r\n.searchBar-Input:focus {\r\n  width: 100% !important;\r\n}\r\n\r\n.recipeListContent {\r\n  height: 90vh;\r\n  overflow: auto;\r\n}\r\n\r\n.recipesListItem {\r\n  cursor: pointer;\r\n}\r\n\r\n.recipesList-TopSection .createRecipe {\r\n  display:inline-block;\r\n}\r\n\r\n.recipesList-TopSection .searchBar {\r\n  min-width: 100px;\r\n  width:50%;\r\n  float:right;\r\n}\r\n*/\r\n"
+module.exports = ".mainContainer {\r\n  min-height: 80vh;\r\n  margin: 10px 10px 2px 10px;\r\n}\r\n\r\n.recipe-list {\r\n  width: 100%;\r\n  height: 80vh;\r\n  overflow: auto;\r\n}\r\n\r\n.table-header {\r\n  padding-bottom: 10px;\r\n  display: flex;\r\n  justify-content: space-between;\r\n  width: 100%;\r\n}\r\n\r\n.mat-column-name {\r\n    min-width: 150px;\r\n}\r\n\r\n.edit-button {\r\n  min-width: 2.5em;\r\n  width: 2.5em;\r\n  padding: 0px;\r\n  margin-right: 10px;\r\n}\r\n\r\n.mat-column-actions {\r\n    max-width: 20px;\r\n}\r\n\r\n/*\r\n\r\n.searchBar-Input {\r\n  min-width: 100px !important;\r\n  width: 50% !important;\r\n  -webkit-transition: width 0.4s ease-in-out;\r\n  transition: width 0.4s ease-in-out;\r\n  float: right !important;\r\n}\r\n\r\n.searchBar-Input:focus {\r\n  width: 100% !important;\r\n}\r\n\r\n.recipeListContent {\r\n  height: 90vh;\r\n  overflow: auto;\r\n}\r\n\r\n.recipesListItem {\r\n  cursor: pointer;\r\n}\r\n\r\n.recipesList-TopSection .createRecipe {\r\n  display:inline-block;\r\n}\r\n\r\n.recipesList-TopSection .searchBar {\r\n  min-width: 100px;\r\n  width:50%;\r\n  float:right;\r\n}\r\n*/\r\n"
 
 /***/ }),
 
@@ -8110,8 +8110,7 @@ __webpack_require__.r(__webpack_exports__);
 var environment = {
     production: false,
     localStoragePrefix: 'mycookingbook',
-    apiUrl: "http://localhost:4200/api" // In dev, we use the proxy to fetch the api. This is not the
-    // case with prod server has we don't have access to the proxy.
+    apiUrl: "https://mycookingrecipes.herokuapp.com/api"
 };
 
 
