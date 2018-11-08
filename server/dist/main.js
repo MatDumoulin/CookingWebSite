@@ -3133,7 +3133,7 @@ var DataStoreModule = /** @class */ (function () {
 /*!*************************************!*\
   !*** ./src/app/core/store/index.ts ***!
   \*************************************/
-/*! exports provided: reducers, getDataState, authReducer, recipesReducer, LOAD_RECIPES, LOAD_RECIPES_FAIL, LOAD_RECIPES_SUCCESS, HAS_LOADED_ALL_RECIPES, LOAD_RECIPE, RECIPE_NOT_FOUND, SEARCH_RECIPES, CANCEL_SEARCH_RECIPES, CREATE_RECIPE, CREATE_RECIPE_FAIL, CREATE_RECIPE_SUCCESS, UPDATE_RECIPE, UPDATE_RECIPE_FAIL, UPDATE_RECIPE_SUCCESS, DELETE_RECIPE, DELETE_RECIPE_FAIL, DELETE_RECIPE_SUCCESS, CLEAR_USER_DATA, LoadRecipes, LoadRecipe, LoadRecipesFail, RecipeNotFound, LoadRecipesSuccess, HasLoadedAllRecipes, SearchRecipes, CancelSearchRecipes, CreateRecipe, CreateRecipeFail, CreateRecipeSuccess, UpdateRecipe, UpdateRecipeFail, UpdateRecipeSuccess, DeleteRecipe, DeleteRecipeFail, DeleteRecipeSuccess, ClearUserData, LOGGED_IN, LOG_OUT, LOGGED_OUT, LoggedIn, LogOut, LoggedOut, getAuthState, getLoggedIn, getUser, getRecipesState, getRecipesEntities, getAllRecipes, getRecipesLoaded, getRecipesLoading, getCanLoadMoreRecipes, getSearchIntent, getSearchedRecipes, getSelectedRecipe */
+/*! exports provided: reducers, getDataState, authReducer, recipesReducer, LOGGED_IN, LOG_OUT, LOGGED_OUT, LoggedIn, LogOut, LoggedOut, getAuthState, getLoggedIn, getUser, LOAD_RECIPES, LOAD_RECIPES_FAIL, LOAD_RECIPES_SUCCESS, HAS_LOADED_ALL_RECIPES, LOAD_RECIPE, RECIPE_NOT_FOUND, SEARCH_RECIPES, CANCEL_SEARCH_RECIPES, CREATE_RECIPE, CREATE_RECIPE_FAIL, CREATE_RECIPE_SUCCESS, UPDATE_RECIPE, UPDATE_RECIPE_FAIL, UPDATE_RECIPE_SUCCESS, DELETE_RECIPE, DELETE_RECIPE_FAIL, DELETE_RECIPE_SUCCESS, CLEAR_USER_DATA, LoadRecipes, LoadRecipe, LoadRecipesFail, RecipeNotFound, LoadRecipesSuccess, HasLoadedAllRecipes, SearchRecipes, CancelSearchRecipes, CreateRecipe, CreateRecipeFail, CreateRecipeSuccess, UpdateRecipe, UpdateRecipeFail, UpdateRecipeSuccess, DeleteRecipe, DeleteRecipeFail, DeleteRecipeSuccess, ClearUserData, getRecipesState, getRecipesEntities, getAllRecipes, getRecipesLoaded, getRecipesLoading, getCanLoadMoreRecipes, getSearchIntent, getSearchedRecipes, getSelectedRecipe */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4296,7 +4296,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<mcb-recipe-grid></mcb-recipe-grid>\n"
+module.exports = "<mcb-recipe-grid></mcb-recipe-grid>\r\n"
 
 /***/ }),
 
@@ -4399,7 +4399,7 @@ module.exports = "<div class=\"main-container\">\r\n  <mat-card>\r\n    <h1>Webs
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".main-container {\n  min-height: 80vh;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-around;\n  align-items: center;\n}\n\n.login-container {\n  max-width: 400px;\n  padding: 30px;\n\n  display: flex;\n  flex-direction: column;\n  justify-content: space-between;\n}\n\n.social-signin {\n  display: flex;\n  justify-content: space-around;\n  align-items: center;\n}\n\n/*.login-container fieldset {\n  border: none;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-between;\n}*/\n\n.top-section {\n  text-align: center;\n}\n"
+module.exports = ".main-container {\r\n  min-height: 80vh;\r\n  display: flex;\r\n  flex-direction: column;\r\n  justify-content: space-around;\r\n  align-items: center;\r\n}\r\n\r\n.login-container {\r\n  max-width: 400px;\r\n  padding: 30px;\r\n\r\n  display: flex;\r\n  flex-direction: column;\r\n  justify-content: space-between;\r\n}\r\n\r\n.social-signin {\r\n  display: flex;\r\n  justify-content: space-around;\r\n  align-items: center;\r\n}\r\n\r\n/*.login-container fieldset {\r\n  border: none;\r\n  display: flex;\r\n  flex-direction: column;\r\n  justify-content: space-between;\r\n}*/\r\n\r\n.top-section {\r\n  text-align: center;\r\n}\r\n"
 
 /***/ }),
 
@@ -5021,7 +5021,7 @@ module.exports = ":host() {\r\n    display: flex;\r\n    flex-direction: column;
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"mainContainer\">\n    <div class=\"table-header\">\n        <button class=\"button\" color=\"accent\" [routerLink]=\"['/recipe/create']\" mat-button>Créer une recette</button>\n        <button class=\"button\" color=\"accent\" (click)=\"advancedSearch()\" mat-button>\n            <mat-icon>search</mat-icon>Recherche avancée</button>\n    </div>\n\n    <div class=\"grid\" #grid>\n        <div class=\"column\" *ngFor=\"let column of columns\">\n            <div class=\"tile mat-elevation-z2\" [ngStyle]=\"{'width.px': colWidth}\" (click)=\"viewRecipe(recipe._id)\" *ngFor=\"let recipe of column\">\n                <img class=\"recipe-image\" [src]=\"recipe.image? recipe.image: defaultImage\">\n                <h4>{{recipe.name}}</h4>\n            </div>\n        </div>\n    </div>\n</div>\n\n"
+module.exports = "<div class=\"mainContainer\">\r\n    <div class=\"table-header\">\r\n        <button class=\"button\" color=\"accent\" [routerLink]=\"['/recipe/create']\" mat-button>Créer une recette</button>\r\n        <button class=\"button\" color=\"accent\" (click)=\"advancedSearch()\" mat-button>\r\n            <mat-icon>search</mat-icon>Recherche avancée</button>\r\n    </div>\r\n\r\n    <div class=\"grid\" #grid>\r\n        <div class=\"column\" *ngFor=\"let column of columns\">\r\n            <div class=\"tile mat-elevation-z2\" [ngStyle]=\"{'width.px': colWidth}\" (click)=\"viewRecipe(recipe._id)\" *ngFor=\"let recipe of column\">\r\n                <img class=\"recipe-image\" [src]=\"recipe.image? recipe.image: defaultImage\">\r\n                <h4>{{recipe.name}}</h4>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>\r\n\r\n"
 
 /***/ }),
 
@@ -5894,7 +5894,7 @@ var IngredientListboxModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "ingredient-section {\n    padding-top: 1em;\n    padding-bottom: 2em;\n}\n\n"
+module.exports = "ingredient-section {\r\n    padding-top: 1em;\r\n    padding-bottom: 2em;\r\n}\r\n\r\n"
 
 /***/ }),
 
@@ -5905,7 +5905,7 @@ module.exports = "ingredient-section {\n    padding-top: 1em;\n    padding-botto
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<custom-listbox [title]=\"'Ingrédients'\" [addItemText]=\"'Ajouter une section'\" (createNewItem)=\"createNewSection()\">\n  <div *ngFor=\"let section of sections; index as i; last as isLast\">\n    <ingredient-section [(ngModel)]=\"sections[i]\"></ingredient-section>\n    <mat-divider *ngIf=\"!isLast\"></mat-divider>\n  </div>\n</custom-listbox>\n"
+module.exports = "<custom-listbox [title]=\"'Ingrédients'\" [addItemText]=\"'Ajouter une section'\" (createNewItem)=\"createNewSection()\">\r\n  <div *ngFor=\"let section of sections; index as i; last as isLast\">\r\n    <ingredient-section [(ngModel)]=\"sections[i]\"></ingredient-section>\r\n    <mat-divider *ngIf=\"!isLast\"></mat-divider>\r\n  </div>\r\n</custom-listbox>\r\n"
 
 /***/ }),
 
@@ -6914,7 +6914,7 @@ var StepListbox = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "step-section {\n    padding-top: 1em;\n    padding-bottom: 2em;\n}\n"
+module.exports = "step-section {\r\n    padding-top: 1em;\r\n    padding-bottom: 2em;\r\n}\r\n"
 
 /***/ }),
 
@@ -7017,7 +7017,7 @@ var StepSectionWrapper = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".section-title {\n  height: 1em;\n  border: none;\n  margin-bottom: 10px;\n  font-size: large;\n  font-style: italic;\n}\n\n.section-title:focus {\n  color: black;\n}\n\n"
+module.exports = ".section-title {\r\n  height: 1em;\r\n  border: none;\r\n  margin-bottom: 10px;\r\n  font-size: large;\r\n  font-style: italic;\r\n}\r\n\r\n.section-title:focus {\r\n  color: black;\r\n}\r\n\r\n"
 
 /***/ }),
 
@@ -7412,7 +7412,7 @@ var RoutingModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/* Top of the window */\n.header {\n  display: flex;\n  justify-content: space-between;\n  align-items: stretch;\n}\n.header h1 {\n  margin-bottom: 0px;\n}\n.subtitle {\n  font-size: 18px;\n  color: rgba(0, 0, 0, 0.54);\n  font-family: Roboto, \"Helvetica Neue\", sans-serif;\n  font-style: italic;\n  margin-top: 5px;\n}\n/* Content of the window */\n.dialog-content {\n  max-width: 700px;\n  width: 100%;\n}\n.strecth {\n  width: 96%;\n}\n.select {\n  width:90%;\n  display: flex;\n}\n.ingredient-field {\n  width: 100%;\n}\n.include-ingredient {\n  width: 15%;\n  margin-right: 5px;\n}\n.ingredient-checkbox {\n  margin-right: -16px;\n}\n.margin-top {\n  margin-top: 10px;\n}\n.cancel-padding-left {\n  margin-left: -21px;\n}\n.rating-label {\n    width: 115px;\n}\n.rating {\n  display: flex;\n  justify-content: space-between;\n  font-size: 1.5em;\n  width: 99.3%;\n}\n.dialog-content .row {\n    width:100%;\n}\n.flex > mat-checkbox {\n    margin-left: 5px;\n}\n"
+module.exports = "/* Top of the window */\r\n.header {\r\n  display: flex;\r\n  justify-content: space-between;\r\n  align-items: stretch;\r\n}\r\n.header h1 {\r\n  margin-bottom: 0px;\r\n}\r\n.subtitle {\r\n  font-size: 18px;\r\n  color: rgba(0, 0, 0, 0.54);\r\n  font-family: Roboto, \"Helvetica Neue\", sans-serif;\r\n  font-style: italic;\r\n  margin-top: 5px;\r\n}\r\n/* Content of the window */\r\n.dialog-content {\r\n  max-width: 700px;\r\n  width: 100%;\r\n}\r\n.strecth {\r\n  width: 96%;\r\n}\r\n.select {\r\n  width:90%;\r\n  display: flex;\r\n}\r\n.ingredient-field {\r\n  width: 100%;\r\n}\r\n.include-ingredient {\r\n  width: 15%;\r\n  margin-right: 5px;\r\n}\r\n.ingredient-checkbox {\r\n  margin-right: -16px;\r\n}\r\n.margin-top {\r\n  margin-top: 10px;\r\n}\r\n.cancel-padding-left {\r\n  margin-left: -21px;\r\n}\r\n.rating-label {\r\n    width: 115px;\r\n}\r\n.rating {\r\n  display: flex;\r\n  justify-content: space-between;\r\n  font-size: 1.5em;\r\n  width: 99.3%;\r\n}\r\n.dialog-content .row {\r\n    width:100%;\r\n}\r\n.flex > mat-checkbox {\r\n    margin-left: 5px;\r\n}\r\n"
 
 /***/ }),
 
@@ -7786,7 +7786,7 @@ module.exports = ".profile-picture {\r\n    width: 30px;\r\n    height: 30px;\r\
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!-- If a user is logged in -->\n<button class=\"avatar\" color=\"secondary\" *ngIf=\"user\" [matMenuTriggerFor]=\"userMenu\" mat-button>\n    <img class=\"profile-picture\" [src]=\"user.profilePicture? user.profilePicture : ''\">\n    <span>Bonjour {{user.firstName}}</span>\n</button>\n<!-- If no user is logged in -->\n<button color=\"secondary\" (click)=\"login.emit()\" *ngIf=\"!user\" mat-button>Se connecter</button>\n\n<mat-menu #userMenu=\"matMenu\" overlapTrigger=\"false\">\n    <button class=\"avatar user-menu-item\" (click)=\"logout.emit()\" mat-menu-item>Déconnexion</button>\n</mat-menu>\n"
+module.exports = "<!-- If a user is logged in -->\r\n<button class=\"avatar\" color=\"secondary\" *ngIf=\"user\" [matMenuTriggerFor]=\"userMenu\" mat-button>\r\n    <img class=\"profile-picture\" [src]=\"user.profilePicture? user.profilePicture : ''\">\r\n    <span>Bonjour {{user.firstName}}</span>\r\n</button>\r\n<!-- If no user is logged in -->\r\n<button color=\"secondary\" (click)=\"login.emit()\" *ngIf=\"!user\" mat-button>Se connecter</button>\r\n\r\n<mat-menu #userMenu=\"matMenu\" overlapTrigger=\"false\">\r\n    <button class=\"avatar user-menu-item\" (click)=\"logout.emit()\" mat-menu-item>Déconnexion</button>\r\n</mat-menu>\r\n"
 
 /***/ }),
 
