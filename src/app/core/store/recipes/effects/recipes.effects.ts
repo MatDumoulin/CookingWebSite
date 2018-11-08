@@ -4,8 +4,8 @@ import { Router } from "@angular/router";
 import { Store } from "@ngrx/store";
 import { Actions, Effect } from "@ngrx/effects";
 import * as recipesActions from "../actions/recipes.action";
-import * as fromReducers from "../reducers";
-import * as fromSelectors from "../selectors";
+import { DataState } from "../../store-state";
+import { getRecipesState } from "../selectors";
 // Rxjs
 import {
     catchError,
@@ -33,7 +33,7 @@ export class RecipesEffects {
         private apiSpecificRecipeService: ApiSpecificRecipeService,
         private loggerService: LoggerService,
         private router: Router,
-        private store: Store<fromReducers.DataState>
+        private store: Store<DataState>
     ) {}
 
     /**
@@ -43,7 +43,7 @@ export class RecipesEffects {
     loadRecipesWithoutSearch$ = this.actions$
         .ofType(recipesActions.LOAD_RECIPES)
         .pipe(
-            withLatestFrom(this.store.select(fromSelectors.getRecipesState)),
+            withLatestFrom(this.store.select(getRecipesState)),
             filter(([action, storeState]) => storeState.searchIntent === null),
             switchMap(([action, storeState]) => {
                 // If the store can load more recipes
@@ -91,7 +91,7 @@ export class RecipesEffects {
     loadRecipesWithSearch$ = this.actions$
         .ofType(recipesActions.LOAD_RECIPES)
         .pipe(
-            withLatestFrom(this.store.select(fromSelectors.getRecipesState)),
+            withLatestFrom(this.store.select(getRecipesState)),
             filter(([action, storeState]) => storeState.searchIntent !== null),
             switchMap(([action, storeState]) => {
                 const searchIntent = storeState.searchIntent;

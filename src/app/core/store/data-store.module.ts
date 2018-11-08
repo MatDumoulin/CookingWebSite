@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { reducers } from './recipes/reducers';
-import { effects } from './recipes/effects';
+
+import { reducers } from './store-state';
+import { recipesEffects } from './recipes/effects';
+import { authEffects } from './auth/effects';
 
 // Data services
 import { ApiGetRecipesService } from '../../recipes/shared/api-get-recipes.service';
@@ -13,7 +14,7 @@ import { ApiGetRecipesService } from '../../recipes/shared/api-get-recipes.servi
     imports: [
         CommonModule,
         StoreModule.forFeature('data', reducers),
-        EffectsModule.forFeature(effects)
+        EffectsModule.forFeature(recipesEffects.concat(authEffects))
     ],
     providers: [
         ApiGetRecipesService

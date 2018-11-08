@@ -1,9 +1,7 @@
 import { Injectable } from "@angular/core";
 // Ngrx
-import { Store } from "@ngrx/store";
 import { Actions, Effect } from "@ngrx/effects";
 import * as recipesActions from "../actions/recipes.action";
-import * as fromReducers from "../reducers";
 // Rxjs
 import { switchMap } from "rxjs/operators";
 // Services

@@ -14,15 +14,15 @@ import { DataStoreModule } from './store/data-store.module';
         MatSnackBarModule, // For the logger.
         DataStoreModule
     ],
+    exports: [
+        DataStoreModule
+    ],
     providers: [
         LoggerService,
         ImageLoaderService,
         AuthenticationService,
         GoogleAuthenticationService,
         AuthenticationGuard
-    ],
-    exports: [
-        DataStoreModule
     ]
 })
 export class CoreModule { }

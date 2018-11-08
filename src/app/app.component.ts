@@ -2,6 +2,10 @@ import { Component, OnDestroy, ChangeDetectorRef } from "@angular/core";
 import { MediaMatcher } from "@angular/cdk/layout";
 // Router animation
 import { fadeAnimation } from "./routing/animations";
+// Ngrx Store
+import { Store } from "@ngrx/store";
+import * as fromStore from "./core/store";
+import { Observable } from 'rxjs';
 
 @Component({
     selector: "mcb-app",
@@ -12,6 +16,7 @@ export class AppComponent implements OnDestroy {
     private _mobileQueryListener: () => void;
     mobileQuery: MediaQueryList;
     isUserOnMobile = true;
+    isLoggedIn$: Observable<boolean>;
     // Display options for the sidenav when it is on desktop;
     readonly desktopSidenavOptions: SidenavOptions = {
         fixedInViewport: true,
@@ -29,11 +34,15 @@ export class AppComponent implements OnDestroy {
         fixedTopGap: 0
     };
 
-    sidenavOptions: SidenavOptions;
+    sidenavOptions = this.mobileSidenavOptions;
 
-    constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher) {
+    constructor(
+        changeDetectorRef: ChangeDetectorRef,
+        media: MediaMatcher,
+        private store: Store<fromStore.DataState>
+    ) {
         // Listening to the screen size in order to display either in mobile or desktop mode.
-        this.mobileQuery = media.matchMedia("(max-width: 600px)");
+        this.mobileQuery = media.matchMedia("(max-width: 1024px)");
         this._mobileQueryListener = () => {
             this.handleScreenChange();
             changeDetectorRef.detectChanges();
@@ -43,6 +52,7 @@ export class AppComponent implements OnDestroy {
         // Setting up the sidenav for mobile if the user is on mobile,
         // Or for desktop if the user is on desktop.
         this.handleScreenChange();
+        this.handleLogIn();
     }
 
     ngOnDestroy(): void {
@@ -64,6 +74,10 @@ export class AppComponent implements OnDestroy {
             this.isUserOnMobile = true;
             this.sidenavOptions = this.mobileSidenavOptions;
         }
+    }
+
+    private handleLogIn() {
+        this.isLoggedIn$ = this.store.select(fromStore.getLoggedIn);
     }
 }
 

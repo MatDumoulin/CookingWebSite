@@ -1,0 +1,14 @@
+.profile-picture {
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+    margin-right: 5px;
+}
+
+.avatar {
+    width: 200px;
+}
+
+.user-menu-item {
+    text-align: center;
+}

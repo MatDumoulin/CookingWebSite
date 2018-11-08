@@ -154,7 +154,8 @@
 /* ---- Ingredients & Steps tab -------- */
 
 .recipe-section {
-    width: 540px;
+    max-width: 540px;
+    width: 100%;
     margin-bottom: 1em;
 }
 

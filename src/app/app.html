@@ -2,7 +2,7 @@
     <mcb-top-nav [sideNavRef]="isUserOnMobile ? sidenav : null"></mcb-top-nav>
 
     <mat-sidenav-container class="sidenav-container">
-        <mat-sidenav [mode]="sidenavOptions.mode" [fixedInViewport]="sidenavOptions.fixedInViewport" [opened]="sidenavOptions.opened"
+        <mat-sidenav [mode]="sidenavOptions.mode" [fixedInViewport]="sidenavOptions.fixedInViewport" [opened]="sidenavOptions.opened && isLoggedIn$ | async"
             [disableClose]="sidenavOptions.disableClose" [fixedTopGap]="sidenavOptions.fixedTopGap" #sidenav>
 
             <mcb-sidenav-content></mcb-sidenav-content>

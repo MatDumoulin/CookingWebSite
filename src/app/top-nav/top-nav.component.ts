@@ -1,11 +1,11 @@
 import { Component, Input, OnDestroy } from '@angular/core';
 import { Router, RouterEvent, NavigationEnd } from '@angular/router';
 import { MatSidenav } from '@angular/material';
-import { Subject } from 'rxjs/Subject';
-import { LocalStorageService } from 'angular-2-local-storage';
-import { AuthenticationService } from '../core/authentication/authentication.service';
 import { User } from '../core/authentication/user.model';
-
+// Ngrx Store
+import { Store } from "@ngrx/store";
+import * as fromStore from "../core/store";
+import { Observable } from 'rxjs';
 
 
 @Component({
@@ -13,45 +13,27 @@ import { User } from '../core/authentication/user.model';
     templateUrl: 'top-nav.html',
     styleUrls: ['top-nav.css']
 })
-export class TopNav implements OnDestroy {
+export class TopNavComponent {
     @Input() sideNavRef: MatSidenav;
 
-    user: User = null;
+    user$: Observable<User>;
 
-    displayLogin = false;
+    isUserLoggedIn$: Observable<boolean>;
 
-    NO_LOGIN_ROUTES: Array<string> = ["/login", "/"];
+    constructor(
+        private router: Router,
+        private store: Store<fromStore.DataState>) {
 
-    constructor(private authService: AuthenticationService,
-        private router: Router) {
-        // Listening to the current route to decide wheter we want to display the login/logout button or not.
-        this.router.events.subscribe((event: RouterEvent) => {
-            if (event instanceof NavigationEnd) {
-                this.displayLogin = this.canDisplayLogin();
-            }
-        });
-        // Retrieving the currently connected user.
-        this.authService.currentUserChanged.subscribe((currentUser) => {
-            this.user = currentUser;
-        });
-
-        this.user = this.authService.getCurrentUser();
+        this.user$ = this.store.select(fromStore.getUser);
+        this.isUserLoggedIn$ = this.store.select(fromStore.getLoggedIn);
     }
 
     disconnect() {
-        this.authService.disconnect();
+        this.store.dispatch(new fromStore.LogOut());
     }
 
     login() {
         // Redirect to login window.
         this.router.navigateByUrl('/login');
-    }
-
-    ngOnDestroy() {
-        this.authService.currentUserChanged.unsubscribe();
-    }
-
-    private canDisplayLogin(): boolean {
-        return this.NO_LOGIN_ROUTES.indexOf(this.router.url) === -1;
     }
 }

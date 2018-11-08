@@ -1,0 +1,17 @@
+<div class="mainContainer">
+    <div class="table-header">
+        <button class="button" color="accent" [routerLink]="['/recipe/create']" mat-button>Créer une recette</button>
+        <button class="button" color="accent" (click)="advancedSearch()" mat-button>
+            <mat-icon>search</mat-icon>Recherche avancée</button>
+    </div>
+
+    <div class="grid" #grid>
+        <div class="column" *ngFor="let column of columns">
+            <div class="tile mat-elevation-z2" [ngStyle]="{'width.px': colWidth}" (click)="viewRecipe(recipe._id)" *ngFor="let recipe of column">
+                <img class="recipe-image" [src]="recipe.image? recipe.image: defaultImage">
+                <h4>{{recipe.name}}</h4>
+            </div>
+        </div>
+    </div>
+</div>
+

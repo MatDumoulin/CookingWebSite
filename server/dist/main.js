@@ -353,6 +353,7 @@ var AngularMaterialModule = /** @class */ (function () {
                 _angular_material__WEBPACK_IMPORTED_MODULE_1__["MatSelectModule"],
                 _angular_material__WEBPACK_IMPORTED_MODULE_1__["MatChipsModule"],
                 _angular_material__WEBPACK_IMPORTED_MODULE_1__["MatProgressSpinnerModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_1__["MatMenuModule"],
                 ng_md_time_input__WEBPACK_IMPORTED_MODULE_4__["NgMdTimeInputModule"]
             ]
         })
@@ -377,6 +378,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_cdk_layout__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/cdk/layout */ "./node_modules/@angular/cdk/esm5/layout.es5.js");
 /* harmony import */ var _routing_animations__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./routing/animations */ "./src/app/routing/animations/index.ts");
+/* harmony import */ var _ngrx_store__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @ngrx/store */ "./node_modules/@ngrx/store/fesm5/store.js");
+/* harmony import */ var _core_store__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./core/store */ "./src/app/core/store/index.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -390,9 +393,13 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 // Router animation
 
+// Ngrx Store
+
+
 var AppComponent = /** @class */ (function () {
-    function AppComponent(changeDetectorRef, media) {
+    function AppComponent(changeDetectorRef, media, store) {
         var _this = this;
+        this.store = store;
         this.isUserOnMobile = true;
         // Display options for the sidenav when it is on desktop;
         this.desktopSidenavOptions = {
@@ -410,8 +417,9 @@ var AppComponent = /** @class */ (function () {
             opened: false,
             fixedTopGap: 0
         };
+        this.sidenavOptions = this.mobileSidenavOptions;
         // Listening to the screen size in order to display either in mobile or desktop mode.
-        this.mobileQuery = media.matchMedia("(max-width: 600px)");
+        this.mobileQuery = media.matchMedia("(max-width: 1024px)");
         this._mobileQueryListener = function () {
             _this.handleScreenChange();
             changeDetectorRef.detectChanges();
@@ -420,6 +428,7 @@ var AppComponent = /** @class */ (function () {
         // Setting up the sidenav for mobile if the user is on mobile,
         // Or for desktop if the user is on desktop.
         this.handleScreenChange();
+        this.handleLogIn();
     }
     AppComponent.prototype.ngOnDestroy = function () {
         this.mobileQuery.removeListener(this._mobileQueryListener);
@@ -438,13 +447,18 @@ var AppComponent = /** @class */ (function () {
             this.sidenavOptions = this.mobileSidenavOptions;
         }
     };
+    AppComponent.prototype.handleLogIn = function () {
+        this.isLoggedIn$ = this.store.select(_core_store__WEBPACK_IMPORTED_MODULE_4__["getLoggedIn"]);
+    };
     AppComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: "mcb-app",
             template: __webpack_require__(/*! ./app.html */ "./src/app/app.html"),
             animations: [_routing_animations__WEBPACK_IMPORTED_MODULE_2__["fadeAnimation"]] // register the animation
         }),
-        __metadata("design:paramtypes", [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ChangeDetectorRef"], _angular_cdk_layout__WEBPACK_IMPORTED_MODULE_1__["MediaMatcher"]])
+        __metadata("design:paramtypes", [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ChangeDetectorRef"],
+            _angular_cdk_layout__WEBPACK_IMPORTED_MODULE_1__["MediaMatcher"],
+            _ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"]])
     ], AppComponent);
     return AppComponent;
 }());
@@ -460,7 +474,7 @@ var AppComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"website-container\">\r\n    <mcb-top-nav [sideNavRef]=\"isUserOnMobile ? sidenav : null\"></mcb-top-nav>\r\n\r\n    <mat-sidenav-container class=\"sidenav-container\">\r\n        <mat-sidenav [mode]=\"sidenavOptions.mode\" [fixedInViewport]=\"sidenavOptions.fixedInViewport\" [opened]=\"sidenavOptions.opened\"\r\n            [disableClose]=\"sidenavOptions.disableClose\" [fixedTopGap]=\"sidenavOptions.fixedTopGap\" #sidenav>\r\n\r\n            <mcb-sidenav-content></mcb-sidenav-content>\r\n        </mat-sidenav>\r\n\r\n        <mat-sidenav-content class=\"main-container\" [@fadeAnimation]=\"outlet.isActivated ? outlet.activatedRoute : ''\">\r\n            <router-outlet #outlet=\"outlet\"></router-outlet>\r\n        </mat-sidenav-content>\r\n    </mat-sidenav-container>\r\n</div>\r\n"
+module.exports = "<div class=\"website-container\">\r\n    <mcb-top-nav [sideNavRef]=\"isUserOnMobile ? sidenav : null\"></mcb-top-nav>\r\n\r\n    <mat-sidenav-container class=\"sidenav-container\">\r\n        <mat-sidenav [mode]=\"sidenavOptions.mode\" [fixedInViewport]=\"sidenavOptions.fixedInViewport\" [opened]=\"sidenavOptions.opened && isLoggedIn$ | async\"\r\n            [disableClose]=\"sidenavOptions.disableClose\" [fixedTopGap]=\"sidenavOptions.fixedTopGap\" #sidenav>\r\n\r\n            <mcb-sidenav-content></mcb-sidenav-content>\r\n        </mat-sidenav>\r\n\r\n        <mat-sidenav-content class=\"main-container\" [@fadeAnimation]=\"outlet.isActivated ? outlet.activatedRoute : ''\">\r\n            <router-outlet #outlet=\"outlet\"></router-outlet>\r\n        </mat-sidenav-content>\r\n    </mat-sidenav-container>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -488,12 +502,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _routing_router_store__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./routing/router-store */ "./src/app/routing/router-store/index.ts");
 /* harmony import */ var _pages_pages_module__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./pages/pages.module */ "./src/app/pages/pages.module.ts");
 /* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
-/* harmony import */ var _top_nav_top_nav_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./top-nav/top-nav.component */ "./src/app/top-nav/top-nav.component.ts");
-/* harmony import */ var _sidenav_content_sidenav_content_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./sidenav-content/sidenav-content.component */ "./src/app/sidenav-content/sidenav-content.component.ts");
-/* harmony import */ var _core_authentication_auth_http_interceptor_service__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./core/authentication/auth-http-interceptor.service */ "./src/app/core/authentication/auth-http-interceptor.service.ts");
-/* harmony import */ var _routing_not_found_interceptor_service__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./routing/not-found-interceptor.service */ "./src/app/routing/not-found-interceptor.service.ts");
-/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../environments/environment */ "./src/environments/environment.ts");
-/* harmony import */ var _app_routes__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./app.routes */ "./src/app/app.routes.ts");
+/* harmony import */ var _top_nav_avatar_avatar_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./top-nav/avatar/avatar.component */ "./src/app/top-nav/avatar/avatar.component.ts");
+/* harmony import */ var _top_nav_top_nav_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./top-nav/top-nav.component */ "./src/app/top-nav/top-nav.component.ts");
+/* harmony import */ var _sidenav_content_sidenav_content_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./sidenav-content/sidenav-content.component */ "./src/app/sidenav-content/sidenav-content.component.ts");
+/* harmony import */ var _core_authentication_auth_http_interceptor_service__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./core/authentication/auth-http-interceptor.service */ "./src/app/core/authentication/auth-http-interceptor.service.ts");
+/* harmony import */ var _routing_not_found_interceptor_service__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./routing/not-found-interceptor.service */ "./src/app/routing/not-found-interceptor.service.ts");
+/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../environments/environment */ "./src/environments/environment.ts");
+/* harmony import */ var _app_routes__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./app.routes */ "./src/app/app.routes.ts");
+/* harmony import */ var _angular_service_worker__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! @angular/service-worker */ "./node_modules/@angular/service-worker/fesm5/service-worker.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -517,10 +533,12 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
+
 // Services
 
 
 // Others
+
 
 
 var AppModule = /** @class */ (function () {
@@ -530,30 +548,32 @@ var AppModule = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["NgModule"])({
             declarations: [
                 _app_component__WEBPACK_IMPORTED_MODULE_11__["AppComponent"],
-                _top_nav_top_nav_component__WEBPACK_IMPORTED_MODULE_12__["TopNav"],
-                _sidenav_content_sidenav_content_component__WEBPACK_IMPORTED_MODULE_13__["SidenavContentComponent"]
+                _top_nav_top_nav_component__WEBPACK_IMPORTED_MODULE_13__["TopNavComponent"],
+                _sidenav_content_sidenav_content_component__WEBPACK_IMPORTED_MODULE_14__["SidenavContentComponent"],
+                _top_nav_avatar_avatar_component__WEBPACK_IMPORTED_MODULE_12__["AvatarComponent"]
             ],
             imports: [
                 _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClientModule"],
                 _routing_routing_module__WEBPACK_IMPORTED_MODULE_8__["RoutingModule"],
                 _angular_router__WEBPACK_IMPORTED_MODULE_2__["RouterModule"],
-                _app_routes__WEBPACK_IMPORTED_MODULE_17__["routing"],
+                _app_routes__WEBPACK_IMPORTED_MODULE_18__["routing"],
                 _pages_pages_module__WEBPACK_IMPORTED_MODULE_10__["PagesModule"],
                 angular_2_local_storage__WEBPACK_IMPORTED_MODULE_4__["LocalStorageModule"].withConfig({
-                    prefix: 'mycookingbook',
-                    storageType: 'sessionStorage',
+                    prefix: _environments_environment__WEBPACK_IMPORTED_MODULE_17__["environment"].localStoragePrefix,
+                    storageType: 'localStorage',
                     notifyOptions: { setItem: true, removeItem: true }
                 }),
                 _ngrx_store__WEBPACK_IMPORTED_MODULE_5__["StoreModule"].forRoot(_routing_router_store__WEBPACK_IMPORTED_MODULE_9__["routerReducers"]),
                 _ngrx_effects__WEBPACK_IMPORTED_MODULE_6__["EffectsModule"].forRoot([]),
                 _ngrx_store_devtools__WEBPACK_IMPORTED_MODULE_7__["StoreDevtoolsModule"].instrument({
                     maxAge: 25,
-                    logOnly: _environments_environment__WEBPACK_IMPORTED_MODULE_16__["environment"].production // Restrict extension to log-only mode
+                    logOnly: _environments_environment__WEBPACK_IMPORTED_MODULE_17__["environment"].production // Restrict extension to log-only mode
                 }),
+                _angular_service_worker__WEBPACK_IMPORTED_MODULE_19__["ServiceWorkerModule"].register('/ngsw-worker.js', { enabled: _environments_environment__WEBPACK_IMPORTED_MODULE_17__["environment"].production }),
             ],
             providers: [
-                { provide: _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HTTP_INTERCEPTORS"], useClass: _core_authentication_auth_http_interceptor_service__WEBPACK_IMPORTED_MODULE_14__["TokenInterceptor"], multi: true },
-                { provide: _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HTTP_INTERCEPTORS"], useClass: _routing_not_found_interceptor_service__WEBPACK_IMPORTED_MODULE_15__["NotFoundInterceptor"], multi: true }
+                { provide: _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HTTP_INTERCEPTORS"], useClass: _core_authentication_auth_http_interceptor_service__WEBPACK_IMPORTED_MODULE_15__["TokenInterceptor"], multi: true },
+                { provide: _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HTTP_INTERCEPTORS"], useClass: _routing_not_found_interceptor_service__WEBPACK_IMPORTED_MODULE_16__["NotFoundInterceptor"], multi: true }
             ],
             bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_11__["AppComponent"]]
         })
@@ -1168,15 +1188,15 @@ var RecipenameAutocompleteInput = /** @class */ (function (_super) {
         return _this;
     }
     RecipenameAutocompleteInput_1 = RecipenameAutocompleteInput;
-    RecipenameAutocompleteInput.prototype.ngOnInit = function () {
-    };
+    RecipenameAutocompleteInput.prototype.ngOnInit = function () { };
     RecipenameAutocompleteInput.prototype.optionsGetter = function () {
         var _this = this;
         if (!this.value) {
             this.options = [];
         }
         else {
-            this.recipesAPI.getMatchingRecipeNames(this.value)
+            this.recipesAPI
+                .getMatchingRecipeNames(this.value)
                 .subscribe(function (recipes) {
                 _this.options = recipes;
             });
@@ -1184,15 +1204,25 @@ var RecipenameAutocompleteInput = /** @class */ (function (_super) {
     };
     RecipenameAutocompleteInput = RecipenameAutocompleteInput_1 = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
-            selector: 'recipename-autocomplete-input',
+            selector: "recipename-autocomplete-input",
             template: __webpack_require__(/*! ../autocomplete-input.component.html */ "./src/app/controls/autocomplete-input/autocomplete-input.component.html"),
             styles: [__webpack_require__(/*! ../autocomplete-input.component.css */ "./src/app/controls/autocomplete-input/autocomplete-input.component.css")],
             providers: [
-                { provide: _angular_material_form_field__WEBPACK_IMPORTED_MODULE_4__["MatFormFieldControl"], useExisting: RecipenameAutocompleteInput_1 },
-                { provide: _angular_forms__WEBPACK_IMPORTED_MODULE_1__["NG_VALUE_ACCESSOR"], useExisting: Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["forwardRef"])(function () { return RecipenameAutocompleteInput_1; }), multi: true }
+                {
+                    provide: _angular_material_form_field__WEBPACK_IMPORTED_MODULE_4__["MatFormFieldControl"],
+                    useExisting: RecipenameAutocompleteInput_1
+                },
+                {
+                    provide: _angular_forms__WEBPACK_IMPORTED_MODULE_1__["NG_VALUE_ACCESSOR"],
+                    useExisting: Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["forwardRef"])(function () { return RecipenameAutocompleteInput_1; }),
+                    multi: true
+                }
             ]
         }),
-        __metadata("design:paramtypes", [_angular_cdk_a11y__WEBPACK_IMPORTED_MODULE_5__["FocusMonitor"], _angular_core__WEBPACK_IMPORTED_MODULE_0__["ElementRef"], _angular_core__WEBPACK_IMPORTED_MODULE_0__["Renderer2"], _recipes_shared_api_get_recipes_service__WEBPACK_IMPORTED_MODULE_3__["ApiGetRecipesService"]])
+        __metadata("design:paramtypes", [_angular_cdk_a11y__WEBPACK_IMPORTED_MODULE_5__["FocusMonitor"],
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ElementRef"],
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["Renderer2"],
+            _recipes_shared_api_get_recipes_service__WEBPACK_IMPORTED_MODULE_3__["ApiGetRecipesService"]])
     ], RecipenameAutocompleteInput);
     return RecipenameAutocompleteInput;
     var RecipenameAutocompleteInput_1;
@@ -2009,8 +2039,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AuthenticationGuard", function() { return AuthenticationGuard; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
-/* harmony import */ var _authentication_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./authentication.service */ "./src/app/core/authentication/authentication.service.ts");
+/* harmony import */ var angular_2_local_storage__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! angular-2-local-storage */ "./node_modules/angular-2-local-storage/dist/index.js");
+/* harmony import */ var angular_2_local_storage__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(angular_2_local_storage__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _logger_logger_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../logger/logger.service */ "./src/app/core/logger/logger.service.ts");
+/* harmony import */ var _ngrx_store__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @ngrx/store */ "./node_modules/@ngrx/store/fesm5/store.js");
+/* harmony import */ var _core_store_auth__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../core/store/auth */ "./src/app/core/store/auth/index.ts");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2024,26 +2058,39 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+// Ngrx Store
+
+
+
 var AuthenticationGuard = /** @class */ (function () {
-    function AuthenticationGuard(router, authService, logger) {
+    function AuthenticationGuard(router, store, localStorageService, logger) {
         this.router = router;
-        this.authService = authService;
+        this.store = store;
+        this.localStorageService = localStorageService;
         this.logger = logger;
     }
     AuthenticationGuard.prototype.canActivate = function () {
-        if (this.authService.isLoggedIn()) {
-            return true;
-        }
-        else {
+        var isLoggedIn = false;
+        // First check in the store if the user is logged in.
+        this.store.select(_core_store_auth__WEBPACK_IMPORTED_MODULE_5__["getLoggedIn"]).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["take"])(1)).subscribe(function (loggedIn) {
+            isLoggedIn = loggedIn;
+        });
+        // Here, we can't rely on the store as the source of thruth since when we first come to the website
+        // the store is on a blank state. Instead, we check in the local storage.
+        /*         if (this.localStorageService.get("user")) {
+                    isLoggedIn = true;
+                } */
+        if (!isLoggedIn) {
             this.logger.info("Veuillez vous connecter avant d'accéder à cette page.");
             this.router.navigateByUrl('/login');
-            return false;
         }
+        return isLoggedIn;
     };
     AuthenticationGuard = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])(),
         __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"],
-            _authentication_service__WEBPACK_IMPORTED_MODULE_2__["AuthenticationService"],
+            _ngrx_store__WEBPACK_IMPORTED_MODULE_4__["Store"],
+            angular_2_local_storage__WEBPACK_IMPORTED_MODULE_2__["LocalStorageService"],
             _logger_logger_service__WEBPACK_IMPORTED_MODULE_3__["LoggerService"]])
     ], AuthenticationGuard);
     return AuthenticationGuard;
@@ -2071,6 +2118,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var angular_2_local_storage__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! angular-2-local-storage */ "./node_modules/angular-2-local-storage/dist/index.js");
 /* harmony import */ var angular_2_local_storage__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(angular_2_local_storage__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var _logger_logger_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../logger/logger.service */ "./src/app/core/logger/logger.service.ts");
+/* harmony import */ var _ngrx_store__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @ngrx/store */ "./node_modules/@ngrx/store/fesm5/store.js");
+/* harmony import */ var _core_store_auth__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../core/store/auth */ "./src/app/core/store/auth/index.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2087,10 +2136,14 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+// Ngrx
+
+
 var TokenInterceptor = /** @class */ (function () {
-    function TokenInterceptor(localStorageService, logger, router, injector) {
+    function TokenInterceptor(localStorageService, logger, store, router, injector) {
         this.localStorageService = localStorageService;
         this.logger = logger;
+        this.store = store;
         this.router = router;
         this.injector = injector;
         this.authService = null; // Got to load it async to prevent circular import.
@@ -2113,7 +2166,7 @@ var TokenInterceptor = /** @class */ (function () {
             if (err instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpErrorResponse"]) {
                 if (err.status === 401) {
                     // Making sure everything is disconnected properly.
-                    _this.authService.clearSession();
+                    _this.store.dispatch(new _core_store_auth__WEBPACK_IMPORTED_MODULE_8__["LoggedOut"]());
                     _this.logger.error("Veuillez vous connecter pour effectuer cette action.", "J'ai compris");
                     _this.router.navigateByUrl('/login');
                 }
@@ -2124,6 +2177,7 @@ var TokenInterceptor = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])(),
         __metadata("design:paramtypes", [angular_2_local_storage__WEBPACK_IMPORTED_MODULE_5__["LocalStorageService"],
             _logger_logger_service__WEBPACK_IMPORTED_MODULE_6__["LoggerService"],
+            _ngrx_store__WEBPACK_IMPORTED_MODULE_7__["Store"],
             _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"],
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["Injector"]])
     ], TokenInterceptor);
@@ -2145,15 +2199,14 @@ var TokenInterceptor = /** @class */ (function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AuthenticationService", function() { return AuthenticationService; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
-/* harmony import */ var rxjs_Subject__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs/Subject */ "./node_modules/rxjs-compat/_esm5/Subject.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var angular_2_local_storage__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! angular-2-local-storage */ "./node_modules/angular-2-local-storage/dist/index.js");
-/* harmony import */ var angular_2_local_storage__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(angular_2_local_storage__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _google_authentication_google_authentication_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./google-authentication/google-authentication.service */ "./src/app/core/authentication/google-authentication/google-authentication.service.ts");
-/* harmony import */ var _ngrx_store__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @ngrx/store */ "./node_modules/@ngrx/store/fesm5/store.js");
-/* harmony import */ var _core_store__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../core/store */ "./src/app/core/store/index.ts");
+/* harmony import */ var rxjs_Subject__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! rxjs/Subject */ "./node_modules/rxjs-compat/_esm5/Subject.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var angular_2_local_storage__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! angular-2-local-storage */ "./node_modules/angular-2-local-storage/dist/index.js");
+/* harmony import */ var angular_2_local_storage__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(angular_2_local_storage__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _google_authentication_google_authentication_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./google-authentication/google-authentication.service */ "./src/app/core/authentication/google-authentication/google-authentication.service.ts");
+/* harmony import */ var _ngrx_store__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @ngrx/store */ "./node_modules/@ngrx/store/fesm5/store.js");
+/* harmony import */ var _core_store__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../core/store */ "./src/app/core/store/index.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2168,41 +2221,23 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
-
 // Ngrx Store
 
 
 var AuthenticationService = /** @class */ (function () {
-    function AuthenticationService(googleAuth, localStorageService, router, store, zone) {
+    function AuthenticationService(googleAuth, localStorageService, store, zone) {
         this.googleAuth = googleAuth;
         this.localStorageService = localStorageService;
-        this.router = router;
         this.store = store;
         this.zone = zone;
-        this.currentUserChanged = new rxjs_Subject__WEBPACK_IMPORTED_MODULE_2__["Subject"]();
+        this.currentUserChanged = new rxjs_Subject__WEBPACK_IMPORTED_MODULE_1__["Subject"]();
     }
-    AuthenticationService.prototype.setSession = function (authResult) {
-        var expiresAt = moment__WEBPACK_IMPORTED_MODULE_3__().add(authResult.tokenExpiresIn, 'second');
-        this.localStorageService.set("user", authResult.user);
-        this.localStorageService.set('auth_token', authResult.token);
-        this.localStorageService.set("token_expires_at", JSON.stringify(expiresAt.valueOf()));
-    };
-    AuthenticationService.prototype.clearSession = function () {
-        this.localStorageService.remove("user");
-        this.localStorageService.remove('auth_token');
-        this.localStorageService.remove('token_expires_at');
-        // Clearing all loaded data from app.
-        this.store.dispatch(new _core_store__WEBPACK_IMPORTED_MODULE_7__["ClearUserData"]());
-    };
     AuthenticationService.prototype.onSignInWithGoogle = function (googleUser) {
         var _this = this;
         // We have to run this code inside of an Angular zone since the Google api callback does not run in Angular.
         this.zone.run(function () {
             _this.googleAuth.onSignedIn(googleUser).subscribe(function (response) {
-                var currentUser = response.user;
-                _this.setSession(response);
-                _this.router.navigateByUrl('/recipes');
-                _this.currentUserChanged.next(currentUser);
+                _this.store.dispatch(new _core_store__WEBPACK_IMPORTED_MODULE_6__["LoggedIn"](response));
             });
         });
     };
@@ -2211,32 +2246,23 @@ var AuthenticationService = /** @class */ (function () {
         this.googleAuth.disconnect().then(function () {
             // We have to run this code inside of an Angular zone since the Google api callback does not run in Angular.
             _this.zone.run(function () {
-                _this.clearSession();
-                _this.router.navigateByUrl('/login');
-                _this.currentUserChanged.next(null);
+                _this.store.dispatch(new _core_store__WEBPACK_IMPORTED_MODULE_6__["LoggedOut"]());
             });
         });
-    };
-    AuthenticationService.prototype.isLoggedIn = function () {
-        return moment__WEBPACK_IMPORTED_MODULE_3__().isBefore(this.getExpiration());
-    };
-    AuthenticationService.prototype.isLoggedOut = function () {
-        return !this.isLoggedIn();
     };
     AuthenticationService.prototype.getExpiration = function () {
         var expiration = this.localStorageService.get("token_expires_at");
         var expiresAt = JSON.parse(expiration);
-        return moment__WEBPACK_IMPORTED_MODULE_3__(expiresAt);
+        return moment__WEBPACK_IMPORTED_MODULE_2__(expiresAt);
     };
     AuthenticationService.prototype.getCurrentUser = function () {
         return this.localStorageService.get("user");
     };
     AuthenticationService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])(),
-        __metadata("design:paramtypes", [_google_authentication_google_authentication_service__WEBPACK_IMPORTED_MODULE_5__["GoogleAuthenticationService"],
-            angular_2_local_storage__WEBPACK_IMPORTED_MODULE_4__["LocalStorageService"],
-            _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"],
-            _ngrx_store__WEBPACK_IMPORTED_MODULE_6__["Store"],
+        __metadata("design:paramtypes", [_google_authentication_google_authentication_service__WEBPACK_IMPORTED_MODULE_4__["GoogleAuthenticationService"],
+            angular_2_local_storage__WEBPACK_IMPORTED_MODULE_3__["LocalStorageService"],
+            _ngrx_store__WEBPACK_IMPORTED_MODULE_5__["Store"],
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["NgZone"]])
     ], AuthenticationService);
     return AuthenticationService;
@@ -2364,15 +2390,15 @@ var CoreModule = /** @class */ (function () {
                 _angular_material__WEBPACK_IMPORTED_MODULE_2__["MatSnackBarModule"],
                 _store_data_store_module__WEBPACK_IMPORTED_MODULE_8__["DataStoreModule"]
             ],
+            exports: [
+                _store_data_store_module__WEBPACK_IMPORTED_MODULE_8__["DataStoreModule"]
+            ],
             providers: [
                 _logger_logger_service__WEBPACK_IMPORTED_MODULE_3__["LoggerService"],
                 _images_image_loader_service__WEBPACK_IMPORTED_MODULE_4__["ImageLoaderService"],
                 _authentication_authentication_service__WEBPACK_IMPORTED_MODULE_5__["AuthenticationService"],
                 _authentication_google_authentication_google_authentication_service__WEBPACK_IMPORTED_MODULE_6__["GoogleAuthenticationService"],
                 _authentication_auth_guard_service__WEBPACK_IMPORTED_MODULE_7__["AuthenticationGuard"]
-            ],
-            exports: [
-                _store_data_store_module__WEBPACK_IMPORTED_MODULE_8__["DataStoreModule"]
             ]
         })
     ], CoreModule);
@@ -2658,6 +2684,396 @@ var LoggerService = /** @class */ (function (_super) {
 
 /***/ }),
 
+/***/ "./src/app/core/store/auth/actions/auth.action.ts":
+/*!********************************************************!*\
+  !*** ./src/app/core/store/auth/actions/auth.action.ts ***!
+  \********************************************************/
+/*! exports provided: LOGGED_IN, LOG_OUT, LOGGED_OUT, LoggedIn, LogOut, LoggedOut */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOGGED_IN", function() { return LOGGED_IN; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOG_OUT", function() { return LOG_OUT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOGGED_OUT", function() { return LOGGED_OUT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LoggedIn", function() { return LoggedIn; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LogOut", function() { return LogOut; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LoggedOut", function() { return LoggedOut; });
+var LOGGED_IN = '[Auth] User is logged in';
+var LOG_OUT = '[Auth] User wants to log out';
+var LOGGED_OUT = '[Auth] User is logged out';
+var LoggedIn = /** @class */ (function () {
+    function LoggedIn(payload) {
+        this.payload = payload;
+        this.type = LOGGED_IN;
+    }
+    return LoggedIn;
+}());
+
+var LogOut = /** @class */ (function () {
+    function LogOut() {
+        this.type = LOG_OUT;
+    }
+    return LogOut;
+}());
+
+var LoggedOut = /** @class */ (function () {
+    function LoggedOut() {
+        this.type = LOGGED_OUT;
+    }
+    return LoggedOut;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/core/store/auth/actions/index.ts":
+/*!**************************************************!*\
+  !*** ./src/app/core/store/auth/actions/index.ts ***!
+  \**************************************************/
+/*! exports provided: LOGGED_IN, LOG_OUT, LOGGED_OUT, LoggedIn, LogOut, LoggedOut */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _auth_action__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./auth.action */ "./src/app/core/store/auth/actions/auth.action.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LOGGED_IN", function() { return _auth_action__WEBPACK_IMPORTED_MODULE_0__["LOGGED_IN"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LOG_OUT", function() { return _auth_action__WEBPACK_IMPORTED_MODULE_0__["LOG_OUT"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LOGGED_OUT", function() { return _auth_action__WEBPACK_IMPORTED_MODULE_0__["LOGGED_OUT"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LoggedIn", function() { return _auth_action__WEBPACK_IMPORTED_MODULE_0__["LoggedIn"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LogOut", function() { return _auth_action__WEBPACK_IMPORTED_MODULE_0__["LogOut"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LoggedOut", function() { return _auth_action__WEBPACK_IMPORTED_MODULE_0__["LoggedOut"]; });
+
+
+
+
+/***/ }),
+
+/***/ "./src/app/core/store/auth/effects/auth.effects.ts":
+/*!*********************************************************!*\
+  !*** ./src/app/core/store/auth/effects/auth.effects.ts ***!
+  \*********************************************************/
+/*! exports provided: AuthEffects */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AuthEffects", function() { return AuthEffects; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var angular_2_local_storage__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! angular-2-local-storage */ "./node_modules/angular-2-local-storage/dist/index.js");
+/* harmony import */ var angular_2_local_storage__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(angular_2_local_storage__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _ngrx_store__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @ngrx/store */ "./node_modules/@ngrx/store/fesm5/store.js");
+/* harmony import */ var _ngrx_effects__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @ngrx/effects */ "./node_modules/@ngrx/effects/fesm5/effects.js");
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../actions */ "./src/app/core/store/auth/actions/index.ts");
+/* harmony import */ var _recipes_actions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../recipes/actions */ "./src/app/core/store/recipes/actions/index.ts");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
+/* harmony import */ var _authentication_authentication_service__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../../authentication/authentication.service */ "./src/app/core/authentication/authentication.service.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+// Moment
+
+// Ngrx
+
+
+
+
+// Rxjs
+
+// Auth service (to interact with federate log in providers)
+
+var AuthEffects = /** @class */ (function () {
+    function AuthEffects(actions$, authService, localStorageService, router, store) {
+        var _this = this;
+        this.actions$ = actions$;
+        this.authService = authService;
+        this.localStorageService = localStorageService;
+        this.router = router;
+        this.store = store;
+        /**
+         * When a user logs in, cache its data.
+         */
+        this.loggedIn$ = this.actions$
+            .ofType(_actions__WEBPACK_IMPORTED_MODULE_6__["LOGGED_IN"])
+            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_8__["tap"])(function (action) {
+            var authResult = action.payload;
+            var expiresAt = moment__WEBPACK_IMPORTED_MODULE_3__().add(authResult.tokenExpiresIn, 'second');
+            _this.localStorageService.set("user", authResult.user);
+            _this.localStorageService.set('auth_token', authResult.token);
+            _this.localStorageService.set("token_expires_at", JSON.stringify(expiresAt.valueOf()));
+            // Redirect the user to its home page.
+            _this.router.navigateByUrl('/recipes');
+        }));
+        /**
+         * When a user logs out, clear all of its client side data.
+         */
+        this.logOut$ = this.actions$
+            .ofType(_actions__WEBPACK_IMPORTED_MODULE_6__["LOG_OUT"])
+            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_8__["tap"])(function () {
+            _this.authService.disconnect();
+        }));
+        /**
+         * When a user logs out, clear all of its client side data.
+         */
+        this.loggedOut$ = this.actions$
+            .ofType(_actions__WEBPACK_IMPORTED_MODULE_6__["LOGGED_OUT"])
+            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_8__["tap"])(function () {
+            _this.localStorageService.remove("user", "auth_token", "token_expires_at");
+            // Clearing all loaded data from app.
+            _this.store.dispatch(new _recipes_actions__WEBPACK_IMPORTED_MODULE_7__["ClearUserData"]());
+            _this.router.navigateByUrl('/login');
+        }));
+    }
+    __decorate([
+        Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_5__["Effect"])({ dispatch: false }),
+        __metadata("design:type", Object)
+    ], AuthEffects.prototype, "loggedIn$", void 0);
+    __decorate([
+        Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_5__["Effect"])({ dispatch: false }),
+        __metadata("design:type", Object)
+    ], AuthEffects.prototype, "logOut$", void 0);
+    __decorate([
+        Object(_ngrx_effects__WEBPACK_IMPORTED_MODULE_5__["Effect"])({ dispatch: false }),
+        __metadata("design:type", Object)
+    ], AuthEffects.prototype, "loggedOut$", void 0);
+    AuthEffects = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])(),
+        __metadata("design:paramtypes", [_ngrx_effects__WEBPACK_IMPORTED_MODULE_5__["Actions"],
+            _authentication_authentication_service__WEBPACK_IMPORTED_MODULE_9__["AuthenticationService"],
+            angular_2_local_storage__WEBPACK_IMPORTED_MODULE_2__["LocalStorageService"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"],
+            _ngrx_store__WEBPACK_IMPORTED_MODULE_4__["Store"]])
+    ], AuthEffects);
+    return AuthEffects;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/core/store/auth/effects/index.ts":
+/*!**************************************************!*\
+  !*** ./src/app/core/store/auth/effects/index.ts ***!
+  \**************************************************/
+/*! exports provided: authEffects, AuthEffects */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "authEffects", function() { return authEffects; });
+/* harmony import */ var _auth_effects__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./auth.effects */ "./src/app/core/store/auth/effects/auth.effects.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "AuthEffects", function() { return _auth_effects__WEBPACK_IMPORTED_MODULE_0__["AuthEffects"]; });
+
+
+
+var authEffects = [_auth_effects__WEBPACK_IMPORTED_MODULE_0__["AuthEffects"]];
+
+
+/***/ }),
+
+/***/ "./src/app/core/store/auth/index.ts":
+/*!******************************************!*\
+  !*** ./src/app/core/store/auth/index.ts ***!
+  \******************************************/
+/*! exports provided: authReducer, LOGGED_IN, LOG_OUT, LOGGED_OUT, LoggedIn, LogOut, LoggedOut, getAuthState, getLoggedIn, getUser */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./actions */ "./src/app/core/store/auth/actions/index.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LOGGED_IN", function() { return _actions__WEBPACK_IMPORTED_MODULE_0__["LOGGED_IN"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LOG_OUT", function() { return _actions__WEBPACK_IMPORTED_MODULE_0__["LOG_OUT"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LOGGED_OUT", function() { return _actions__WEBPACK_IMPORTED_MODULE_0__["LOGGED_OUT"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LoggedIn", function() { return _actions__WEBPACK_IMPORTED_MODULE_0__["LoggedIn"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LogOut", function() { return _actions__WEBPACK_IMPORTED_MODULE_0__["LogOut"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LoggedOut", function() { return _actions__WEBPACK_IMPORTED_MODULE_0__["LoggedOut"]; });
+
+/* harmony import */ var _selectors__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./selectors */ "./src/app/core/store/auth/selectors/index.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getAuthState", function() { return _selectors__WEBPACK_IMPORTED_MODULE_1__["getAuthState"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getLoggedIn", function() { return _selectors__WEBPACK_IMPORTED_MODULE_1__["getLoggedIn"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getUser", function() { return _selectors__WEBPACK_IMPORTED_MODULE_1__["getUser"]; });
+
+/* harmony import */ var _reducers__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./reducers */ "./src/app/core/store/auth/reducers/index.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "authReducer", function() { return _reducers__WEBPACK_IMPORTED_MODULE_2__["authReducer"]; });
+
+
+
+
+
+
+/***/ }),
+
+/***/ "./src/app/core/store/auth/reducers/auth-state-local-storage.ts":
+/*!**********************************************************************!*\
+  !*** ./src/app/core/store/auth/reducers/auth-state-local-storage.ts ***!
+  \**********************************************************************/
+/*! exports provided: getUserFromStorage */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getUserFromStorage", function() { return getUserFromStorage; });
+/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../environments/environment */ "./src/environments/environment.ts");
+
+/**
+ * Returns undefined if there is no user in the local storage.
+ */
+function getUserFromStorage() {
+    try {
+        var serializedState = localStorage.getItem(_environments_environment__WEBPACK_IMPORTED_MODULE_0__["environment"].localStoragePrefix + ".user");
+        if (serializedState === null) {
+            return undefined;
+        }
+        return JSON.parse(serializedState);
+    }
+    catch (error) {
+        console.log("Local storage is not enabled... Setting blank initial state.");
+        return undefined;
+    }
+}
+
+
+/***/ }),
+
+/***/ "./src/app/core/store/auth/reducers/auth.reducer.ts":
+/*!**********************************************************!*\
+  !*** ./src/app/core/store/auth/reducers/auth.reducer.ts ***!
+  \**********************************************************/
+/*! exports provided: InitialAuthState, authReducer, getLoggedIn, getUser */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "InitialAuthState", function() { return InitialAuthState; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "authReducer", function() { return authReducer; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getLoggedIn", function() { return getLoggedIn; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getUser", function() { return getUser; });
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../actions */ "./src/app/core/store/auth/actions/index.ts");
+/* harmony import */ var _auth_state_local_storage__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./auth-state-local-storage */ "./src/app/core/store/auth/reducers/auth-state-local-storage.ts");
+var __assign = (undefined && undefined.__assign) || Object.assign || function(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+            t[p] = s[p];
+    }
+    return t;
+};
+
+
+// First, we check if the user is already logged in from the local storage.
+var userFromLocalStorage = Object(_auth_state_local_storage__WEBPACK_IMPORTED_MODULE_1__["getUserFromStorage"])();
+var InitialAuthState = {
+    isLoggedIn: userFromLocalStorage !== undefined,
+    user: userFromLocalStorage ? userFromLocalStorage : null
+};
+function authReducer(state, action) {
+    if (state === void 0) { state = InitialAuthState; }
+    switch (action.type) {
+        case _actions__WEBPACK_IMPORTED_MODULE_0__["LOGGED_IN"]: {
+            return __assign({}, state, { isLoggedIn: true, user: action.payload.user });
+        }
+        case _actions__WEBPACK_IMPORTED_MODULE_0__["LOGGED_OUT"]: {
+            return __assign({}, state, { isLoggedIn: false, user: null });
+        }
+        default: {
+            return state;
+        }
+    }
+}
+var getLoggedIn = function (state) { return state.isLoggedIn; };
+var getUser = function (state) { return state.user; };
+
+
+/***/ }),
+
+/***/ "./src/app/core/store/auth/reducers/index.ts":
+/*!***************************************************!*\
+  !*** ./src/app/core/store/auth/reducers/index.ts ***!
+  \***************************************************/
+/*! exports provided: authReducer */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _auth_reducer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./auth.reducer */ "./src/app/core/store/auth/reducers/auth.reducer.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "authReducer", function() { return _auth_reducer__WEBPACK_IMPORTED_MODULE_0__["authReducer"]; });
+
+
+
+
+/***/ }),
+
+/***/ "./src/app/core/store/auth/selectors/auth.selector.ts":
+/*!************************************************************!*\
+  !*** ./src/app/core/store/auth/selectors/auth.selector.ts ***!
+  \************************************************************/
+/*! exports provided: getAuthState, getLoggedIn, getUser */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getAuthState", function() { return getAuthState; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getLoggedIn", function() { return getLoggedIn; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getUser", function() { return getUser; });
+/* harmony import */ var _ngrx_store__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @ngrx/store */ "./node_modules/@ngrx/store/fesm5/store.js");
+/* harmony import */ var _store_state__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../store-state */ "./src/app/core/store/store-state.ts");
+/* harmony import */ var _reducers_auth_reducer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../reducers/auth.reducer */ "./src/app/core/store/auth/reducers/auth.reducer.ts");
+
+
+
+var getAuthState = Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_0__["createSelector"])(_store_state__WEBPACK_IMPORTED_MODULE_1__["getDataState"], function (state) { return state.auth; });
+var getLoggedIn = Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_0__["createSelector"])(getAuthState, _reducers_auth_reducer__WEBPACK_IMPORTED_MODULE_2__["getLoggedIn"]);
+var getUser = Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_0__["createSelector"])(getAuthState, _reducers_auth_reducer__WEBPACK_IMPORTED_MODULE_2__["getUser"]);
+
+
+/***/ }),
+
+/***/ "./src/app/core/store/auth/selectors/index.ts":
+/*!****************************************************!*\
+  !*** ./src/app/core/store/auth/selectors/index.ts ***!
+  \****************************************************/
+/*! exports provided: getAuthState, getLoggedIn, getUser */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _auth_selector__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./auth.selector */ "./src/app/core/store/auth/selectors/auth.selector.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getAuthState", function() { return _auth_selector__WEBPACK_IMPORTED_MODULE_0__["getAuthState"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getLoggedIn", function() { return _auth_selector__WEBPACK_IMPORTED_MODULE_0__["getLoggedIn"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getUser", function() { return _auth_selector__WEBPACK_IMPORTED_MODULE_0__["getUser"]; });
+
+
+
+
+/***/ }),
+
 /***/ "./src/app/core/store/data-store.module.ts":
 /*!*************************************************!*\
   !*** ./src/app/core/store/data-store.module.ts ***!
@@ -2672,15 +3088,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
 /* harmony import */ var _ngrx_store__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @ngrx/store */ "./node_modules/@ngrx/store/fesm5/store.js");
 /* harmony import */ var _ngrx_effects__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @ngrx/effects */ "./node_modules/@ngrx/effects/fesm5/effects.js");
-/* harmony import */ var _recipes_reducers__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./recipes/reducers */ "./src/app/core/store/recipes/reducers/index.ts");
+/* harmony import */ var _store_state__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./store-state */ "./src/app/core/store/store-state.ts");
 /* harmony import */ var _recipes_effects__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./recipes/effects */ "./src/app/core/store/recipes/effects/index.ts");
-/* harmony import */ var _recipes_shared_api_get_recipes_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../recipes/shared/api-get-recipes.service */ "./src/app/recipes/shared/api-get-recipes.service.ts");
+/* harmony import */ var _auth_effects__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./auth/effects */ "./src/app/core/store/auth/effects/index.ts");
+/* harmony import */ var _recipes_shared_api_get_recipes_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../recipes/shared/api-get-recipes.service */ "./src/app/recipes/shared/api-get-recipes.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -2696,11 +3114,11 @@ var DataStoreModule = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["NgModule"])({
             imports: [
                 _angular_common__WEBPACK_IMPORTED_MODULE_1__["CommonModule"],
-                _ngrx_store__WEBPACK_IMPORTED_MODULE_2__["StoreModule"].forFeature('data', _recipes_reducers__WEBPACK_IMPORTED_MODULE_4__["reducers"]),
-                _ngrx_effects__WEBPACK_IMPORTED_MODULE_3__["EffectsModule"].forFeature(_recipes_effects__WEBPACK_IMPORTED_MODULE_5__["effects"])
+                _ngrx_store__WEBPACK_IMPORTED_MODULE_2__["StoreModule"].forFeature('data', _store_state__WEBPACK_IMPORTED_MODULE_4__["reducers"]),
+                _ngrx_effects__WEBPACK_IMPORTED_MODULE_3__["EffectsModule"].forFeature(_recipes_effects__WEBPACK_IMPORTED_MODULE_5__["recipesEffects"].concat(_auth_effects__WEBPACK_IMPORTED_MODULE_6__["authEffects"]))
             ],
             providers: [
-                _recipes_shared_api_get_recipes_service__WEBPACK_IMPORTED_MODULE_6__["ApiGetRecipesService"]
+                _recipes_shared_api_get_recipes_service__WEBPACK_IMPORTED_MODULE_7__["ApiGetRecipesService"]
             ]
         })
     ], DataStoreModule);
@@ -2715,107 +3133,129 @@ var DataStoreModule = /** @class */ (function () {
 /*!*************************************!*\
   !*** ./src/app/core/store/index.ts ***!
   \*************************************/
-/*! exports provided: reducers, getDataState, LOAD_RECIPES, LOAD_RECIPES_FAIL, LOAD_RECIPES_SUCCESS, HAS_LOADED_ALL_RECIPES, LOAD_RECIPE, RECIPE_NOT_FOUND, SEARCH_RECIPES, CANCEL_SEARCH_RECIPES, CREATE_RECIPE, CREATE_RECIPE_FAIL, CREATE_RECIPE_SUCCESS, UPDATE_RECIPE, UPDATE_RECIPE_FAIL, UPDATE_RECIPE_SUCCESS, DELETE_RECIPE, DELETE_RECIPE_FAIL, DELETE_RECIPE_SUCCESS, CLEAR_USER_DATA, LoadRecipes, LoadRecipe, LoadRecipesFail, RecipeNotFound, LoadRecipesSuccess, HasLoadedAllRecipes, SearchRecipes, CancelSearchRecipes, CreateRecipe, CreateRecipeFail, CreateRecipeSuccess, UpdateRecipe, UpdateRecipeFail, UpdateRecipeSuccess, DeleteRecipe, DeleteRecipeFail, DeleteRecipeSuccess, ClearUserData, getRecipesState, getRecipesEntities, getAllRecipes, getRecipesLoaded, getRecipesLoading, getCanLoadMoreRecipes, getSearchIntent, getSearchedRecipes, getSelectedRecipe */
+/*! exports provided: reducers, getDataState, authReducer, recipesReducer, LOAD_RECIPES, LOAD_RECIPES_FAIL, LOAD_RECIPES_SUCCESS, HAS_LOADED_ALL_RECIPES, LOAD_RECIPE, RECIPE_NOT_FOUND, SEARCH_RECIPES, CANCEL_SEARCH_RECIPES, CREATE_RECIPE, CREATE_RECIPE_FAIL, CREATE_RECIPE_SUCCESS, UPDATE_RECIPE, UPDATE_RECIPE_FAIL, UPDATE_RECIPE_SUCCESS, DELETE_RECIPE, DELETE_RECIPE_FAIL, DELETE_RECIPE_SUCCESS, CLEAR_USER_DATA, LoadRecipes, LoadRecipe, LoadRecipesFail, RecipeNotFound, LoadRecipesSuccess, HasLoadedAllRecipes, SearchRecipes, CancelSearchRecipes, CreateRecipe, CreateRecipeFail, CreateRecipeSuccess, UpdateRecipe, UpdateRecipeFail, UpdateRecipeSuccess, DeleteRecipe, DeleteRecipeFail, DeleteRecipeSuccess, ClearUserData, LOGGED_IN, LOG_OUT, LOGGED_OUT, LoggedIn, LogOut, LoggedOut, getAuthState, getLoggedIn, getUser, getRecipesState, getRecipesEntities, getAllRecipes, getRecipesLoaded, getRecipesLoading, getCanLoadMoreRecipes, getSearchIntent, getSearchedRecipes, getSelectedRecipe */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _recipes_reducers__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./recipes/reducers */ "./src/app/core/store/recipes/reducers/index.ts");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "reducers", function() { return _recipes_reducers__WEBPACK_IMPORTED_MODULE_0__["reducers"]; });
+/* harmony import */ var _auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./auth */ "./src/app/core/store/auth/index.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "authReducer", function() { return _auth__WEBPACK_IMPORTED_MODULE_0__["authReducer"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getDataState", function() { return _recipes_reducers__WEBPACK_IMPORTED_MODULE_0__["getDataState"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LOGGED_IN", function() { return _auth__WEBPACK_IMPORTED_MODULE_0__["LOGGED_IN"]; });
 
-/* harmony import */ var _recipes_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./recipes/actions */ "./src/app/core/store/recipes/actions/index.ts");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LOAD_RECIPES", function() { return _recipes_actions__WEBPACK_IMPORTED_MODULE_1__["LOAD_RECIPES"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LOG_OUT", function() { return _auth__WEBPACK_IMPORTED_MODULE_0__["LOG_OUT"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LOAD_RECIPES_FAIL", function() { return _recipes_actions__WEBPACK_IMPORTED_MODULE_1__["LOAD_RECIPES_FAIL"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LOGGED_OUT", function() { return _auth__WEBPACK_IMPORTED_MODULE_0__["LOGGED_OUT"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LOAD_RECIPES_SUCCESS", function() { return _recipes_actions__WEBPACK_IMPORTED_MODULE_1__["LOAD_RECIPES_SUCCESS"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LoggedIn", function() { return _auth__WEBPACK_IMPORTED_MODULE_0__["LoggedIn"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "HAS_LOADED_ALL_RECIPES", function() { return _recipes_actions__WEBPACK_IMPORTED_MODULE_1__["HAS_LOADED_ALL_RECIPES"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LogOut", function() { return _auth__WEBPACK_IMPORTED_MODULE_0__["LogOut"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LOAD_RECIPE", function() { return _recipes_actions__WEBPACK_IMPORTED_MODULE_1__["LOAD_RECIPE"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LoggedOut", function() { return _auth__WEBPACK_IMPORTED_MODULE_0__["LoggedOut"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "RECIPE_NOT_FOUND", function() { return _recipes_actions__WEBPACK_IMPORTED_MODULE_1__["RECIPE_NOT_FOUND"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getAuthState", function() { return _auth__WEBPACK_IMPORTED_MODULE_0__["getAuthState"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "SEARCH_RECIPES", function() { return _recipes_actions__WEBPACK_IMPORTED_MODULE_1__["SEARCH_RECIPES"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getLoggedIn", function() { return _auth__WEBPACK_IMPORTED_MODULE_0__["getLoggedIn"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "CANCEL_SEARCH_RECIPES", function() { return _recipes_actions__WEBPACK_IMPORTED_MODULE_1__["CANCEL_SEARCH_RECIPES"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getUser", function() { return _auth__WEBPACK_IMPORTED_MODULE_0__["getUser"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "CREATE_RECIPE", function() { return _recipes_actions__WEBPACK_IMPORTED_MODULE_1__["CREATE_RECIPE"]; });
+/* harmony import */ var _recipes__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./recipes */ "./src/app/core/store/recipes/index.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "recipesReducer", function() { return _recipes__WEBPACK_IMPORTED_MODULE_1__["recipesReducer"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "CREATE_RECIPE_FAIL", function() { return _recipes_actions__WEBPACK_IMPORTED_MODULE_1__["CREATE_RECIPE_FAIL"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LOAD_RECIPES", function() { return _recipes__WEBPACK_IMPORTED_MODULE_1__["LOAD_RECIPES"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "CREATE_RECIPE_SUCCESS", function() { return _recipes_actions__WEBPACK_IMPORTED_MODULE_1__["CREATE_RECIPE_SUCCESS"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LOAD_RECIPES_FAIL", function() { return _recipes__WEBPACK_IMPORTED_MODULE_1__["LOAD_RECIPES_FAIL"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "UPDATE_RECIPE", function() { return _recipes_actions__WEBPACK_IMPORTED_MODULE_1__["UPDATE_RECIPE"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LOAD_RECIPES_SUCCESS", function() { return _recipes__WEBPACK_IMPORTED_MODULE_1__["LOAD_RECIPES_SUCCESS"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "UPDATE_RECIPE_FAIL", function() { return _recipes_actions__WEBPACK_IMPORTED_MODULE_1__["UPDATE_RECIPE_FAIL"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "HAS_LOADED_ALL_RECIPES", function() { return _recipes__WEBPACK_IMPORTED_MODULE_1__["HAS_LOADED_ALL_RECIPES"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "UPDATE_RECIPE_SUCCESS", function() { return _recipes_actions__WEBPACK_IMPORTED_MODULE_1__["UPDATE_RECIPE_SUCCESS"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LOAD_RECIPE", function() { return _recipes__WEBPACK_IMPORTED_MODULE_1__["LOAD_RECIPE"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "DELETE_RECIPE", function() { return _recipes_actions__WEBPACK_IMPORTED_MODULE_1__["DELETE_RECIPE"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "RECIPE_NOT_FOUND", function() { return _recipes__WEBPACK_IMPORTED_MODULE_1__["RECIPE_NOT_FOUND"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "DELETE_RECIPE_FAIL", function() { return _recipes_actions__WEBPACK_IMPORTED_MODULE_1__["DELETE_RECIPE_FAIL"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "SEARCH_RECIPES", function() { return _recipes__WEBPACK_IMPORTED_MODULE_1__["SEARCH_RECIPES"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "DELETE_RECIPE_SUCCESS", function() { return _recipes_actions__WEBPACK_IMPORTED_MODULE_1__["DELETE_RECIPE_SUCCESS"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "CANCEL_SEARCH_RECIPES", function() { return _recipes__WEBPACK_IMPORTED_MODULE_1__["CANCEL_SEARCH_RECIPES"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "CLEAR_USER_DATA", function() { return _recipes_actions__WEBPACK_IMPORTED_MODULE_1__["CLEAR_USER_DATA"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "CREATE_RECIPE", function() { return _recipes__WEBPACK_IMPORTED_MODULE_1__["CREATE_RECIPE"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LoadRecipes", function() { return _recipes_actions__WEBPACK_IMPORTED_MODULE_1__["LoadRecipes"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "CREATE_RECIPE_FAIL", function() { return _recipes__WEBPACK_IMPORTED_MODULE_1__["CREATE_RECIPE_FAIL"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LoadRecipe", function() { return _recipes_actions__WEBPACK_IMPORTED_MODULE_1__["LoadRecipe"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "CREATE_RECIPE_SUCCESS", function() { return _recipes__WEBPACK_IMPORTED_MODULE_1__["CREATE_RECIPE_SUCCESS"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LoadRecipesFail", function() { return _recipes_actions__WEBPACK_IMPORTED_MODULE_1__["LoadRecipesFail"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "UPDATE_RECIPE", function() { return _recipes__WEBPACK_IMPORTED_MODULE_1__["UPDATE_RECIPE"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "RecipeNotFound", function() { return _recipes_actions__WEBPACK_IMPORTED_MODULE_1__["RecipeNotFound"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "UPDATE_RECIPE_FAIL", function() { return _recipes__WEBPACK_IMPORTED_MODULE_1__["UPDATE_RECIPE_FAIL"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LoadRecipesSuccess", function() { return _recipes_actions__WEBPACK_IMPORTED_MODULE_1__["LoadRecipesSuccess"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "UPDATE_RECIPE_SUCCESS", function() { return _recipes__WEBPACK_IMPORTED_MODULE_1__["UPDATE_RECIPE_SUCCESS"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "HasLoadedAllRecipes", function() { return _recipes_actions__WEBPACK_IMPORTED_MODULE_1__["HasLoadedAllRecipes"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "DELETE_RECIPE", function() { return _recipes__WEBPACK_IMPORTED_MODULE_1__["DELETE_RECIPE"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "SearchRecipes", function() { return _recipes_actions__WEBPACK_IMPORTED_MODULE_1__["SearchRecipes"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "DELETE_RECIPE_FAIL", function() { return _recipes__WEBPACK_IMPORTED_MODULE_1__["DELETE_RECIPE_FAIL"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "CancelSearchRecipes", function() { return _recipes_actions__WEBPACK_IMPORTED_MODULE_1__["CancelSearchRecipes"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "DELETE_RECIPE_SUCCESS", function() { return _recipes__WEBPACK_IMPORTED_MODULE_1__["DELETE_RECIPE_SUCCESS"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "CreateRecipe", function() { return _recipes_actions__WEBPACK_IMPORTED_MODULE_1__["CreateRecipe"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "CLEAR_USER_DATA", function() { return _recipes__WEBPACK_IMPORTED_MODULE_1__["CLEAR_USER_DATA"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "CreateRecipeFail", function() { return _recipes_actions__WEBPACK_IMPORTED_MODULE_1__["CreateRecipeFail"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LoadRecipes", function() { return _recipes__WEBPACK_IMPORTED_MODULE_1__["LoadRecipes"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "CreateRecipeSuccess", function() { return _recipes_actions__WEBPACK_IMPORTED_MODULE_1__["CreateRecipeSuccess"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LoadRecipe", function() { return _recipes__WEBPACK_IMPORTED_MODULE_1__["LoadRecipe"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "UpdateRecipe", function() { return _recipes_actions__WEBPACK_IMPORTED_MODULE_1__["UpdateRecipe"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LoadRecipesFail", function() { return _recipes__WEBPACK_IMPORTED_MODULE_1__["LoadRecipesFail"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "UpdateRecipeFail", function() { return _recipes_actions__WEBPACK_IMPORTED_MODULE_1__["UpdateRecipeFail"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "RecipeNotFound", function() { return _recipes__WEBPACK_IMPORTED_MODULE_1__["RecipeNotFound"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "UpdateRecipeSuccess", function() { return _recipes_actions__WEBPACK_IMPORTED_MODULE_1__["UpdateRecipeSuccess"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LoadRecipesSuccess", function() { return _recipes__WEBPACK_IMPORTED_MODULE_1__["LoadRecipesSuccess"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "DeleteRecipe", function() { return _recipes_actions__WEBPACK_IMPORTED_MODULE_1__["DeleteRecipe"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "HasLoadedAllRecipes", function() { return _recipes__WEBPACK_IMPORTED_MODULE_1__["HasLoadedAllRecipes"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "DeleteRecipeFail", function() { return _recipes_actions__WEBPACK_IMPORTED_MODULE_1__["DeleteRecipeFail"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "SearchRecipes", function() { return _recipes__WEBPACK_IMPORTED_MODULE_1__["SearchRecipes"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "DeleteRecipeSuccess", function() { return _recipes_actions__WEBPACK_IMPORTED_MODULE_1__["DeleteRecipeSuccess"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "CancelSearchRecipes", function() { return _recipes__WEBPACK_IMPORTED_MODULE_1__["CancelSearchRecipes"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ClearUserData", function() { return _recipes_actions__WEBPACK_IMPORTED_MODULE_1__["ClearUserData"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "CreateRecipe", function() { return _recipes__WEBPACK_IMPORTED_MODULE_1__["CreateRecipe"]; });
 
-/* harmony import */ var _recipes_selectors__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./recipes/selectors */ "./src/app/core/store/recipes/selectors/index.ts");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getRecipesState", function() { return _recipes_selectors__WEBPACK_IMPORTED_MODULE_2__["getRecipesState"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "CreateRecipeFail", function() { return _recipes__WEBPACK_IMPORTED_MODULE_1__["CreateRecipeFail"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getRecipesEntities", function() { return _recipes_selectors__WEBPACK_IMPORTED_MODULE_2__["getRecipesEntities"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "CreateRecipeSuccess", function() { return _recipes__WEBPACK_IMPORTED_MODULE_1__["CreateRecipeSuccess"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getAllRecipes", function() { return _recipes_selectors__WEBPACK_IMPORTED_MODULE_2__["getAllRecipes"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "UpdateRecipe", function() { return _recipes__WEBPACK_IMPORTED_MODULE_1__["UpdateRecipe"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getRecipesLoaded", function() { return _recipes_selectors__WEBPACK_IMPORTED_MODULE_2__["getRecipesLoaded"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "UpdateRecipeFail", function() { return _recipes__WEBPACK_IMPORTED_MODULE_1__["UpdateRecipeFail"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getRecipesLoading", function() { return _recipes_selectors__WEBPACK_IMPORTED_MODULE_2__["getRecipesLoading"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "UpdateRecipeSuccess", function() { return _recipes__WEBPACK_IMPORTED_MODULE_1__["UpdateRecipeSuccess"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getCanLoadMoreRecipes", function() { return _recipes_selectors__WEBPACK_IMPORTED_MODULE_2__["getCanLoadMoreRecipes"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "DeleteRecipe", function() { return _recipes__WEBPACK_IMPORTED_MODULE_1__["DeleteRecipe"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getSearchIntent", function() { return _recipes_selectors__WEBPACK_IMPORTED_MODULE_2__["getSearchIntent"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "DeleteRecipeFail", function() { return _recipes__WEBPACK_IMPORTED_MODULE_1__["DeleteRecipeFail"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getSearchedRecipes", function() { return _recipes_selectors__WEBPACK_IMPORTED_MODULE_2__["getSearchedRecipes"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "DeleteRecipeSuccess", function() { return _recipes__WEBPACK_IMPORTED_MODULE_1__["DeleteRecipeSuccess"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getSelectedRecipe", function() { return _recipes_selectors__WEBPACK_IMPORTED_MODULE_2__["getSelectedRecipe"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ClearUserData", function() { return _recipes__WEBPACK_IMPORTED_MODULE_1__["ClearUserData"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getRecipesState", function() { return _recipes__WEBPACK_IMPORTED_MODULE_1__["getRecipesState"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getRecipesEntities", function() { return _recipes__WEBPACK_IMPORTED_MODULE_1__["getRecipesEntities"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getAllRecipes", function() { return _recipes__WEBPACK_IMPORTED_MODULE_1__["getAllRecipes"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getRecipesLoaded", function() { return _recipes__WEBPACK_IMPORTED_MODULE_1__["getRecipesLoaded"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getRecipesLoading", function() { return _recipes__WEBPACK_IMPORTED_MODULE_1__["getRecipesLoading"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getCanLoadMoreRecipes", function() { return _recipes__WEBPACK_IMPORTED_MODULE_1__["getCanLoadMoreRecipes"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getSearchIntent", function() { return _recipes__WEBPACK_IMPORTED_MODULE_1__["getSearchIntent"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getSearchedRecipes", function() { return _recipes__WEBPACK_IMPORTED_MODULE_1__["getSearchedRecipes"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getSelectedRecipe", function() { return _recipes__WEBPACK_IMPORTED_MODULE_1__["getSelectedRecipe"]; });
+
+/* harmony import */ var _store_state__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./store-state */ "./src/app/core/store/store-state.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "reducers", function() { return _store_state__WEBPACK_IMPORTED_MODULE_2__["reducers"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getDataState", function() { return _store_state__WEBPACK_IMPORTED_MODULE_2__["getDataState"]; });
 
 
 
@@ -3154,6 +3594,7 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
+// Ngrx
 
 
 // Rxjs
@@ -3193,12 +3634,12 @@ var ErrorHandlingEffects = /** @class */ (function () {
 /*!*****************************************************!*\
   !*** ./src/app/core/store/recipes/effects/index.ts ***!
   \*****************************************************/
-/*! exports provided: effects, RecipesEffects, ErrorHandlingEffects */
+/*! exports provided: recipesEffects, RecipesEffects, ErrorHandlingEffects */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "effects", function() { return effects; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "recipesEffects", function() { return recipesEffects; });
 /* harmony import */ var _recipes_effects__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./recipes.effects */ "./src/app/core/store/recipes/effects/recipes.effects.ts");
 /* harmony import */ var _error_handling_effect__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./error-handling.effect */ "./src/app/core/store/recipes/effects/error-handling.effect.ts");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "RecipesEffects", function() { return _recipes_effects__WEBPACK_IMPORTED_MODULE_0__["RecipesEffects"]; });
@@ -3207,7 +3648,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var effects = [_recipes_effects__WEBPACK_IMPORTED_MODULE_0__["RecipesEffects"], _error_handling_effect__WEBPACK_IMPORTED_MODULE_1__["ErrorHandlingEffects"]];
+var recipesEffects = [_recipes_effects__WEBPACK_IMPORTED_MODULE_0__["RecipesEffects"], _error_handling_effect__WEBPACK_IMPORTED_MODULE_1__["ErrorHandlingEffects"]];
 // Exporting all content from the folder.
 
 
@@ -3464,26 +3905,130 @@ var RecipesEffects = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/app/core/store/recipes/reducers/index.ts":
-/*!******************************************************!*\
-  !*** ./src/app/core/store/recipes/reducers/index.ts ***!
-  \******************************************************/
-/*! exports provided: reducers, getDataState */
+/***/ "./src/app/core/store/recipes/index.ts":
+/*!*********************************************!*\
+  !*** ./src/app/core/store/recipes/index.ts ***!
+  \*********************************************/
+/*! exports provided: recipesReducer, LOAD_RECIPES, LOAD_RECIPES_FAIL, LOAD_RECIPES_SUCCESS, HAS_LOADED_ALL_RECIPES, LOAD_RECIPE, RECIPE_NOT_FOUND, SEARCH_RECIPES, CANCEL_SEARCH_RECIPES, CREATE_RECIPE, CREATE_RECIPE_FAIL, CREATE_RECIPE_SUCCESS, UPDATE_RECIPE, UPDATE_RECIPE_FAIL, UPDATE_RECIPE_SUCCESS, DELETE_RECIPE, DELETE_RECIPE_FAIL, DELETE_RECIPE_SUCCESS, CLEAR_USER_DATA, LoadRecipes, LoadRecipe, LoadRecipesFail, RecipeNotFound, LoadRecipesSuccess, HasLoadedAllRecipes, SearchRecipes, CancelSearchRecipes, CreateRecipe, CreateRecipeFail, CreateRecipeSuccess, UpdateRecipe, UpdateRecipeFail, UpdateRecipeSuccess, DeleteRecipe, DeleteRecipeFail, DeleteRecipeSuccess, ClearUserData, getRecipesState, getRecipesEntities, getAllRecipes, getRecipesLoaded, getRecipesLoading, getCanLoadMoreRecipes, getSearchIntent, getSearchedRecipes, getSelectedRecipe */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "reducers", function() { return reducers; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getDataState", function() { return getDataState; });
-/* harmony import */ var _ngrx_store__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @ngrx/store */ "./node_modules/@ngrx/store/fesm5/store.js");
-/* harmony import */ var _recipes_reducer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./recipes.reducer */ "./src/app/core/store/recipes/reducers/recipes.reducer.ts");
+/* harmony import */ var _reducers__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./reducers */ "./src/app/core/store/recipes/reducers/index.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "recipesReducer", function() { return _reducers__WEBPACK_IMPORTED_MODULE_0__["recipesReducer"]; });
+
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./actions */ "./src/app/core/store/recipes/actions/index.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LOAD_RECIPES", function() { return _actions__WEBPACK_IMPORTED_MODULE_1__["LOAD_RECIPES"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LOAD_RECIPES_FAIL", function() { return _actions__WEBPACK_IMPORTED_MODULE_1__["LOAD_RECIPES_FAIL"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LOAD_RECIPES_SUCCESS", function() { return _actions__WEBPACK_IMPORTED_MODULE_1__["LOAD_RECIPES_SUCCESS"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "HAS_LOADED_ALL_RECIPES", function() { return _actions__WEBPACK_IMPORTED_MODULE_1__["HAS_LOADED_ALL_RECIPES"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LOAD_RECIPE", function() { return _actions__WEBPACK_IMPORTED_MODULE_1__["LOAD_RECIPE"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "RECIPE_NOT_FOUND", function() { return _actions__WEBPACK_IMPORTED_MODULE_1__["RECIPE_NOT_FOUND"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "SEARCH_RECIPES", function() { return _actions__WEBPACK_IMPORTED_MODULE_1__["SEARCH_RECIPES"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "CANCEL_SEARCH_RECIPES", function() { return _actions__WEBPACK_IMPORTED_MODULE_1__["CANCEL_SEARCH_RECIPES"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "CREATE_RECIPE", function() { return _actions__WEBPACK_IMPORTED_MODULE_1__["CREATE_RECIPE"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "CREATE_RECIPE_FAIL", function() { return _actions__WEBPACK_IMPORTED_MODULE_1__["CREATE_RECIPE_FAIL"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "CREATE_RECIPE_SUCCESS", function() { return _actions__WEBPACK_IMPORTED_MODULE_1__["CREATE_RECIPE_SUCCESS"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "UPDATE_RECIPE", function() { return _actions__WEBPACK_IMPORTED_MODULE_1__["UPDATE_RECIPE"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "UPDATE_RECIPE_FAIL", function() { return _actions__WEBPACK_IMPORTED_MODULE_1__["UPDATE_RECIPE_FAIL"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "UPDATE_RECIPE_SUCCESS", function() { return _actions__WEBPACK_IMPORTED_MODULE_1__["UPDATE_RECIPE_SUCCESS"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "DELETE_RECIPE", function() { return _actions__WEBPACK_IMPORTED_MODULE_1__["DELETE_RECIPE"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "DELETE_RECIPE_FAIL", function() { return _actions__WEBPACK_IMPORTED_MODULE_1__["DELETE_RECIPE_FAIL"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "DELETE_RECIPE_SUCCESS", function() { return _actions__WEBPACK_IMPORTED_MODULE_1__["DELETE_RECIPE_SUCCESS"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "CLEAR_USER_DATA", function() { return _actions__WEBPACK_IMPORTED_MODULE_1__["CLEAR_USER_DATA"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LoadRecipes", function() { return _actions__WEBPACK_IMPORTED_MODULE_1__["LoadRecipes"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LoadRecipe", function() { return _actions__WEBPACK_IMPORTED_MODULE_1__["LoadRecipe"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LoadRecipesFail", function() { return _actions__WEBPACK_IMPORTED_MODULE_1__["LoadRecipesFail"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "RecipeNotFound", function() { return _actions__WEBPACK_IMPORTED_MODULE_1__["RecipeNotFound"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LoadRecipesSuccess", function() { return _actions__WEBPACK_IMPORTED_MODULE_1__["LoadRecipesSuccess"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "HasLoadedAllRecipes", function() { return _actions__WEBPACK_IMPORTED_MODULE_1__["HasLoadedAllRecipes"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "SearchRecipes", function() { return _actions__WEBPACK_IMPORTED_MODULE_1__["SearchRecipes"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "CancelSearchRecipes", function() { return _actions__WEBPACK_IMPORTED_MODULE_1__["CancelSearchRecipes"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "CreateRecipe", function() { return _actions__WEBPACK_IMPORTED_MODULE_1__["CreateRecipe"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "CreateRecipeFail", function() { return _actions__WEBPACK_IMPORTED_MODULE_1__["CreateRecipeFail"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "CreateRecipeSuccess", function() { return _actions__WEBPACK_IMPORTED_MODULE_1__["CreateRecipeSuccess"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "UpdateRecipe", function() { return _actions__WEBPACK_IMPORTED_MODULE_1__["UpdateRecipe"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "UpdateRecipeFail", function() { return _actions__WEBPACK_IMPORTED_MODULE_1__["UpdateRecipeFail"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "UpdateRecipeSuccess", function() { return _actions__WEBPACK_IMPORTED_MODULE_1__["UpdateRecipeSuccess"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "DeleteRecipe", function() { return _actions__WEBPACK_IMPORTED_MODULE_1__["DeleteRecipe"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "DeleteRecipeFail", function() { return _actions__WEBPACK_IMPORTED_MODULE_1__["DeleteRecipeFail"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "DeleteRecipeSuccess", function() { return _actions__WEBPACK_IMPORTED_MODULE_1__["DeleteRecipeSuccess"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ClearUserData", function() { return _actions__WEBPACK_IMPORTED_MODULE_1__["ClearUserData"]; });
+
+/* harmony import */ var _selectors__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./selectors */ "./src/app/core/store/recipes/selectors/index.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getRecipesState", function() { return _selectors__WEBPACK_IMPORTED_MODULE_2__["getRecipesState"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getRecipesEntities", function() { return _selectors__WEBPACK_IMPORTED_MODULE_2__["getRecipesEntities"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getAllRecipes", function() { return _selectors__WEBPACK_IMPORTED_MODULE_2__["getAllRecipes"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getRecipesLoaded", function() { return _selectors__WEBPACK_IMPORTED_MODULE_2__["getRecipesLoaded"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getRecipesLoading", function() { return _selectors__WEBPACK_IMPORTED_MODULE_2__["getRecipesLoading"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getCanLoadMoreRecipes", function() { return _selectors__WEBPACK_IMPORTED_MODULE_2__["getCanLoadMoreRecipes"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getSearchIntent", function() { return _selectors__WEBPACK_IMPORTED_MODULE_2__["getSearchIntent"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getSearchedRecipes", function() { return _selectors__WEBPACK_IMPORTED_MODULE_2__["getSearchedRecipes"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getSelectedRecipe", function() { return _selectors__WEBPACK_IMPORTED_MODULE_2__["getSelectedRecipe"]; });
 
 
-// Describes the reducer map and how they are composed.
-var reducers = {
-    recipes: _recipes_reducer__WEBPACK_IMPORTED_MODULE_1__["reducer"]
-};
-var getDataState = Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_0__["createFeatureSelector"])('data');
+
+
+
+
+/***/ }),
+
+/***/ "./src/app/core/store/recipes/reducers/index.ts":
+/*!******************************************************!*\
+  !*** ./src/app/core/store/recipes/reducers/index.ts ***!
+  \******************************************************/
+/*! exports provided: recipesReducer */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _recipes_reducer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./recipes.reducer */ "./src/app/core/store/recipes/reducers/recipes.reducer.ts");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "recipesReducer", function() { return _recipes_reducer__WEBPACK_IMPORTED_MODULE_0__["recipesReducer"]; });
+
+
 
 
 /***/ }),
@@ -3492,13 +4037,13 @@ var getDataState = Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_0__["createFeatur
 /*!****************************************************************!*\
   !*** ./src/app/core/store/recipes/reducers/recipes.reducer.ts ***!
   \****************************************************************/
-/*! exports provided: initialState, reducer, getRecipesLoading, getRecipesLoaded, getRecipesEntities, getCanLoadMoreRecipes, getSearchIntent */
+/*! exports provided: initialState, recipesReducer, getRecipesLoading, getRecipesLoaded, getRecipesEntities, getCanLoadMoreRecipes, getSearchIntent */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "initialState", function() { return initialState; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "reducer", function() { return reducer; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "recipesReducer", function() { return recipesReducer; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getRecipesLoading", function() { return getRecipesLoading; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getRecipesLoaded", function() { return getRecipesLoaded; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getRecipesEntities", function() { return getRecipesEntities; });
@@ -3521,7 +4066,7 @@ var initialState = {
     canLoadMore: true,
     searchIntent: null
 };
-function reducer(state, action) {
+function recipesReducer(state, action) {
     if (state === void 0) { state = initialState; }
     switch (action.type) {
         case _actions_recipes_action__WEBPACK_IMPORTED_MODULE_0__["LOAD_RECIPES"]:
@@ -3648,7 +4193,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getSelectedRecipe", function() { return getSelectedRecipe; });
 /* harmony import */ var _ngrx_store__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @ngrx/store */ "./node_modules/@ngrx/store/fesm5/store.js");
 /* harmony import */ var _routing_router_store__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../routing/router-store */ "./src/app/routing/router-store/index.ts");
-/* harmony import */ var _reducers__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../reducers */ "./src/app/core/store/recipes/reducers/index.ts");
+/* harmony import */ var _store_state__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../store-state */ "./src/app/core/store/store-state.ts");
 /* harmony import */ var _reducers_recipes_reducer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../reducers/recipes.reducer */ "./src/app/core/store/recipes/reducers/recipes.reducer.ts");
 /* harmony import */ var _search_advanced_recipe_search_shared___WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../../search/advanced-recipe-search/shared/ */ "./src/app/search/advanced-recipe-search/shared/index.ts");
 
@@ -3657,7 +4202,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 // Recipes state
-var getRecipesState = Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_0__["createSelector"])(_reducers__WEBPACK_IMPORTED_MODULE_2__["getDataState"], function (state) { return state.recipes; });
+var getRecipesState = Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_0__["createSelector"])(_store_state__WEBPACK_IMPORTED_MODULE_2__["getDataState"], function (state) { return state.recipes; });
 var getRecipesEntities = Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_0__["createSelector"])(getRecipesState, _reducers_recipes_reducer__WEBPACK_IMPORTED_MODULE_3__["getRecipesEntities"]);
 // Returns all entites in an array
 var getAllRecipes = Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_0__["createSelector"])(getRecipesEntities, function (entities) {
@@ -3686,6 +4231,53 @@ var getSelectedRecipe = Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_0__["createS
 
 /***/ }),
 
+/***/ "./src/app/core/store/store-state.ts":
+/*!*******************************************!*\
+  !*** ./src/app/core/store/store-state.ts ***!
+  \*******************************************/
+/*! exports provided: reducers, getDataState */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "reducers", function() { return reducers; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getDataState", function() { return getDataState; });
+/* harmony import */ var _ngrx_store__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @ngrx/store */ "./node_modules/@ngrx/store/fesm5/store.js");
+/* harmony import */ var _recipes_reducers__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./recipes/reducers */ "./src/app/core/store/recipes/reducers/index.ts");
+/* harmony import */ var _auth_reducers__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./auth/reducers */ "./src/app/core/store/auth/reducers/index.ts");
+
+
+
+// Describes the reducer map and how they are composed.
+var reducers = {
+    recipes: _recipes_reducers__WEBPACK_IMPORTED_MODULE_1__["recipesReducer"],
+    auth: _auth_reducers__WEBPACK_IMPORTED_MODULE_2__["authReducer"]
+};
+var getDataState = Object(_ngrx_store__WEBPACK_IMPORTED_MODULE_0__["createFeatureSelector"])('data');
+
+
+/***/ }),
+
+/***/ "./src/app/models/user.model.ts":
+/*!**************************************!*\
+  !*** ./src/app/models/user.model.ts ***!
+  \**************************************/
+/*! exports provided: User */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "User", function() { return User; });
+var User = /** @class */ (function () {
+    function User() {
+    }
+    return User;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/pages/home-page/home-page.component.css":
 /*!*********************************************************!*\
   !*** ./src/app/pages/home-page/home-page.component.css ***!
@@ -3704,7 +4296,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<p>\n  À venir.\n</p>\n"
+module.exports = "<mcb-recipe-grid></mcb-recipe-grid>\n"
 
 /***/ }),
 
@@ -3807,7 +4399,7 @@ module.exports = "<div class=\"main-container\">\r\n  <mat-card>\r\n    <h1>Webs
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".main-container {\n  min-height: 80vh;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-around;\n  align-items: center;\n}\n\n.login-container {\n  width: 400px;\n  padding: 10px;\n\n  display: flex;\n  flex-direction: column;\n  justify-content: space-between;\n}\n\n.social-signin {\n  display: flex;\n  justify-content: space-around;\n  align-items: center;\n}\n\n/*.login-container fieldset {\n  border: none;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-between;\n}*/\n\n.top-section {\n  text-align: center;\n}\n"
+module.exports = ".main-container {\n  min-height: 80vh;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-around;\n  align-items: center;\n}\n\n.login-container {\n  max-width: 400px;\n  padding: 30px;\n\n  display: flex;\n  flex-direction: column;\n  justify-content: space-between;\n}\n\n.social-signin {\n  display: flex;\n  justify-content: space-around;\n  align-items: center;\n}\n\n/*.login-container fieldset {\n  border: none;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-between;\n}*/\n\n.top-section {\n  text-align: center;\n}\n"
 
 /***/ }),
 
@@ -3975,21 +4567,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _intro_page_intro_page_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./intro-page/intro-page.component */ "./src/app/pages/intro-page/intro-page.component.ts");
 /* harmony import */ var _login_page_login_page_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./login-page/login-page.component */ "./src/app/pages/login-page/login-page.component.ts");
 /* harmony import */ var _recipe_creator_recipe_creator_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./recipe-creator/recipe-creator.component */ "./src/app/pages/recipe-creator/recipe-creator.component.ts");
-/* harmony import */ var _recipes_recipe_list_recipe_list_component__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../recipes/recipe-list/recipe-list.component */ "./src/app/recipes/recipe-list/recipe-list.component.ts");
-/* harmony import */ var _recipe_page_recipe_page_component__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./recipe-page/recipe-page.component */ "./src/app/pages/recipe-page/recipe-page.component.ts");
-/* harmony import */ var _recipes_steps_step_listbox_step_listbox_component__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../recipes/steps/step-listbox/step-listbox.component */ "./src/app/recipes/steps/step-listbox/step-listbox.component.ts");
-/* harmony import */ var _recipes_steps_step_section_step_section_component__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ../recipes/steps/step-section/step-section.component */ "./src/app/recipes/steps/step-section/step-section.component.ts");
-/* harmony import */ var _recipes_steps_step_section_wrapper_step_section_wrapper_component__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ../recipes/steps/step-section-wrapper/step-section-wrapper.component */ "./src/app/recipes/steps/step-section-wrapper/step-section-wrapper.component.ts");
-/* harmony import */ var _angular_material_module__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ../angular-material.module */ "./src/app/angular-material.module.ts");
-/* harmony import */ var _controls_controls_module__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ../controls/controls.module */ "./src/app/controls/controls.module.ts");
-/* harmony import */ var _core_core_module__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ../core/core.module */ "./src/app/core/core.module.ts");
-/* harmony import */ var _utils_utils_module__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ../utils/utils.module */ "./src/app/utils/utils.module.ts");
-/* harmony import */ var _recipes_shared_api_get_recipes_service__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ../recipes/shared/api-get-recipes.service */ "./src/app/recipes/shared/api-get-recipes.service.ts");
-/* harmony import */ var _recipes_shared_api_specific_recipe_service__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ../recipes/shared/api-specific-recipe.service */ "./src/app/recipes/shared/api-specific-recipe.service.ts");
-/* harmony import */ var _recipes_genre_shared_genre_service__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ../recipes/genre/shared/genre.service */ "./src/app/recipes/genre/shared/genre.service.ts");
-/* harmony import */ var _recipe_creator_recipe_creator_form_recipe_creator_form_component__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./recipe-creator/recipe-creator-form/recipe-creator-form.component */ "./src/app/pages/recipe-creator/recipe-creator-form/recipe-creator-form.component.ts");
-/* harmony import */ var _recipe_viewer_recipe_viewer_component__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./recipe-viewer/recipe-viewer.component */ "./src/app/pages/recipe-viewer/recipe-viewer.component.ts");
-/* harmony import */ var _not_found_not_found_component__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ./not-found/not-found.component */ "./src/app/pages/not-found/not-found.component.ts");
+/* harmony import */ var _recipe_grid_recipe_grid_component__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./recipe-grid/recipe-grid.component */ "./src/app/pages/recipe-grid/recipe-grid.component.ts");
+/* harmony import */ var _recipes_recipe_list_recipe_list_component__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../recipes/recipe-list/recipe-list.component */ "./src/app/recipes/recipe-list/recipe-list.component.ts");
+/* harmony import */ var _recipe_page_recipe_page_component__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./recipe-page/recipe-page.component */ "./src/app/pages/recipe-page/recipe-page.component.ts");
+/* harmony import */ var _recipes_steps_step_listbox_step_listbox_component__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ../recipes/steps/step-listbox/step-listbox.component */ "./src/app/recipes/steps/step-listbox/step-listbox.component.ts");
+/* harmony import */ var _recipes_steps_step_section_step_section_component__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ../recipes/steps/step-section/step-section.component */ "./src/app/recipes/steps/step-section/step-section.component.ts");
+/* harmony import */ var _recipes_steps_step_section_wrapper_step_section_wrapper_component__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ../recipes/steps/step-section-wrapper/step-section-wrapper.component */ "./src/app/recipes/steps/step-section-wrapper/step-section-wrapper.component.ts");
+/* harmony import */ var _angular_material_module__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ../angular-material.module */ "./src/app/angular-material.module.ts");
+/* harmony import */ var _controls_controls_module__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ../controls/controls.module */ "./src/app/controls/controls.module.ts");
+/* harmony import */ var _core_core_module__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ../core/core.module */ "./src/app/core/core.module.ts");
+/* harmony import */ var _utils_utils_module__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ../utils/utils.module */ "./src/app/utils/utils.module.ts");
+/* harmony import */ var _recipes_shared_api_get_recipes_service__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ../recipes/shared/api-get-recipes.service */ "./src/app/recipes/shared/api-get-recipes.service.ts");
+/* harmony import */ var _recipes_shared_api_specific_recipe_service__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ../recipes/shared/api-specific-recipe.service */ "./src/app/recipes/shared/api-specific-recipe.service.ts");
+/* harmony import */ var _recipes_genre_shared_genre_service__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ../recipes/genre/shared/genre.service */ "./src/app/recipes/genre/shared/genre.service.ts");
+/* harmony import */ var _recipe_creator_recipe_creator_form_recipe_creator_form_component__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./recipe-creator/recipe-creator-form/recipe-creator-form.component */ "./src/app/pages/recipe-creator/recipe-creator-form/recipe-creator-form.component.ts");
+/* harmony import */ var _recipe_viewer_recipe_viewer_component__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ./recipe-viewer/recipe-viewer.component */ "./src/app/pages/recipe-viewer/recipe-viewer.component.ts");
+/* harmony import */ var _not_found_not_found_component__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! ./not-found/not-found.component */ "./src/app/pages/not-found/not-found.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -4002,6 +4595,7 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 // Components
+
 
 
 
@@ -4037,16 +4631,16 @@ var PagesModule = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["NgModule"])({
             imports: [
                 _search_advanced_recipe_search_advanced_recipe_search_module__WEBPACK_IMPORTED_MODULE_6__["AdvancedRecipeSearchModule"],
-                _angular_material_module__WEBPACK_IMPORTED_MODULE_21__["AngularMaterialModule"],
+                _angular_material_module__WEBPACK_IMPORTED_MODULE_22__["AngularMaterialModule"],
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_2__["BrowserModule"],
                 _angular_common__WEBPACK_IMPORTED_MODULE_1__["CommonModule"],
-                _controls_controls_module__WEBPACK_IMPORTED_MODULE_22__["ControlsModule"],
-                _core_core_module__WEBPACK_IMPORTED_MODULE_23__["CoreModule"],
+                _controls_controls_module__WEBPACK_IMPORTED_MODULE_23__["ControlsModule"],
+                _core_core_module__WEBPACK_IMPORTED_MODULE_24__["CoreModule"],
                 _angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormsModule"],
                 _recipes_ingredients_ingredient_listbox_ingredient_listbox_module__WEBPACK_IMPORTED_MODULE_10__["IngredientListboxModule"],
                 _angular_forms__WEBPACK_IMPORTED_MODULE_3__["ReactiveFormsModule"],
                 _angular_router__WEBPACK_IMPORTED_MODULE_4__["RouterModule"],
-                _utils_utils_module__WEBPACK_IMPORTED_MODULE_24__["UtilsModule"]
+                _utils_utils_module__WEBPACK_IMPORTED_MODULE_25__["UtilsModule"]
             ],
             declarations: [
                 _recipes_equipment_equipment_listbox_equipment_listbox_component__WEBPACK_IMPORTED_MODULE_7__["EquipmentListBox"],
@@ -4057,29 +4651,30 @@ var PagesModule = /** @class */ (function () {
                 _intro_page_intro_page_component__WEBPACK_IMPORTED_MODULE_13__["IntroPageComponent"],
                 _login_page_login_page_component__WEBPACK_IMPORTED_MODULE_14__["LoginPageComponent"],
                 _recipe_creator_recipe_creator_component__WEBPACK_IMPORTED_MODULE_15__["RecipeCreatorComponent"],
-                _recipes_recipe_list_recipe_list_component__WEBPACK_IMPORTED_MODULE_16__["RecipeListComponent"],
-                _recipe_page_recipe_page_component__WEBPACK_IMPORTED_MODULE_17__["RecipePageComponent"],
-                _recipes_steps_step_listbox_step_listbox_component__WEBPACK_IMPORTED_MODULE_18__["StepListbox"],
-                _recipes_steps_step_section_step_section_component__WEBPACK_IMPORTED_MODULE_19__["StepSectionComponent"],
-                _recipes_steps_step_section_wrapper_step_section_wrapper_component__WEBPACK_IMPORTED_MODULE_20__["StepSectionWrapper"],
-                _recipe_creator_recipe_creator_form_recipe_creator_form_component__WEBPACK_IMPORTED_MODULE_28__["RecipeCreatorFormComponent"],
-                _recipe_viewer_recipe_viewer_component__WEBPACK_IMPORTED_MODULE_29__["RecipeViewerComponent"],
-                _not_found_not_found_component__WEBPACK_IMPORTED_MODULE_30__["NotFoundComponent"]
+                _recipes_recipe_list_recipe_list_component__WEBPACK_IMPORTED_MODULE_17__["RecipeListComponent"],
+                _recipe_page_recipe_page_component__WEBPACK_IMPORTED_MODULE_18__["RecipePageComponent"],
+                _recipes_steps_step_listbox_step_listbox_component__WEBPACK_IMPORTED_MODULE_19__["StepListbox"],
+                _recipes_steps_step_section_step_section_component__WEBPACK_IMPORTED_MODULE_20__["StepSectionComponent"],
+                _recipes_steps_step_section_wrapper_step_section_wrapper_component__WEBPACK_IMPORTED_MODULE_21__["StepSectionWrapper"],
+                _recipe_creator_recipe_creator_form_recipe_creator_form_component__WEBPACK_IMPORTED_MODULE_29__["RecipeCreatorFormComponent"],
+                _recipe_viewer_recipe_viewer_component__WEBPACK_IMPORTED_MODULE_30__["RecipeViewerComponent"],
+                _not_found_not_found_component__WEBPACK_IMPORTED_MODULE_31__["NotFoundComponent"],
+                _recipe_grid_recipe_grid_component__WEBPACK_IMPORTED_MODULE_16__["RecipeGridComponent"]
             ],
             exports: [
-                _angular_material_module__WEBPACK_IMPORTED_MODULE_21__["AngularMaterialModule"],
+                _angular_material_module__WEBPACK_IMPORTED_MODULE_22__["AngularMaterialModule"],
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_2__["BrowserModule"],
                 _angular_common__WEBPACK_IMPORTED_MODULE_1__["CommonModule"],
-                _controls_controls_module__WEBPACK_IMPORTED_MODULE_22__["ControlsModule"],
-                _core_core_module__WEBPACK_IMPORTED_MODULE_23__["CoreModule"],
+                _controls_controls_module__WEBPACK_IMPORTED_MODULE_23__["ControlsModule"],
+                _core_core_module__WEBPACK_IMPORTED_MODULE_24__["CoreModule"],
                 _angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormsModule"],
                 _angular_forms__WEBPACK_IMPORTED_MODULE_3__["ReactiveFormsModule"]
             ],
             entryComponents: [_search_advanced_recipe_search_advanced_recipe_search_component__WEBPACK_IMPORTED_MODULE_5__["AdvancedRecipeSearchComponent"]],
             providers: [
-                _recipes_shared_api_get_recipes_service__WEBPACK_IMPORTED_MODULE_25__["ApiGetRecipesService"],
-                _recipes_shared_api_specific_recipe_service__WEBPACK_IMPORTED_MODULE_26__["ApiSpecificRecipeService"],
-                _recipes_genre_shared_genre_service__WEBPACK_IMPORTED_MODULE_27__["GenresService"]
+                _recipes_shared_api_get_recipes_service__WEBPACK_IMPORTED_MODULE_26__["ApiGetRecipesService"],
+                _recipes_shared_api_specific_recipe_service__WEBPACK_IMPORTED_MODULE_27__["ApiSpecificRecipeService"],
+                _recipes_genre_shared_genre_service__WEBPACK_IMPORTED_MODULE_28__["GenresService"]
             ]
         })
     ], PagesModule);
@@ -4097,7 +4692,7 @@ var PagesModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\r\n.mat-form-field {\r\n    width: 100%;\r\n}\r\n\r\n/* Top of the window */\r\n\r\n.header {\r\n    display: flex;\r\n    justify-content: space-between;\r\n    align-items: stretch;\r\n}\r\n\r\n.tab-content {\r\n    display: flex;\r\n    flex-direction: column;\r\n    padding: 10px;\r\n    min-height: 320px;\r\n}\r\n\r\n/* Informations tab */\r\n\r\n.image-container {\r\n    display: flex;\r\n    justify-content: space-around;\r\n}\r\n\r\n.image {\r\n    height: 100%;\r\n    opacity: 1;\r\n    transition: opacity 0.5s ease-out;\r\n}\r\n\r\n.image.invisible {\r\n    opacity: 0;\r\n}\r\n\r\n.image-box {\r\n    height: 300px;\r\n}\r\n\r\n.recipe-info-inputs {\r\n    width: 100%;\r\n}\r\n\r\n.time-container {\r\n    display: flex;\r\n    justify-content: space-between;\r\n    margin-bottom: 5px;\r\n}\r\n\r\n.time-input {\r\n    width: 30%;\r\n}\r\n\r\n@media screen and (min-width: 1501px) {\r\n    .recipe-info-inputs .mat-form-field:not(.time-input) {\r\n        width: 100%;\r\n    }\r\n    .tab-content {\r\n        width: 1100px;\r\n    }\r\n    .recipe-info {\r\n        flex-direction: row-reverse;\r\n        justify-content: space-between;\r\n    }\r\n    .recipe-info-inputs {\r\n        display: flex;\r\n        flex-direction: column;\r\n        justify-content: space-between;\r\n        width: 50%;\r\n    }\r\n    .image {\r\n        height: inherit;\r\n    }\r\n    .image-box {\r\n        width: 500px;\r\n    }\r\n    .tab-content.ingredients-steps {\r\n        justify-content: space-between;\r\n        flex-direction: row;\r\n    }\r\n    .time-container {\r\n        flex-direction: row;\r\n    }\r\n}\r\n\r\n@media screen and (min-width: 550px) and (max-width: 1500px) {\r\n    .mat-form-field {\r\n        width: 95%;\r\n    }\r\n    .tab-content {\r\n        width: 100%;\r\n    }\r\n    .image-box {\r\n        width: 100%;\r\n    }\r\n    .tab-content.ingredients-steps {\r\n        justify-content: center;\r\n        flex-direction: column;\r\n    }\r\n    .time-container {\r\n        flex-direction: column;\r\n    }\r\n}\r\n\r\n@media screen and (max-width: 550px) {\r\n    .mat-form-field {\r\n        width: 95%;\r\n    }\r\n    .tab-content {\r\n        width: 100vw;\r\n    }\r\n    .image-box {\r\n        width: 100%;\r\n    }\r\n    .tab-content.ingredients-steps {\r\n        justify-content: center;\r\n        flex-direction: column;\r\n    }\r\n    .time-container {\r\n        flex-direction: column;\r\n    }\r\n}\r\n\r\n.image-hover-shader {\r\n    position: absolute;\r\n    z-index: 2;\r\n    cursor: pointer;\r\n    display: flex;\r\n    justify-content: space-around;\r\n    align-items: center;\r\n}\r\n\r\n.image-hover-shader img {\r\n    visibility: hidden;\r\n    height: 50px;\r\n}\r\n\r\n.image-hover-shader:hover {\r\n    background-color: rgba(0, 0, 0, 0.3);\r\n}\r\n\r\n.image-hover-shader:hover img {\r\n    visibility: visible;\r\n}\r\n\r\n.small-margin-bottom {\r\n    margin-bottom: 1em;\r\n}\r\n\r\n/* ---- END OF INFORMATIONS TAB -------- */\r\n\r\n/* ---- Ingredients & Steps tab -------- */\r\n\r\n.recipe-section {\r\n    width: 540px;\r\n    margin-bottom: 1em;\r\n}\r\n\r\n.tab-content.ingredients-steps {\r\n    display: flex;\r\n    flex-wrap: wrap;\r\n}\r\n\r\n/* ---- Comments tab ---- */\r\n\r\n.tab-content.comments-tab {\r\n    justify-content: space-between;\r\n    flex-direction: row;\r\n}\r\n\r\n.comments-rating {\r\n    display: flex;\r\n    flex-direction: column;\r\n    justify-content: space-between;\r\n    height: 100%;\r\n    margin-top: 20px;\r\n}\r\n\r\n.rating {\r\n    display: flex;\r\n    justify-content: space-around;\r\n}\r\n\r\n.rating-control {\r\n    font-size: 2em !important;\r\n}\r\n\r\n/* Window's actions */\r\n\r\n.delete-recipe-button {\r\n    margin-right: 20px;\r\n}\r\n\r\n.margin-top-20 {\r\n    margin-top: 20px;\r\n}\r\n\r\n@media screen and (max-width: 1500px) {\r\n    .tab-content.comments-tab {\r\n        justify-content: space-between;\r\n        flex-direction: column;\r\n    }\r\n}\r\n\r\n.actions {\r\n    display: flex;\r\n    flex-direction: row;\r\n    justify-content: flex-end;\r\n}\r\n"
+module.exports = "\r\n.mat-form-field {\r\n    width: 100%;\r\n}\r\n\r\n/* Top of the window */\r\n\r\n.header {\r\n    display: flex;\r\n    justify-content: space-between;\r\n    align-items: stretch;\r\n}\r\n\r\n.tab-content {\r\n    display: flex;\r\n    flex-direction: column;\r\n    padding: 10px;\r\n    min-height: 320px;\r\n}\r\n\r\n/* Informations tab */\r\n\r\n.image-container {\r\n    display: flex;\r\n    justify-content: space-around;\r\n}\r\n\r\n.image {\r\n    height: 100%;\r\n    opacity: 1;\r\n    transition: opacity 0.5s ease-out;\r\n}\r\n\r\n.image.invisible {\r\n    opacity: 0;\r\n}\r\n\r\n.image-box {\r\n    height: 300px;\r\n}\r\n\r\n.recipe-info-inputs {\r\n    width: 100%;\r\n}\r\n\r\n.time-container {\r\n    display: flex;\r\n    justify-content: space-between;\r\n    margin-bottom: 5px;\r\n}\r\n\r\n.time-input {\r\n    width: 30%;\r\n}\r\n\r\n@media screen and (min-width: 1501px) {\r\n    .recipe-info-inputs .mat-form-field:not(.time-input) {\r\n        width: 100%;\r\n    }\r\n    .tab-content {\r\n        width: 1100px;\r\n    }\r\n    .recipe-info {\r\n        flex-direction: row-reverse;\r\n        justify-content: space-between;\r\n    }\r\n    .recipe-info-inputs {\r\n        display: flex;\r\n        flex-direction: column;\r\n        justify-content: space-between;\r\n        width: 50%;\r\n    }\r\n    .image {\r\n        height: inherit;\r\n    }\r\n    .image-box {\r\n        width: 500px;\r\n    }\r\n    .tab-content.ingredients-steps {\r\n        justify-content: space-between;\r\n        flex-direction: row;\r\n    }\r\n    .time-container {\r\n        flex-direction: row;\r\n    }\r\n}\r\n\r\n@media screen and (min-width: 550px) and (max-width: 1500px) {\r\n    .mat-form-field {\r\n        width: 95%;\r\n    }\r\n    .tab-content {\r\n        width: 100%;\r\n    }\r\n    .image-box {\r\n        width: 100%;\r\n    }\r\n    .tab-content.ingredients-steps {\r\n        justify-content: center;\r\n        flex-direction: column;\r\n    }\r\n    .time-container {\r\n        flex-direction: column;\r\n    }\r\n}\r\n\r\n@media screen and (max-width: 550px) {\r\n    .mat-form-field {\r\n        width: 95%;\r\n    }\r\n    .tab-content {\r\n        width: 100vw;\r\n    }\r\n    .image-box {\r\n        width: 100%;\r\n    }\r\n    .tab-content.ingredients-steps {\r\n        justify-content: center;\r\n        flex-direction: column;\r\n    }\r\n    .time-container {\r\n        flex-direction: column;\r\n    }\r\n}\r\n\r\n.image-hover-shader {\r\n    position: absolute;\r\n    z-index: 2;\r\n    cursor: pointer;\r\n    display: flex;\r\n    justify-content: space-around;\r\n    align-items: center;\r\n}\r\n\r\n.image-hover-shader img {\r\n    visibility: hidden;\r\n    height: 50px;\r\n}\r\n\r\n.image-hover-shader:hover {\r\n    background-color: rgba(0, 0, 0, 0.3);\r\n}\r\n\r\n.image-hover-shader:hover img {\r\n    visibility: visible;\r\n}\r\n\r\n.small-margin-bottom {\r\n    margin-bottom: 1em;\r\n}\r\n\r\n/* ---- END OF INFORMATIONS TAB -------- */\r\n\r\n/* ---- Ingredients & Steps tab -------- */\r\n\r\n.recipe-section {\r\n    max-width: 540px;\r\n    width: 100%;\r\n    margin-bottom: 1em;\r\n}\r\n\r\n.tab-content.ingredients-steps {\r\n    display: flex;\r\n    flex-wrap: wrap;\r\n}\r\n\r\n/* ---- Comments tab ---- */\r\n\r\n.tab-content.comments-tab {\r\n    justify-content: space-between;\r\n    flex-direction: row;\r\n}\r\n\r\n.comments-rating {\r\n    display: flex;\r\n    flex-direction: column;\r\n    justify-content: space-between;\r\n    height: 100%;\r\n    margin-top: 20px;\r\n}\r\n\r\n.rating {\r\n    display: flex;\r\n    justify-content: space-around;\r\n}\r\n\r\n.rating-control {\r\n    font-size: 2em !important;\r\n}\r\n\r\n/* Window's actions */\r\n\r\n.delete-recipe-button {\r\n    margin-right: 20px;\r\n}\r\n\r\n.margin-top-20 {\r\n    margin-top: 20px;\r\n}\r\n\r\n@media screen and (max-width: 1500px) {\r\n    .tab-content.comments-tab {\r\n        justify-content: space-between;\r\n        flex-direction: column;\r\n    }\r\n}\r\n\r\n.actions {\r\n    display: flex;\r\n    flex-direction: row;\r\n    justify-content: flex-end;\r\n}\r\n"
 
 /***/ }),
 
@@ -4408,6 +5003,279 @@ var RecipeCreatorComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/pages/recipe-grid/recipe-grid.component.css":
+/*!*************************************************************!*\
+  !*** ./src/app/pages/recipe-grid/recipe-grid.component.css ***!
+  \*************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ":host() {\r\n    display: flex;\r\n    flex-direction: column;\r\n    height: 100%;\r\n}\r\n\r\n.mainContainer {\r\n    flex-grow: 1;\r\n    margin: 10px;\r\n    /* height: 100%; */\r\n}\r\n\r\n.recipe-list {\r\n    width: 100%;\r\n    height: 80vh;\r\n    overflow: auto;\r\n}\r\n\r\n.table-header {\r\n    padding-bottom: 10px;\r\n    display: flex;\r\n    justify-content: space-between;\r\n    width: 100%;\r\n}\r\n\r\n.grid {\r\n    display: flex;\r\n    flex-direction: row;\r\n    justify-content: center;\r\n/*     height: 100%;\r\n    overflow-y: auto; */\r\n}\r\n\r\n.column:not(:last-child) {\r\n    margin-right: 20px;\r\n}\r\n\r\n.column:only-child {\r\n    margin: 0;\r\n    width: 90%;\r\n}\r\n\r\n.column:only-child .tile {\r\n    width: 100% !important;\r\n}\r\n\r\n.tile {\r\n    background-color: aliceblue;\r\n    cursor: pointer;\r\n    z-index: auto;\r\n}\r\n\r\n.recipe-image {\r\n    width: 100%;\r\n}\r\n\r\n.edit-button {\r\n    min-width: 2.5em;\r\n    width: 2.5em;\r\n    padding: 0px;\r\n}\r\n\r\n.mat-column-actions {\r\n    max-width: 20px;\r\n}\r\n\r\n\r\n"
+
+/***/ }),
+
+/***/ "./src/app/pages/recipe-grid/recipe-grid.component.html":
+/*!**************************************************************!*\
+  !*** ./src/app/pages/recipe-grid/recipe-grid.component.html ***!
+  \**************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"mainContainer\">\n    <div class=\"table-header\">\n        <button class=\"button\" color=\"accent\" [routerLink]=\"['/recipe/create']\" mat-button>Créer une recette</button>\n        <button class=\"button\" color=\"accent\" (click)=\"advancedSearch()\" mat-button>\n            <mat-icon>search</mat-icon>Recherche avancée</button>\n    </div>\n\n    <div class=\"grid\" #grid>\n        <div class=\"column\" *ngFor=\"let column of columns\">\n            <div class=\"tile mat-elevation-z2\" [ngStyle]=\"{'width.px': colWidth}\" (click)=\"viewRecipe(recipe._id)\" *ngFor=\"let recipe of column\">\n                <img class=\"recipe-image\" [src]=\"recipe.image? recipe.image: defaultImage\">\n                <h4>{{recipe.name}}</h4>\n            </div>\n        </div>\n    </div>\n</div>\n\n"
+
+/***/ }),
+
+/***/ "./src/app/pages/recipe-grid/recipe-grid.component.ts":
+/*!************************************************************!*\
+  !*** ./src/app/pages/recipe-grid/recipe-grid.component.ts ***!
+  \************************************************************/
+/*! exports provided: RecipeGridComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RecipeGridComponent", function() { return RecipeGridComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _ngrx_store__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @ngrx/store */ "./node_modules/@ngrx/store/fesm5/store.js");
+/* harmony import */ var _core_store__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../core/store */ "./src/app/core/store/index.ts");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
+/* harmony import */ var _search_advanced_recipe_search_advanced_recipe_search_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../search/advanced-recipe-search/advanced-recipe-search.component */ "./src/app/search/advanced-recipe-search/advanced-recipe-search.component.ts");
+/* harmony import */ var _recipes_shared_recipe_model__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../recipes/shared/recipe.model */ "./src/app/recipes/shared/recipe.model.ts");
+/* harmony import */ var _core_logger_logger_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../core/logger/logger.service */ "./src/app/core/logger/logger.service.ts");
+/* harmony import */ var _recipes_shared_infinite_scroll_class__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../recipes/shared/infinite-scroll.class */ "./src/app/recipes/shared/infinite-scroll.class.ts");
+/* harmony import */ var _recipes_recipe_list_recipe_list_datasource__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../recipes/recipe-list/recipe-list.datasource */ "./src/app/recipes/recipe-list/recipe-list.datasource.ts");
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+// Ngrx Store
+
+
+
+// Components
+
+// Models
+
+// Services
+
+// Others
+
+
+var RecipeGridComponent = /** @class */ (function (_super) {
+    __extends(RecipeGridComponent, _super);
+    function RecipeGridComponent(actions$, loggerService, dialog, router, snackbar, store) {
+        var _this = _super.call(this, RecipeGridComponent_1.LOADING_DISTANCE) || this;
+        _this.actions$ = actions$;
+        _this.loggerService = loggerService;
+        _this.dialog = dialog;
+        _this.router = router;
+        _this.snackbar = snackbar;
+        _this.store = store;
+        _this.defaultImage = _recipes_shared_recipe_model__WEBPACK_IMPORTED_MODULE_7__["Recipe"].DEFAULT_IMAGE;
+        // Layout management
+        _this.columns = [];
+        _this.numberOfColumn = 4;
+        _this.colWidth = 200; /** In pixels */
+        _this.minGutter = 5;
+        _this.hasLoadedView = false;
+        _this.recipes = [];
+        _this.allDataIsLoaded = false;
+        _this.hasShownAllDataIsLoaded = false;
+        _this.subcriptions = [];
+        return _this;
+    }
+    RecipeGridComponent_1 = RecipeGridComponent;
+    RecipeGridComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.listenToStoreState();
+        this.dataSource = new _recipes_recipe_list_recipe_list_datasource__WEBPACK_IMPORTED_MODULE_10__["RecipeListDataSource"](this.store);
+        this.recipes$ = this.dataSource.connect();
+        this.subcriptions.push(this.recipes$.subscribe(function (recipes) {
+            _this.recipes = recipes;
+            // This if prevents the view from being rendered twice in a row.
+            if (_this.hasLoadedView) {
+                _this.updateGridDisplay();
+            }
+        }));
+        // When moving from one page to another using the Angular Router, the
+        // recipeService is not reinitialized since it was injected to this class.
+        // We don't want to load more recipe when we navigate from one page to another
+        // but we want our table to display the proper recipes.
+        if (!this.allDataIsLoaded) {
+            this.loadMore();
+        }
+    };
+    RecipeGridComponent.prototype.ngAfterViewInit = function () {
+        var _this = this;
+        this.hasLoadedView = true;
+        setTimeout(function () { return _this.formatRecipesForDisplay(); });
+    };
+    RecipeGridComponent.prototype.ngOnDestroy = function () {
+        this.dataSource.disconnect();
+        for (var _i = 0, _a = this.subcriptions; _i < _a.length; _i++) {
+            var sub = _a[_i];
+            sub.unsubscribe();
+        }
+        // Hide advanced search snack bar if we are leaving the page.
+        if (this.searchSnackBarRef) {
+            this.searchSnackBarRef.instance.action(); // Cancels the search.
+        }
+    };
+    RecipeGridComponent.prototype.viewRecipe = function (recipeId) {
+        this.router.navigateByUrl("/recipes/" + recipeId);
+    };
+    RecipeGridComponent.prototype.advancedSearch = function () {
+        var _this = this;
+        this.dialog
+            .open(_search_advanced_recipe_search_advanced_recipe_search_component__WEBPACK_IMPORTED_MODULE_6__["AdvancedRecipeSearchComponent"])
+            .afterClosed()
+            .subscribe(function (response) {
+            // Ignoring when the user cancels the advanced search.
+            if (response) {
+                _this.store.dispatch(new _core_store__WEBPACK_IMPORTED_MODULE_4__["SearchRecipes"](response));
+                _this.displaySearchCancelOption();
+            }
+        });
+    };
+    RecipeGridComponent.prototype.displaySearchCancelOption = function () {
+        var _this = this;
+        var config = new _angular_material__WEBPACK_IMPORTED_MODULE_1__["MatSnackBarConfig"]();
+        config.horizontalPosition = "right";
+        config.panelClass = "no-margin-bottom";
+        this.searchSnackBarRef = this.loggerService.persistentAction("Une recherche est active.");
+        this.searchSnackBarRef.onAction().subscribe(function () {
+            _this.store.dispatch(new _core_store__WEBPACK_IMPORTED_MODULE_4__["CancelSearchRecipes"]());
+            _this.searchSnackBarRef = null;
+        });
+    };
+    /**
+     * Loads more recipe into the list.
+     */
+    RecipeGridComponent.prototype.loadMore = function () {
+        // If we can still load more resources
+        if (!this.allDataIsLoaded) {
+            this.store.dispatch(new _core_store__WEBPACK_IMPORTED_MODULE_4__["LoadRecipes"]());
+            return this.canLoadMoreData$.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["take"])(1)).toPromise();
+        }
+        else if (!this.hasShownAllDataIsLoaded) {
+            this.allDataIsLoaded = true;
+            this.hasShownAllDataIsLoaded = true;
+            this.showAllDataIsLoadedMessage();
+        }
+        // Else,
+        return Promise.resolve();
+    };
+    RecipeGridComponent.prototype.listenToStoreState = function () {
+        var _this = this;
+        this.canLoadMoreData$ = this.store.select(_core_store__WEBPACK_IMPORTED_MODULE_4__["getCanLoadMoreRecipes"]);
+        this.subcriptions.push(this.canLoadMoreData$.subscribe(function (canLoadMore) { return (_this.allDataIsLoaded = !canLoadMore); }));
+    };
+    RecipeGridComponent.prototype.formatRecipesForDisplay = function () {
+        if (!this.gridElement) {
+            return;
+        }
+        this.gridWidth = this.gridElement.nativeElement.offsetWidth;
+        var currentGridWidth = this.gridWidth;
+        // Take all space available if the current col width is invalid.
+        var currentColWidth = this.colWidth;
+        var calculatedNumberOfColumn = Math.floor(currentGridWidth / (currentColWidth + this.minGutter));
+        var newNumberOfColumn = Math.max(calculatedNumberOfColumn, 1); // Always display at least one column.
+        if (this.numberOfColumn !== newNumberOfColumn) {
+            this.numberOfColumn = newNumberOfColumn;
+            this.updateGridDisplay();
+        }
+    };
+    RecipeGridComponent.prototype.updateGridDisplay = function () {
+        this.columns = [];
+        // Setting up the columns to empty array.
+        for (var i = 0; i < this.numberOfColumn; ++i) {
+            this.columns.push([]);
+        }
+        // Then, filling these array with recipes.
+        for (var col = 0; col < this.numberOfColumn; ++col) {
+            for (var i = col; i < this.recipes.length; i += this.numberOfColumn) {
+                this.columns[col].push(this.recipes[i]);
+            }
+        }
+    };
+    RecipeGridComponent.prototype.showAllDataIsLoadedMessage = function () {
+        // There are no actions for this snackbar since it displays only an
+        // information message. It is frustrating to the user if he tries to close
+        // this snackbar but the snackbar closes automatically beforehand.
+        this.loggerService.info("Toutes les recettes ont été chargées.", "");
+    };
+    ////////////////// Grid responsive layout management /////////////////////
+    RecipeGridComponent.prototype.onComponentResize = function () {
+        // this._gridWidth = width;
+        this.resizeThrottler(this.formatRecipesForDisplay.bind(this));
+    };
+    RecipeGridComponent.prototype.resizeThrottler = function (callback) {
+        var _this = this;
+        // ignore resize events as long as an actualResizeHandler execution is in the queue
+        if (!this.resizeTimeout) {
+            this.resizeTimeout = setTimeout(function () {
+                _this.resizeTimeout = null;
+                callback();
+                // The actualResizeHandler will execute at a rate of 15fps
+            }, 66);
+        }
+    };
+    /**
+     * the number is the scroll distance for which the loadMore function will
+     * be called, in pixels.
+     */
+    RecipeGridComponent.LOADING_DISTANCE = 20;
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewChild"])("grid"),
+        __metadata("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ElementRef"])
+    ], RecipeGridComponent.prototype, "gridElement", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["HostListener"])("window:resize"),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", []),
+        __metadata("design:returntype", void 0)
+    ], RecipeGridComponent.prototype, "onComponentResize", null);
+    RecipeGridComponent = RecipeGridComponent_1 = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: "mcb-recipe-grid",
+            template: __webpack_require__(/*! ./recipe-grid.component.html */ "./src/app/pages/recipe-grid/recipe-grid.component.html"),
+            styles: [__webpack_require__(/*! ./recipe-grid.component.css */ "./src/app/pages/recipe-grid/recipe-grid.component.css")]
+        }),
+        __metadata("design:paramtypes", [_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["ActionsSubject"],
+            _core_logger_logger_service__WEBPACK_IMPORTED_MODULE_8__["LoggerService"],
+            _angular_material__WEBPACK_IMPORTED_MODULE_1__["MatDialog"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"],
+            _angular_material__WEBPACK_IMPORTED_MODULE_1__["MatSnackBar"],
+            _ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"]])
+    ], RecipeGridComponent);
+    return RecipeGridComponent;
+    var RecipeGridComponent_1;
+}(_recipes_shared_infinite_scroll_class__WEBPACK_IMPORTED_MODULE_9__["InfiniteScroll"]));
+
+
+
+/***/ }),
+
 /***/ "./src/app/pages/recipe-page/recipe-page.component.ts":
 /*!************************************************************!*\
   !*** ./src/app/pages/recipe-page/recipe-page.component.ts ***!
@@ -4472,7 +5340,7 @@ module.exports = "<mat-sidenav-container>\r\n  <mat-sidenav>\r\n  </mat-sidenav>
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/* For the view recipe window.*/\r\n\r\n:host {\r\n    height: 100%;\r\n    display: flex;\r\n    flex-direction: column;\r\n    align-items: center;\r\n    background-image: url('recipe-background-blur.jpeg');\r\n    background-size: contain;\r\n}\r\n\r\n.window {\r\n    width: 700px;\r\n    /* ~8.5 inches */\r\n    display: flex;\r\n    flex-direction: column;\r\n    justify-content: space-between;\r\n    margin: 10px 0;\r\n    background-color: white;\r\n    padding: 20px;\r\n    flex-grow: 1;\r\n    /*  animation-name: expand;\r\n    animation-duration: .9s;*/\r\n}\r\n\r\n/* Top of the window */\r\n\r\n.top-section {\r\n    display: flex;\r\n    justify-content: space-between;\r\n    align-items: stretch;\r\n    flex-wrap: wrap;\r\n}\r\n\r\n.first-row {\r\n    display: flex;\r\n    width: 100%;\r\n    margin-top: -1em;\r\n    /* To override the padding from the .mat-dialog-container */\r\n    margin-bottom: 1.5em;\r\n}\r\n\r\n/* Genre */\r\n\r\n.recipe-genre {\r\n    text-align: center;\r\n    margin: 0;\r\n    color: gray;\r\n    font: caption;\r\n    font-weight: normal;\r\n    width: 100%;\r\n}\r\n\r\n/* General recipe info */\r\n\r\n.recipe-top-info {\r\n    flex-grow: 1;\r\n    margin-right: 5%;\r\n}\r\n\r\n.recipe-name-container {\r\n    height: 52%;\r\n    display: flex;\r\n    flex-direction: column;\r\n    justify-content: space-between;\r\n    padding-bottom: 4%;\r\n}\r\n\r\nstar-rating {\r\n    font-size: 0.9em;\r\n}\r\n\r\nmat-chip-list:focus {\r\n    outline: none;\r\n}\r\n\r\n.recipe-name {\r\n    margin: 0;\r\n}\r\n\r\n.recipe-image {\r\n    width: 200px;\r\n    height: 200px;\r\n}\r\n\r\n.border {\r\n    border: solid black 1px;\r\n}\r\n\r\nhr {\r\n    border-color: lightgrey;\r\n    border-top: 1px;\r\n}\r\n\r\n.recipe-portions-time {\r\n    font-size: 0.9em;\r\n    flex-grow: 1;\r\n    display: flex;\r\n    flex-direction: row;\r\n    justify-content: space-between;\r\n    align-items: center;\r\n}\r\n\r\n.size-20 {\r\n    font-size: 1.2em;\r\n}\r\n\r\n/* Middle of the window */\r\n\r\n.middle-section {\r\n    flex-grow: 1;\r\n    display: flex;\r\n    flex-direction: column;\r\n    justify-content: space-between;\r\n}\r\n\r\n.row {\r\n    display: flex;\r\n    justify-content: space-between;\r\n    width: 100%;\r\n}\r\n\r\n.section {\r\n    flex-basis: 47%;\r\n}\r\n\r\n.dialog-content {\r\n    display: flex;\r\n    flex-direction: column;\r\n    flex-grow: 1;\r\n}\r\n\r\n/*.section:not(:last-child) {\r\n    margin-bottom: 25px;\r\n  }*/\r\n\r\n/* Ingredients */\r\n\r\n.recipe-ingredients {\r\n    flex-basis: 45%;\r\n}\r\n\r\n.ingredient {\r\n    display: flex;\r\n    justify-content: space-between;\r\n}\r\n\r\n.ingredient:not(:last-child), .step:not(:last-child) {\r\n    margin-bottom: 0.2em;\r\n}\r\n\r\n.ingredient-quantity {\r\n    padding-right: 10px;\r\n    flex-shrink: 0;\r\n    min-width: 87px;\r\n}\r\n\r\n.ingredient-name {\r\n    flex-grow: 1;\r\n}\r\n\r\n.small-marginbottom {\r\n    margin-bottom: 5px;\r\n}\r\n\r\n/* Steps */\r\n\r\n.recipe-steps {\r\n    flex-basis: 45%;\r\n}\r\n\r\n.step {\r\n    text-align: justify;\r\n}\r\n\r\n.reset-counter {\r\n    counter-reset: stepNumber;\r\n}\r\n\r\n.step:before {\r\n    float: left;\r\n    content: counter(stepNumber);\r\n    counter-increment: stepNumber;\r\n    margin-left: -1.5em;\r\n}\r\n\r\n/* Notes */\r\n\r\n.recipe-notes {\r\n    width: 45%;\r\n}\r\n\r\n.note {\r\n    font-size: 0.95em;\r\n    margin: 0;\r\n}\r\n\r\n.artisticFont {\r\n    font-family: Century Gothic, CenturyGothic, AppleGothic, sans-serif;\r\n    font-size: 0.9em;\r\n}\r\n\r\n/* Loading state */\r\n\r\n.shader {\r\n    width: 100%;\r\n    height: 100%;\r\n    display: flex;\r\n    flex-direction: column;\r\n    justify-content: center;\r\n    align-items: stretch;\r\n}\r\n\r\n.bottom-section {\r\n    display: flex;\r\n    flex-direction: row;\r\n    justify-content: space-between;\r\n}\r\n\r\n.equipment {\r\n    margin-bottom: 3%;\r\n    width: 45%;\r\n}\r\n\r\n.equipment h4 {\r\n    margin-top: 0;\r\n}\r\n\r\n.actions {\r\n    display: flex;\r\n    flex-direction: row-reverse;\r\n    align-items: center;\r\n}\r\n\r\n/*@keyframes expand {\r\n      0%   {\r\n        width: 0px;\r\n        min-height: 0px;\r\n      }\r\n      100% {\r\n        width: 700px;  /* ~8.5 inches */\r\n\r\n/*min-height: 825px; /* 11 inches  */\r\n\r\n/*    }\r\n  }*/\r\n"
+module.exports = "/* For the view recipe window.*/\r\n\r\n:host {\r\n    height: 100%;\r\n    display: flex;\r\n    flex-direction: column;\r\n    align-items: center;\r\n    background-image: url('hardwood-background.jpeg');\r\n    background-size: contain;\r\n}\r\n\r\n.window {\r\n    max-width: 700px; /* ~8.5 inches */\r\n    display: flex;\r\n    flex-direction: column;\r\n    justify-content: space-between;\r\n    margin: 10px 0;\r\n    background-color: white;\r\n    padding: 20px;\r\n    flex-grow: 1;\r\n    /*  animation-name: expand;\r\n    animation-duration: .9s;*/\r\n}\r\n\r\n/* Top of the window */\r\n\r\n.top-section {\r\n    display: flex;\r\n    justify-content: space-between;\r\n    align-items: stretch;\r\n    flex-wrap: wrap;\r\n}\r\n\r\n.first-row {\r\n    display: flex;\r\n    width: 100%;\r\n    margin-top: -1em;\r\n    /* To override the padding from the .mat-dialog-container */\r\n    margin-bottom: 1.5em;\r\n}\r\n\r\n/* Genre */\r\n\r\n.recipe-genre {\r\n    text-align: center;\r\n    margin: 0;\r\n    color: gray;\r\n    font: caption;\r\n    font-weight: normal;\r\n    width: 100%;\r\n}\r\n\r\n/* General recipe info */\r\n\r\n.recipe-top-info {\r\n    flex-grow: 1;\r\n    margin-right: 5%;\r\n}\r\n\r\n.recipe-name-container {\r\n    height: 52%;\r\n    display: flex;\r\n    flex-direction: column;\r\n    justify-content: space-between;\r\n    padding-bottom: 4%;\r\n}\r\n\r\nstar-rating {\r\n    font-size: 0.9em;\r\n}\r\n\r\nmat-chip-list:focus {\r\n    outline: none;\r\n}\r\n\r\n.recipe-name {\r\n    margin: 0;\r\n}\r\n\r\n.recipe-image {\r\n    width: 200px;\r\n    height: 200px;\r\n}\r\n\r\n.border {\r\n    border: solid black 1px;\r\n}\r\n\r\nhr {\r\n    border-color: lightgrey;\r\n    border-top: 1px;\r\n}\r\n\r\n.recipe-portions-time {\r\n    font-size: 0.9em;\r\n    flex-grow: 1;\r\n    display: flex;\r\n    flex-direction: row;\r\n    justify-content: space-between;\r\n    align-items: center;\r\n}\r\n\r\n.size-20 {\r\n    font-size: 1.2em;\r\n}\r\n\r\n/* Middle of the window */\r\n\r\n.middle-section {\r\n    flex-grow: 1;\r\n    display: flex;\r\n    flex-direction: column;\r\n    justify-content: space-between;\r\n}\r\n\r\n.row {\r\n    display: flex;\r\n    justify-content: space-between;\r\n    width: 100%;\r\n}\r\n\r\n.section {\r\n    flex-basis: 47%;\r\n}\r\n\r\n.dialog-content {\r\n    display: flex;\r\n    flex-direction: column;\r\n    flex-grow: 1;\r\n}\r\n\r\n/*.section:not(:last-child) {\r\n    margin-bottom: 25px;\r\n  }*/\r\n\r\n/* Ingredients */\r\n\r\n.recipe-ingredients {\r\n    flex-basis: 45%;\r\n}\r\n\r\n.ingredient {\r\n    display: flex;\r\n    justify-content: space-between;\r\n}\r\n\r\n.ingredient:not(:last-child), .step:not(:last-child) {\r\n    margin-bottom: 0.2em;\r\n}\r\n\r\n.ingredient-quantity {\r\n    padding-right: 10px;\r\n    flex-shrink: 0;\r\n    min-width: 87px;\r\n}\r\n\r\n.ingredient-name {\r\n    flex-grow: 1;\r\n}\r\n\r\n.small-marginbottom {\r\n    margin-bottom: 5px;\r\n}\r\n\r\n/* Steps */\r\n\r\n.recipe-steps {\r\n    flex-basis: 45%;\r\n}\r\n\r\n.step {\r\n    text-align: justify;\r\n}\r\n\r\n.reset-counter {\r\n    counter-reset: stepNumber;\r\n}\r\n\r\n.step:before {\r\n    float: left;\r\n    content: counter(stepNumber);\r\n    counter-increment: stepNumber;\r\n    margin-left: -1.5em;\r\n}\r\n\r\n/* Notes */\r\n\r\n.recipe-notes {\r\n    width: 45%;\r\n}\r\n\r\n.note {\r\n    font-size: 0.95em;\r\n    margin: 0;\r\n}\r\n\r\n.artisticFont {\r\n    font-family: Century Gothic, CenturyGothic, AppleGothic, sans-serif;\r\n    font-size: 0.9em;\r\n}\r\n\r\n/* Loading state */\r\n\r\n.shader {\r\n    width: 100%;\r\n    height: 100%;\r\n    display: flex;\r\n    flex-direction: column;\r\n    justify-content: center;\r\n    align-items: stretch;\r\n}\r\n\r\n.bottom-section {\r\n    display: flex;\r\n    flex-direction: row;\r\n    justify-content: space-between;\r\n}\r\n\r\n.equipment {\r\n    margin-bottom: 3%;\r\n    width: 45%;\r\n}\r\n\r\n.equipment h4 {\r\n    margin-top: 0;\r\n}\r\n\r\n.actions {\r\n    display: flex;\r\n    flex-direction: row-reverse;\r\n    align-items: center;\r\n}\r\n\r\n/*@keyframes expand {\r\n      0%   {\r\n        width: 0px;\r\n        min-height: 0px;\r\n      }\r\n      100% {\r\n        width: 700px;  /* ~8.5 inches */\r\n\r\n/*min-height: 825px; /* 11 inches  */\r\n\r\n/*    }\r\n  }*/\r\n"
 
 /***/ }),
 
@@ -5026,7 +5894,7 @@ var IngredientListboxModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".mat-divider {\n  margin-top: 1em;\n  margin-bottom: 2em;\n  position: relative;\n}\n"
+module.exports = "ingredient-section {\n    padding-top: 1em;\n    padding-bottom: 2em;\n}\n\n"
 
 /***/ }),
 
@@ -5037,7 +5905,7 @@ module.exports = ".mat-divider {\n  margin-top: 1em;\n  margin-bottom: 2em;\n  p
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<custom-listbox [title]=\"'Ingrédients'\" [addItemText]=\"'Ajouter une section'\" (createNewItem)=\"createNewSection()\">\n  <div *ngFor=\"let section of sections; index as i; last as isLast\">\n    <ingredient-section  [(ngModel)]=\"sections[i]\"></ingredient-section>\n    <mat-divider *ngIf=\"!isLast\"></mat-divider>\n  </div>\n</custom-listbox>\n"
+module.exports = "<custom-listbox [title]=\"'Ingrédients'\" [addItemText]=\"'Ajouter une section'\" (createNewItem)=\"createNewSection()\">\n  <div *ngFor=\"let section of sections; index as i; last as isLast\">\n    <ingredient-section [(ngModel)]=\"sections[i]\"></ingredient-section>\n    <mat-divider *ngIf=\"!isLast\"></mat-divider>\n  </div>\n</custom-listbox>\n"
 
 /***/ }),
 
@@ -5294,7 +6162,7 @@ var Ingredient = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".mainContainer {\r\n  min-height: 80vh;\r\n  margin: 10px 10px 2px 10px;\r\n}\r\n\r\n.recipe-list {\r\n  width: 100%;\r\n  height: 80vh;\r\n  overflow: auto;\r\n}\r\n\r\n.table-header {\r\n  padding-bottom: 10px;\r\n  display: flex;\r\n  justify-content: space-between;\r\n  width: 100%;\r\n}\r\n\r\n.edit-button {\r\n  min-width: 2.5em;\r\n  width: 2.5em;\r\n  padding: 0px;\r\n}\r\n\r\n/*\r\n\r\n.searchBar-Input {\r\n  min-width: 100px !important;\r\n  width: 50% !important;\r\n  -webkit-transition: width 0.4s ease-in-out;\r\n  transition: width 0.4s ease-in-out;\r\n  float: right !important;\r\n}\r\n\r\n.searchBar-Input:focus {\r\n  width: 100% !important;\r\n}\r\n\r\n.recipeListContent {\r\n  height: 90vh;\r\n  overflow: auto;\r\n}\r\n\r\n.recipesListItem {\r\n  cursor: pointer;\r\n}\r\n\r\n.recipesList-TopSection .createRecipe {\r\n  display:inline-block;\r\n}\r\n\r\n.recipesList-TopSection .searchBar {\r\n  min-width: 100px;\r\n  width:50%;\r\n  float:right;\r\n}\r\n*/\r\n"
+module.exports = ".mainContainer {\r\n  min-height: 80vh;\r\n  margin: 10px 10px 2px 10px;\r\n}\r\n\r\n.recipe-list {\r\n  width: 100%;\r\n  height: 80vh;\r\n  overflow: auto;\r\n}\r\n\r\n.table-header {\r\n  padding-bottom: 10px;\r\n  display: flex;\r\n  justify-content: space-between;\r\n  width: 100%;\r\n}\r\n\r\n.mat-column-name {\r\n    min-width: 150px;\r\n}\r\n\r\n.edit-button {\r\n  min-width: 2.5em;\r\n  width: 2.5em;\r\n  padding: 0px;\r\n  margin-right: 10px;\r\n}\r\n\r\n.mat-column-actions {\r\n    max-width: 20px;\r\n}\r\n\r\n/*\r\n\r\n.searchBar-Input {\r\n  min-width: 100px !important;\r\n  width: 50% !important;\r\n  -webkit-transition: width 0.4s ease-in-out;\r\n  transition: width 0.4s ease-in-out;\r\n  float: right !important;\r\n}\r\n\r\n.searchBar-Input:focus {\r\n  width: 100% !important;\r\n}\r\n\r\n.recipeListContent {\r\n  height: 90vh;\r\n  overflow: auto;\r\n}\r\n\r\n.recipesListItem {\r\n  cursor: pointer;\r\n}\r\n\r\n.recipesList-TopSection .createRecipe {\r\n  display:inline-block;\r\n}\r\n\r\n.recipesList-TopSection .searchBar {\r\n  min-width: 100px;\r\n  width:50%;\r\n  float:right;\r\n}\r\n*/\r\n"
 
 /***/ }),
 
@@ -5305,7 +6173,7 @@ module.exports = ".mainContainer {\r\n  min-height: 80vh;\r\n  margin: 10px 10px
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<mat-card class=\"mainContainer\">\r\n  <mat-card-header>\r\n    <div class=\"table-header\">\r\n      <button class=\"button\" color=\"accent\" [routerLink]=\"['/recipe/create']\" mat-button>Créer une recette</button>\r\n      <button class=\"button\" color=\"accent\" (click)=\"advancedSearch()\" mat-button><mat-icon>search</mat-icon>Recherche avancée</button>\r\n    </div>\r\n  </mat-card-header>\r\n\r\n    <mat-table class=\"recipe-list\" [dataSource]=\"dataSource\" (scroll)=\"onScrollDown($event)\" #table>\r\n      <!--- Note that these columns can be defined in any order.\r\n            The actual rendered columns are set as a property on the row definition -->\r\n\r\n      <!-- Name Column -->\r\n      <ng-container cdkColumnDef=\"name\">\r\n        <mat-header-cell *cdkHeaderCellDef> Nom </mat-header-cell>\r\n        <mat-cell *cdkCellDef=\"let recipe\"> {{recipe.name}} </mat-cell>\r\n      </ng-container>\r\n\r\n      <!-- Genre Column -->\r\n      <ng-container cdkColumnDef=\"genre\">\r\n        <mat-header-cell *cdkHeaderCellDef> Genre </mat-header-cell>\r\n        <mat-cell *cdkCellDef=\"let recipe\"> {{recipe.genre}} </mat-cell>\r\n      </ng-container>\r\n\r\n      <!-- Rating Column -->\r\n      <ng-container cdkColumnDef=\"rating\">\r\n        <mat-header-cell *cdkHeaderCellDef> Note </mat-header-cell>\r\n        <mat-cell *cdkCellDef=\"let recipe\"><star-rating [readonly]=\"true\" [(ngModel)]=\"recipe.rating\"></star-rating></mat-cell>\r\n      </ng-container>\r\n\r\n      <ng-container cdkColumnDef=\"actions\">\r\n        <mat-header-cell *cdkHeaderCellDef> Action </mat-header-cell>\r\n        <mat-cell *cdkCellDef=\"let recipe\">\r\n          <button color=\"primary\" [routerLink]=\"['/recipe/edit/' + recipe._id]\" class=\"edit-button\" mat-icon-button>\r\n            <mat-icon aria-label=\"Edit or delete this recipe\">create</mat-icon>\r\n          </button>\r\n        </mat-cell>\r\n\r\n      </ng-container>\r\n\r\n      <mat-header-row *cdkHeaderRowDef=\"displayedColumns\"></mat-header-row>\r\n      <mat-row class=\"clickable\" *cdkRowDef=\"let recipe; columns: displayedColumns;\" (click)=\"viewRecipe(recipe._id)\"></mat-row>\r\n    </mat-table>\r\n</mat-card>\r\n"
+module.exports = "<mat-card class=\"mainContainer\">\r\n  <mat-card-header>\r\n    <div class=\"table-header\">\r\n      <button class=\"button\" color=\"accent\" [routerLink]=\"['/recipe/create']\" mat-button>Créer une recette</button>\r\n      <button class=\"button\" color=\"accent\" (click)=\"advancedSearch()\" mat-button><mat-icon>search</mat-icon>Recherche avancée</button>\r\n    </div>\r\n  </mat-card-header>\r\n\r\n    <mat-table class=\"recipe-list\" [dataSource]=\"dataSource\" (scroll)=\"onScrollDown($event)\" #table>\r\n      <!--- Note that these columns can be defined in any order.\r\n            The actual rendered columns are set as a property on the row definition -->\r\n\r\n      <!-- Name Column -->\r\n      <ng-container cdkColumnDef=\"name\">\r\n        <mat-header-cell *cdkHeaderCellDef> Nom </mat-header-cell>\r\n        <mat-cell *cdkCellDef=\"let recipe\"> {{recipe.name}} </mat-cell>\r\n      </ng-container>\r\n\r\n      <!-- Genre Column -->\r\n      <ng-container cdkColumnDef=\"genre\">\r\n        <mat-header-cell *cdkHeaderCellDef> Genre </mat-header-cell>\r\n        <mat-cell *cdkCellDef=\"let recipe\"> {{recipe.genre}} </mat-cell>\r\n      </ng-container>\r\n\r\n      <!-- Rating Column -->\r\n      <ng-container cdkColumnDef=\"rating\">\r\n        <mat-header-cell *cdkHeaderCellDef> Note </mat-header-cell>\r\n        <mat-cell *cdkCellDef=\"let recipe\"><star-rating [readonly]=\"true\" [(ngModel)]=\"recipe.rating\"></star-rating></mat-cell>\r\n      </ng-container>\r\n\r\n      <ng-container cdkColumnDef=\"actions\">\r\n        <mat-header-cell *cdkHeaderCellDef></mat-header-cell>\r\n        <mat-cell *cdkCellDef=\"let recipe\">\r\n          <button color=\"primary\" [routerLink]=\"['/recipe/edit/' + recipe._id]\" class=\"edit-button\" mat-icon-button>\r\n            <mat-icon aria-label=\"Edit or delete this recipe\">create</mat-icon>\r\n          </button>\r\n        </mat-cell>\r\n\r\n      </ng-container>\r\n\r\n      <mat-header-row *cdkHeaderRowDef=\"displayedColumns; sticky: true\" ></mat-header-row>\r\n      <mat-row class=\"clickable\" *cdkRowDef=\"let recipe; columns: displayedColumns;\" (click)=\"viewRecipe(recipe._id)\"></mat-row>\r\n    </mat-table>\r\n</mat-card>\r\n"
 
 /***/ }),
 
@@ -6046,7 +6914,7 @@ var StepListbox = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".mat-divider {\n  margin-top: 1em;\n  margin-bottom: 2em;\n  position: relative;\n}\n"
+module.exports = "step-section {\n    padding-top: 1em;\n    padding-bottom: 2em;\n}\n"
 
 /***/ }),
 
@@ -6149,7 +7017,7 @@ var StepSectionWrapper = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".section-title {\n  height: 1em;\n  border: none;\n  margin-bottom: 10px;\n  font-size: large;\n  font-style: italic;\n}\n\n.section-title:focus {\n  color: black;\n}\n"
+module.exports = ".section-title {\n  height: 1em;\n  border: none;\n  margin-bottom: 10px;\n  font-size: large;\n  font-style: italic;\n}\n\n.section-title:focus {\n  color: black;\n}\n\n"
 
 /***/ }),
 
@@ -6544,7 +7412,7 @@ var RoutingModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/* Top of the window */\n.header {\n  display: flex;\n  justify-content: space-between;\n  align-items: stretch;\n}\n.header h1 {\n  margin-bottom: 0px;\n}\n.subtitle {\n  font-size: 18px;\n  color: rgba(0, 0, 0, 0.54);\n  font-family: Roboto, \"Helvetica Neue\", sans-serif;\n  font-style: italic;\n  margin-top: 5px;\n}\n/* Content of the window */\n.dialog-content {\n  width: 700px;\n}\n.strecth {\n  width: 96%;\n}\n.select {\n  width:90%;\n  display: flex;\n}\n.ingredient-field {\n  width: 100%;\n}\n.include-ingredient {\n  width: 15%;\n  margin-right: 5px;\n}\n.ingredient-checkbox {\n  margin-right: -11px;\n}\n.margin-top {\n  margin-top: 10px;\n}\n.cancel-padding-left {\n  margin-left: -21px;\n}\n.rating {\n  display: flex;\n  justify-content: space-between;\n  font-size: 1.5em;\n  width: 99.3%;\n}\n"
+module.exports = "/* Top of the window */\n.header {\n  display: flex;\n  justify-content: space-between;\n  align-items: stretch;\n}\n.header h1 {\n  margin-bottom: 0px;\n}\n.subtitle {\n  font-size: 18px;\n  color: rgba(0, 0, 0, 0.54);\n  font-family: Roboto, \"Helvetica Neue\", sans-serif;\n  font-style: italic;\n  margin-top: 5px;\n}\n/* Content of the window */\n.dialog-content {\n  max-width: 700px;\n  width: 100%;\n}\n.strecth {\n  width: 96%;\n}\n.select {\n  width:90%;\n  display: flex;\n}\n.ingredient-field {\n  width: 100%;\n}\n.include-ingredient {\n  width: 15%;\n  margin-right: 5px;\n}\n.ingredient-checkbox {\n  margin-right: -16px;\n}\n.margin-top {\n  margin-top: 10px;\n}\n.cancel-padding-left {\n  margin-left: -21px;\n}\n.rating-label {\n    width: 115px;\n}\n.rating {\n  display: flex;\n  justify-content: space-between;\n  font-size: 1.5em;\n  width: 99.3%;\n}\n.dialog-content .row {\n    width:100%;\n}\n.flex > mat-checkbox {\n    margin-left: 5px;\n}\n"
 
 /***/ }),
 
@@ -6555,7 +7423,7 @@ module.exports = "/* Top of the window */\n.header {\n  display: flex;\n  justif
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div>\r\n  <div class=\"header\">\r\n    <h1 mat-dialog-title>Quelle(s) recette(s) désirez-vous voir?</h1>\r\n    <mat-icon class=\"clickable\" color=\"primary\" (click)=\"closeDialog()\">clear</mat-icon>\r\n  </div>\r\n  <p class=\"subtitle\">Choisissez quels critères seront utilisés pour la recherche.</p>\r\n</div>\r\n\r\n<div class=\"dialog-content\" mat-dialog-content>\r\n  <!-- Name -->\r\n  <div>\r\n    <mat-form-field class=\"strecth\">\r\n      <recipename-autocomplete-input placeholder=\"Nom de la recette\" name=\"name\" [(ngModel)]=\"searchCriteria.name\" (input)=\"searchCriteria.wantsName = true\"></recipename-autocomplete-input>\r\n    </mat-form-field>\r\n    <mat-checkbox [(ngModel)]=\"searchCriteria.wantsName\"></mat-checkbox>\r\n  </div>\r\n  <!-- Recipe Type -->\r\n  <div>\r\n    <mat-form-field class=\"strecth\">\r\n      <mat-select placeholder=\"Genre\" name=\"genre\" [(ngModel)]=\"searchCriteria.genre\" (selectionChange)=\"searchCriteria.wantsGenre = true\">\r\n         <mat-option *ngFor=\"let genre of genres\" [value]=\"genre\">{{ genre }}</mat-option>\r\n       </mat-select>\r\n    </mat-form-field>\r\n    <mat-checkbox [(ngModel)]=\"searchCriteria.wantsGenre\"></mat-checkbox>\r\n  </div>\r\n\r\n  <!-- Total Time -->\r\n  <div>\r\n    <mat-form-field class=\"strecth\">\r\n      <time-input placeholder=\"Temps total\" name=\"totalTime\" [(ngModel)]=\"searchCriteria.totalTime\" (keydown)=\"searchCriteria.wantsTotalTime = true\"></time-input>\r\n      <mat-icon matSuffix>schedule</mat-icon>\r\n    </mat-form-field>\r\n    <mat-checkbox [(ngModel)]=\"searchCriteria.wantsTotalTime\"></mat-checkbox>\r\n  </div>\r\n\r\n  <!-- Ingredients -->\r\n  <!--<div>\r\n    <custom-listbox [title]=\"'Ingrédients'\" [addItemText]=\"'Ajoutez un ingrédient'\" (createNewItem)=\"addIngredient()\">\r\n      <mat-list-item class=\"ingredient\" *ngFor=\"let ingredient of searchCriteria.ingredients; index as i\">\r\n          <mat-icon mat-list-icon>restaurant</mat-icon>\r\n          <div mat-line>\r\n            <mat-form-field class=\"ingredient-field\">\r\n                <input matInput placeholder=\"Nom de l'ingrédient\" name=\"name\" [(ngModel)]=\"ingredient.info.name\"\r\n                (keypress)=\"searchCriteria.wantsIngredient[i] = true\">\r\n            </mat-form-field>\r\n          </div>\r\n          <mat-form-field class=\"include-ingredient\">\r\n            <mat-select [(ngModel)]=\"ingredient.include\" (selectionChange)=\"searchCriteria.wantsIngredient[i] = true\">\r\n               <mat-option [value]=\"true\">Inclure</mat-option>\r\n               <mat-option [value]=\"false\">Exclure</mat-option>\r\n             </mat-select>\r\n          </mat-form-field>\r\n          <mat-checkbox [(ngModel)]=\"searchCriteria.wantsIngredient[i]\"></mat-checkbox>\r\n      </mat-list-item>\r\n    </custom-listbox>\r\n  </div>-->\r\n\r\n  <div>\r\n    <label for=\"search-ingredients\"><h3 class=\"no-margin-bottom no-bold\">Ingrédients</h3></label>\r\n    <mat-list id=\"search-ingredients\">\r\n      <mat-list-item class=\"ingredient\" *ngFor=\"let ingredient of searchCriteria.ingredients; index as i\">\r\n          <mat-icon class=\"cancel-padding-left\" mat-list-icon>restaurant</mat-icon>\r\n          <div mat-line>\r\n            <mat-form-field class=\"ingredient-field\">\r\n              <ingredient-autocomplete-input placeholder=\"Nom de l'ingrédient\" [(ngModel)]=\"ingredient.name\" (input)=\"searchCriteria.wantsIngredient[i] = true\"></ingredient-autocomplete-input>\r\n            </mat-form-field>\r\n          </div>\r\n          <mat-form-field class=\"include-ingredient\" matTooltip=\"Disposez vous de cet ingrédient?\">\r\n            <mat-select [(ngModel)]=\"ingredient.include\" (selectionChange)=\"searchCriteria.wantsIngredient[i] = true\">\r\n               <mat-option [value]=\"true\">Inclure</mat-option>\r\n               <mat-option [value]=\"false\">Exclure</mat-option>\r\n             </mat-select>\r\n          </mat-form-field>\r\n          <mat-checkbox class=\"ingredient-checkbox\" [(ngModel)]=\"searchCriteria.wantsIngredient[i]\"></mat-checkbox>\r\n      </mat-list-item>\r\n    </mat-list>\r\n    <div class=\"align-end margin-top\">\r\n      <button type=\"button\" color=\"primary\" (click)=\"addIngredient()\" mat-button>Ajoutez un ingrédient</button>\r\n    </div>\r\n  </div>\r\n\r\n  <!-- Rating -->\r\n  <div>\r\n    <label for=\"search-rating\"><h3 class=\"no-margin no-bold\">Note (et plus)</h3></label>\r\n    <div class=\"rating\">\r\n      <star-rating id=\"search-rating\"[(ngModel)]=\"searchCriteria.rating\" (change)=\"searchCriteria.wantsRating = true\"></star-rating>\r\n      <mat-checkbox [(ngModel)]=\"searchCriteria.wantsRating\" (change)=\"validateRating()\"></mat-checkbox>\r\n    </div>\r\n  </div>\r\n\r\n</div>\r\n\r\n<mat-dialog-actions align=\"end\">\r\n  <button class=\"button\" color=\"primary\" (click)=\"search()\" [disabled]=\"!isOneSearchCriterionActive()\" mat-button>\r\n    <mat-icon>search</mat-icon>Rechercher\r\n  </button>\r\n  <button class=\"button\" color=\"primary\" mat-button mat-dialog-close>Annuler</button>\r\n</mat-dialog-actions>\r\n"
+module.exports = "<div>\r\n  <div class=\"header\">\r\n    <h1 mat-dialog-title>Quelle(s) recette(s) désirez-vous voir?</h1>\r\n    <mat-icon class=\"clickable\" color=\"primary\" (click)=\"closeDialog()\">clear</mat-icon>\r\n  </div>\r\n  <p class=\"subtitle\">Choisissez quels critères seront utilisés pour la recherche.</p>\r\n</div>\r\n\r\n<div class=\"dialog-content\" mat-dialog-content>\r\n  <!-- Name -->\r\n  <div class=\"flex row\">\r\n    <mat-form-field class=\"strecth\">\r\n      <recipename-autocomplete-input placeholder=\"Nom de la recette\" name=\"name\" [(ngModel)]=\"searchCriteria.name\" (input)=\"searchCriteria.wantsName = true\"></recipename-autocomplete-input>\r\n    </mat-form-field>\r\n    <mat-checkbox [(ngModel)]=\"searchCriteria.wantsName\"></mat-checkbox>\r\n  </div>\r\n  <!-- Recipe Type -->\r\n  <div class=\"flex row\">\r\n    <mat-form-field class=\"strecth\">\r\n      <mat-select placeholder=\"Genre\" name=\"genre\" [(ngModel)]=\"searchCriteria.genre\" (selectionChange)=\"searchCriteria.wantsGenre = true\">\r\n         <mat-option *ngFor=\"let genre of genres\" [value]=\"genre\">{{ genre }}</mat-option>\r\n       </mat-select>\r\n    </mat-form-field>\r\n    <mat-checkbox [(ngModel)]=\"searchCriteria.wantsGenre\"></mat-checkbox>\r\n  </div>\r\n\r\n  <!-- Total Time -->\r\n  <div class=\"flex row\">\r\n    <mat-form-field class=\"strecth\">\r\n      <time-input placeholder=\"Temps total\" name=\"totalTime\" [(ngModel)]=\"searchCriteria.totalTime\" (keydown)=\"searchCriteria.wantsTotalTime = true\"></time-input>\r\n      <mat-icon matSuffix>schedule</mat-icon>\r\n    </mat-form-field>\r\n    <mat-checkbox [(ngModel)]=\"searchCriteria.wantsTotalTime\"></mat-checkbox>\r\n  </div>\r\n\r\n  <!-- Ingredients -->\r\n  <div class=\"row\">\r\n    <label for=\"search-ingredients\"><h3 class=\"no-margin-bottom no-bold\">Ingrédients</h3></label>\r\n    <mat-list id=\"search-ingredients\">\r\n      <mat-list-item class=\"ingredient\" *ngFor=\"let ingredient of searchCriteria.ingredients; index as i\">\r\n          <mat-icon class=\"cancel-padding-left\" mat-list-icon>restaurant</mat-icon>\r\n          <div mat-line>\r\n            <mat-form-field class=\"ingredient-field\">\r\n              <ingredient-autocomplete-input placeholder=\"Nom de l'ingrédient\" [(ngModel)]=\"ingredient.name\" (input)=\"searchCriteria.wantsIngredient[i] = true\"></ingredient-autocomplete-input>\r\n            </mat-form-field>\r\n          </div>\r\n          <mat-form-field class=\"include-ingredient\" matTooltip=\"Disposez vous de cet ingrédient?\">\r\n            <mat-select [(ngModel)]=\"ingredient.include\" (selectionChange)=\"searchCriteria.wantsIngredient[i] = true\">\r\n               <mat-option [value]=\"true\">Inclure</mat-option>\r\n               <mat-option [value]=\"false\">Exclure</mat-option>\r\n             </mat-select>\r\n          </mat-form-field>\r\n          <mat-checkbox class=\"ingredient-checkbox\" [(ngModel)]=\"searchCriteria.wantsIngredient[i]\"></mat-checkbox>\r\n      </mat-list-item>\r\n    </mat-list>\r\n    <div class=\"align-end\">\r\n      <button type=\"button\" color=\"primary\" (click)=\"addIngredient()\" mat-button>Ajoutez un ingrédient</button>\r\n    </div>\r\n  </div>\r\n\r\n  <!-- Rating -->\r\n  <div class=\"flex row\">\r\n    <label for=\"search-rating\"><h3 class=\"no-margin no-bold rating-label\">Note (et plus)</h3></label>\r\n    <div class=\"rating\">\r\n      <star-rating id=\"search-rating\"[(ngModel)]=\"searchCriteria.rating\" (change)=\"searchCriteria.wantsRating = true\"></star-rating>\r\n      <mat-checkbox [(ngModel)]=\"searchCriteria.wantsRating\" (change)=\"validateRating()\"></mat-checkbox>\r\n    </div>\r\n  </div>\r\n\r\n</div>\r\n\r\n<mat-dialog-actions align=\"end\">\r\n  <button class=\"button\" color=\"primary\" (click)=\"search()\" [disabled]=\"!isOneSearchCriterionActive()\" mat-button>\r\n    <mat-icon>search</mat-icon>Rechercher\r\n  </button>\r\n  <button class=\"button\" color=\"primary\" mat-button mat-dialog-close>Annuler</button>\r\n</mat-dialog-actions>\r\n"
 
 /***/ }),
 
@@ -6900,20 +7768,99 @@ var SidenavContentComponent = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/app/top-nav/top-nav.component.ts":
-/*!**********************************************!*\
-  !*** ./src/app/top-nav/top-nav.component.ts ***!
-  \**********************************************/
-/*! exports provided: TopNav */
+/***/ "./src/app/top-nav/avatar/avatar.component.css":
+/*!*****************************************************!*\
+  !*** ./src/app/top-nav/avatar/avatar.component.css ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ".profile-picture {\r\n    width: 30px;\r\n    height: 30px;\r\n    border-radius: 5px;\r\n    margin-right: 5px;\r\n}\r\n\r\n.avatar {\r\n    width: 200px;\r\n}\r\n\r\n.user-menu-item {\r\n    text-align: center;\r\n}\r\n"
+
+/***/ }),
+
+/***/ "./src/app/top-nav/avatar/avatar.component.html":
+/*!******************************************************!*\
+  !*** ./src/app/top-nav/avatar/avatar.component.html ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<!-- If a user is logged in -->\n<button class=\"avatar\" color=\"secondary\" *ngIf=\"user\" [matMenuTriggerFor]=\"userMenu\" mat-button>\n    <img class=\"profile-picture\" [src]=\"user.profilePicture? user.profilePicture : ''\">\n    <span>Bonjour {{user.firstName}}</span>\n</button>\n<!-- If no user is logged in -->\n<button color=\"secondary\" (click)=\"login.emit()\" *ngIf=\"!user\" mat-button>Se connecter</button>\n\n<mat-menu #userMenu=\"matMenu\" overlapTrigger=\"false\">\n    <button class=\"avatar user-menu-item\" (click)=\"logout.emit()\" mat-menu-item>Déconnexion</button>\n</mat-menu>\n"
+
+/***/ }),
+
+/***/ "./src/app/top-nav/avatar/avatar.component.ts":
+/*!****************************************************!*\
+  !*** ./src/app/top-nav/avatar/avatar.component.ts ***!
+  \****************************************************/
+/*! exports provided: AvatarComponent */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TopNav", function() { return TopNav; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AvatarComponent", function() { return AvatarComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _models_user_model__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../models/user.model */ "./src/app/models/user.model.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var AvatarComponent = /** @class */ (function () {
+    function AvatarComponent() {
+        this.logout = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
+        this.login = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
+    }
+    AvatarComponent.prototype.ngOnInit = function () { };
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", _models_user_model__WEBPACK_IMPORTED_MODULE_1__["User"])
+    ], AvatarComponent.prototype, "user", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Output"])(),
+        __metadata("design:type", Object)
+    ], AvatarComponent.prototype, "logout", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Output"])(),
+        __metadata("design:type", Object)
+    ], AvatarComponent.prototype, "login", void 0);
+    AvatarComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: "mcb-avatar",
+            template: __webpack_require__(/*! ./avatar.component.html */ "./src/app/top-nav/avatar/avatar.component.html"),
+            styles: [__webpack_require__(/*! ./avatar.component.css */ "./src/app/top-nav/avatar/avatar.component.css")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], AvatarComponent);
+    return AvatarComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/top-nav/top-nav.component.ts":
+/*!**********************************************!*\
+  !*** ./src/app/top-nav/top-nav.component.ts ***!
+  \**********************************************/
+/*! exports provided: TopNavComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TopNavComponent", function() { return TopNavComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 /* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
-/* harmony import */ var _core_authentication_authentication_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../core/authentication/authentication.service */ "./src/app/core/authentication/authentication.service.ts");
+/* harmony import */ var _ngrx_store__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @ngrx/store */ "./node_modules/@ngrx/store/fesm5/store.js");
+/* harmony import */ var _core_store__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../core/store */ "./src/app/core/store/index.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -6926,54 +7873,37 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+// Ngrx Store
 
-var TopNav = /** @class */ (function () {
-    function TopNav(authService, router) {
-        var _this = this;
-        this.authService = authService;
+
+var TopNavComponent = /** @class */ (function () {
+    function TopNavComponent(router, store) {
         this.router = router;
-        this.user = null;
-        this.displayLogin = false;
-        this.NO_LOGIN_ROUTES = ["/login", "/"];
-        // Listening to the current route to decide wheter we want to display the login/logout button or not.
-        this.router.events.subscribe(function (event) {
-            if (event instanceof _angular_router__WEBPACK_IMPORTED_MODULE_1__["NavigationEnd"]) {
-                _this.displayLogin = _this.canDisplayLogin();
-            }
-        });
-        // Retrieving the currently connected user.
-        this.authService.currentUserChanged.subscribe(function (currentUser) {
-            _this.user = currentUser;
-        });
-        this.user = this.authService.getCurrentUser();
+        this.store = store;
+        this.user$ = this.store.select(_core_store__WEBPACK_IMPORTED_MODULE_4__["getUser"]);
+        this.isUserLoggedIn$ = this.store.select(_core_store__WEBPACK_IMPORTED_MODULE_4__["getLoggedIn"]);
     }
-    TopNav.prototype.disconnect = function () {
-        this.authService.disconnect();
+    TopNavComponent.prototype.disconnect = function () {
+        this.store.dispatch(new _core_store__WEBPACK_IMPORTED_MODULE_4__["LogOut"]());
     };
-    TopNav.prototype.login = function () {
+    TopNavComponent.prototype.login = function () {
         // Redirect to login window.
         this.router.navigateByUrl('/login');
-    };
-    TopNav.prototype.ngOnDestroy = function () {
-        this.authService.currentUserChanged.unsubscribe();
-    };
-    TopNav.prototype.canDisplayLogin = function () {
-        return this.NO_LOGIN_ROUTES.indexOf(this.router.url) === -1;
     };
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
         __metadata("design:type", _angular_material__WEBPACK_IMPORTED_MODULE_2__["MatSidenav"])
-    ], TopNav.prototype, "sideNavRef", void 0);
-    TopNav = __decorate([
+    ], TopNavComponent.prototype, "sideNavRef", void 0);
+    TopNavComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'mcb-top-nav',
             template: __webpack_require__(/*! ./top-nav.html */ "./src/app/top-nav/top-nav.html"),
             styles: [__webpack_require__(/*! ./top-nav.css */ "./src/app/top-nav/top-nav.css")]
         }),
-        __metadata("design:paramtypes", [_core_authentication_authentication_service__WEBPACK_IMPORTED_MODULE_3__["AuthenticationService"],
-            _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]])
-    ], TopNav);
-    return TopNav;
+        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"],
+            _ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"]])
+    ], TopNavComponent);
+    return TopNavComponent;
 }());
 
 
@@ -6987,7 +7917,7 @@ var TopNav = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".main-toolbar {\r\n  display: flex;\r\n  justify-content: space-between;\r\n}\r\n\r\n.no-style {\r\n  color: inherit;\r\n  text-decoration: none; /* no underline */\r\n}\r\n\r\n.margin-left {\r\n  margin-left: 20px;\r\n}\r\n\r\n.profile-picture {\r\n  width: 30px;\r\n  height: 30px;\r\n  border-radius: 5px;\r\n}\r\n"
+module.exports = ".main-toolbar {\r\n  display: flex;\r\n  justify-content: space-between;\r\n}\r\n\r\n.no-style {\r\n  color: inherit;\r\n  text-decoration: none; /* no underline */\r\n}\r\n\r\n.margin-left {\r\n  margin-left: 20px;\r\n}\r\n"
 
 /***/ }),
 
@@ -6998,7 +7928,7 @@ module.exports = ".main-toolbar {\r\n  display: flex;\r\n  justify-content: spac
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<mat-toolbar class=\"main-toolbar\" color=\"primary\">\r\n  <div>\r\n    <button *ngIf=\"sideNavRef\" (click)=\"sideNavRef.open()\"  mat-icon-button><mat-icon>menu</mat-icon></button>\r\n    <a class=\"no-style margin-left\" [routerLink]=\"['/recipes']\">MyCookBook</a>\r\n  </div>\r\n\r\n  <div>\r\n    <div *ngIf=\"displayLogin\">\r\n      <!-- If a user is logged in -->\r\n      <button color=\"secondary\" (click)=\"disconnect()\" *ngIf=\"user\" mat-button>\r\n        <img class=\"profile-picture\" [src]=\"user.profilePicture? user.profilePicture : ''\">\r\n        <span>Bonjour {{user.firstName}}</span>\r\n      </button>\r\n      <!-- If no user is logged in -->\r\n      <button color=\"secondary\" (click)=\"login()\" *ngIf=\"!user\" mat-button>Se connecter</button>\r\n    </div>\r\n  </div>\r\n</mat-toolbar>\r\n"
+module.exports = "<mat-toolbar class=\"main-toolbar\" color=\"primary\">\r\n  <div>\r\n    <button *ngIf=\"sideNavRef && isUserLoggedIn$ | async\" (click)=\"sideNavRef.toggle()\" mat-icon-button>\r\n        <mat-icon>menu</mat-icon>\r\n    </button>\r\n    <a class=\"no-style margin-left\" [routerLink]=\"['/recipes']\">MyCookBook</a>\r\n  </div>\r\n\r\n  <div>\r\n    <div *ngIf=\"isUserLoggedIn$ | async\">\r\n      <mcb-avatar [user]=\"user$ | async\" (login)=\"login()\" (logout)=\"disconnect()\"></mcb-avatar>\r\n    </div>\r\n  </div>\r\n</mat-toolbar>\r\n"
 
 /***/ }),
 
@@ -7179,8 +8109,8 @@ __webpack_require__.r(__webpack_exports__);
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 var environment = {
     production: false,
-    apiUrl: "http://localhost:4200/api" // In dev, we use the proxy to fetch the api. This is not the
-    // case with prod server has we don't have access to the proxy.
+    localStoragePrefix: 'mycookingbook',
+    apiUrl: "https://mycookingrecipes.herokuapp.com/api"
 };
 
 

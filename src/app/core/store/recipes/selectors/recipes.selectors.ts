@@ -1,7 +1,7 @@
 import { createSelector } from "@ngrx/store";
 
 import * as fromRoot from "../../../../routing/router-store";
-import * as fromFeatures from "../reducers";
+import * as fromFeatures from "../../store-state";
 import * as fromRecipes from "../reducers/recipes.reducer";
 import { Recipe } from "../../../../recipes/shared/recipe.model";
 import { SearchIntent, SearchIntentMatcher } from "../../../../search/advanced-recipe-search/shared/";
