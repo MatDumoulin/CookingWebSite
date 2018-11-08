@@ -7,7 +7,7 @@
     "ng": "ng",
     "start": "npm run prod-server",
     "api": "nodemon server/api/index.js",
-    "prod-server": "node prod-server.js",
+    "prod-server": "ng build && nodemon prod-server.js",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
